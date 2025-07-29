@@ -14,26 +14,14 @@ public class MyPageServiceImpl implements MyPageService {
 	MemberMapper memberMapper;
 
 	@Override
-	public void join() {
-		
-		
-	}
-
-	@Override
-	public void login() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public MyPageDTO ShowMyPage(String member_id) {
 		
 		// 멤버 정보 불러오기
 		Member memberInfo = memberMapper.findById(member_id);
 		String nickname = memberInfo.getNickname();
-		int follower;
-		int following;
-		MyPageDTO myPageDTO = new myPageDTO(nickname, follower, following);
+		int follower = 1;
+		int following = 2;
+		MyPageDTO myPageDTO = new MyPageDTO(nickname, follower, following);
 		
 		return myPageDTO;
 		

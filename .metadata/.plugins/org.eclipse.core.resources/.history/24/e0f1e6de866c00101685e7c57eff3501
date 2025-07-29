@@ -1,0 +1,9 @@
+package com.smhrd.web.dto;
+
+public class MyPageDTO {
+
+	private String nickname;
+	private int follower;
+	private int following;
+	
+}

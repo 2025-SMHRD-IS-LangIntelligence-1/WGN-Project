@@ -1,0 +1,15 @@
+package com.smhrd.web.service;
+
+import com.smhrd.web.dto.MyPageDTO;
+import com.smhrd.web.entity.Member;
+
+public interface MyPageService {
+
+	public void join();
+	
+	public void login();
+
+	public MyPageDTO ShowMyPage(Member mem);
+	
+	
+}

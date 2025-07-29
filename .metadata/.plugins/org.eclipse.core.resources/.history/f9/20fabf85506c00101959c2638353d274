@@ -1,0 +1,50 @@
+
+package com.smhrd.web.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.smhrd.web.entity.Member;
+import com.smhrd.web.mapper.MemberMapper;
+import com.smhrd.web.service.MyPageService;
+
+import jakarta.servlet.http.HttpSession;
+
+@RequestMapping("/myPage")
+@Controller
+public class MyPageController {
+
+	@Autowired
+	MemberMapper myPageMapper;
+	@Autowired
+	MyPageService myPageService;
+	
+	@GetMapping
+	public String goMyPage() {
+		return "myPage";
+	}
+	
+	@GetMapping("/join")
+	public String join() {
+		return "joinSuccess";
+		
+	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "home";
+		
+	}
+	
+	@GetMapping("/{nickname}")
+	public String showMyPage(@PathVariable("nickname") String nickname, Model model, HttpSession session) {
+		myPageService.ShowMyPage(mem);
+		return "myPage/myPage";
+	}
+	
+	
+}

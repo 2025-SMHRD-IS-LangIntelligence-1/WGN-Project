@@ -9,7 +9,7 @@ import com.smhrd.web.entity.Feed;
 @Mapper
 public interface FeedMapper {
 
-	@Select("select * from feed")
+	@Select("select * from Feed")
 	public ArrayList<Feed> selectFeed();
 	
 }
