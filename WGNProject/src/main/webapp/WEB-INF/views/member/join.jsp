@@ -10,7 +10,7 @@
 	<div class="mobile-container">
 		<div class="content">
 			<h1>Join</h1>
-			<form action="/member/joinMember" method="post">
+			<form action="${pageContext.request.contextPath}/member/joinMember" method="post">
 				<table>
 					<tr>
 						<td>아이디</td>

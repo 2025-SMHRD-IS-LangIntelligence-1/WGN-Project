@@ -3,6 +3,7 @@ package com.smhrd.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,11 +22,11 @@ public class MemberController {
 		return "member/join";
 	}
 	
-	@GetMapping("/joinMember")
+	@PostMapping("/joinMember")
 	public String join(Member mem, @RequestParam("passwordCheck") String passwordCheck) {
 		boolean joinCheck = memberService.join(mem, passwordCheck);
-		if (joinCheck) {
-			return "joinSuccess";
+		if (joinCheck = true) {
+			return "member/joinSuccess";
 		}else {
 			return "home";
 		}
