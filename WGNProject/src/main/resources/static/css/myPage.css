@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+.myPageBox {
+  display: flex;
+  flex-wrap: wrap; /* 2줄 이상 되면 자동 줄바꿈 */
+  justify-content: center; /* 가운데 정렬 */
+  gap: 10px; /* 박스 간 여백 */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+
+#userInfoArea1 {
+	background-color: pink;
+}
+
+#userInfoArea2 {
+	background-color: pink;
+	flex-wrap: wrap;
+	justify-content : center;
+	display: flex;
+	box-sizing : border-box
+}
+
+.userInfo {
+	width: calc((100% - 20px) / 3); /* gap 고려해서 3등분 */
+	height: 100px;
+	background-color: pink;
+	box-sizing: border-box;
+	text-align: center;
+	line-height: 100px;
+}
+
+#menuArea {
+	background-color: gray;
+}
+
+#resultArea {
+	background-color: yellow;
+	margin: 10px;
+}
