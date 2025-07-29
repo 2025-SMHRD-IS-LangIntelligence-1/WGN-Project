@@ -1,0 +1,22 @@
+package com.smhrd.web.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class MemberServiceImpl implements MemberService {
+
+	@Autowired
+	MemberMapper membermapper;
+	
+	@Override
+	public void join() {
+		
+		
+	}
+
+	@Override
+	public void login() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

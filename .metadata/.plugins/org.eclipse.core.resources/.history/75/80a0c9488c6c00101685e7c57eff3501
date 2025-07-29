@@ -1,0 +1,17 @@
+package com.smhrd.web.service;
+
+public class MemberServiceImpl implements MemberService {
+
+	@Override
+	public void join() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void login() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

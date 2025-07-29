@@ -1,0 +1,36 @@
+package com.smhrd.web.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.smhrd.web.entity.Member;
+import com.smhrd.web.mapper.MemberMapper;
+
+@Service
+public class MemberServiceImpl implements MemberService {
+
+	@Autowired
+	MemberMapper memberMapper;
+	
+	@Override
+	public boolean join(Member mem, String passwordCheck) {
+		String pw = mem.getPassword();
+		String pwCheck = passwordCheck;
+		
+		if (pw.equals(pwCheck)) {
+			memberMapper.join(mem);
+			return true;
+		}		
+		else {
+			return false;
+		}
+		return false;
+	}
+
+	@Override
+	public void login() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

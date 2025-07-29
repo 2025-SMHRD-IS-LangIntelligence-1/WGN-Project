@@ -1,9 +1,11 @@
 package com.smhrd.web.service;
 
-public interface MemberService {
+import com.smhrd.web.entity.Member;
 
-	public void join();
+public interface MemberService {
 	
-	public void login();
+	void login();
+
+	boolean join(Member mem, String passwordCheck);
 
 }

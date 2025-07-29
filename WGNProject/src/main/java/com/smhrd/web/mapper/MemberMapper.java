@@ -12,4 +12,7 @@ public interface MemberMapper {
 	@Select("select * from member where member_id=#{member_id}")
 	Member findById(String member_id);
 	
+	@Insert("insert into member values"
+			+ "(#{member_id}, #{nickname}, #{password}, #{name} #{ssn}")
+	void join(Member mem);
 }

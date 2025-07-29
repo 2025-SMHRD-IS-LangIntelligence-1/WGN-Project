@@ -1,0 +1,26 @@
+package com.smhrd.web.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.smhrd.web.entity.Member;
+import com.smhrd.web.service.MemberService;
+
+public class MemberController {
+
+	@Autowired
+	MemberService memberService;
+	
+	@GetMapping("/join")
+	public String join(Member mem) {
+		memberService.join(mem);
+		return "joinSuccess";
+	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "home";
+		
+	}
+	
+}

@@ -13,7 +13,7 @@
 			<h1>WGN</h1>
 
 			<a href="${pageContext.request.contextPath}/feed/feedList">피드 더보기</a>
-			
+			<a href="${pageContext.request.contextPath}/member/join">회원가입</a>
 		</div>
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp" %>
 	</div>

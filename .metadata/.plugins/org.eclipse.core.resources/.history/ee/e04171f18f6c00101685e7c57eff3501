@@ -1,0 +1,11 @@
+package com.smhrd.web.service;
+
+import com.smhrd.web.entity.Member;
+
+public interface MemberService {
+	
+	void login();
+
+	void join(Member mem);
+
+}

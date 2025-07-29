@@ -1,0 +1,5 @@
+package com.smhrd.web.service;
+
+public class MemberServiceImpl implements MemberService {
+
+}
