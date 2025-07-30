@@ -18,8 +18,8 @@ public class t_log {
  // 회원 아이디 
  private String mb_id;
 
- // 키워드 
- private String keyword;
+ // 음식점 아이디
+ private String res_idx;
 
  // 행동 유형 
  private String action_type;
