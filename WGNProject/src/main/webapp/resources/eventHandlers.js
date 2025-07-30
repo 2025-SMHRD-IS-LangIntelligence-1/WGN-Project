@@ -9,7 +9,7 @@ function checkId(){
 		}
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/member/checkId", // controller에게 요청
+			url : contextPath + "/member/checkId", // controller에게 요청
 			type : "get",
 			data : {inputId : inputId},
 			success : (res) => { // controller 메서드의 return 값
@@ -35,7 +35,7 @@ function checkId(){
 			}
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/member/checkNick",
+				url : contextPath + "/member/checkNick",
 				type : "get",
 				data : {inputNick : inputNick},
 				success : (res) => { 

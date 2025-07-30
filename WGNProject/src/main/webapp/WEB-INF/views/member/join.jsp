@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" isELIgnored="false" %>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -50,7 +50,10 @@
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp" %>
 	</div>
 
+	<script>
+    	const contextPath = '${pageContext.request.contextPath}';
+	</script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/eventHandlers.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/eventHandlers.js"></script>
 </body>
 </html>
