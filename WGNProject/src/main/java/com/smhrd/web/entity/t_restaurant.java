@@ -31,7 +31,7 @@ public class t_restaurant {
  // 음식점 전화 
  private String res_tel;
 
- // 위도 lat(latitude,위도) lon(longitude,경도)
+ // 위도
  private BigDecimal lat;
 
  // 경도 
@@ -40,4 +40,7 @@ public class t_restaurant {
  // 등록 일자 
  private Timestamp created_at;
 
+ // 음식점 태그
+ private String res_tag;
+ 
 }
