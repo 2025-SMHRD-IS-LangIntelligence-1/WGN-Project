@@ -10,4 +10,6 @@ public interface MemberService {
 
 	String checkId(String inputId);
 
+	String checkNick(String inputNick);
+
 }
