@@ -42,6 +42,13 @@ public class MemberController {
 		return idCheckResult;
 	}
 	
+	@GetMapping("/checkNick")
+	@ResponseBody
+	public String checkNick(@RequestParam String inputNick) {
+		String NickCheckResult = memberService.checkNick(inputNick);
+		return NickCheckResult;
+	}
+	
 	@GetMapping("/login")
 	public String login() {
 		return "home";
