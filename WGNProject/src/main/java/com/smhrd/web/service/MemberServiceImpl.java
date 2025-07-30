@@ -9,15 +9,9 @@ import com.smhrd.web.mapper.MemberMapper;
 @Service
 public class MemberServiceImpl implements MemberService {
 
-    private final HomeController homeController;
-
 	@Autowired
 	MemberMapper memberMapper;
 
-    MemberServiceImpl(HomeController homeController) {
-        this.homeController = homeController;
-    }
-	
 	@Override
 	public boolean join(t_member mem, String pwCheck) {
 		String pw = mem.getMb_pw();
