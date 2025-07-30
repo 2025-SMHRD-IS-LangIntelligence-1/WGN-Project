@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +26,7 @@
 					</tr>
 					</tr>
 					<tr>
-						<td><input type="text" name="mb_nick" placeholder="닉네임 입력"></td>
+						<td><input type="text" name="mb_nick" id="inputNick" placeholder="닉네임 입력"></td>
 						<td><input type="button" value="중복체크" onclick="checkNick()" /></td>
 					</tr>
 					<tr>
