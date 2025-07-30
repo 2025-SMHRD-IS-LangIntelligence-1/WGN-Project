@@ -10,6 +10,7 @@ public class ErrorController {
 
 	@GetMapping("/error")
 	public String handleError() {
+		System.out.println("이담님이다");
 		return "error/error";
 	}
 	
