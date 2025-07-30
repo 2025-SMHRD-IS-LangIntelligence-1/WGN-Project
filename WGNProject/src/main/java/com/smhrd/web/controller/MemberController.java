@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.MemberService;
@@ -18,7 +19,7 @@ public class MemberController {
 	MemberService memberService;
 	
 	@GetMapping("/join")
-	public String goJoin() {
+	public String showJoinForm() {
 		return "member/join";
 	}
 	
@@ -26,12 +27,19 @@ public class MemberController {
 	public String join(t_member mem, @RequestParam("mb_pw_check") String pwCheck) {
 		boolean joinCheck = memberService.join(mem, pwCheck);
 		
-		if (joinCheck = true) {
+		if (joinCheck) {
 			return "member/joinSuccess";
 		}else {
-			return "home";
+			return "home"; // 수정 필요
 		}
 		
+	}
+	
+	@GetMapping("/checkId")
+	@ResponseBody
+	public String checkId(@RequestParam String inputId) {
+		String idCheckResult = memberService.checkId(inputId);
+		return idCheckResult;
 	}
 	
 	@GetMapping("/login")

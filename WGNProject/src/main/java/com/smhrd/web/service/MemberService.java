@@ -8,4 +8,6 @@ public interface MemberService {
 
 	boolean join(t_member mem, String pwCheck);
 
+	String checkId(String inputId);
+
 }

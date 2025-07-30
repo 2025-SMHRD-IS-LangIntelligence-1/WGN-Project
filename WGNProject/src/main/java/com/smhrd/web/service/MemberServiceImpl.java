@@ -37,4 +37,15 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public String checkId(String inputId) {
+		t_member foundId = memberMapper.findById(inputId);
+		
+		if (foundId == null) { // 입력한 아이디를 못 찾았으면 "true" 반환
+			return "true";
+		}else { // 아니면 "true" 반환
+			return "false";
+		}
+	}
+
 }
