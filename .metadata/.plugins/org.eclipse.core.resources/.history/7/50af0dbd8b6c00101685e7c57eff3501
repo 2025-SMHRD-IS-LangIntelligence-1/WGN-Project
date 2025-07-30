@@ -1,9 +1,0 @@
-package com.smhrd.web.service;
-
-public class MemberService {
-
-	public void join();
-	
-	public void login();
-
-}
