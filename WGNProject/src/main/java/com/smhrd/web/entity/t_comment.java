@@ -1,0 +1,31 @@
+package com.smhrd.web.entity;
+
+import java.sql.Timestamp;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+//댓글
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class t_comment {
+
+ // 댓글 식별자 
+ private Integer cmt_idx;
+
+ // 피드 식별자 
+ private Integer feed_idx;
+
+ // 댓글 내용 
+ private String cmt_content;
+
+ // 댓글 작성일자 
+ private Timestamp created_at;
+
+ // 댓글 작성자 
+ private String mb_id;
+
+
+}
