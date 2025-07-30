@@ -19,12 +19,11 @@ public class MemberServiceImpl implements MemberService {
     }
 	
 	@Override
-	public boolean join(t_member mem, String passwordCheck) {
+	public boolean join(t_member mem, String pwCheck) {
 		String pw = mem.getMb_pw();
-		
-		if (pw.equals(passwordCheck)) {
+		System.out.println(pw);
+		if (pw.equals(pwCheck)) {
 			memberMapper.join(mem);
-			System.out.println("멤버등록");
 			return true;
 		}		
 		else {

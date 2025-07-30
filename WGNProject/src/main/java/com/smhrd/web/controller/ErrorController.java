@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ErrorController {
 
-+	@GetMapping("/error")
+	@GetMapping("/error")
 	public String handleError() {
-		System.out.println("제발");
 		return "error/error";
 	}
 	

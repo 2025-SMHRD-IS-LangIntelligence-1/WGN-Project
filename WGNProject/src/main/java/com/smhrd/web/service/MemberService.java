@@ -6,6 +6,6 @@ public interface MemberService {
 	
 	void login();
 
-	boolean join(t_member mem, String passwordCheck);
+	boolean join(t_member mem, String pwCheck);
 
 }

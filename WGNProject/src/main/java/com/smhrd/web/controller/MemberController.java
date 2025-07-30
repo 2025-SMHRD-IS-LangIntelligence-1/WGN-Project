@@ -23,8 +23,9 @@ public class MemberController {
 	}
 	
 	@PostMapping("/joinMember")
-	public String join(t_member mem, @RequestParam("passwordCheck") String passwordCheck) {
-		boolean joinCheck = memberService.join(mem, passwordCheck);
+	public String join(t_member mem, @RequestParam("mb_pw_check") String pwCheck) {
+		boolean joinCheck = memberService.join(mem, pwCheck);
+		
 		if (joinCheck = true) {
 			return "member/joinSuccess";
 		}else {
