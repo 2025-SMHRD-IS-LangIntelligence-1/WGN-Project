@@ -7,6 +7,7 @@
 <title>bottomBar</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bottomBar.css" />
+
 </head>
 <body>
 	<nav class="bottomBar">
@@ -15,5 +16,6 @@
 		<a href="${pageContext.request.contextPath}/feed/addFeed">addFeed</a>
 		<a href="${pageContext.request.contextPath}/search">search</a>
 	</nav>
+	
 </body>
 </html>

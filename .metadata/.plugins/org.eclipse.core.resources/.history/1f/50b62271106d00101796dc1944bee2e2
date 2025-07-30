@@ -1,0 +1,70 @@
+package com.smhrd.web.entity;
+
+//메뉴 
+public class t_menu {
+
+ // 메뉴 식별자 
+ private Integer menu_idx;
+
+ // 음식점 식별자 
+ private Integer res_idx;
+
+ // 메뉴 명 
+ private String menu_name;
+
+ // 메뉴 가격 
+ private Integer menu_price;
+
+ // 메뉴 사진 
+ private String menu_img;
+
+ public Integer getMenuIdx() {
+     return menu_idx;
+ }
+
+ public void setMenuIdx(Integer menuIdx) {
+     this.menu_idx = menu_idx;
+ }
+
+ public Integer getResIdx() {
+     return res_idx;
+ }
+
+ public void setResIdx(Integer resIdx) {
+     this.res_idx = res_idx;
+ }
+
+ public String getMenuName() {
+     return menu_name;
+ }
+
+ public void setMenuName(String menuName) {
+     this.menu_name = menu_name;
+ }
+
+ public Integer getMenuPrice() {
+     return menu_price;
+ }
+
+ public void setMenuPrice(Integer menuPrice) {
+     this.menu_price = menu_price;
+ }
+
+ public String getMenuImg() {
+     return menu_img;
+ }
+
+ public void setMenuImg(String menuImg) {
+     this.menu_img = menu_img;
+ }
+
+ // t_menu 모델 복사
+ public void CopyData(t_menu param)
+ {
+     this.menu_idx = param.getMenuIdx();
+     this.res_idx = param.getResIdx();
+     this.menu_name = param.getMenuName();
+     this.menu_price = param.getMenuPrice();
+     this.menu_img = param.getMenuImg();
+ }
+}

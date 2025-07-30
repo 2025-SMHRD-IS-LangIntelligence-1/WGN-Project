@@ -1,0 +1,19 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>bottomBar</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bottomBar.css" />
+</head>
+<body>
+	<nav class="bottomBar">
+		<a href="${pageContext.request.contextPath}/home">home</a>
+		<a href="${pageContext.request.contextPath}/myPage">myPage</a>
+		<a href="${pageContext.request.contextPath}/feed/addFeed">addFeed</a>
+		<a href="${pageContext.request.contextPath}/search">search</a>
+	</nav>
+</body>
+</html>

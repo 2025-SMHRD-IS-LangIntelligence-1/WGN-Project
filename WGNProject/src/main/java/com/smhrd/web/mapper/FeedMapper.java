@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import com.smhrd.web.entity.Feed;
+import com.smhrd.web.entity.t_feed;
 
 @Mapper
 public interface FeedMapper {
 
 	@Select("select * from Feed")
-	public ArrayList<Feed> selectFeed();
+	public ArrayList<t_feed> selectFeed();
 	
 }

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.smhrd.web.entity.Member;
 import com.smhrd.web.mapper.MemberMapper;
 import com.smhrd.web.service.MyPageService;
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.smhrd.web.entity.Member;
+import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.MemberService;
 
 @RequestMapping("/member")
@@ -23,7 +23,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("/joinMember")
-	public String join(Member mem, @RequestParam("passwordCheck") String passwordCheck) {
+	public String join(t_member mem, @RequestParam("passwordCheck") String passwordCheck) {
 		boolean joinCheck = memberService.join(mem, passwordCheck);
 		if (joinCheck = true) {
 			return "member/joinSuccess";

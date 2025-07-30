@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.smhrd.web.dto.MyPageDTO;
-import com.smhrd.web.entity.Member;
+import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.MemberMapper;
 
 @Service
@@ -17,8 +17,8 @@ public class MyPageServiceImpl implements MyPageService {
 	public MyPageDTO ShowMyPage(String member_id) {
 		
 		// 멤버 정보 불러오기
-		Member memberInfo = memberMapper.findById(member_id);
-		String nickname = memberInfo.getNickname();
+		t_member memberInfo = memberMapper.findById(member_id);
+		String nickname = memberInfo.getMb_nick();
 		int follower = 1;
 		int following = 2;
 		MyPageDTO myPageDTO = new MyPageDTO(nickname, follower, following);
