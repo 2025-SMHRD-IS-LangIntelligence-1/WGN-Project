@@ -26,6 +26,138 @@
   flex-grow: 1; /* 남은 공간 꽉 채움 */
 }
 
+/*상단 프로필과 소개글 나누기*/
+.profile-divider {
+  border: none;
+  border-top: 1px solid #ddd; /* 얇은 회색 라인 */
+  margin: 15px 0;            /* 위 아래 여백 */
+}
+/* 탭 컨테이너 */
+.profile-tabs {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: 20px;
+  background: #fff;
+}
+
+/* 각 탭 */
+.profile-tabs .tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  text-decoration: none;
+  color: #555;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 아이콘 */
+.profile-tabs .tab i {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+/* 활성화된 탭 */
+.profile-tabs .tab.active {
+  color: #f4b400; /* 노란색 */
+  border-bottom: 2px solid #f4b400;
+}
+
+/* 각 통계 */
+.profile-stat {
+  text-align: center;
+  flex: 1;
+}
+.profile-stat strong {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+}
+.profile-stat span {
+  font-size: 13px;
+  color: #555;
+}
+
+/* 닉네임 / 소개 */
+.profile-info {
+  margin-top: 12px;/* 프로필 전체 */
+.profile {
+  padding: 20px 15px 10px;
+  background: #fff;
+}
+
+/* 프로필 상단 한 줄 */
+.profile-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+/* 프로필 사진 */
+.profile-top img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* 통계 컨테이너 */
+.profile-stats {
+  display: flex;
+  justify-content: space-around;
+  flex-grow: 1;
+}
+
+/* 상단 프로필과 소개글 구분선 */
+.profile-divider {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 15px 0;
+}
+
+/* 탭 컨테이너 */
+.profile-tabs {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  margin-bottom: 10px;
+}
+
+/* 각 탭 */
+.profile-tabs .tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  text-decoration: none;
+  color: #555;
+  font-weight: bold;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: color 0.2s, border-bottom 0.2s;
+}
+
+/* 아이콘 */
+.profile-tabs .tab i {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+/* 활성화된 탭 */
+.profile-tabs .tab.active {
+  color: #f4b400; /* 노란색 */
+  border-bottom: 2px solid #f4b400;
+}
+
 /* 각 통계 */
 .profile-stat {
   text-align: center;
@@ -44,6 +176,31 @@
 /* 닉네임 / 소개 */
 .profile-info {
   margin-top: 12px;
+}
+.profile-info h5 {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.profile-info p {
+  margin: 0;
+  font-size: 14px;
+}
+#map {
+  width: 100%;
+  height: 400px; /* 반드시 높이를 줘야 지도 보임 */
+}
+
+/* 피드 그리드 */
+.grid-feed .col-4 {
+  padding: 0;
+}
+.grid-feed .col-4 img {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* 정사각형 */
+  object-fit: cover;
+  display: block;
+}
+  
 }
 .profile-info h5 {
   font-weight: bold;
