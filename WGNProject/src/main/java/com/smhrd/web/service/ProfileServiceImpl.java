@@ -15,11 +15,12 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public ProfileDTO showMyPage(String mb_id) {
-		t_member member = memberMapper.findById(mb_id);
-		String nickname = member.getMb_nick();
-		int follower = 0;
-		int following = 0;
-		ProfileDTO profileDTO = new ProfileDTO(nickname, follower, following);
+		t_member mem = memberMapper.findById(mb_id);
+		String nickname = mem.getMb_nick();
+		int feed_num = memberMapper.countFeed(mb_id);
+		int follower = memberMapper.countFollowers(mb_id);
+		int following = memberMapper.countFollowings(mb_id);
+		ProfileDTO profileDTO = new ProfileDTO(nickname, feed_num, follower, following);
 		return profileDTO;
 	}
 

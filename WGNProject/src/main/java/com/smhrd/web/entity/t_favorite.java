@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 public class t_favorite {
 
  // 찜 식별자 
- private Integer fav_dix;
+ private Integer fav_idx;
 
  // 회원 아이디 
  private String mb_id;

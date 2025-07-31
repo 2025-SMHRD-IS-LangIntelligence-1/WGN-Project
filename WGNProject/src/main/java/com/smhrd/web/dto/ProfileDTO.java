@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 public class ProfileDTO {
 
 	private String nickname;
-	private int follower;
-	private int following;
+	private int feed_num=0;
+	private int follower=0;
+	private int following=0;
 	
 }
