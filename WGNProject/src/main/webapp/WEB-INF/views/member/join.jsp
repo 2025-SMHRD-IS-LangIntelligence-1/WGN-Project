@@ -27,7 +27,7 @@
 					<tr>
 						<td><input type="text" class="form-input" name="mb_id" id="inputId"
 							placeholder="아이디 입력" maxlength="20"></td>
-						<td><input type="button" value="중복체크" onclick="checkId()" /></td>
+						<td><input type="button" value="중복체크" id="idCheckBtn" disabled/></td>
 					</tr>
 					<tr>
 						<td colspan="2"><input type="password" class="form-input" name="mb_pw" 
@@ -40,7 +40,7 @@
 					<tr>
 						<td><input type="text" class="form-input" name="mb_nick" id="inputNick" placeholder="닉네임 입력" maxlength="8">
 						</td>
-						<td><input type="button" value="중복체크" onclick="checkNick()" /></td>
+						<td><input type="button" value="중복체크" id="nickCheckBtn" disabled/></td>
 					</tr>
 					
 					<tr class="resultMsg">

@@ -113,9 +113,26 @@ table input[type="submit"]:hover {
     white-space: nowrap;
 }
 
-/* 비활성화 상태 */
 #joinBtn:disabled {
   background-color: #cccccc; /* 회색 */
   color: #666666;
   cursor: not-allowed;
+  opacity: 0.6;      
+  transition: background-color 0.3s ease;
+}
+
+#nickCheckBtn:disabled {
+  background-color: #cccccc; /* 회색 */
+  color: #666666;
+  cursor: not-allowed;     
+  opacity: 0.6;      
+  transition: background-color 0.3s ease;
+}
+
+#idCheckBtn:disabled {
+  background-color: #cccccc; /* 회색 */
+  color: #666666;
+  cursor: not-allowed;     
+  opacity: 0.6;      
+  transition: background-color 0.3s ease;
 }
