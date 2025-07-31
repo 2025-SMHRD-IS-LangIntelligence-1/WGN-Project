@@ -26,35 +26,17 @@
 						</td>
 					</tr>
 					<tr>
-						<td>
-							<span class="br"></span>
-						</td>
-					</tr>
-					<tr>
 						<td><input type="text" class="form-input" name="mb_id" id="inputId" placeholder="아이디 입력"></td>
 						<td><input type="button" value="중복체크" onclick="checkId()" /></td>
 					</tr>
 					<tr>
-						<td>
-							<span id="resultId" class="br"></span>
+						<td colspan="2"><input type="text" class="form-input" name="mb_pw" 
+						id= "inputPw" placeholder="비밀번호 입력">
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2"><input type="text" class="form-input" name="mb_pw_check" placeholder="비밀번호 입력">
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<span class="br"></span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2"><input type="password" class="form-input" name="mb_pw" placeholder="비밀번호 확인 입력">
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<span id="resultNick" class="br"></span>
+						<td colspan="2"><input type="password" class="form-input" name="mb_pw_check"
+						id= "inputPw_check" placeholder="비밀번호 확인 입력">
 						</td>
 					</tr>
 					<tr>
@@ -62,9 +44,16 @@
 						</td>
 						<td><input type="button" value="중복체크" onclick="checkNick()" /></td>
 					</tr>
-					<tr>
-						<td colspan="2"><input type="submit" value="회원가입"></td>
+					
+					<tr class="resultMsg">
+						<td>
+							<span id="checkResult"></span>
+						</td>
 					</tr>
+					<tr>
+						<td colspan="2"><input type="submit" value="회원가입" id="joinBtn" disabled></td>
+					</tr>
+					
 				</table>
 			</form>
 		</div>
@@ -75,6 +64,6 @@
     	const contextPath = '${pageContext.request.contextPath}';
 	</script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/eventHandlers.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/eventHandlers.js"></script>
 </body>
 </html>
