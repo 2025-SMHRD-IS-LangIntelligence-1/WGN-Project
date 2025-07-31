@@ -85,18 +85,21 @@ table input[type="button"]:hover {
 }
 /* 회원가입 버튼 */
 #joinBtn {
-    width: 100%;
-    height: 55px;  
-    background-color: #171513;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    padding: 12px 24px;
-    font-size: 17px;               /* 글자 크기 조정 */
-    font-weight: bold;          /* 글자 굵기 조정 */
-    cursor: pointer;
-    margin: 90px auto 0;  /* 상단 여백 + 좌우 자동 정렬 */
+	width: 100%;
+	height: 55px;
+	background-color: #171513;
+	color: white;
+	border: none;
+	border-radius: 30px;
+	padding: 12px 24px;
+	font-size: 17px;
+	font-weight: bold;
+	cursor: pointer;
+	margin: 90px auto 0;
+	transition: background-color 0.3s ease, color 0.3s ease;
+	cursor: pointer;
 }
+
 /* 마우스를 올렸을 때 글자 색을 회색으로 변경 */
 table input[type="submit"]:hover {
     color: #aaa;  /* 연한 회색 */
@@ -106,7 +109,8 @@ table input[type="submit"]:hover {
     display: inline-block;  /* 인라인이면서도 사이즈 지정 가능 */
     min-height: 50px;       /* 메시지가 출력되어도 크기가 유지됨 */
     vertical-align: middle; /* 인라인 요소의 수직 정렬 */
-    color: #666;          /* 선택사항: 안내 메시지 색상 */
+    color: #666;          
+    white-space: nowrap;
 }
 
 /* 비활성화 상태 */
