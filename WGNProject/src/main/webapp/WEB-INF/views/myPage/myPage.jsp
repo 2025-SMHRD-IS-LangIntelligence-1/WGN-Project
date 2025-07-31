@@ -12,7 +12,9 @@
 </head>
 <body>
 
-		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
+	<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
+
+	<div class="content">
 
 		<!-- 프로필 영역 -->
 		<div class="profile">
@@ -73,7 +75,8 @@
 			</div>
 		</div>
 
-		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+	</div>
+	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 
 </body>
 </html>

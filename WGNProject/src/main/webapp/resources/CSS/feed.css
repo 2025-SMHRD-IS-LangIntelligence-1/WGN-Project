@@ -5,7 +5,12 @@
 .add-box {
 	margin-top: 60px; /* 상단 여백 60px */
 	padding: 10px; /* 내부 여백 10px */
+	display: flex;
+	
 }
+
+/*feed Page*/
+
 
 /* container 클래스는 중앙 정렬과 너비 및 높이 설정 */
 .container {
@@ -159,3 +164,4 @@
 .comment-body strong {
 	display: block;
 	/* 블록 요소로 만듦 (줄 바꿈 효과) */
+}

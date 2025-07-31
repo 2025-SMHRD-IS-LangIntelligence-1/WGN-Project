@@ -11,9 +11,8 @@
 	href="${pageContext.request.contextPath}/css/feed.css" />
 </head>
 <body>
-	<div class="mobile-container">
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
-		<div class="container">
+		<div class="content">
 
 			<!-- 상단 프로필 -->
 			<div class="post-header">
@@ -101,6 +100,5 @@
 
 		</div>
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
-	</div>
 </body>
 </html>
