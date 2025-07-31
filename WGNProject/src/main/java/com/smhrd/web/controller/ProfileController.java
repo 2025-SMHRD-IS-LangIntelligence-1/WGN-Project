@@ -20,7 +20,7 @@ public class ProfileController {
 	@Autowired
 	ProfileService profileService;
 	
-    @GetMapping
+    @GetMapping("/myPage")
     public String showMyPage(HttpSession session, Model model) {
     	
     	// 세션에서 로그인한 사용자 정보 가져오기
@@ -33,7 +33,7 @@ public class ProfileController {
 
         ProfileDTO profileDTO = profileService.showMyPage(logined.getMb_id());
         model.addAttribute("profile", profileDTO);
-        return "myPage/myPage";
+        return "profile/myPage";
     }
 	
 	@GetMapping("/{mb_id}")

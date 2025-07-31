@@ -22,6 +22,6 @@ public interface MemberMapper {
 	@Select("select count(*) from follow where following_id=#{following_id}")
 	int countFollowers();
 	
-	@Select()
-	int countFollowings();
+	//@Select()
+	//int countFollowings();
 }
