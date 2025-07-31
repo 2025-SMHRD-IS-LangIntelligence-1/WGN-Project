@@ -24,7 +24,7 @@
 				<div class="post">
 					<div class="post-header">
 						<div class="post-user">
-							<img src="https://via.placeholder.com/40">
+							<img src="https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250724_184%2F1753329591483vtYsm_JPEG%2F%25C1%25A6%25B8%25F1%25C0%25BB-%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4_-001.jpg">
 							<div class="post-user-info">
 								<b>OtherUsers</b> <span style="color: #888; font-size: 12px;">3분
 									전</span>

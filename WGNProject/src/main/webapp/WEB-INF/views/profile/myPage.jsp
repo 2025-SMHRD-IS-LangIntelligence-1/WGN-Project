@@ -4,16 +4,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>Profile</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/profile.css" />
+
 </head>
 <body>
 
-	<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 
+		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 	<div class="content">
 
 		<!-- 프로필 영역 -->
@@ -72,11 +74,17 @@
 					<img
 						src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
 				</div>
+				<div class="col-4">
+					<img
+						src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
+				</div>
 			</div>
 		</div>
 
+
 	</div>
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+
 
 </body>
 </html>
