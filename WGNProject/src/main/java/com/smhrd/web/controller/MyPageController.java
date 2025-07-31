@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.smhrd.web.dto.MyPageDTO;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.MemberMapper;
 import com.smhrd.web.service.MemberService;
@@ -33,7 +34,7 @@ public class MyPageController {
             return "redirect:/login";
         }
 
-        = myPageService.showMyPage(logined.getMb_id());
+        MyPageDTO myPageDTO = myPageService.showMyPage(logined.getMb_id());
         return "myPage/myPage";
     }
 	
