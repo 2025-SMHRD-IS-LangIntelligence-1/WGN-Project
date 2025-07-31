@@ -14,7 +14,7 @@
 	  <a href="${pageContext.request.contextPath}/search"><i class="bi bi-search"></i></a>
 	  <a href="${pageContext.request.contextPath}/feed/addFeed"><i class="bi bi-plus-square"></i></a>
 	  <a href="${pageContext.request.contextPath}/myPage/notifications"><i class="bi bi-heart"></i></a>
-	  <a href="${pageContext.request.contextPath}/myPage"><i class="bi bi-person-circle"></i></a>
+	  <a href="${pageContext.request.contextPath}/profile/myPage"><i class="bi bi-person-circle"></i></a>
 	  <!-- 수정 필요 : myPage/사용자이름으로 마이페이지에 접근할 수 있게 하기 -->
 	</div>
 	
