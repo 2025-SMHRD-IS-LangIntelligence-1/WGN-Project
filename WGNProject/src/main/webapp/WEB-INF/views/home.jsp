@@ -6,9 +6,9 @@
 <meta charset="UTF-8">
 <title>Home</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/CSS/common.css" />
+	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/CSS/home.css" />
+	href="${pageContext.request.contextPath}/resources/css/home.css" />
 </head>
 <body>
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>

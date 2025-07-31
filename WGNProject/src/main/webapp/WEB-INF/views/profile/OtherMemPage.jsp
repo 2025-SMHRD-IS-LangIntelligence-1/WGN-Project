@@ -4,7 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Profile</title>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/common.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/profile.css" />
 </head>
 <body>
 

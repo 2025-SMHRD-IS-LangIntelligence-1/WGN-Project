@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>feedList</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/feedList.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/feedList.css" />
 </head>
 
 <body>

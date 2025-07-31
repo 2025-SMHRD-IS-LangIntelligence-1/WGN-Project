@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MyPage</title>
+<title>Profile</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/common.css" />
+	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/myPage.css" />
+	href="${pageContext.request.contextPath}/resources/css/profile.css" />
 </head>
 <body>
 
