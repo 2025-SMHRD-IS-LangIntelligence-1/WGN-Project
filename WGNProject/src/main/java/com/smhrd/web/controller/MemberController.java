@@ -12,7 +12,6 @@ import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 
 @RequestMapping("/member")
 @Controller
@@ -61,7 +60,7 @@ public class MemberController {
 	public String login(t_member mem, HttpSession session) {
 		t_member member = memberService.login(mem);
 		session.setAttribute("member", member);
-		return "member/loginSuccess";
+		return "home";
 	}
 	
 }
