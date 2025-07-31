@@ -16,19 +16,34 @@ body {
 
 
 /*상단바*/
-.header {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 50px;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 15px;
-  z-index: 1000;
+/*상단바 규격*/
+.top-bar {
+    height: 56px;                    /* 상단바의 높이 설정 */
+    background: #fff;              /* 배경색 */
+    position: fixed;                 /* 화면에 고정 */
+    top: 0; left: 0; right: 0;       /* 상단 전체에 걸치도록 위치 설정 */
+    border-bottom: 1px solid #ddd; /* 하단에 연한 회색 선 추가 (구분용) */
+    display: flex;                   /* 내부 요소를 가로 방향 정렬 */
+    align-items: center;             /* 세로 기준 가운데 정렬 */
+    justify-content: space-between;  /* 양 끝에 요소 배치 (좌우 정렬) */
+    padding: 0 16px;                 /* 좌우 여백 16px */
+    z-index: 1000;                   /* 다른 요소들 위에 올라오도록 설정 (겹침 방지) */
 }
-.header img.logo { height: 28px; }
+
+/*상단바 로고(WGN) 규격*/
+.top-bar .logo {
+    font-weight: bold; 
+    font-size: 18px;
+    position: absolute;
+    left: 50%; transform: translateX(-50%);
+}
+
+/*상단바 아이콘 규격*/
+.top-bar i {
+    cursor: pointer;         /* 마우스 올리면 손가락 모양 */
+    transition: transform 0.2s, color 0.2s; /* 부드럽게 변하게 */
+}
+
 
 /*하단바*/
 .navbar-bottom {
