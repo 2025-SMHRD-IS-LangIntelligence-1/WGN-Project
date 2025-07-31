@@ -7,6 +7,8 @@ import com.smhrd.web.dto.MyPageDTO;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.MemberMapper;
 
+import ch.qos.logback.core.model.Model;
+
 @Service
 public class MyPageServiceImpl implements MyPageService {
 
@@ -14,14 +16,10 @@ public class MyPageServiceImpl implements MyPageService {
 	MemberMapper memberMapper;
 
 	@Override
-	public MyPageDTO ShowMyPage(String member_id) {
+	public MyPageDTO ShowMyPage(Model model) {
 		
 		// 멤버 정보 불러오기
-		t_member memberInfo = memberMapper.findById(member_id);
-		String nickname = memberInfo.getMb_nick();
-		int follower = 1;
-		int following = 2;
-		MyPageDTO myPageDTO = new MyPageDTO(nickname, follower, following);
+		MyPageDTO myPageDTO;
 		
 		return myPageDTO;
 		

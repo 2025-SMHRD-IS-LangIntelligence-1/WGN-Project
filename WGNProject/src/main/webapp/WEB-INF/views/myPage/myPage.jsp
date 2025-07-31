@@ -1,58 +1,95 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>MyPage</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/myPage.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/common.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/myPage.css" />
 </head>
 <body>
 	<div class="mobile-container">
-		<div class="content">
-			<h1>MyPage</h1>
-				<div id="userInfoArea1">
-					닉네임
-					팔로우하기
-				</div>
-				<nav id="userInfoArea2" class="myPageBox">
-					<span class="userInfo">게시글</span>
-					<a class="userInfo">팔로워</a>
-					<a class="userInfo">팔로잉</a>
-					<span class="userInfo">게시글</span>
-					<a class="userInfo">팔로워</a>
-					<a class="userInfo">팔로잉</a>
-				</nav>
-				<nav id="menuArea" class="myPageBox">
-					<button id="feed">게시글</button>
-					<button id="map">지도</button>
-					<button id="bookmark">북마크</button>
-				</nav>
-				<div id="resultArea" class="myPageBox">
-					
-				</div>
+
+
+		<!-- 상단 헤더 -->
+		<div class="header">
+			<img
+				src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg"
+				class="logo"> <i class="bi bi-send"></i>
 		</div>
-		<%@ include file="/WEB-INF/views/common/bottomBar.jsp" %>
+
+		<!-- 프로필 영역 -->
+		<div class="profile">
+
+			<!-- 프로필 상단: 사진 + 통계 -->
+			<div class="profile-top">
+				<img
+					src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340"
+					alt="프로필 사진">
+				<div class="profile-stats">
+					<div class="profile-stat">
+						<strong>12</strong> <span>게시물</span>
+					</div>
+					<div class="profile-stat">
+						<strong>340</strong> <span>팔로워</span>
+					</div>
+					<div class="profile-stat">
+						<strong>180</strong> <span>팔로잉</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- 닉네임/소개 -->
+			<div class="profile-info">
+				<h5>내 닉네임</h5>
+				<p>간단한 소개글을 적을 수 있습니다.</p>
+			</div>
+
+		</div>
+
+		<!-- 내 피드 3열 그리드 -->
+		<div class="container-fluid grid-feed px-0">
+			<div class="row g-1">
+				<div class="col-4" onclick="window.location='post.html'">
+					<img
+						src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
+				</div>
+				<div class="col-4">
+					<img
+						src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
+				</div>
+				<div class="col-4">
+					<img
+						src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
+				</div>
+				<div class="col-4">
+					<img
+						src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
+				</div>
+				<div class="col-4">
+					<img
+						src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
+				</div>
+				<div class="col-4">
+					<img
+						src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
+				</div>
+			</div>
+		</div>
+
+		<!-- 하단 네비게이션 -->
+		<div class="navbar-bottom">
+			<a href="home.html"><i class="bi bi-house-door"></i></a> <a
+				href="search.html"><i class="bi bi-search"></i></a> <a
+				href="postAdd.html"><i class="bi bi-plus-square"></i></a> <a
+				href="notifications.html"><i class="bi bi-heart"></i></a> <a
+				href="myPage.html"><i class="bi bi-person-circle"></i></a>
+		</div>
+		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 	</div>
-	
-	<script type="text/javascript">
-		let feed = document.getElementById("feed");
-		let map = document.getElementById("map");
-		let bookmark = document.getElementById("bookmark");
-		let resultArea = document.getElementById("resultArea");
-		
-		feed.addEventListener("click", () => {
-			resultArea.innerHTML = "게시글";
-		});
-		
-		map.addEventListener("click", () => {
-			resultArea.innerHTML = "지도";
-		});
-		
-		bookmark.addEventListener("click", () => {
-			resultArea.innerHTML = "북마크";
-		});
-	</script>
+
 </body>
 </html>

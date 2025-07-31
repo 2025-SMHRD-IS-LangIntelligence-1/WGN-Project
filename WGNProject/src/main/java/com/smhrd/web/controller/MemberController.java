@@ -19,7 +19,7 @@ public class MemberController {
 	MemberService memberService;
 	
 	@GetMapping("/join")
-	public String showJoinForm() {
+	public String showJoin() {
 		return "member/join";
 	}
 	

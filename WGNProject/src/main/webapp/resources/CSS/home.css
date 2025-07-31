@@ -1,0 +1,118 @@
+@charset "UTF-8";
+
+body {
+  background: #f9f9f9;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding-bottom: 60px;
+}
+
+/* 상단 헤더 */
+.header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 50px; background: #fff;
+  border-bottom: 1px solid #ddd;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 15px; z-index: 1000;
+}
+.header .logo { font-weight: bold; font-size: 18px; }
+.header i {
+  cursor: pointer;         /* 마우스 올리면 손가락 모양 */
+  transition: transform 0.2s, color 0.2s; /* 부드럽게 변하게 */
+}
+
+/* 광고 영역 */
+.ad-banner {
+  margin-top: 50px; height: 60px;
+  background: #e9ecef;
+  display: flex; align-items: center; justify-content: center;
+  color: #666; font-size: 14px;
+}
+
+/* 피드 전체 */
+.feed { 
+  padding: 0; 
+  margin: 0; 
+  max-width: 600px; 
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+/* 게시물 카드 : 화면에 꽉 차게 */
+.post {
+  min-height: calc(100vh - 170px); /* 헤더+광고+하단 네비 제외 */
+  background: #fff;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.post-header,
+.post-actions,
+.location-card,
+.post-caption {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.post-actions .bi-heart:hover {
+  color: red;
+  transform: scale(1.2);  /* 살짝 커지는 효과 */
+  cursor: pointer;        /* 클릭 가능 모양 */
+}
+
+.post-actions .bi-chat:hover {
+  cursor: pointer; /*마우스 커서 반응 효과*/
+}
+
+/* 프로필 */
+.post-header { 
+  display: flex; justify-content: space-between; align-items: center; padding: 10px; 
+}
+.post-user { display: flex; align-items: center; }
+.post-user img { cursor: pointer; width: 36px; height: 36px; border-radius: 50%; margin-right: 10px; }
+.post-user-info { font-size: 13px; }
+.post-user-info b { font-size: 14px; }
+.follow-btn {
+  background: #FFD84D; border: none; padding: 4px 10px;
+  border-radius: 8px; font-size: 13px; font-weight: bold;
+}
+
+/* Carousel 이미지 */
+.carousel-item img {
+  width: 100%;
+  height: 60vh; /* 화면 비율에 맞게 */
+  object-fit: cover;
+}
+.post .carousel { flex: 1; }
+
+/* 액션 영역 */
+.post-actions {
+  display: flex; align-items: center;
+  padding: 8px 12px; font-size: 1.2rem;
+}
+.post-actions .stats { font-size: 14px; margin-left: 8px; }
+
+/* 장소 카드 */
+.location-card {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #fdf7e6; border-top: 1px solid #f2e3c0;
+  padding: 8px 12px; cursor: pointer;
+}
+.location-info { font-size: 13px; }
+.location-info b { display: block; }
+
+/* 본문 텍스트 */
+.post-caption {
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  min-height: 70px;
+}
+.more-btn {
+  color:#666; font-size:13px; cursor:pointer; display:inline-block;
+}

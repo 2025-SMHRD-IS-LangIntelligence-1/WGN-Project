@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+body {
+  margin: 0;
+  background: #fff;
+  font-family: Arial, sans-serif;
+  margin-bottom: 60px;
+}
+
+/* 상단 헤더 */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 50px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  z-index: 1000;
+}
+.header img.logo { height: 28px; }
+
+/* 프로필 전체 */
+.profile {
+  margin-top: 60px;
+  padding: 20px 15px 10px;
+}
+
+/* 프로필 상단 한 줄 */
+.profile-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+/* 프로필 사진 */
+.profile-top img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* 통계 컨테이너 */
+.profile-stats {
+  display: flex;
+  justify-content: space-around;
+  flex-grow: 1; /* 남은 공간 꽉 채움 */
+}
+
+.profile-stats > div {
+  cursor: pointer; /* 각 통계 항목만 커서 적용 */
+}
+
+/* 각 통계 */
+.profile-stat {
+  text-align: center;
+  flex: 1;
+}
+.profile-stat strong {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+}
+.profile-stat span {
+  font-size: 13px;
+  color: #555;
+}
+
+/* 닉네임 / 소개 */
+.profile-info {
+  margin-top: 12px;
+}
+.profile-info h5 {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.profile-info p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* 내 피드 */
+.grid-feed .col-4 img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  cursor: pointer
+}
+
+body{margin:0;background:#fff;font-family:Arial;margin-bottom:60px;}
+.header{position:fixed;top:0;left:0;right:0;height:50px;background:#fff;border-bottom:1px solid #ddd;display:flex;align-items:center;justify-content:space-between;padding:0 15px;z-index:1000;}
+.header img.logo{height:28px;}
+.notice{margin-top:60px;}
+.notice-item{padding:10px;border-bottom:1px solid #eee;}

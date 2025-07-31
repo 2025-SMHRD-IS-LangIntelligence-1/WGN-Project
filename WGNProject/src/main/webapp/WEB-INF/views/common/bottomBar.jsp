@@ -5,18 +5,17 @@
 <head>
 <meta charset="UTF-8">
 <title>bottomBar</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bottomBar.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/common.css" />
 
 </head>
 <body>
-	<nav class="bottomBar">
-		<a href="${pageContext.request.contextPath}/">home</a>
-		<a href="${pageContext.request.contextPath}/myPage/회원아이디">myPage</a>
-		<!-- 세션에 기록된 로그인 데이터에서 회원아이디 기록해야 함 -->
-		<a href="${pageContext.request.contextPath}/feed/addFeed">addFeed</a>
-		<a href="${pageContext.request.contextPath}/search">search</a>
-	</nav>
+	<div class="navbar-bottom">
+	  <a href="${pageContext.request.contextPath}/"><i class="bi bi-house-door">d</i></a>
+	  <a href="${pageContext.request.contextPath}/search"><i class="bi bi-search">d</i></a>
+	  <a href="postAdd.html"><i class="bi bi-plus-square"></i></a>
+	  <a href="notifications.html"><i class="bi bi-heart"></i></a>
+	  <a href="myPage.html"><i class="bi bi-person-circle"></i></a>
+	</div>
 	
 </body>
 </html>

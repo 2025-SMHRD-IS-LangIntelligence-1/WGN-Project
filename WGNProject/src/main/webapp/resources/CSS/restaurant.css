@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+
+/* 식당 기본 정보 */
+.restaurant-info {
+  background: #fff;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+.restaurant-info h2 {
+  font-size: 20px;
+  font-weight: bold;
+}
+.restaurant-info .rating {
+  color: #ffcc00;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* 상세 정보 */
+.detail-section {
+  background: #fff;
+  padding: 15px;
+  margin-top: 8px;
+}
+.detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.detail-row:last-child { border-bottom: none; }
+
+/* 메뉴 섹션 */
+.menu-section {
+  background: #fff;
+  padding: 15px;
+  margin-top: 8px;
+}
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+.menu-item:last-child { border-bottom: none; }
+
+/* 평점 섹션 */
+.review-score {
+  background: #fff;
+  padding: 15px;
+  margin-top: 8px;
+  font-size: 14px;
+}
+.review-score .score {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ff9900;
+}
+
+/* 리뷰 섹션 */
+.review-section {
+  background: #fff;
+  padding: 15px;
+  margin-top: 8px;
+}
+.review-card {
+  border-top: 1px solid #eee;
+  padding: 10px 0;
+}
+.review-card:first-child { border-top: none; }
+.review-user {
+  font-weight: bold;
+}
+.review-img {
+  width: 60px; height: 60px;
+  background: #ddd;
+  border-radius: 8px;
+  margin-right: 10px;
+}
+.review-content {
+  font-size: 14px;
+}

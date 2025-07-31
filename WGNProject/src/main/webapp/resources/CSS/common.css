@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.navbar-bottom {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #fff; border-top: 1px solid #ddd;
+  height: 50px; display: flex; justify-content: space-around; align-items: center;
+}
+.navbar-bottom a { color: #000; text-decoration: none; }
+.navbar-bottom i { font-size: 1.5rem; transition: transform .2s; }
+.navbar-bottom a:hover i { transform: scale(1.2); color: #ff0044; }
