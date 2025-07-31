@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div class="mobile-container">
-
+		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 		<!-- 검색 입력 -->
 		<div class="search-box">
 			<input type="text" class="form-control" placeholder="검색어 입력">

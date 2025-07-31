@@ -6,15 +6,16 @@
 <meta charset="UTF-8">
 <title>bottomBar</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/CSS/common.css" />
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 </head>
 <body>
 	<div class="navbar-bottom">
-	  <a href="${pageContext.request.contextPath}/"><i class="bi bi-house-door">d</i></a>
-	  <a href="${pageContext.request.contextPath}/search"><i class="bi bi-search">d</i></a>
-	  <a href="postAdd.html"><i class="bi bi-plus-square"></i></a>
-	  <a href="notifications.html"><i class="bi bi-heart"></i></a>
-	  <a href="myPage.html"><i class="bi bi-person-circle"></i></a>
+	  <a href="${pageContext.request.contextPath}/"><i class="bi bi-house-door"></i></a>
+	  <a href="${pageContext.request.contextPath}/search"><i class="bi bi-search"></i></a>
+	  <a href="${pageContext.request.contextPath}/feed/addFeed"><i class="bi bi-plus-square"></i></a>
+	  <a href="${pageContext.request.contextPath}/myPage/notifications"><i class="bi bi-heart"></i></a>
+	  <a href="${pageContext.request.contextPath}/myPage"><i class="bi bi-person-circle"></i></a>
+	  <!-- 수정 필요 : myPage/사용자이름으로 마이페이지에 접근할 수 있게 하기 -->
 	</div>
 	
 </body>

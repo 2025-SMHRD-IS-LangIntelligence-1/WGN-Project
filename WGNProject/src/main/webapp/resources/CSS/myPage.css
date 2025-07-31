@@ -1,27 +1,5 @@
 @charset "UTF-8";
 
-body {
-  margin: 0;
-  background: #fff;
-  font-family: Arial, sans-serif;
-  margin-bottom: 60px;
-}
-
-/* 상단 헤더 */
-.header {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 50px;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 15px;
-  z-index: 1000;
-}
-.header img.logo { height: 28px; }
-
 /* 프로필 전체 */
 .profile {
   margin-top: 60px;

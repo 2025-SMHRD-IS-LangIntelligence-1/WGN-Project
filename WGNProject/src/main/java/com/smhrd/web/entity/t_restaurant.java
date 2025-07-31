@@ -37,9 +37,6 @@ public class t_restaurant {
  // 경도 
  private BigDecimal lon;
 
- // 등록 일자 
- private Timestamp created_at;
-
  // 음식점 태그
  private String res_tag;
  

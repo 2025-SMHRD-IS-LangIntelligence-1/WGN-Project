@@ -22,12 +22,17 @@ public class FeedController {
 	public String showFeed(Model model) {
 		ArrayList<t_feed> feeds = feedService.showFeed();
 		model.addAttribute("feeds", feeds);
-		return "feedList";
+		return "feed/feedList";
 	}
 	
 	@GetMapping("/addFeed")
-	public String goAddFeed() {
-		return "addFeed";
+	public String showAddFeed() {
+		return "feed/addFeed";
+	}
+	
+	@GetMapping
+	public String showFeed() {
+		return "feed/feed";
 	}
 	
 }

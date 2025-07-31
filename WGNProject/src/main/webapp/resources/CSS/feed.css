@@ -1,149 +1,161 @@
-@charset "UTF-8";
+@charset "UTF-8"; /* 이 CSS 파일이 UTF-8 문자 인코딩으로 작성되었음을 명시 */
 
-body{margin:0;background:#fff;font-family:Arial;margin-bottom:60px;}
-.header{position:fixed;top:0;left:0;right:0;height:50px;background:#fff;border-bottom:1px solid #ddd;display:flex;align-items:center;justify-content:space-between;padding:0 15px;z-index:1000;}
-.header img.logo{height:28px;}
-.add-box{margin-top:60px;padding:10px;}
-
-body {
-  background: #fff9f0;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding-bottom: 60px;
+/* addFeed Page*/
+/* add-box 클래스는 상단 여백과 안쪽 여백을 설정 */
+.add-box {
+	margin-top: 60px; /* 상단 여백 60px */
+	padding: 10px; /* 내부 여백 10px */
 }
+
+/* container 클래스는 중앙 정렬과 너비 및 높이 설정 */
 .container {
-  max-width: 500px;
-  margin: auto;
-  background: #fff;
-  min-height: 100vh;
+	max-width: 500px; /* 최대 너비 500px */
+	margin: auto; /* 수평 중앙 정렬 */
+	background: #fff; /* 배경 흰색 */
+	min-height: 100vh; /* 최소 높이 화면 전체 높이로 설정 */
 }
 
-/* 상단 사용자 영역 */
+/* 상단 사용자 영역 스타일 */
 .post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
+	display: flex; /* 플렉스 박스 레이아웃 적용 */
+	justify-content: space-between; /* 좌우 아이템 사이를 최대한 벌림 */
+	align-items: center; /* 세로 가운데 정렬 */
+	padding: 12px; /* 안쪽 여백 12px */
 }
+
+/* 사용자 정보 영역 */
 .post-user {
-  display: flex;
-  align-items: center;
+	display: flex; /* 플렉스 박스 적용하여 가로 정렬 */
+	align-items: center; /* 세로 가운데 정렬 */
 }
+
+/* 사용자 프로필 이미지 스타일 */
 .post-user img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
+	width: 40px; /* 가로 40px */
+	height: 40px; /* 세로 40px */
+	border-radius: 50%; /* 원형으로 만들기 */
+	margin-right: 10px; /* 오른쪽에 10px 간격 */
 }
+
+/* 사용자 이름 및 기타 정보 텍스트 */
 .post-user-info {
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
+	display: flex; /* 플렉스 박스 */
+	flex-direction: column; /* 세로 방향 정렬 */
+	font-size: 14px; /* 글자 크기 14px */
 }
+
+/* 팔로우 버튼 스타일 */
 .follow-btn {
-  background: #FFD84D;
-  border: none;
-  padding: 5px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: bold;
+	background: #FFD84D; /* 노란색 배경 */
+	border: none; /* 테두리 없앰 */
+	padding: 5px 12px; /* 상하 5px, 좌우 12px 여백 */
+	border-radius: 8px; /* 둥근 모서리 반경 8px */
+	font-size: 14px; /* 글자 크기 14px */
+	font-weight: bold; /* 글자 두껍게 */
 }
 
-/* 게시물 이미지 */
+/* 게시물 이미지 영역 */
 .post-image img {
-  width: 100%;
-  display: block;
+	width: 100%; /* 부모 요소 너비에 맞춤 */
+	display: block; /* 이미지 주변 불필요한 공백 제거 */
 }
 
-/* 본문 텍스트 */
+/* 게시물 본문 텍스트 */
 .post-text {
-  padding: 10px 12px;
-  font-size: 14px;
-  line-height: 1.4;
+	padding: 10px 12px; /* 상하 10px, 좌우 12px 여백 */
+	font-size: 14px; /* 글자 크기 14px */
+	line-height: 1.4; /* 줄 간격 1.4배 */
 }
 
-/* 장소 카드 */
+/* 장소 카드 (위치 표시 박스) */
 .location-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fff8e5;
-  border: 1px solid #f2e3c0;
-  border-radius: 8px;
-  margin: 10px 12px;
-  padding: 10px;
+	display: flex; /* 플렉스 박스 */
+	align-items: center; /* 세로 가운데 정렬 */
+	justify-content: space-between; /* 좌우 아이템 사이 최대한 벌림 */
+	background: #fff8e5; /* 연한 노란색 배경 */
+	border: 1px solid #f2e3c0; /* 연한 노란색 테두리 */
+	border-radius: 8px; /* 모서리 둥글게 반경 8px */
+	margin: 10px 12px; /* 상하 10px, 좌우 12px 외부 여백 */
+	padding: 10px; /* 내부 여백 10px */
 }
+
+/* 장소 카드 내 위치 정보 */
 .location-info {
-  display: flex;
-  align-items: center;
+	display: flex; /* 플렉스 박스 */
+	align-items: center; /* 세로 가운데 정렬 */
 }
+
+/* 위치 아이콘 또는 썸네일 이미지 */
 .location-info img {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  margin-right: 10px;
+	width: 50px; /* 가로 50px */
+	height: 50px; /* 세로 50px */
+	border-radius: 8px; /* 둥근 모서리 */
+	margin-right: 10px; /* 오른쪽 10px 간격 */
 }
+
+/* 장소 카드 내 버튼 스타일 (예: 더보기 버튼) */
 .location-card button {
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: #000;
+	background: none; /* 배경 없앰 */
+	border: none; /* 테두리 없앰 */
+	font-size: 20px; /* 글자 크기 20px */
+	color: #000; /* 글자색 검정 */
 }
 
-/* 댓글 입력 */
+/* 댓글 입력 영역 */
 .comment-input {
-  display: flex;
-  padding: 10px;
-  border-top: 1px solid #ddd;
-  position: sticky;
-  bottom: 50px;
-  background: #fff;
-}
-.comment-input input {
-  flex: 1;
-  border: none;
-  background: #f5f5f5;
-  padding: 8px 10px;
-  border-radius: 20px;
-}
-.comment-input button {
-  background: none;
-  border: none;
-  margin-left: 10px;
-  font-size: 20px;
+	display: flex; /* 플렉스 박스 */
+	padding: 10px; /* 내부 여백 10px */
+	border-top: 1px solid #ddd; /* 위쪽에 연한 회색 선 */
+	position: sticky; /* 스크롤 시 위치 고정 */
+	bottom: 50px; /* 화면 아래에서 50px 위에 고정 */
+	background: #fff; /* 배경 흰색 */
 }
 
-/* 댓글 리스트 */
+/* 댓글 입력 input 박스 */
+.comment-input input {
+	flex: 1; /* 가능한 너비 최대한 확장 */
+	border: none; /* 테두리 없음 */
+	background: #f5f5f5; /* 연한 회색 배경 */
+	padding: 8px 10px; /* 상하 8px, 좌우 10px 내부 여백 */
+	border-radius: 20px; /* 둥근 모서리 20px (둥근 입력창) */
+}
+
+/* 댓글 입력 버튼 (전송 버튼 등) */
+.comment-input button {
+	background: none; /* 배경 없음 */
+	border: none; /* 테두리 없음 */
+	margin-left: 10px; /* 왼쪽 여백 10px */
+	font-size: 20px; /* 글자 크기 20px */
+}
+
+/* 댓글 리스트 영역 */
 .comments {
-  padding: 0 12px;
+	padding: 0 12px; /* 좌우 12px 패딩 */
 }
+
+/* 각 댓글 한 줄 */
 .comment {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #f1f1f1;
+	display: flex; /* 플렉스 박스 */
+	align-items: flex-start; /* 위쪽 정렬 */
+	justify-content: space-between; /* 좌우 벌림 */
+	padding: 10px 0; /* 상하 10px, 좌우 0 여백 */
+	border-bottom: 1px solid #f1f1f1; /* 연한 회색 밑줄 */
 }
+
+/* 댓글 아바타 (프로필 이미지) */
 .comment-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  margin-right: 10px;
+	width: 32px; /* 가로 32px */
+	height: 32px; /* 세로 32px */
+	border-radius: 50%; /* 원형 */
+	margin-right: 10px; /* 오른쪽 10px 간격 */
 }
+
+/* 댓글 본문 텍스트 영역 */
 .comment-body {
-  flex: 1;
+	flex: 1; /* 가능한 너비 최대한 확장 */
 }
+
+/* 댓글 작성자 이름 (볼드체) */
 .comment-body strong {
-  display: block;
-  font-size: 14px;
-}
-.comment-body p {
-  margin: 0;
-  font-size: 13px;
-  color: #444;
-}
-.comment i {
-  font-size: 18px;
-  color: #888;
-  margin-left: 8px;
-}
+	display: block;
+	/* 블록 요소로 만듦 (줄 바꿈 효과) */

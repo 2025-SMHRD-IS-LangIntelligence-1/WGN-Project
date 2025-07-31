@@ -1,16 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MyPage</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/common.css" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/myPage.css" />
+<title>Insert title here</title>
 </head>
 <body>
+
+	<div class="mobile-container">
 
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 
@@ -73,7 +71,16 @@
 			</div>
 		</div>
 
+		<!-- 하단 네비게이션 -->
+		<div class="navbar-bottom">
+			<a href="home.html"><i class="bi bi-house-door"></i></a> <a
+				href="search.html"><i class="bi bi-search"></i></a> <a
+				href="postAdd.html"><i class="bi bi-plus-square"></i></a> <a
+				href="notifications.html"><i class="bi bi-heart"></i></a> <a
+				href="myPage.html"><i class="bi bi-person-circle"></i></a>
+		</div>
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+	</div>
 
 </body>
 </html>

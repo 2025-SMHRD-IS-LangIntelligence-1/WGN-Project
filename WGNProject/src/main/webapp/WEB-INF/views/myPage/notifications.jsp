@@ -12,12 +12,7 @@
 </head>
 <body>
 	<div class="mobile-container">
-
-		<div class="header">
-			<img
-				src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg"
-				class="logo"> <i class="bi bi-send"></i>
-		</div>
+		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 
 		<div class="notice">
 			<div class="notice-item">

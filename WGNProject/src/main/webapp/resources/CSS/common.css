@@ -1,5 +1,35 @@
 @charset "UTF-8";
 
+/*body*/
+body {
+  margin:0;
+  background:#fff;
+  font-family:Arial;
+  margin-bottom:60px;
+  padding-bottom: 60px; /* 하단바 안 가리도록 */
+}
+
+/*컨텐츠*/
+.content {
+	padding-top : 50px;
+}
+
+/*상단바*/
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 50px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  z-index: 1000;
+}
+.header img.logo { height: 28px; }
+
+/*하단바*/
 .navbar-bottom {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: #fff; border-top: 1px solid #ddd;
@@ -8,3 +38,4 @@
 .navbar-bottom a { color: #000; text-decoration: none; }
 .navbar-bottom i { font-size: 1.5rem; transition: transform .2s; }
 .navbar-bottom a:hover i { transform: scale(1.2); color: #ff0044; }
+

@@ -4,7 +4,7 @@ import com.smhrd.web.entity.t_member;
 
 public interface MemberService {
 	
-	void login();
+	t_member login(t_member mem);
 
 	boolean join(t_member mem, String pwCheck);
 

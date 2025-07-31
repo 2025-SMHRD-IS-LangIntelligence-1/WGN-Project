@@ -10,7 +10,7 @@ public class SearchController {
 
 	@GetMapping
 	public String goSearch() {
-		return "search";
+		return "search/search";
 	}
 	
 	

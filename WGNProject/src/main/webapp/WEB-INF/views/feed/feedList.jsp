@@ -12,6 +12,7 @@
 
 <body>
 	<div class="mobile-container">
+		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 		<div class="content">
 			<c:forEach var="feed" items="${feeds}">
 				<div class="feed">

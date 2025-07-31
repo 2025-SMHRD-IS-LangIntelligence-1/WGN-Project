@@ -38,19 +38,24 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public String checkNick(String inputNick) {
-		t_member foundNick = memberMapper.findByNick(inputNick);
+		t_member foundMem = memberMapper.findByNick(inputNick);
 		
-		if (foundNick == null) { // 입력한 아이디를 못 찾았으면 "true" 반환
+		if (foundMem == null) { // 입력한 아이디를 못 찾았으면 "true" 반환
 			return "true";
 		}else { // 아니면 "true" 반환
 			return "false";
 		}
 	}
-	
+
 	@Override
-	public void login() {
-		// TODO Auto-generated method stub
+	public t_member login(t_member mem) {
+		t_member foundMem = memberMapper.findById(mem.getMb_id());
 		
+		if (foundMem == null) { // 입력한 아이디를 못 찾았으면 null 반환
+			return null;
+		}else { // 찾았으면 멤버 정보 반환
+			return foundMem;
+		}
 	}
 
 }

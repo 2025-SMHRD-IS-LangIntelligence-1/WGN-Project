@@ -24,7 +24,6 @@
 							<br><span id="resultId"></span>
 						</td>
 					</tr>
-					</tr>
 					<tr>
 						<td><input type="text" name="mb_nick" id="inputNick" placeholder="닉네임 입력"></td>
 						<td><input type="button" value="중복체크" onclick="checkNick()" /></td>

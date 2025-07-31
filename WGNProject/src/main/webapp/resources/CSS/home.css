@@ -1,29 +1,8 @@
 @charset "UTF-8";
 
-body {
-  background: #f9f9f9;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding-bottom: 60px;
-}
-
-/* 상단 헤더 */
-.header {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: 50px; background: #fff;
-  border-bottom: 1px solid #ddd;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 15px; z-index: 1000;
-}
-.header .logo { font-weight: bold; font-size: 18px; }
-.header i {
-  cursor: pointer;         /* 마우스 올리면 손가락 모양 */
-  transition: transform 0.2s, color 0.2s; /* 부드럽게 변하게 */
-}
-
 /* 광고 영역 */
 .ad-banner {
-  margin-top: 50px; height: 60px;
+  height: 60px;
   background: #e9ecef;
   display: flex; align-items: center; justify-content: center;
   color: #666; font-size: 14px;
