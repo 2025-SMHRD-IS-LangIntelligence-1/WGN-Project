@@ -27,20 +27,20 @@
 					alt="프로필 사진">
 				<div class="profile-stats">
 					<div class="profile-stat">
-						<strong>12</strong> <span>게시물</span>
+						<strong>${profile.feed_num}</strong> <span>게시물</span>
 					</div>
 					<div class="profile-stat">
-						<strong>340</strong> <span>팔로워</span>
+						<strong>${profile.follower}</strong> <span>팔로워</span>
 					</div>
 					<div class="profile-stat">
-						<strong>180</strong> <span>팔로잉</span>
+						<strong>${profile.following}</strong> <span>팔로잉</span>
 					</div>
 				</div>
 			</div>
 
 			<!-- 닉네임/소개 -->
 			<div class="profile-info">
-				<h5>내 닉네임</h5>
+				<h5>${profile.nickname}</h5>
 				<p>간단한 소개글을 적을 수 있습니다.</p>
 			</div>
 

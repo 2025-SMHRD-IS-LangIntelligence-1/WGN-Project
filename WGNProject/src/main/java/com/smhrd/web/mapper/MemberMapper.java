@@ -19,11 +19,16 @@ public interface MemberMapper {
 			+ "values(#{mb_id}, #{mb_pw}, #{mb_name}, #{mb_nick})")
 	void join(t_member mem);
 	
-	@Select("select count(*) from follow where following_id=#{following_id}")
-	int countFollowers();
-	
+	@Select("select count(*) from t_follow where follower_id=#{follower_id}")
+	// mem을 팔로워하는 모든 사람을 id를 활용해서 구하는 메서드
+	int countFollowers(String mb_id);
 
-	// @Select()
-	// int countFollowings();
+	@Select("select count(*) from t_follow where following_id=#{following_id}")
+	// mem이 팔로잉하고 있는 모든 사람을 id를 활용해서 구하는 메서드
+	int countFollowings(String mb_id);
+
+	@Select("select count(*) from t_feed where mb_id=#{mb_id}")
+	// mem이 가지고 있는 모든 피드를 id를 활용해서 구하는 메서드
+	int countFeed(String mb_id);
 
 }
