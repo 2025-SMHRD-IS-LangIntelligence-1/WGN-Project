@@ -8,6 +8,11 @@
   color: #666; font-size: 14px;
 }
 
+/*컨텐츠*/
+.content {
+	padding-top : 50px;
+}
+
 /* 피드 전체 */
 .feed { 
   padding: 0; 

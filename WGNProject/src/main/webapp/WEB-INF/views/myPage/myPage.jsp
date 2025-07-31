@@ -5,15 +5,19 @@
 <head>
 <meta charset="UTF-8">
 <title>MyPage</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/common.css" />
+	href="${pageContext.request.contextPath}/CSS/common.css" />
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/myPage.css" />
+	href="${pageContext.request.contextPath}/CSS/myPage.css" />
 </head>
 <body>
 
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
-
+	<div class="content">
 		<!-- 프로필 영역 -->
 		<div class="profile">
 
@@ -70,9 +74,13 @@
 					<img
 						src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
 				</div>
+				<div class="col-4">
+					<img
+						src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
+				</div>
 			</div>
 		</div>
-
+</div>
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 
 </body>
