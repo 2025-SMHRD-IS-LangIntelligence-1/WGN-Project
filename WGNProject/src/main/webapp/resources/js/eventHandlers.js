@@ -2,38 +2,28 @@ let idValid = false;
 let nickValid = false;
 let pwValid = false;
 
-// 아이디 입력값이 바뀌면 idValid 초기화
+// 아이디 입력값이 바뀌면 idValid 초기화 후 버튼 활성화 여부 체크
 $('#inputId').on('input', function () {
     idValid = false;
-	checkId();
+    $("#checkResult").text(""); // 메시지 초기화 (선택사항)
     updateJoinButtonState();
 });
 
-// 닉네임 입력값이 바뀌면 nickValid 초기화
+// 닉네임 입력값이 바뀌면 nickValid 초기화 후 버튼 활성화 여부 체크
 $('#inputNick').on('input', function () {
     nickValid = false;
+    $("#checkResult").text(""); // 메시지 초기화 (선택사항)
     updateJoinButtonState();
 });
 
-// 아이디 입력값이 바뀌면 자동으로 중복 체크
-$('#inputId').on('input', function () {
-    idValid = false;
-    checkId(); // 실시간 체크
-});
-
-// 닉네임 입력값이 바뀌면 자동으로 중복 체크
-$('#inputNick').on('input', function () {
-    nickValid = false;
-    checkNick(); // 실시간 체크
-});
-
-// 비밀번호 입력값이 바뀌면 pwValid 초기화
-$('#inputPw').on('input', function () {
+// 비밀번호 입력값이 바뀌면 pwValid 초기화 후 버튼 활성화 여부 체크
+$('#inputPw', '#inputPw_check').on('input', function () {
     pwValid = false;
     $("#checkResult").text(""); // 메시지 초기화 (선택사항)
     updateJoinButtonState();
 });
 
+// 비밀번호 입력값이 바뀌면 비밀번호 일치 여부 체크
 $('#inputPw, #inputPw_check').on('input', checkPw);
 
 // 아이디 중복 체크
