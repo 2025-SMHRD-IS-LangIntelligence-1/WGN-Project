@@ -4,15 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MyPage</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
+<title>Profile</title>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/common.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/profile.css" />
 
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/CSS/common.css" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/CSS/myPage.css" />
 </head>
 <body>
 
@@ -84,6 +82,7 @@
 		</div>
 
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+
 
 </body>
 </html>

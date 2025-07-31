@@ -15,12 +15,11 @@ public class t_follow {
     private Integer follow_idx;
 
     // 팔로워 아이디 
-    private String res_idx;
-
+    private String follower_id;
     // 팔로잉 아이디 
-    private String menu_name;
+    private String following_id;
 
-    // 팔로우 날짜 
-    private Timestamp menu_price;
+    // 팔로우 일시 
+    private Timestamp followed_at;
 
 }

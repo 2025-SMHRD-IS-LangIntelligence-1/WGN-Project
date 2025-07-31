@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	로그인성공
+	회원가입성공
 </body>
 </html>

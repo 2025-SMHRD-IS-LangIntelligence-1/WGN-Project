@@ -6,9 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/common.css" />
+	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/CSS/search.css" />
+	href="${pageContext.request.contextPath}/resources/css/search.css" />
 </head>
 <body>
 	<div class="mobile-container">
