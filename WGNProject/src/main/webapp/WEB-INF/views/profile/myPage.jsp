@@ -61,38 +61,18 @@
         	</a>
     	</div>
 
-		<!-- 게시글 섹션 
+		<!-- 게시글 섹션 -->
 		<div id="posts-section">
 		  <div class="container-fluid grid-feed px-0">
 		    <div class="row g-1">
-		      <c:forEach var="feed" items="${feedList}">
+		      <c:forEach var="dto" items="${feedDTOList}"> 
 		        <div class="col-4" onclick="window.location='/feed/feed?feed_idx=${feed.feed_idx}'" style="cursor:pointer;">
-		          <img src="${feed.image_url}" alt="Feed Image" style="width:100%; height:auto;" />
-		        </div>
+					<img src="${dto.imageUrls[0]}" alt="대표 이미지" style="width:100%; height:auto;" />
+				</div>
 		      </c:forEach>
 		    </div>
 		  </div>
-		</div>-->
-
-		<!-- 기존 게시글 섹션		-->
-		<div id="posts-section">
-		  <div class="container-fluid grid-feed px-0">
-		    <div class="row g-1">
-		      <div class="col-4" onclick="window.location='/feed/feedDetail?feed_idx=1'" style="cursor:pointer;">
-		        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
-		      </div>
-		      <div class="col-4" onclick="window.location='/feed/feedDetail?feed_idx=2'" style="cursor:pointer;">
-		        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
-		      </div>
-		      <div class="col-4" onclick="window.location='/feed/feedDetail?feed_idx=3'" style="cursor:pointer;">
-		        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340">
-		      </div>
-		    </div>
-		  </div>
-		</div>
-
-		
-
+		</div> 
 
     	<!-- 지도 섹션 (처음엔 비워둠) -->
     	<!-- 지도 섹션 -->

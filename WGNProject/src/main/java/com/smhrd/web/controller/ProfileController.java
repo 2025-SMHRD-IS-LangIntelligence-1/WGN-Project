@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.smhrd.web.dto.ProfileDTO;
+import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.FeedService;
@@ -43,9 +44,12 @@ public class ProfileController {
         
         // 사용자가 작성한 피드 리스트 저장
         List<t_feed> feeds = feedService.showFeedByMemId(logined.getMb_id());
-	    model.addAttribute("feeds", feeds);
+        
+        // 사용자의 피드 리스트를 넣으면 각 피드 별로 이미지 리스트가 포함된 DTO를 생성해주는 메서드
+        List<FeedWithImgDTO> feedDTOList = feedService.getImgUrls(feeds);
+        
+	    model.addAttribute("feedDTOList", feedDTOList);
 	    
-	    // return "profile/testPage";
         return "profile/myPage";
     }
 	
@@ -65,9 +69,11 @@ public class ProfileController {
 	}
 	
 	
-	@GetMapping("/notifications")
-	public String showNotifications() {
-		return "myPage/notifications";
-	}
+	// 사용자 알림 관련 컨트롤러, 현재 안씀
+	
+	// @GetMapping("/notifications")
+	// public String showNotifications() {
+	//	return "myPage/notifications";
+	// }
 	
 }
