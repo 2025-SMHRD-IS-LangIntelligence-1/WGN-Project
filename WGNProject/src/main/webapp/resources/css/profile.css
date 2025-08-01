@@ -19,6 +19,15 @@
   flex-shrink: 0;
 }
 
+.ranking-tabs {
+    background: #fff;
+    border-top: 1px solid #ddd;
+}
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #eee;
+}
+
 /* 통계 컨테이너 */
 .profile-stats {
   display: flex;
