@@ -5,14 +5,17 @@ body {
   margin:0;
   background:#fff;
   font-family:Arial;
-  margin-bottom:100px;
-  padding-bottom: 100px; /* 하단바 안 가리도록 */
+  margin-bottom:80px;
+  padding-bottom: 80px; /* 하단바 안 가리도록 */
 }
 
 /*컨텐츠*/
 .content {
-	padding-top : 92px;
+	padding-top : 60px;
 }
+
+
+
 
 
 /*모바일 앱 규격*/
@@ -31,7 +34,7 @@ body {
 /*상단바*/
 /*상단바 규격*/
 .top-bar {
-    height: 90px;                    /* 상단바의 높이 설정 */
+    height: 60px;                    /* 상단바의 높이 설정 */
     background: #fff;              /* 배경색 */
     position: fixed;                 /* 화면에 고정 */
     top: 0; left: 0; right: 0;       /* 상단 전체에 걸치도록 위치 설정 */
@@ -43,30 +46,42 @@ body {
     z-index: 1000;                   /* 다른 요소들 위에 올라오도록 설정 (겹침 방지) */
 }
 
-/*상단바 로고(WGN) 규격*/
+/* 왼쪽 로고 */
 .top-bar .logo {
     font-weight: bold; 
     font-size: 25px;
-    position: absolute;
-    left: 50%; transform: translateX(-50%);
+    margin-left: 15px;
 }
 
-/*상단바 아이콘 규격*/
+/* 오른쪽 아이콘 */
 .top-bar i {
-    cursor: pointer;         /* 마우스 올리면 손가락 모양 */
-    transition: transform 0.2s, color 0.2s; /* 부드럽게 변하게 */
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    margin-right: 15px;
+    color: #000; /* 기본 색상 */
+    font-size: 23px;
 }
 
+/* hover 효과 제거 */
+.top-bar i:hover {
+    transform: scale(1.2);
+}
+
+/* 클릭(활성화)된 상태 */
+.top-bar i.active {
+    color: #FFD84D;
+}
 
 /*하단바*/
 .navbar-bottom {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: #fff; border-top: 1px solid #ddd;
-  height: 90px; display: flex; justify-content: space-around; align-items: center;
+  height: 80px; display: flex; justify-content: space-around; align-items: center;
 }
 .navbar-bottom a { color: #000; text-decoration: none; }
 .navbar-bottom i { font-size: 1.5rem; transition: transform .2s; }
-.navbar-bottom a:hover i { transform: scale(1.2); color: #ff0044; }
+.navbar-bottom a:hover i { transform: scale(1.2); color: #FFD84D; }
+
 
 /* 사이드 네비바 */
 #side-bar {
@@ -76,7 +91,7 @@ body {
   color: white;
   position: fixed;
   top: 0;
-  left: -250px; /* 왼쪽 바깥으로 숨김 */
+  right: -250px; /* 왼쪽 바깥으로 숨김 */
   transition: left 0.3s ease;
   padding-top: 60px;
   z-index: 1000;
@@ -84,7 +99,7 @@ body {
 
 /* 네비가 보일 때 적용할 클래스 */
 #side-bar.active {
-  left: 0;
+  right: 0;
 }
 
 #side-bar a {

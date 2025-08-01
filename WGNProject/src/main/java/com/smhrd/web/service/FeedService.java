@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import com.smhrd.web.entity.t_feed;
 
 public interface FeedService {
-
-	public ArrayList<t_feed> showFeed();
 	
 	public void addFeed();
+
+	ArrayList<t_feed> showFeedByMemId(String mb_id);
 	
 }

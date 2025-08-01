@@ -15,8 +15,8 @@ public class FeedServiceImpl implements FeedService{
 	FeedMapper feedMapper;
 	
 	@Override
-	public ArrayList<t_feed> showFeed() {
-		ArrayList<t_feed> feeds = feedMapper.selectFeed();
+	public ArrayList<t_feed> showFeedByMemId(String mb_id) {
+		ArrayList<t_feed> feeds = feedMapper.selectFeedByMemId(mb_id);
 		return feeds;
 	}
 

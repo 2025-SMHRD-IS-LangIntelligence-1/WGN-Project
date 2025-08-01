@@ -1,6 +1,8 @@
 
 package com.smhrd.web.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.smhrd.web.dto.ProfileDTO;
+import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
+import com.smhrd.web.service.FeedService;
 import com.smhrd.web.service.ProfileService;
 
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +23,8 @@ public class ProfileController {
 
 	@Autowired
 	ProfileService profileService;
+	@Autowired
+	FeedService feedService;
 	
     @GetMapping("/myPage")
     public String showMyPage(HttpSession session, Model model) {
@@ -30,10 +36,16 @@ public class ProfileController {
         if (logined == null) {
             return "redirect:/member/login";
         }
-
-        ProfileDTO profile = profileService.showMyPage(logined.getMb_id());
         
+        // 프로필 정보 저장
+        ProfileDTO profile = profileService.showMyPage(logined.getMb_id());
         model.addAttribute("profile", profile);
+        
+        // 사용자가 작성한 피드 리스트 저장
+        List<t_feed> feeds = feedService.showFeedByMemId(logined.getMb_id());
+	    model.addAttribute("feeds", feeds);
+	    
+	    // return "profile/testPage";
         return "profile/myPage";
     }
 	

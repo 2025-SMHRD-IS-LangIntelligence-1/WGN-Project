@@ -15,12 +15,13 @@
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 		<div class="content">
 			<div class="add-box">
-				<!-- 음식점을 지도로 받아와야 함 -->
-				<!-- 파일 첨부 최대 10개까지 할 수 있게 -->
-				<!-- 텍스트 입력할 수 있는 란 -->
-				<input type="file" class="form-control mb-2"><br>
-				<textarea class="form-control" rows="3" placeholder="설명 작성"></textarea>
-				<button class="btn btn-primary mt-2">게시</button>				
+				<form action="${pageContext.request.contextPath}/feed/upload" method="post" enctype="multipart/form-data">
+					<!-- 음식점을 지도로 받아와야 함 -->
+					<!-- 이미지 파일 첨부 최대 10개까지 할 수 있게, 이미지 외 다른 파일은 안됨 -->
+					<input name="file" type="file" class="form-control mb-2"><br>
+					<textarea name="content" class="form-control" rows="3" placeholder="내용 작성"></textarea>
+					<button class="btn btn-primary mt-2">게시</button>
+				</form>				
 			</div>
 		</div>
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
