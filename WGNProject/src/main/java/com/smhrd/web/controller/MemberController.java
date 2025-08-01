@@ -20,17 +20,11 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class MemberController {
 
-    private final HomeController homeController;
-
 	@Autowired
 	MemberService memberService;
 	@Autowired
 	ProfileService profileService;
 
-    MemberController(HomeController homeController) {
-        this.homeController = homeController;
-    }
-	
 	@GetMapping("/join")
 	public String showJoin() {
 		return "member/join";
@@ -79,6 +73,13 @@ public class MemberController {
 	        model.addAttribute("msg", "아이디 또는 비밀번호가 올바르지 않습니다.");
 	        return "member/login";  // 로그인 실패 시 다시 로그인 페이지로
 	    }
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("member");
+		session.removeAttribute("profile");
+		return "redirect:/";	
 	}
 	
 }
