@@ -77,8 +77,9 @@
 		</div>
 
     	<!-- 지도 섹션 (처음엔 비워둠) -->
-    	<div id="map-section" style="display:none; padding:10px;">
-        	<div id="map" style="width:100%; height:400px;"></div>
+    	<div id="map-section" style="display:none;">
+        	<div id="map" style="  width: 100%;height: auto;
+  			aspect-ratio: 16/9;max-height: 70vh;"></div>
     	</div>
 
 	</div>
@@ -122,7 +123,18 @@ $(function() {
                 map.setZoomable(false);
                 map.setDraggable(false);
             }
-        }, 1000); // 0.1초 딜레이
+            
+            map.relayout();
+            map.setCenter(new kakao.maps.LatLng(35.159545, 126.852601));
+            
+        }, 300);
+    });
+    
+    $(window).on('resize', function() {
+        if (map && $('#map-section').is(':visible')) {
+            map.relayout();
+            map.setCenter(centerPosition);
+        }
     });
 });
 </script>

@@ -185,9 +185,9 @@
   margin: 0;
   font-size: 14px;
 }
-#map {
-  width: 100%;
-  height: 400px; /* 반드시 높이를 줘야 지도 보임 */
+
+#map-section {
+  padding: 10px;
 }
 
 /* 피드 그리드 */
