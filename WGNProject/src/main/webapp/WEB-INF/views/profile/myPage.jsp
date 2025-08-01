@@ -61,7 +61,7 @@
         	</a>
     	</div>
 
-		<!-- 게시글 섹션 -->
+		<!-- 게시글 섹션 
 		<div id="posts-section">
 		  <div class="container-fluid grid-feed px-0">
 		    <div class="row g-1">
@@ -72,9 +72,9 @@
 		      </c:forEach>
 		    </div>
 		  </div>
-		</div>
+		</div>-->
 
-		<!-- 기존 게시글 섹션
+		<!-- 기존 게시글 섹션		-->
 		<div id="posts-section">
 		  <div class="container-fluid grid-feed px-0">
 		    <div class="row g-1">
@@ -90,7 +90,7 @@
 		    </div>
 		  </div>
 		</div>
-		-->
+
 		
 
 
