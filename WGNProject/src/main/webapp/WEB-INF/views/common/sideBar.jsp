@@ -40,7 +40,7 @@
 	    <li><a href="#">피드 마이 댓글 관리</a></li>
 	    <li><a href="#">마이 리뷰 관리</a></li>
 	    <li><a href="#">차단 유저 관리</a></li>
-	    <li><a href="member/logout">로그아웃</a></li>
+	    <li><a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
 	  </ul>
 	</div>
 		

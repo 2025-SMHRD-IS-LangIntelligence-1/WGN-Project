@@ -11,6 +11,7 @@
 </head>
 
 <body>
+	<!-- 이 페이지는 뭔지 도무지 모르겠음 -->
 	<div class="mobile-container">
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 		<div class="content">
