@@ -26,4 +26,10 @@ public class FeedServiceImpl implements FeedService{
 		
 	}
 
+	@Override
+	public void saveFeed(t_feed feed) {
+		feedMapper.saveFeed(feed);
+		
+	}
+
 }

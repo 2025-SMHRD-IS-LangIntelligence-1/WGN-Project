@@ -9,5 +9,7 @@ public interface FeedService {
 	public void addFeed();
 
 	ArrayList<t_feed> showFeedByMemId(String mb_id);
+
+	public void saveFeed(t_feed feed);
 	
 }
