@@ -8,10 +8,17 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css" />
 </head>
 <body>
+	<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+
 	<div class="top-bar">
 		<i class="icon">▦</i>
 		<div class="logo">WGN</div>
 	</div>
 
+	<script>
+		const contextPath = '${pageContext.request.contextPath}';
+	</script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 </body>
 </html>

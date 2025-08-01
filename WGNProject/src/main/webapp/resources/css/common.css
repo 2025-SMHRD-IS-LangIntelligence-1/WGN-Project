@@ -55,3 +55,31 @@ body {
 .navbar-bottom i { font-size: 1.5rem; transition: transform .2s; }
 .navbar-bottom a:hover i { transform: scale(1.2); color: #ff0044; }
 
+/* 사이드 네비바 */
+#side-bar {
+  width: 250px;
+  height: 100vh;
+  background-color: Black;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: -250px; /* 왼쪽 바깥으로 숨김 */
+  transition: left 0.3s ease;
+  padding-top: 60px;
+  z-index: 1000;
+}
+
+/* 네비가 보일 때 적용할 클래스 */
+#side-bar.active {
+  left: 0;
+}
+
+#side-bar a {
+  color: white;            /* 글자색 흰색 */
+  text-decoration: none;   /* 밑줄 제거 */
+}
+
+#side-bar a:hover {
+  color: #ccc;             /* 마우스 올렸을 때 색 바꾸기 (선택사항) */
+}
+

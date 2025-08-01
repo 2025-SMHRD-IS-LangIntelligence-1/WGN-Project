@@ -31,8 +31,9 @@ public class ProfileController {
             return "redirect:/member/login";
         }
 
-        ProfileDTO profileDTO = profileService.showMyPage(logined.getMb_id());
-        model.addAttribute("profile", profileDTO);
+        ProfileDTO profile = profileService.showMyPage(logined.getMb_id());
+        
+        model.addAttribute("profile", profile);
         return "profile/myPage";
     }
 	
@@ -47,7 +48,7 @@ public class ProfileController {
             return "redirect:/member/login";
         }
 		
-        ProfileDTO profileDTO = profileService.showOtherMemPage(mb_id);
+        ProfileDTO profile = profileService.showOtherMemPage(mb_id);
         return "myPage/{mb_id}";
 	}
 	

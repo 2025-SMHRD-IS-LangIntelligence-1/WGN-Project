@@ -12,6 +12,7 @@
 </head>
 <body>
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
+		<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
 		<div class="content">
 			<!-- 광고 -->
