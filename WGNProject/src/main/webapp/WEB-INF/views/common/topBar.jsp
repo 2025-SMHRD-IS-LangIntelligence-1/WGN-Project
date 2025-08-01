@@ -11,8 +11,8 @@
 	<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
 	<div class="top-bar">
-		<i class="icon">▦</i>
 		<div class="logo">WGN</div>
+		<i class="bi bi-list"></i>
 	</div>
 
 	<script>
@@ -20,5 +20,18 @@
 	</script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const icons = document.querySelectorAll('.top-bar i');
+
+    icons.forEach(icon => {
+        icon.addEventListener('click', () => {
+            // 이미 active면 해제, 아니면 active 추가
+            icon.classList.toggle('active');
+        });
+    });
+});
+</script>
+	
 </body>
 </html>

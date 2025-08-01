@@ -1,5 +1,6 @@
 $(document).ready(()=>{
-	$(".icon").on('click', () => {
+	$(".top-bar i").on('click', () => {
 		$("#side-bar").toggleClass('active')
 	});
 });
+
