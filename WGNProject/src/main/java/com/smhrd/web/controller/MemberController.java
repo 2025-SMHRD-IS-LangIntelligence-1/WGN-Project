@@ -2,14 +2,17 @@ package com.smhrd.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.MemberService;
+import com.smhrd.web.service.ProfileService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -19,7 +22,9 @@ public class MemberController {
 
 	@Autowired
 	MemberService memberService;
-	
+	@Autowired
+	ProfileService profileService;
+
 	@GetMapping("/join")
 	public String showJoin() {
 		return "member/join";
@@ -30,10 +35,9 @@ public class MemberController {
 		boolean joinCheck = memberService.join(mem, pwCheck);
 		
 		if (joinCheck) {
-			return "member/joinSuccess";
-		}else {
-			return "home"; // 수정 필요
+			return "redirect:/";
 		}
+		return "member/join";
 		
 	}
 	
@@ -57,10 +61,25 @@ public class MemberController {
 	}
 	
 	@PostMapping("/loginMember")
-	public String login(t_member mem, HttpSession session) {
-		t_member member = memberService.login(mem);
-		session.setAttribute("member", member);
-		return "home";
+	public String login(t_member mem, HttpSession session, Model model) {
+	    t_member member = memberService.login(mem);
+	    ProfileDTO profile = profileService.showMyPage(mem.getMb_id());
+	    
+	    if (member != null) {
+	        session.setAttribute("member", member);  // 멤버 정보 세션에 저장
+	        session.setAttribute("profile", profile); // 프로필 정보 세션에 저장
+	        return "redirect:/";
+	    } else {
+	        model.addAttribute("msg", "아이디 또는 비밀번호가 올바르지 않습니다.");
+	        return "member/login";  // 로그인 실패 시 다시 로그인 페이지로
+	    }
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("member");
+		session.removeAttribute("profile");
+		return "redirect:/";	
 	}
 	
 }

@@ -13,7 +13,12 @@
 </head>
 <body>
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
+
 	<div class="mobile-container">
+
+		<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+
+
 		<div class="content">
 			<!-- 광고 -->
 			<div class="ad-banner">광주맛집</div>
