@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
@@ -11,6 +12,7 @@
 	href="${pageContext.request.contextPath}/resources/css/feed.css" />
 </head>
 <body>
+	<div class="mobile-container">
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 		<div class="content">
 
@@ -100,5 +102,7 @@
 
 		</div>
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+	</div>
+		
 </body>
 </html>

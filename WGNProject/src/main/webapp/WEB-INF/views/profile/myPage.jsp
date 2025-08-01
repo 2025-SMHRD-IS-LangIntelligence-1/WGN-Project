@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>Profile</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -14,8 +14,9 @@
 	href="${pageContext.request.contextPath}/resources/css/profile.css" />
 </head>
 <body>
-
+	<div class="mobile-container">
 	<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
+
 	<div class="content">
 
 		<!-- 프로필 영역 -->
@@ -85,7 +86,7 @@
 	</div>
 
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
-
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
 <script>

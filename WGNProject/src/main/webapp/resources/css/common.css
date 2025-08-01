@@ -5,20 +5,33 @@ body {
   margin:0;
   background:#fff;
   font-family:Arial;
-  margin-bottom:60px;
-  padding-bottom: 60px; /* 하단바 안 가리도록 */
+  margin-bottom:100px;
+  padding-bottom: 100px; /* 하단바 안 가리도록 */
 }
 
 /*컨텐츠*/
 .content {
-	padding-top : 50px;
+	padding-top : 92px;
 }
 
+
+/*모바일 앱 규격*/
+.mobile-container {
+    width: 100%;                    /* 컨테이너의 너비를 부모 요소 기준으로 100%로 설정 */
+    background-color: #ffffff;    /* 흰색 배경 */
+    max-width: 520px;               /* 너비 */
+    min-height: 100vh;              /* 화면 전체 높이 */
+    margin: 0 auto;                 /* 가운데 정렬 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+    overflow: hidden;               /* 내부 콘텐츠가 container를 벗어나지 않도록 잘라냄*/
+    display: flex;                  /* Flexbox 레이아웃을 사용하여 내부 요소들을 유연하게 배치 */
+    flex-direction: column;         /* Flexbox의 방향을 수직(column)으로 설정 → 상단부터 하단 순서로 콘텐츠 배치 */
+}
 
 /*상단바*/
 /*상단바 규격*/
 .top-bar {
-    height: 56px;                    /* 상단바의 높이 설정 */
+    height: 90px;                    /* 상단바의 높이 설정 */
     background: #fff;              /* 배경색 */
     position: fixed;                 /* 화면에 고정 */
     top: 0; left: 0; right: 0;       /* 상단 전체에 걸치도록 위치 설정 */
@@ -33,7 +46,7 @@ body {
 /*상단바 로고(WGN) 규격*/
 .top-bar .logo {
     font-weight: bold; 
-    font-size: 18px;
+    font-size: 25px;
     position: absolute;
     left: 50%; transform: translateX(-50%);
 }
@@ -49,7 +62,7 @@ body {
 .navbar-bottom {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: #fff; border-top: 1px solid #ddd;
-  height: 50px; display: flex; justify-content: space-around; align-items: center;
+  height: 90px; display: flex; justify-content: space-around; align-items: center;
 }
 .navbar-bottom a { color: #000; text-decoration: none; }
 .navbar-bottom i { font-size: 1.5rem; transition: transform .2s; }

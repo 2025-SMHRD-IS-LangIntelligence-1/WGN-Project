@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>Home</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
@@ -12,7 +13,7 @@
 </head>
 <body>
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
-
+	<div class="mobile-container">
 		<div class="content">
 			<!-- 광고 -->
 			<div class="ad-banner">광주맛집</div>
@@ -124,5 +125,6 @@
 		</div>
 		<!-- 이 줄빼면 적용 안됨 -->
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+	</div>
 </body>
 </html>
