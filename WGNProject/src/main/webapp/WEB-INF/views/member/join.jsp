@@ -22,33 +22,31 @@
 			<form action="${pageContext.request.contextPath}/member/joinMember" method="post">
 				<table>
 					<tr>
-						<td colspan="2"><input type="text" class="form-input" name="mb_name" placeholder="성 / 이름 입력">
-						</td>
+						<td colspan="2"><input type="text" class="form-input" name="mb_name" placeholder="성 / 이름 입력" id="inputName" maxlength="20"></td>
 					</tr>
 					<tr>
-						<td><input type="text" class="form-input" name="mb_id" id="inputId" placeholder="아이디 입력"></td>
-						<td><input type="button" value="중복체크" onclick="checkId()" /></td>
+						<td><input type="text" class="form-input" name="mb_id" id="inputId"
+							placeholder="아이디 입력" maxlength="20"></td>
+						<td><input type="button" value="중복체크" id="idCheckBtn" disabled/></td>
 					</tr>
 					<tr>
-						<td colspan="2"><input type="text" class="form-input" name="mb_pw" 
-						id= "inputPw" placeholder="비밀번호 입력">
-						</td>
+						<td colspan="2"><input type="password" class="form-input" name="mb_pw" 
+							id= "inputPw" placeholder="비밀번호 입력" maxlength="50"></td>
 					</tr>
 					<tr>
 						<td colspan="2"><input type="password" class="form-input" name="mb_pw_check"
-						id= "inputPw_check" placeholder="비밀번호 확인 입력">
-						</td>
+							id= "inputPw_check" placeholder="비밀번호 확인 입력" maxlength="50"></td>
 					</tr>
 					<tr>
-						<td><input type="text" class="form-input" name="mb_nick" id="inputNick" placeholder="닉네임 입력">
+						<td><input type="text" class="form-input" name="mb_nick" id="inputNick" placeholder="닉네임 입력" maxlength="8">
 						</td>
-						<td><input type="button" value="중복체크" onclick="checkNick()" /></td>
+						<td><input type="button" value="중복체크" id="nickCheckBtn" disabled/></td>
 					</tr>
 					
 					<tr class="resultMsg">
-						<td>
-							<span id="checkResult"></span>
-						</td>
+					    <td colspan="2">
+					        <span id="checkResult"><span class="msg-text"></span></span>
+					    </td>
 					</tr>
 					<tr>
 						<td colspan="2"><input type="submit" value="회원가입" id="joinBtn" disabled></td>
@@ -64,6 +62,6 @@
     	const contextPath = '${pageContext.request.contextPath}';
 	</script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/eventHandlers.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/join.js"></script>
 </body>
 </html>
