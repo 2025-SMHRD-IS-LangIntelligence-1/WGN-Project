@@ -5,6 +5,10 @@ body {
   margin:0;
   background:#fff;
   font-family:Arial;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
   padding-bottom: 80px; /* 하단바 안 가리도록 */
 }
 
@@ -12,10 +16,6 @@ body {
 .content {
 	padding-top : 60px;
 }
-
-
-
-
 
 /*모바일 앱 규격*/
 .mobile-container {
@@ -30,6 +30,15 @@ body {
     flex-direction: column;         /* Flexbox의 방향을 수직(column)으로 설정 → 상단부터 하단 순서로 콘텐츠 배치 */
 }
 
+/* 상단 버튼 정렬용 */
+.add-box-header {
+    padding: 0 25px;                 /* 좌우 여백 추가 */
+    display: flex;
+    justify-content: space-between;   /* 좌우 정렬 */
+    align-items: center;
+    margin-bottom: 15px;              /* 아래로 여백 추가*/
+    margin-top: 15px;                 /* 위로 여백 추가*/
+}
 /*상단바*/
 /*상단바 규격*/
 .top-bar {

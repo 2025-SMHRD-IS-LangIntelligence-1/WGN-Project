@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.MemberMapper;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -56,6 +58,20 @@ public class MemberServiceImpl implements MemberService {
 		}else { // 찾았으면 멤버 정보 반환
 			return foundMem;
 		}
+	}
+
+	@Override
+	public boolean loginCheck(HttpSession session) {
+		// 세션에서 로그인한 사용자 정보 가져오기
+        t_member logined = (t_member) session.getAttribute("member");
+    	
+    	// 로그인 안 되어 있으면 false 반환
+        if (logined == null) {
+            return false;
+        }
+        
+        // 로그인 되어 있으면 true 반환
+		return true;
 	}
 
 }

@@ -1,15 +1,174 @@
 @charset "UTF-8"; /* 이 CSS 파일이 UTF-8 문자 인코딩으로 작성되었음을 명시 */
 
 /* addFeed Page*/
-/* add-box 클래스는 상단 여백과 안쪽 여백을 설정 */
-.add-box {
-	margin-top: 100px; /* 상단 여백 60px */
-	padding: 10px; /* 내부 여백 10px */
-	display: flex;
-	justify-content: center;
+
+/* 게시글 취소 버튼*/
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #616161;
+  padding: 4px 8px;
+  line-height: 1;
+}
+.close-btn:hover {
+  color: #171513;              /* hover 시 강조 */
+}
+
+/* 게시글 업로드 버튼*/
+.submit-btn {
+  height: 30px;
+  background-color: #171513;
+  color: #e2e2e2;
+  border: none;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 15px;             /* 필요 시 명시적으로 설정 */
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* 파일 업로드*/
+.upload-wrapper {
+    display: flex;
+    gap: 12px; /* 업로드 박스 간 간격 */
+    margin: 16px 25px 0px;
+}
+
+/* 사진/영상 박스 디자인 */
+.upload-box {
+    width: 80px;                        /* 박스 너비 */
+    height: 80px;                       /* 박스 높이 */
+    border: 1.5px solid #171513;      /* 진한 테두리 */
+    border-radius: 8px;                 /* 모서리 둥글게 */
+    display: flex;                      /* 내부 요소 정렬을 위한 flex 사용 */
+    flex-direction: column;             /* 요소들을 위에서 아래로 정렬 */
+    align-items: center;                /* 가로 중앙 정렬 */
+    justify-content: center;            /* 세로 중앙 정렬 */
+    text-align: center;                 /* 텍스트 가운데 정렬 */
+    cursor: pointer;                    /* 마우스 오버 시 손가락 커서 표시 */
+}
+
+.upload-box img {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 6px;
+}
+.file-upload {
+    display: none; /* 실제 input은 숨김 */
+}
+
+/* 작성칸 */
+.desc-text {
+    resize: none;                    /* 크기 조절 비활성화 */
+    width: calc(100% - 50px);        /* 좌우 여백을 제외한 전체 너비 */
+    height: 25vh;                    /* 화면 높이의 25% (반응형) */
+    background-color: #fff;        /* 연한 배경 (선택) */
+    color: #171513;                /* 글자색: 짙은 검정 */
+    border: 1.5px solid #ddd;      /* 연한 회색 테두리 */
+    border-radius: 10px;             /* 둥근 모서리 */
+    padding: 12px 12px;              /* 내부 여백 */
+    font-size: 16px;                 /* 글자 크기 설정 */
+    box-sizing: border-box;          /* padding을 포함한 크기 계산 */
+    margin: 0px 25px 30px;                  /* 여백 */
+}
+.desc-text:focus {
+    outline: none;
+    border-color: #333;           /* 포커스 시 테두리 강조 (선택사항) */
+    background-color: #fff;
+}
+
+/* 회색 선 */
+.section-divider {
+  height: 3px;
+  background-color: #ddd;    /* 연한 회색 선 */
+  margin: 16px 25px 8px;     /* 위 여백 / 좌우 여백 / 아래 여백 */
+}
+
+/* 🔍 검색창 입력 필드 스타일 */
+.search_input {
+  width: calc(100% - 50px);        /* 좌우 여백 포함한 반응형 너비 */
+  margin: 16px 25px;               /* 위/아래 16px, 좌우 25px 여백 */
+  height: 40px;                    /* 높이 고정 */
+  border: 1.5px solid #171513;     /* 진한 검정 테두리 */
+  border-radius: 8px;              /* 모서리 둥글게 */
+  padding: 0 12px;                 /* 내부 좌우 여백 */
+  font-size: 15px;                 /* 글자 크기 */
+  background-color: #fff;          /* 흰 배경 */
+  box-sizing: border-box;          /* 패딩 포함 너비 계산 */
+}
+
+/* 🧾 음식점 검색 결과 카드 전체 */
+.search-res {
+  display: flex;                   /* 이미지 + 텍스트 가로 정렬 */
+  align-items: flex-start;         /* 위쪽 정렬 */
+  gap: 12px;                       /* 이미지와 텍스트 사이 간격 */
+  padding: 12px 25px;              /* 위아래 12px, 좌우 25px 패딩 */
+  border-bottom: 1px solid #eee;   /* 하단 구분선 */
+  background-color: #fff;          /* 카드 배경 흰색 */
+}
+
+/* 🖼️ 썸네일 이미지 */
+.res_thumbnail {
+  width: 80px;                     /* 정사각형 크기 */
+  height: 80px;
+  border-radius: 6px;              /* 이미지 모서리 둥글게 */
+  object-fit: cover;               /* 비율 유지하며 꽉 채우기 */
+}
+
+/* 📋 텍스트 정보 묶음 */
+.res_info {
+  flex: 1;                         /* 나머지 공간 모두 차지 */
+  display: flex;
+  flex-direction: column;         /* 세로 정렬 */
+  gap: 6px;                       /* 요소 간 간격 */
+}
+
+/* 🍜 음식점 이름 */
+.res_name {
+  font-size: 16px;                /* 조금 큰 글씨 */
+  font-weight: bold;              /* 굵게 */
+  margin: 0;
+  color: #171513;                 /* 거의 검정색 */
+}
+
+/* 📍 음식점 주소 */
+.res_addr {
+  font-size: 13px;                /* 작고 부드러운 텍스트 */
+  color: #555;                    /* 회색 계열 */
+  margin: 0;
+}
+
+/* ⭐ 평점 정보 박스 */
+.rating_info {
+  display: inline-flex;           /* 인라인 가로 정렬 */
+  align-items: center;
+  gap: 4px;                       /* 아이콘과 숫자 간격 */
+  background-color: #ffd700;      /* 금색 배경 */
+  border-radius: 12px;            /* 태그 형태 둥글게 */
+  padding: 2px 6px;               /* 작고 단단한 패딩 */
+  font-size: 13px;                /* 작고 또렷한 글씨 */
+  font-weight: bold;              /* 굵게 */
+  color: #000;                    /* 글자 검정색 */
+  width: fit-content;             /* 내용 크기만큼 너비 */
+}
+
+/* 🌟 별 아이콘 (또는 코인) */
+.ratings_icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* 🔢 평점 숫자 */
+.ratings_text {
+  font-size: 13px;
 }
 
 /*feed Page*/
+
 /* container 클래스는 중앙 정렬과 너비 및 높이 설정 */
 .container {
 	max-width: 500px; /* 최대 너비 500px */

@@ -25,11 +25,13 @@ public class MemberController {
 	@Autowired
 	ProfileService profileService;
 
+	// 회원 가입 페이지로 이동
 	@GetMapping("/join")
-	public String showJoin() {
+	public String goJoin() {
 		return "member/join";
 	}
 	
+	// 멤버 정보를 DB에 저장
 	@PostMapping("/joinMember")
 	public String join(t_member mem, @RequestParam("mb_pw_check") String pwCheck) {
 		boolean joinCheck = memberService.join(mem, pwCheck);
@@ -41,6 +43,7 @@ public class MemberController {
 		
 	}
 	
+	// 아이디 중복체크
 	@GetMapping("/checkId")
 	@ResponseBody
 	public String checkId(@RequestParam String inputId) {
@@ -48,6 +51,7 @@ public class MemberController {
 		return idCheckResult;
 	}
 
+	// 닉네임 중복체크
 	@GetMapping("/checkNick")
 	@ResponseBody
 	public String checkNick(@RequestParam String inputNick) {
@@ -55,11 +59,13 @@ public class MemberController {
 		return NickCheckResult;
 	}
 	
+	// 로그인 페이지로 이동
 	@GetMapping("/login")
 	public String goLogin() {
 		return "member/login";	
 	}
 	
+	// 로그인 기능
 	@PostMapping("/loginMember")
 	public String login(t_member mem, HttpSession session, Model model) {
 	    t_member member = memberService.login(mem);
@@ -75,6 +81,7 @@ public class MemberController {
 	    }
 	}
 	
+	// 로그아웃 기능
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("member");

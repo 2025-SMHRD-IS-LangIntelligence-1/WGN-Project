@@ -14,6 +14,7 @@ import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.FeedService;
+import com.smhrd.web.service.MemberService;
 import com.smhrd.web.service.ProfileService;
 
 import jakarta.servlet.http.HttpSession;
@@ -26,17 +27,21 @@ public class ProfileController {
 	ProfileService profileService;
 	@Autowired
 	FeedService feedService;
+	@Autowired
+	MemberService memberService;
 	
     @GetMapping("/myPage")
     public String showMyPage(HttpSession session, Model model) {
     	
-    	// 세션에서 로그인한 사용자 정보 가져오기
+    	// 로그인 체크
+    	boolean loginCheck = memberService.loginCheck(session);
+		
+		if (!loginCheck) {
+			return "member/login";
+		}
+		
+		// 세션에서 로그인한 사용자 정보 가져오기
         t_member logined = (t_member) session.getAttribute("member");
-    	
-    	// 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
-        if (logined == null) {
-            return "redirect:/member/login";
-        }
         
         // 프로필 정보 저장
         ProfileDTO profile = profileService.showMyPage(logined.getMb_id());
@@ -56,13 +61,15 @@ public class ProfileController {
 	@GetMapping("/{mb_id}")
 	public String showOtherMemPage(String mb_id, HttpSession session, Model model) {
 
+    	// 로그인 체크
+    	boolean loginCheck = memberService.loginCheck(session);
+		
+		if (!loginCheck) {
+			return "member/login";
+		}
+		
     	// 세션에서 로그인한 사용자 정보 가져오기
         t_member logined = (t_member) session.getAttribute("member");
-    	
-    	// 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
-        if (logined == null) {
-            return "redirect:/member/login";
-        }
 		
         ProfileDTO profile = profileService.showOtherMemPage(mb_id);
         return "myPage/{mb_id}";
