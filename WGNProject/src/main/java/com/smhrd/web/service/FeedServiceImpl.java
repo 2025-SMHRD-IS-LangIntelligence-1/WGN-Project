@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_feed;
-import com.smhrd.web.entity.t_feed_img;
 import com.smhrd.web.mapper.FeedMapper;
 
 @Service
@@ -22,17 +21,9 @@ public class FeedServiceImpl implements FeedService{
 	CloudinaryService cloudinaryService;
 	
 	@Override
-	public ArrayList<t_feed> showFeedByMemId(String mb_id) {
+	public ArrayList<t_feed> getFeedByMemId(String mb_id) {
 		ArrayList<t_feed> feeds = feedMapper.selectFeedByMemId(mb_id);
 		return feeds;
-	}
-
-	@Override
-	public void saveFeed(t_feed feed, MultipartFile file) throws IOException {
-		feedMapper.saveFeed(feed); // feed 객체를 활용해 db에 튜플을 추가하고 feed 객체에 idx를 등록
-		int feed_idx = feed.getFeed_idx(); // 등록된 idx 꺼내오기
-		String feed_img_url =  cloudinaryService.uploadFile(file); // 클라우디너리에 이미지 등록하고 url 받아오기
-		feedMapper.saveFeedImg(feed_idx, feed_img_url);
 	}
 
 	@Override
@@ -49,6 +40,15 @@ public class FeedServiceImpl implements FeedService{
 		 }
 
 		return result;
+	}
+
+	@Override
+	public void saveFeed(t_feed feed, List<MultipartFile> files) throws IOException {
+		feedMapper.saveFeed(feed); // feed 객체를 활용해 db에 튜플을 추가하고 feed 객체에 idx를 등록
+		int feed_idx = feed.getFeed_idx(); // 등록된 idx 꺼내오기
+		List<String> imgUrls =  cloudinaryService.uploadFiles(files); // 클라우디너리에 이미지 등록하고 url 받아오기
+		feedMapper.saveFeedImg(feed_idx, imgUrls);
+		
 	}
 
 }

@@ -11,9 +11,9 @@ import com.smhrd.web.entity.t_feed;
 
 public interface FeedService {
 	
-	ArrayList<t_feed> showFeedByMemId(String mb_id);
+	ArrayList<t_feed> getFeedByMemId(String mb_id);
 
-	public void saveFeed(t_feed feed, MultipartFile file) throws IOException;
+	public void saveFeed(t_feed feed, List<MultipartFile> files) throws IOException;
 
 	List<FeedWithImgDTO> getImgUrls(List<t_feed> feeds);
 	

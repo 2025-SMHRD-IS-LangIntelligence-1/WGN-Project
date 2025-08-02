@@ -14,7 +14,7 @@ public class ProfileServiceImpl implements ProfileService {
 	MemberMapper memberMapper;
 
 	@Override
-	public ProfileDTO showMyPage(String mb_id) {
+	public ProfileDTO getProfileInfo(String mb_id) {
 		t_member mem = memberMapper.findById(mb_id);
 		String nickname = mem.getMb_nick();
 		int feed_num = memberMapper.countFeed(mb_id);
@@ -22,12 +22,6 @@ public class ProfileServiceImpl implements ProfileService {
 		int following = memberMapper.countFollowings(mb_id);
 		ProfileDTO profileDTO = new ProfileDTO(nickname, feed_num, follower, following);
 		return profileDTO;
-	}
-
-	@Override
-	public ProfileDTO showOtherMemPage(String mb_id) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

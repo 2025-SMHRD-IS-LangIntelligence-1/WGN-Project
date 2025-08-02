@@ -26,7 +26,7 @@ public class GlobalModelAttribute {
         if (logined != null) {
             // 프로필 서비스에서 회원 ID로 프로필 정보를 조회해서 반환
             // 이 데이터가 모델에 "profile" 이름으로 담겨 뷰에서 사용 가능
-            return profileService.showMyPage(logined.getMb_id());
+            return profileService.getProfileInfo(logined.getMb_id());
         }
         // 로그인 안 된 경우 null 반환 -> 모델에 데이터가 추가되지 않음
         return null;

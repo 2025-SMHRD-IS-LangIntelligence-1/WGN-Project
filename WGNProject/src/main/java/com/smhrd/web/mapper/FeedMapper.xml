@@ -10,4 +10,13 @@
     	VALUES (#{mb_id}, #{res_idx}, #{feed_content}, 0, NOW())
 	</insert>
 
+	<insert id="saveFeedImg">
+	    INSERT INTO t_feed_img (feed_img_idx, feed_idx, feed_img_url)
+	    VALUES
+	    <foreach collection="imgUrls" item="url" separator=",">
+	        (NULL, #{feed_idx}, #{url})
+	    </foreach>
+	</insert>
+
 </mapper>
+

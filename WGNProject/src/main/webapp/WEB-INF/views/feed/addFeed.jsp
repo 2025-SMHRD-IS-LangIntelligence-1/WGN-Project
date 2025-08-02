@@ -31,7 +31,7 @@
 	            <div class="add-box">
 	                <div class="add-box-header">
 	                    <button class="close-btn">✕</button>
-	                    <button class="submit-btn">게시하기</button>
+	                    <button class="submit-btn" disabled>게시하기</button>
 	                </div>
 	                <br>
 	                <div class="upload-wrapper">
@@ -41,11 +41,11 @@
 	                        <span>사진/영상</span>
 	                    </label>
 	                    <!-- 숨겨진 파일 업로드 -->
-	                    <input type="file" name="file" id="file-upload" class="file-upload" accept="image/*, video/*" hidden>
+	                    <input type="file" name="files" id="file-upload" class="file-upload" accept="image/*, video/*" hidden multiple>
 	                </div>
 	                <br>
 	                <!-- 검색창 -->
-	                <textarea name="feed_content" class="desc-text" rows="3" placeholder="설명 작성"></textarea>
+	                <textarea name="feed_content" id="feed_content" class="desc-text" rows="3" placeholder="내용을 작성해주세요"></textarea>
 	                <br>
 	            </div>
 	
@@ -55,21 +55,8 @@
 	                <!-- 검색창 -->
 	                <input type="text" class="search_input" placeholder="음식점을 입력하세요">
 	
-	                <div class="search-res">
-	                     <!-- 음식 썸네일 -->
-	                    <img src="sample_food.jpg" alt="음식 이미지" class="res_thumbnail">
-	                    <!-- 텍스트 정보 -->
-	                    <div class="res_info">
-	                        <h3 class="res_name">해물짬뽕 전문점</h3>
-	                        <p class="res_addr">광주광역시 북구 탄탕로 141번길 7 행복건물 1층</p>
-	                        <!-- 평점 영역 -->
-	                        <div class="rating_info">
-	                            <img src="coin-icon.png" alt="별" class="ratings_icon">
-	                            <span class="ratings_text">4.8</span>
-	                        <!-- 스프링쿨 WGNProject / com.smhrd.web.entity / res이랑 review-->
-	                        </div>
-	                    </div>
-	                </div>
+					<!-- 검색 결과 리스트 -->
+					<div class="search-list"></div>
 	            </div>
             </form>
         </div>

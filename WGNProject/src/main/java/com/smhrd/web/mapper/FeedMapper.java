@@ -1,13 +1,13 @@
 package com.smhrd.web.mapper;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.smhrd.web.entity.t_feed;
-import com.smhrd.web.entity.t_feed_img;
 
 @Mapper
 public interface FeedMapper {
@@ -20,8 +20,7 @@ public interface FeedMapper {
 
 	public void saveFeed(t_feed feed);
 
-	@Insert("insert into t_feed_img values(null,#{feed_idx},#{feed_img_url})")
-	public void saveFeedImg(int feed_idx, String feed_img_url);
+	public void saveFeedImg(@Param("feed_idx") int feed_idx, @Param("imgUrls") List<String> imgUrls);
 	
 	@Select("select feed_img_url from t_feed_img where feed_idx=#{feed_idx} order by feed_img_idx asc")
 	public ArrayList<String> selectFeedImgByFeedIdx(int feed_idx);

@@ -1,6 +1,8 @@
 package com.smhrd.web.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +19,11 @@ import com.smhrd.web.service.FeedService;
 import com.smhrd.web.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @RequestMapping("feed")
 @Controller
+@Slf4j
 public class FeedController {
 	
 	@Autowired
@@ -47,26 +51,32 @@ public class FeedController {
 	
 	@PostMapping("/upload")
 	public String uploadFeed(@ModelAttribute t_feed feed,
-							 @RequestParam("file") MultipartFile file,
+	                         @RequestParam("file") List<MultipartFile> files,
 	                         HttpSession session) {
-		
-	    	// 세션에서 사용자 정보 꺼내기
-	        t_member member = (t_member) session.getAttribute("member");
-	        String mb_id = member.getMb_id();
-	        
-	        // 피드에 정보 등록하기
-	        feed.setMb_id(mb_id);
-	        feed.setRes_idx(11010243); // 테스트용 임시 res_idx
-	        feed.setFeed_likes(0);
-	        
-	        try {
-				feedService.saveFeed(feed, file);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	        
-	        return "redirect:/"; // 업로드 성공 후 홈으로 이동
 
+		// 세션에서 멤버 정보 가져오기
+		
+	    t_member member = (t_member) session.getAttribute("member");
+	    
+	    // 멤버 정보가 없다면 로그인 페이지로 리다이렉트
+	    if (member == null) {
+	        return "redirect:/login";
+	    }
+
+	    String mb_id = member.getMb_id();
+
+	    feed.setMb_id(mb_id);
+	    feed.setRes_idx(11010243); // 임시값
+	    feed.setFeed_likes(0);
+
+	    try {
+	        feedService.saveFeed(feed, files);
+	    } catch (IOException e) {
+	    	log.error("파일 업로드 중 오류 발생", e); 
+	    }
+
+	    return "redirect:/";
 	}
+
 	
 }

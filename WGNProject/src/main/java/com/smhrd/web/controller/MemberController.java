@@ -69,7 +69,7 @@ public class MemberController {
 	@PostMapping("/loginMember")
 	public String login(t_member mem, HttpSession session, Model model) {
 	    t_member member = memberService.login(mem);
-	    ProfileDTO profile = profileService.showMyPage(mem.getMb_id());
+	    ProfileDTO profile = profileService.getProfileInfo(mem.getMb_id());
 	    
 	    if (member != null) {
 	        session.setAttribute("member", member);  // 멤버 정보 세션에 저장

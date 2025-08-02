@@ -17,7 +17,7 @@
   color: #171513;              /* hover 시 강조 */
 }
 
-/* 게시글 업로드 버튼*/
+/* 게시글 업로드 버튼 */
 .submit-btn {
   height: 30px;
   background-color: #171513;
@@ -29,6 +29,15 @@
   font-weight: bold;
   cursor: pointer;
   white-space: nowrap;
+}
+
+/* 게시글 업로드 버튼 비활성화 */
+.submit-btn:disabled {
+  background-color: #cccccc; /* 회색 */
+  color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;      
+  transition: background-color 0.3s ease;
 }
 
 /* 파일 업로드*/

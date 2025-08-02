@@ -44,11 +44,11 @@ public class ProfileController {
         t_member logined = (t_member) session.getAttribute("member");
         
         // 프로필 정보 저장
-        ProfileDTO profile = profileService.showMyPage(logined.getMb_id());
+        ProfileDTO profile = profileService.getProfileInfo(logined.getMb_id());
         model.addAttribute("profile", profile);
         
         // 사용자가 작성한 피드 리스트 저장
-        List<t_feed> feeds = feedService.showFeedByMemId(logined.getMb_id());
+        List<t_feed> feeds = feedService.getFeedByMemId(logined.getMb_id());
         
         // 사용자의 피드 리스트를 넣으면 각 피드 별로 이미지 리스트가 포함된 DTO를 생성해주는 메서드
         List<FeedWithImgDTO> feedDTOList = feedService.getImgUrls(feeds);
@@ -68,10 +68,7 @@ public class ProfileController {
 			return "member/login";
 		}
 		
-    	// 세션에서 로그인한 사용자 정보 가져오기
-        t_member logined = (t_member) session.getAttribute("member");
-		
-        ProfileDTO profile = profileService.showOtherMemPage(mb_id);
+        ProfileDTO profile = profileService.getProfileInfo(mb_id);
         return "myPage/{mb_id}";
 	}
 	
