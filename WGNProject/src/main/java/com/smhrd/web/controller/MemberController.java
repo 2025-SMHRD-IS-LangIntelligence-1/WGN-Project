@@ -14,6 +14,7 @@ import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.MemberService;
 import com.smhrd.web.service.ProfileService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/member")
@@ -33,13 +34,21 @@ public class MemberController {
 	
 	// 멤버 정보를 DB에 저장
 	@PostMapping("/joinMember")
-	public String join(t_member mem, @RequestParam("mb_pw_check") String pwCheck) {
+	public String join(t_member mem, @RequestParam("mb_pw_check") String pwCheck, HttpServletRequest request) {
+		
+		// 기존 세션 파괴
+		request.getSession().invalidate();
+		
+		// 회원가입
 		boolean joinCheck = memberService.join(mem, pwCheck);
 		
+		// 회원가입 성공 시 새로운 세션 만들어서 회원 정보 저장
 		if (joinCheck) {
-			return "redirect:/";
-		}
-		return "member/join";
+	        HttpSession newSession = request.getSession(true);
+	        newSession.setAttribute("member", mem); // 또는 가입 결과를 다시 조회해서 최신 정보 저장
+	    }
+		
+		return "redirect:/";
 		
 	}
 	
