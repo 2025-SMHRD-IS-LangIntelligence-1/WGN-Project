@@ -103,28 +103,6 @@
 					<i class="bi bi-heart"></i>
 				</div>
 
-				<div class="comment">
-					<img
-						src="https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250724_184%2F1753329591483vtYsm_JPEG%2F%25C1%25A6%25B8%25F1%25C0%25BB-%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4_-001.jpg"
-						class="comment-avatar">
-					<div class="comment-body">
-						<strong>user7</strong>
-						<p>와 라멘 진짜 맛있어보인다!</p>
-					</div>
-					<i class="bi bi-heart"></i>
-				</div>
-
-				<div class="comment">
-					<img
-						src="https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250724_184%2F1753329591483vtYsm_JPEG%2F%25C1%25A6%25B8%25F1%25C0%25BB-%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4_-001.jpg"
-						class="comment-avatar">
-					<div class="comment-body">
-						<strong>user11</strong>
-						<p>고기보소</p>
-					</div>
-					<i class="bi bi-heart"></i>
-				</div>
-
 			</div>
 
 		</div>
