@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.smhrd.web.dto.FeedWithImgDTO;
+import com.smhrd.web.dto.RestaurantDTO;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.CloudinaryService;
 import com.smhrd.web.service.FeedService;
 import com.smhrd.web.service.MemberService;
+import com.smhrd.web.service.RestaurantService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -32,11 +36,26 @@ public class FeedController {
 	CloudinaryService cloudinaryService;
 	@Autowired
 	MemberService memberService;
+	@Autowired
+	RestaurantService restaurantService;
 
     FeedController(CloudinaryService cloudinaryService) {
         this.cloudinaryService = cloudinaryService;
     }
 	
+    @GetMapping
+    public String feedDetail(@RequestParam("feed_idx") int feedIdx, Model model) {
+        // feedIdx를 이용해 DB에서 피드 상세 데이터 조회
+        FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feedIdx);
+        // 음식점 정보 가져오기
+        int resIdx = feed.getRes_idx();
+        RestaurantDTO resInfo = restaurantService.getByResIdx(resIdx);
+        
+        model.addAttribute("feed", feed);
+        model.addAttribute("resInfo", resInfo);
+        return "feed/feed";
+    }
+    
 	@GetMapping("/addFeed")
 	public String goAddFeed(HttpSession session) {
 		
@@ -52,6 +71,7 @@ public class FeedController {
 	@PostMapping("/upload")
 	public String uploadFeed(@ModelAttribute t_feed feed,
 	                         @RequestParam("files") List<MultipartFile> files,
+	                         @RequestParam("res_idx") Integer res_idx,
 	                         HttpSession session) {
 
 		// 세션에서 멤버 정보 가져오기
@@ -64,10 +84,9 @@ public class FeedController {
 	    }
 
 	    String mb_id = member.getMb_id();
-
+	    
 	    feed.setMb_id(mb_id);
-	    feed.setRes_idx(11010243); // 임시값
-	    feed.setFeed_likes(0);
+	    feed.setRes_idx(res_idx);
 
 	    try {
 	        feedService.saveFeed(feed, files);

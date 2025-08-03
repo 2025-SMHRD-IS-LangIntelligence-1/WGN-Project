@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.smhrd.web.mapper.RestaurantMapper">
+
+	<select id="getByResIdx">
+		SELECT r.res_idx,
+			   r.res_name,
+			   r.res_addr,
+			   ri.res_img_url AS res_thumbnail,
+			   IFNULL(AVG(rv.ratings), 0) AS res_avg_rating
+		FROM t_restaurant r
+		LEFT JOIN t_res_img ri ON r.res_idx = ri.res_idx
+		AND ri.res_img_idx = (
+			SELECT MIN(res_img_idx)
+			FROM t_res_img
+			WHERE res_idx = r.res_idx
+			)
+		LEFT JOIN t_review rv ON rv.res_idx = r.res_idx
+		where r.res_idx = #{res_idx}
+		GROUP BY r.res_idx, r.res_name, r.res_addr, ri.res_img_url
+	</select>
+
+	<insert id="saveFeedImg">
+	    INSERT INTO t_feed_img (feed_img_idx, feed_idx, feed_img_url)
+	    VALUES
+	    <foreach collection="imgUrls" item="url" separator=",">
+	        (NULL, #{feed_idx}, #{url})
+	    </foreach>
+	</insert>
+
+</mapper>

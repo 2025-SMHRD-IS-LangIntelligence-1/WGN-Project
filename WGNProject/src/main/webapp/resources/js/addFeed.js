@@ -1,3 +1,4 @@
+
 let fileValid = false;
 let contentValid = false;
 let resValid = false;
@@ -56,8 +57,7 @@ $('.search_input').on('input', debounce(function () {
         type: 'GET',
         data: { keyword: keyword },
         success: function (resInfoList) {
-			
-			
+				
             $('.search-list').empty(); // 기존 결과 비우기
 
             if (resInfoList.length === 0) {
@@ -92,18 +92,20 @@ $('.search_input').on('input', debounce(function () {
 
 
 // 음식점 리스트 클릭 이벤트
-$(document).on('click', '.res_info', function () {
-    const selectedName = $(this).find('.res_name').text(); // 정확한 텍스트 추출
+$(document).on('click', '.search-res', function () {
+    console.log("search-res 클릭됨"); 
+    const selectedName = $(this).find('.res_name').text();
     const selectedIdx = $(this).data('res-idx');
 
-    $('#feed_content').val(selectedName); // 입력창에 선택한 이름 채우기
-    $('#selectedResIdx').val(selectedIdx); // hidden input에 idx 저장
-    $('.search-list').empty().hide(); // 리스트 감추기
+    $('#feed_content').val(selectedName);
+    $('#selectedResIdx').val(selectedIdx);
+    $('.search-list').empty().hide();
 
-    resValid = true; // 음식점 선택 유효성 true로 설정
-    submitButtonState(); 
+    console.log("선택된 res_idx:", selectedIdx);
+
+    resValid = true;
+    submitButtonState();
 });
-
 
 	
 // 제출 버튼 상태 업데이트
@@ -114,3 +116,5 @@ function submitButtonState() {
         $('.submit-btn').prop('disabled', true);
     }
 }
+
+

@@ -15,11 +15,25 @@ public class RestaurantServiceImpl implements RestaurantService {
 	RestaurantMapper restaurantMapper;
 
 	@Override
-	public List<RestaurantDTO> searchByKeywords(String[] keywords) {
+	public List<RestaurantDTO> searchByMultipleKeyword(String keyword) {
 		
+		if(keyword == null || keyword.trim().isEmpty()) {
+	        return List.of();
+	    }
+
+		String[] keywords = keyword.trim().split("\\s+"); 
+	    
 		List<RestaurantDTO> resInfoList = restaurantMapper.searchByMultipleKeywords(keywords);
 		
 		return resInfoList;
+	}
+
+	@Override
+	public RestaurantDTO getByResIdx(int res_idx) {
+		
+		RestaurantDTO resInfo = restaurantMapper.getByResIdx(res_idx);
+		
+		return resInfo;
 	}
 
 }

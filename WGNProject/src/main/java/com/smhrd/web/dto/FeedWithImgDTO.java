@@ -1,9 +1,7 @@
 package com.smhrd.web.dto;
 
+import java.sql.Timestamp;
 import java.util.List;
-
-import com.smhrd.web.entity.t_feed;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FeedWithImgDTO {
 	
-	 private t_feed feed;
-	 private List<String> imageUrls;
+    private int feed_idx;
+    private String mb_id;
+    private int res_idx;
+    private String feed_content;
+    private int feed_likes;
+    private Timestamp created_at;
+    private String mb_nick;
+    private List<String> imageUrls;
 
 }

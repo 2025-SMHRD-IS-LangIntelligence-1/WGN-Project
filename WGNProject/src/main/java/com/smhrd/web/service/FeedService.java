@@ -11,10 +11,12 @@ import com.smhrd.web.entity.t_feed;
 
 public interface FeedService {
 	
-	ArrayList<t_feed> getFeedByMemId(String mb_id);
+	ArrayList<FeedWithImgDTO> getFeedByMemId(String mb_id);
 
 	public void saveFeed(t_feed feed, List<MultipartFile> files) throws IOException;
 
-	List<FeedWithImgDTO> getImgUrls(List<t_feed> feeds);
+	List<FeedWithImgDTO> getImgUrls(List<FeedWithImgDTO> feeds);
+
+	FeedWithImgDTO getFeedByFeedIdx(int feedIdx);
 	
 }

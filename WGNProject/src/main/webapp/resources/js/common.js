@@ -1,11 +1,3 @@
-
-
-$(document).ready(()=>{
-	$("#top-bar i").on('click', () => {
-		$("#side-bar").toggleClass('active')
-	});
-});
-
 document.addEventListener('DOMContentLoaded', () => {
     const icons = document.querySelectorAll('#top-bar i');
 

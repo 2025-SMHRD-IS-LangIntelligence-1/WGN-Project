@@ -2,9 +2,9 @@
 
 /*body*/
 body {
-  margin:0;
-  background:#fff;
-  font-family:Arial;
+  margin: 0;
+  background: #fff;
+  font-family: Arial;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -14,108 +14,122 @@ body {
 
 /*컨텐츠*/
 .content {
-	padding-top : 60px;
+  padding-top: 60px;
 }
 
 /*모바일 앱 규격*/
 .mobile-container {
-    width: 100%;                    /* 컨테이너의 너비를 부모 요소 기준으로 100%로 설정 */
-    background-color: #ffffff;    /* 흰색 배경 */
-    max-width: 520px;               /* 너비 */
-    min-height: 100vh;              /* 화면 전체 높이 */
-    margin: 0 auto;                 /* 가운데 정렬 */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
-    overflow: hidden;               /* 내부 콘텐츠가 container를 벗어나지 않도록 잘라냄*/
-    display: flex;                  /* Flexbox 레이아웃을 사용하여 내부 요소들을 유연하게 배치 */
-    flex-direction: column;         /* Flexbox의 방향을 수직(column)으로 설정 → 상단부터 하단 순서로 콘텐츠 배치 */
+  width: 100%;                    /* 컨테이너 너비 100% */
+  background-color: #ffffff;      /* 배경 흰색 */
+  max-width: 520px;               /* 최대 너비 */
+  min-height: 100vh;              /* 전체 높이 */
+  margin: 0 auto;                 /* 가운데 정렬 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* 그림자 */
+  overflow: hidden;               /* 넘침 숨김 */
+  display: flex;
+  flex-direction: column;
 }
 
 /* 상단 버튼 정렬용 */
 .add-box-header {
-    padding: 0 25px;                 /* 좌우 여백 추가 */
-    display: flex;
-    justify-content: space-between;   /* 좌우 정렬 */
-    align-items: center;
-    margin-bottom: 15px;              /* 아래로 여백 추가*/
-    margin-top: 15px;                 /* 위로 여백 추가*/
+  padding: 0 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  margin-top: 15px;
 }
+
 /*상단바*/
-/*상단바 규격*/
 .top-bar {
-    height: 60px;                    /* 상단바의 높이 설정 */
-    background: #fff;              /* 배경색 */
-    position: fixed;                 /* 화면에 고정 */
-    top: 0; left: 0; right: 0;       /* 상단 전체에 걸치도록 위치 설정 */
-    border-bottom: 1px solid #ddd; /* 하단에 연한 회색 선 추가 (구분용) */
-    display: flex;                   /* 내부 요소를 가로 방향 정렬 */
-    align-items: center;             /* 세로 기준 가운데 정렬 */
-    justify-content: space-between;  /* 양 끝에 요소 배치 (좌우 정렬) */
-    padding: 0 16px;                 /* 좌우 여백 16px */
-    z-index: 1000;                   /* 다른 요소들 위에 올라오도록 설정 (겹침 방지) */
+  height: 60px;
+  background: #fff;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 1000;
 }
 
 /* 왼쪽 로고 */
 .top-bar .logo {
-    font-weight: bold; 
-    font-size: 25px;
-    margin-left: 15px;
+  font-weight: bold;
+  font-size: 25px;
+  margin-left: 15px;
 }
 
 /* 오른쪽 아이콘 */
 .top-bar i {
-    cursor: pointer;
-    transition: transform 0.2s, color 0.2s;
-    margin-right: 15px;
-    color: #000; /* 기본 색상 */
-    font-size: 23px;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+  margin-right: 15px;
+  color: #000;
+  font-size: 23px;
 }
 
 /* hover */
 .top-bar i:hover {
-    transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 /* 클릭(활성화)된 상태 */
 .top-bar i.active {
-    color: #FFD84D;
+  color: #FFD84D;
 }
 
 /*하단바*/
 .navbar-bottom {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: #fff; border-top: 1px solid #ddd;
-  height: 80px; display: flex; justify-content: space-around; align-items: center;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  height: 80px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
-.navbar-bottom a { color: #000; text-decoration: none; }
-.navbar-bottom i { font-size: 1.5rem; transition: transform .2s; }
-.navbar-bottom a:hover i { transform: scale(1.2); color: #FFD84D; }
 
+.navbar-bottom a {
+  color: #000;
+  text-decoration: none;
+}
+
+.navbar-bottom i {
+  font-size: 1.5rem;
+  transition: transform 0.2s;
+}
+
+.navbar-bottom a:hover i {
+  transform: scale(1.2);
+  color: #FFD84D;
+}
 
 /* 사이드 네비바 */
-#side-bar {
+.side-bar {
   width: 250px;
   height: 100vh;
-  background-color: Black;
+  background-color: black;
   color: white;
   position: fixed;
   top: 0;
-  right: -250px; /* 왼쪽 바깥으로 숨김 */
-  transition: left 0.3s ease;
+  right: -250px; /* 오른쪽 바깥으로 숨김 */
+  transition: right 0.3s ease; /* 수정: left → right */
   padding-top: 60px;
   z-index: 1000;
 }
 
-/* 네비가 보일 때 적용할 클래스 */
-#side-bar.active {
+.side-bar.active {
   right: 0;
 }
 
-#side-bar a {
-  color: white;            /* 글자색 흰색 */
-  text-decoration: none;   /* 밑줄 제거 */
+.side-bar a {
+  color: white;
+  text-decoration: none;
 }
 
-#side-bar a:hover {
-  color: #ccc;             /* 마우스 올렸을 때 색 바꾸기 (선택사항) */
+.side-bar a:hover {
+  color: #ccc;
 }
-

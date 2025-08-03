@@ -21,26 +21,20 @@ public class FeedServiceImpl implements FeedService{
 	CloudinaryService cloudinaryService;
 	
 	@Override
-	public ArrayList<t_feed> getFeedByMemId(String mb_id) {
-		ArrayList<t_feed> feeds = feedMapper.selectFeedByMemId(mb_id);
+	public ArrayList<FeedWithImgDTO> getFeedByMemId(String mb_id) {
+		ArrayList<FeedWithImgDTO> feeds = feedMapper.selectFeedByMemId(mb_id);	    
 		return feeds;
 	}
 
 	@Override
-	public List<FeedWithImgDTO> getImgUrls(List<t_feed> feeds) {
-		
-		List<FeedWithImgDTO> result = new ArrayList<>();
-		
-		 for (t_feed feed : feeds) {
-		        List<String> imgUrls = feedMapper.selectFeedImgByFeedIdx(feed.getFeed_idx());
-		        FeedWithImgDTO dto = new FeedWithImgDTO();
-		        dto.setFeed(feed);
-		        dto.setImageUrls(imgUrls);
-		        result.add(dto);
-		 }
-
-		return result;
+	public List<FeedWithImgDTO> getImgUrls(List<FeedWithImgDTO> feeds) {
+	    for (FeedWithImgDTO feed : feeds) {
+	        List<String> imgUrls = feedMapper.selectFeedImgByFeedIdx(feed.getFeed_idx());
+	        feed.setImageUrls(imgUrls);
+	    }
+	    return feeds;  // 수정된 원본 리스트 그대로 반환
 	}
+
 
 	@Override
 	public void saveFeed(t_feed feed, List<MultipartFile> files) throws IOException {
@@ -49,6 +43,14 @@ public class FeedServiceImpl implements FeedService{
 		List<String> imgUrls =  cloudinaryService.uploadFiles(files); // 클라우디너리에 이미지 등록하고 url 받아오기
 		feedMapper.saveFeedImg(feed_idx, imgUrls);
 		
+	}
+
+	@Override
+	public FeedWithImgDTO getFeedByFeedIdx(int feedIdx) {
+		 FeedWithImgDTO feed = feedMapper.selectFeedByIdx(feedIdx);
+		 List<String> feedImg = feedMapper.selectFeedImgByFeedIdx(feedIdx);
+		 feed.setImageUrls(feedImg);
+		return feed;
 	}
 
 }

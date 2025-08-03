@@ -24,6 +24,12 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+
 		<!-- 클라우디너리 -->
 		<dependency>
 		    <groupId>com.cloudinary</groupId>

@@ -17,6 +17,20 @@
 	        (NULL, #{feed_idx}, #{url})
 	    </foreach>
 	</insert>
+	
+	<select id="selectFeedByMemId">
+		SELECT f.feed_idx, f.mb_id, f.res_idx, f.feed_content, f.feed_likes, f.created_at, m.mb_nick
+		FROM t_feed f
+		left JOIN t_member m on f.mb_id=m.mb_id
+		where f.mb_id=#{mb_id};
+	</select>
+	
+	<select id="selectFeedByIdx">
+		SELECT f.feed_idx, f.mb_id, f.res_idx, f.feed_content, f.feed_likes, f.created_at, m.mb_nick
+		FROM t_feed f
+		left JOIN t_member m on f.mb_id=m.mb_id
+		where feed_idx=#{feed_idx};
+	</select>
 
 </mapper>
 

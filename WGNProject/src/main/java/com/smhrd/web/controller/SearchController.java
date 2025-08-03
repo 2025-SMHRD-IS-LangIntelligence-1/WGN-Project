@@ -24,23 +24,14 @@ public class SearchController {
 	
 	@GetMapping
 	public String goSearch() {
-		return "search";
+		return "/search/search";
 	}
 
 	@GetMapping("/restaurant")
 	@ResponseBody
-	public List<RestaurantDTO> searchRestaurants(@RequestParam("keyword") String keyword) {
-	    log.info("searchRestaurants() 호출 - keyword: {}", keyword);
-	    
-	    if(keyword == null || keyword.trim().isEmpty()) {
-	        log.warn("검색 키워드가 비어있음");
-	        return List.of();
-	    }
+	public List<RestaurantDTO> searchRestaurants(@RequestParam("keyword") String keyword) {	    
 
-		String[] keywords = keyword.trim().split("\\s+"); 
-	    log.debug("분리된 키워드 개수: {}", keywords.length);
-
-	    List<RestaurantDTO> resInfoList = restaurantService.searchByKeywords(keywords);
+	    List<RestaurantDTO> resInfoList = restaurantService.searchByMultipleKeyword(keyword);
 	    if(resInfoList == null) {
 	        log.warn("검색 결과가 null");
 	    } else {

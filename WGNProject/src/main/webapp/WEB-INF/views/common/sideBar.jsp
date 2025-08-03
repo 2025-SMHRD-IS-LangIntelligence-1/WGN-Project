@@ -12,7 +12,7 @@
 </head>
 <body>
 
-	<aside id="side-bar">
+	<aside class="side-bar">
 		<section class="profile-top">
 			<c:choose>
 			    <c:when test="${not empty profile}">

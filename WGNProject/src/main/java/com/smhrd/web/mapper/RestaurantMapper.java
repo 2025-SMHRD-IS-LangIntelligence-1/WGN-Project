@@ -15,4 +15,6 @@ public interface RestaurantMapper {
 	@SelectProvider(type = RestaurantSqlBuilder.class, method = "buildSearchQuery")
 	List<RestaurantDTO> searchByMultipleKeywords(@Param("keywords") String[] keywords);
 
+	RestaurantDTO getByResIdx(int res_idx);
+
 }

@@ -9,17 +9,17 @@ public class RestaurantSqlBuilder {
 
 	    String[] keywords = (String[]) params.get("keywords");
 
-	    StringBuilder sql = new StringBuilder("SELECT r.res_idx,\r\n"
-	            + "       r.res_name,\r\n"
-	            + "       r.res_addr,\r\n"
-	            + "       ri.res_img_url AS res_thumbnail,\r\n"
-	            + "       IFNULL(AVG(rv.ratings), 0) AS res_avg_rating\r\n"
-	            + "FROM t_restaurant r\r\n"
-	            + "LEFT JOIN t_res_img ri ON r.res_idx = ri.res_idx\r\n"
-	            + "    AND ri.res_img_idx = (\r\n"
-	            + "        SELECT MIN(res_img_idx) FROM t_res_img WHERE res_idx = r.res_idx\r\n"
-	            + "    )\r\n"
-	            + "LEFT JOIN t_review rv ON rv.res_idx = r.res_idx\r\n");
+	    StringBuilder sql = new StringBuilder("SELECT r.res_idx,"
+	            + "r.res_name, "
+	            + "r.res_addr, "
+	            + "ri.res_img_url AS res_thumbnail, "
+	            + "IFNULL(AVG(rv.ratings), 0) AS res_avg_rating "
+	            + "FROM t_restaurant r "
+	            + "LEFT JOIN t_res_img ri ON r.res_idx = ri.res_idx "
+	            + "AND ri.res_img_idx = ("
+	            + "SELECT MIN(res_img_idx) FROM t_res_img WHERE res_idx = r.res_idx"
+	            + ") "
+	            + "LEFT JOIN t_review rv ON rv.res_idx = r.res_idx ");
 
 	    // 키워드가 하나라도 있으면 WHERE 절 시작
 	    if (keywords != null && keywords.length > 0) {
@@ -36,7 +36,7 @@ public class RestaurantSqlBuilder {
 	    }
 
 	    // 마지막 GROUP BY는 항상 붙임
-	    sql.append("GROUP BY r.res_idx, r.res_name, r.res_addr, res_thumbnail, ri.res_img_url");
+	    sql.append("GROUP BY r.res_idx, r.res_name, r.res_addr, ri.res_img_url");
 
 	    return sql.toString();
 	}

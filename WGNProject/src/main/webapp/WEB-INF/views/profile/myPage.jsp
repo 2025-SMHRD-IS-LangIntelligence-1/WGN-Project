@@ -65,9 +65,9 @@
 		<div id="posts-section">
 		  <div class="container-fluid grid-feed px-0">
 		    <div class="row g-1">
-		      <c:forEach var="dto" items="${feedDTOList}"> 
-		        <div class="col-4" onclick="window.location='/feed/feed?feed_idx=${feed.feed_idx}'" style="cursor:pointer;">
-					<img src="${dto.imageUrls[0]}" alt="대표 이미지" style="width:100%; height:auto;" />
+		      <c:forEach var="feed" items="${feedDTOList}"> 
+		        <div class="col-4" onclick="window.location='${pageContext.request.contextPath}/feed?feed_idx=${feed.feed_idx}'" style="cursor:pointer;">
+					<img src="${feed.imageUrls[0]}" alt="대표 이미지" style="width:100%; height:auto;" />
 				</div>
 		      </c:forEach>
 		    </div>
