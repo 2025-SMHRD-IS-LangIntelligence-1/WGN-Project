@@ -54,15 +54,23 @@
 	                <div class="section_divider"></div>
 	                <!-- 검색창 -->
 	                <input type="text" class="search_input" placeholder="음식점을 입력하세요">
-	
+					<input type="hidden" name="res_idx" id="selectedResIdx">
 					<!-- 검색 결과 리스트 -->
-					<div class="search-list"></div>
+					<div class="search-list">
+						
+					</div>
 	            </div>
             </form>
         </div>
     </div>
 
     <%@ include file="/WEB-INF/views/common/bottomBar.jsp"%> 
+    
+    <script>
+    	const contextPath = '${pageContext.request.contextPath}';
+	</script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/addFeed.js"></script>
 </body>
 
 </html>

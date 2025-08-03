@@ -51,7 +51,7 @@ public class FeedController {
 	
 	@PostMapping("/upload")
 	public String uploadFeed(@ModelAttribute t_feed feed,
-	                         @RequestParam("file") List<MultipartFile> files,
+	                         @RequestParam("files") List<MultipartFile> files,
 	                         HttpSession session) {
 
 		// 세션에서 멤버 정보 가져오기

@@ -6,15 +6,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// /resources/** 요청을 webapp/resources/ 경로에서 찾도록 설정
-		registry.addResourceHandler("/resources/**")
-		.addResourceLocations("file:src/main/webapp/resources/");
-	}
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");  // ★ webapp/resources 경로 매핑
+    }
 }
-	
-

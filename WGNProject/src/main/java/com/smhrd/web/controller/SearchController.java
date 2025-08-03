@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.smhrd.web.dto.RestaurantDTO;
 import com.smhrd.web.service.RestaurantService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 @RequestMapping("/search")
 public class SearchController {
-
+	
 	@Autowired
     private RestaurantService restaurantService;
 	
@@ -24,11 +27,25 @@ public class SearchController {
 		return "search";
 	}
 
-	@GetMapping("/retaurant")
+	@GetMapping("/restaurant")
 	@ResponseBody
 	public List<RestaurantDTO> searchRestaurants(@RequestParam("keyword") String keyword) {
-	    String[] keywords = keyword.split("\\s+"); 
+	    log.info("searchRestaurants() 호출 - keyword: {}", keyword);
+	    
+	    if(keyword == null || keyword.trim().isEmpty()) {
+	        log.warn("검색 키워드가 비어있음");
+	        return List.of();
+	    }
+
+		String[] keywords = keyword.trim().split("\\s+"); 
+	    log.debug("분리된 키워드 개수: {}", keywords.length);
+
 	    List<RestaurantDTO> resInfoList = restaurantService.searchByKeywords(keywords);
+	    if(resInfoList == null) {
+	        log.warn("검색 결과가 null");
+	    } else {
+	        log.info("검색 결과 개수: {}", resInfoList.size());
+	    }
 	    
 	    return resInfoList;
 	}

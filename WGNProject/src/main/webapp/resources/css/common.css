@@ -70,7 +70,7 @@ body {
     font-size: 23px;
 }
 
-/* hover 효과 제거 */
+/* hover */
 .top-bar i:hover {
     transform: scale(1.2);
 }

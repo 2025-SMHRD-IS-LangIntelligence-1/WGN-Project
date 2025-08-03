@@ -143,11 +143,10 @@
             </div>
 
         </div>
-        <!-- 이 줄빼면 적용 안됨 -->
         <%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
     </div>
 
-<!-- Bootstrap JS (Carousel 동작 필수) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Bootstrap JS (Carousel 동작 필수) -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
