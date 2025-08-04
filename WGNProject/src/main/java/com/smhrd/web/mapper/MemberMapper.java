@@ -38,4 +38,7 @@ public interface MemberMapper {
 	@Delete("delete from t_follow where follower_id = #{follower_id} and following_id = #{following_id}")
 	void unfollowMem(String follower_id, String following_id);
 
+	@Select("select COUNT(*) from t_follow where follower_id = #{mbId} and following_id = #{feedOwnerId}")
+	int isFollowing(String mbId, String feedOwnerId);
+
 }

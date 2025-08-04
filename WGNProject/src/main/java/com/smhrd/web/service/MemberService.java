@@ -21,4 +21,6 @@ public interface MemberService {
 
 	void unfollowMem(String follower_id, String following_id);
 
+	boolean isFollowing(String mbId, String feedOwnerId);
+
 }
