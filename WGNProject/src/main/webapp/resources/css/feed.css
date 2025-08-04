@@ -49,6 +49,21 @@
 	font-weight: bold; /* 글자 두껍게 */
 }
 
+.my-follow-btn {
+	background: #FFD84D; /* 노란색 배경 */
+	border: none; /* 테두리 없앰 */
+	padding: 5px 12px; /* 상하 5px, 좌우 12px 여백 */
+	border-radius: 8px; /* 둥근 모서리 반경 8px */
+	font-size: 14px; /* 글자 크기 14px */
+	font-weight: bold; /* 글자 두껍게 */
+}
+
+.my-follow-btn.following {
+    color: gray !important;
+    background-color: #f0f0f0 !important; /* 배경색도 바꿔보기 */
+    border-color: gray !important;         /* 테두리 색 바꾸기 */
+}
+
 /* 게시물 이미지 영역 */
 .post-image img {
 	width: 100%; /* 부모 요소 너비에 맞춤 */

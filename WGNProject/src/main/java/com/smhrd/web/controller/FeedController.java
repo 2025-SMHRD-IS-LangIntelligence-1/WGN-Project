@@ -63,11 +63,13 @@ public class FeedController {
 	@GetMapping("/addFeed")
 	public String goAddFeed(HttpSession session) {
 		
-		boolean loginCheck = memberService.loginCheck(session);
-		
+		// 로그인 되어 있는지 체크
+				boolean loginCheck = memberService.loginCheck(session);
+				
+		// 로그인이 되어 있지 않으면 로그인 페이지로
 		if (!loginCheck) {
 			return "member/login";
-		}
+		}	
 		
 		return "feed/addFeed";
 	}
@@ -78,14 +80,16 @@ public class FeedController {
 	                         @RequestParam("res_idx") Integer res_idx,
 	                         HttpSession session) {
 
-		// 세션에서 멤버 정보 가져오기
+		// 로그인 되어 있는지 체크
+		boolean loginCheck = memberService.loginCheck(session);
 		
-	    t_member member = (t_member) session.getAttribute("member");
-	    
-	    // 멤버 정보가 없다면 로그인 페이지로 리다이렉트
-	    if (member == null) {
-	        return "redirect:/login";
-	    }
+		// 로그인이 되어 있지 않으면 로그인 페이지로
+		if (!loginCheck) {
+			return "member/login";
+		}
+		
+		// 세션에서 멤버 정보 가져오기
+		t_member member = (t_member) session.getAttribute("member");
 
 	    String mb_id = member.getMb_id();
 	    

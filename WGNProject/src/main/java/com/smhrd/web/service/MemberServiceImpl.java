@@ -74,4 +74,10 @@ public class MemberServiceImpl implements MemberService {
 		return true;
 	}
 
+	@Override
+	public void followMem(String follower_id, String following_id) {
+		memberMapper.followMem(follower_id, following_id);
+		
+	}
+
 }

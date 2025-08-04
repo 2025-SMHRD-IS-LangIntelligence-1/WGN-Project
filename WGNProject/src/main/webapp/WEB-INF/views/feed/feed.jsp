@@ -35,7 +35,11 @@
 				</div>
 				<c:choose>
 					<c:when test="${feed.mb_id ne sessionScope.member.mb_id}">
-						<button class="follow-btn">팔로우</button>
+						<form action="${pageContext.request.contextPath}/member/follow" method="post">
+					        <input type="hidden" name="following_id" value="${feed.mb_id}" />
+					        <button class="follow-btn my-follow-btn" id="follow-btn" type="submit"
+					        data-following-id="${feed.mb_id}" data-followed="false">팔로우</button>
+					    </form>
 					</c:when>
 					<c:when test="${feed.mb_id eq sessionScope.member.mb_id}">
 						<div class="btn-wrapper">
@@ -85,16 +89,16 @@
 				</div>
 
 				<!-- 댓글 입력 -->
-				<div class="comment-input">
-					<form action="${pageContext.request.contextPath}/feed/comment"
-						method="post">
-						<input type="text" name="cmt_content" placeholder="여기에 입력하세요">
+				<form action="${pageContext.request.contextPath}/feed/comment"
+					method="post">
+					<div class="comment-input">
 						<input type="hidden" name="feed_idx" value="${feed.feed_idx}" />
+						<input type="text" name="cmt_content" placeholder="여기에 입력하세요">
 						<button type="submit">
 							<i class="bi bi-send"></i>
 						</button>
-					</form>
-				</div>
+					</div>
+				</form>
 
 				<!-- 댓글 목록 -->
 				<div class="comments">
@@ -119,10 +123,15 @@
 			</div>
 			<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 		</div>
+		</div>
+		
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>contextPath = "${pageContext.request.contextPath}"</script>
 		<script
 			src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
 </body>
 </html>

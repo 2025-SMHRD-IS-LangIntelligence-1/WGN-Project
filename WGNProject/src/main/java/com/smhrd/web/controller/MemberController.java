@@ -98,4 +98,28 @@ public class MemberController {
 		return "redirect:/";	
 	}
 	
+	// 팔로우 기능
+	@PostMapping("/follow")
+	@ResponseBody
+	public String follow(HttpSession session, @RequestParam("following_id") String following_id) {
+		
+		// 로그인 되어있는지 체크
+		boolean loginCheck = memberService.loginCheck(session);
+		
+		// 로그인 되어 있지 않다면 로그인 페이지로
+		if (!loginCheck) {
+			return "notLoggedIn";
+		}
+		
+	    t_member member = (t_member) session.getAttribute("member");
+		
+	    // 팔로우하는 사람 (주체)
+		String follower_id = member.getMb_id();
+		
+		// 팔로우하는 사람 (주체) / 팔로우받는 사람 (객체) 저장
+		memberService.followMem(follower_id, following_id);
+		
+		return "followSuccess";
+	}
+	
 }
