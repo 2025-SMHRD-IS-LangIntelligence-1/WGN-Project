@@ -30,6 +30,24 @@ public class ProfileController {
 	@Autowired
 	MemberService memberService;
 	
+    @GetMapping("/myPage")
+    public String myPage(HttpSession session, Model model) {
+        
+    	// 로그인 체크
+    	boolean loginCheck = memberService.loginCheck(session);
+		
+		if (!loginCheck) {
+			return "redirect:/member/login";
+		}
+    	
+		// 세션에서 로그인 정보 가져오기
+    	t_member logined = (t_member) session.getAttribute("member");
+    	String mb_id = logined.getMb_id();
+
+        // 내 아이디로 프로필 페이지 보여주기
+        return "redirect:/profile/" + mb_id;
+    }
+    
     @GetMapping("/{mb_id}")
     public String showMyPage(@PathVariable String mb_id, HttpSession session, Model model) {
     	
@@ -37,16 +55,23 @@ public class ProfileController {
     	boolean loginCheck = memberService.loginCheck(session);
 		
 		if (!loginCheck) {
-			return "member/login";
+			return "redirect:/member/login";
 		}
 		
 		// 세션에서 로그인한 사용자 정보 가져오기
         t_member logined = (t_member) session.getAttribute("member");
+     	String myId = logined.getMb_id();
         
         // 마이페이지 여부 확인
         boolean isMyPage = logined.getMb_id().equals(mb_id);
         model.addAttribute("isMypage", isMyPage);
         
+        // 해당 사용자가 마이페이지 주인을 팔로우하고 있는지 여부를 체크하는 메서드
+ 		boolean isFollowing = memberService.isFollowing(myId, mb_id);
+ 		
+ 		model.addAttribute("isFollowing", isFollowing);
+ 		model.addAttribute("mb_id", mb_id);
+     	
         // 프로필 정보 저장
         ProfileDTO profile = profileService.getProfileInfo(mb_id);
         model.addAttribute("profile", profile);

@@ -24,7 +24,7 @@
 			<div class="post-header">
 				<div class="post-user">
 					<img
-						src="https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250724_184%2F1753329591483vtYsm_JPEG%2F%25C1%25A6%25B8%25F1%25C0%25BB-%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4_-001.jpg">
+						src="${profile.mb_img}">
 					<div class="post-user-info">
 						<span><b>${feed.mb_nick}</b></span> <span
 							style="font-size: 12px; color: #888;">광주 ·
@@ -115,19 +115,17 @@
 					<div class="comments">
 						<c:forEach var="comment" items="${comments}">
 							<div class="comment">
-								<img src="" class="comment-avatar">
+								<img src="${comment.mb_img}" class="comment-avatar">
 								<div class="comment-body">
 									<!-- 작성자 닉네임 -->
-									<strong>${comment.mb_nick}</strong>
+									<strong>${comment.comment.mb_nick}</strong>
 									<!-- 댓글 내용 -->
-									<p>${comment.cmt_content}</p>
+									<p>${comment.comment.cmt_content}</p>
 								</div>
 								<i class="bi bi-heart"></i>
 							</div>
 						</c:forEach>
 					</div>
-
-
 				</div>
 
 			</div>
