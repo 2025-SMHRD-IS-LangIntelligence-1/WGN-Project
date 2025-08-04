@@ -3,11 +3,13 @@ package com.smhrd.web.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.smhrd.web.dto.FeedWithImgDTO;
+import com.smhrd.web.entity.t_comment;
 import com.smhrd.web.entity.t_feed;
 
 @Mapper
@@ -23,5 +25,8 @@ public interface FeedMapper {
 	public ArrayList<String> selectFeedImgByFeedIdx(int feed_idx);
 	
 	FeedWithImgDTO selectFeedByIdx(int feed_idx);
+
+	@Insert("insert into t_comment values(null, #{feed_idx}, #{mb_id}, #{mb_nick}, #{cmt_content}, null)")
+	public void saveComment(t_comment c);
 	
 }

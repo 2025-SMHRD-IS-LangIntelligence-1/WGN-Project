@@ -18,14 +18,19 @@ public class t_comment {
  // 피드 식별자 
  private Integer feed_idx;
 
+ // 댓글 작성자 id
+ private String mb_id;
+ 
+ // 댓글 작성자 닉네임
+ private String mb_nick;
+ 
  // 댓글 내용 
  private String cmt_content;
 
  // 댓글 작성일자 
  private Timestamp created_at;
 
- // 댓글 작성자 
- private String mb_id;
+
 
 
 }

@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.FeedWithImgDTO;
+import com.smhrd.web.entity.t_comment;
 import com.smhrd.web.entity.t_feed;
+import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.FeedMapper;
 
 @Service
@@ -51,6 +53,22 @@ public class FeedServiceImpl implements FeedService{
 		 List<String> feedImg = feedMapper.selectFeedImgByFeedIdx(feedIdx);
 		 feed.setImageUrls(feedImg);
 		return feed;
+	}
+
+	@Override
+	public void saveComment(int feed_idx, String feed_content, t_member logined) {
+		
+		t_comment comment = new t_comment();
+		
+		String mb_id = logined.getMb_id();
+		String mb_nick = logined.getMb_nick();
+		
+		comment.setFeed_idx(feed_idx);
+		comment.setMb_id(mb_id);
+		comment.setMb_nick(mb_nick);
+		comment.setCmt_content(feed_content);
+		
+		feedMapper.saveComment(comment);
 	}
 
 }

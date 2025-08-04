@@ -83,10 +83,13 @@
 
 			<!-- 댓글 입력 -->
 			<div class="comment-input">
-				<input type="text" placeholder="여기에 입력하세요">
-				<button>
-					<i class="bi bi-send"></i>
-				</button>
+				<form action="${pageContext.request.contextPath}/feed/comment" method="post">
+					<input type="text" name="cmt_content" placeholder="여기에 입력하세요">
+					<input type="hidden" name="feed_idx" value="${feed.feed_idx}" />
+					<button type="submit">
+						<i class="bi bi-send"></i>
+					</button>
+				</form>
 			</div>
 
 			<!-- 댓글 목록 -->

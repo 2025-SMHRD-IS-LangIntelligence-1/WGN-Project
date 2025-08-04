@@ -22,6 +22,7 @@ import com.smhrd.web.service.FeedService;
 import com.smhrd.web.service.MemberService;
 import com.smhrd.web.service.RestaurantService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -95,6 +96,27 @@ public class FeedController {
 	    }
 
 	    return "redirect:/";
+	}
+	
+	@PostMapping("/comment")
+	public String saveComment(@RequestParam("feed_idx") int feed_idx,
+	                          @RequestParam("cmt_content") String cmt_content,
+	                          HttpSession session,
+	                          HttpServletRequest request) {
+
+	    // 여기서 세션에서 로그인 유저 꺼냄
+	    t_member logined = (t_member) session.getAttribute("member");
+
+	    if (logined == null) {
+	        return "redirect:/member/login";  // 로그인 안 된 경우
+	    }
+
+	    // 서비스에 필요한 값만 넘김
+	    feedService.saveComment(feed_idx, cmt_content, logined);
+
+	    log.info("댓글 저장 완료");
+	    
+	    return "redirect:" + request.getHeader("Referer");
 	}
 
 	
