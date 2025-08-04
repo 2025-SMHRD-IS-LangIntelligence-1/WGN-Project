@@ -24,43 +24,79 @@
 				<input type="text" class="form-control" placeholder="검색어 입력">
 			</div>
 	
-		<div class="profile-tabs">
-			  <!-- 게시글 탭 (기본 선택된 탭) -->
-			  <a href="#" class="tab active" id="tab-posts">
-			    	<span>게시글</span>
-			  </a>
-		
-			  <!-- 지도 탭 -->
-			  <a href="#" class="tab" id="tab-map">
-			    	<span>지도</span>
-			  </a>
+			<div class="search-tabs">
+				<!-- 음식점 탭 (기본 선택된 탭) -->
+				<a href="#" class="tab active" id="tab-res">
+				  	<i class="bi bi-search"></i>
+				    <span>음식점</span>
+				</a>
 			
-			  <!-- 찜한 가게 탭 (새로 추가됨) -->
-			  <a href="#" class="tab" id="tab-favorites">
-			    	<span>사용자</span>
-			  </a>
-		</div>
-	
-			<!-- 검색 결과 그리드 -->
-			<div class="container-fluid result-grid px-0">
-				<div class="row g-1">
-					<div class="col-4">
-						<img src="https://via.placeholder.com/200">
-					</div>
-					<div class="col-4">
-						<img src="https://via.placeholder.com/200">
-					</div>
-					<div class="col-4">
-						<img src="https://via.placeholder.com/200">
-					</div>
-					<div class="col-4">
-						<img src="https://via.placeholder.com/200">
-					</div>
-				</div>
+				<!-- 게시글 탭 -->
+				<a href="#" class="tab" id="tab-feed">
+					<i class="bi bi-grid-3x3-gap"></i>
+				    <span>피드</span>
+				</a>
+				
+				<!-- 사용자 탭 (새로 추가됨) -->
+				<a href="#" class="tab" id="tab-member">
+					<i class="bi bi-person"></i>
+				    <span>사용자</span>
+				</a>
 			</div>
+			
+			<!-- 음식점 탭 : 리스트 형식 + 가로 정렬 + 세로 중앙 정렬 -->
+			<div id="res-section" class="res-section-box">
+			<div class="list-group-item d-flex align-items-center">
+			    <img src="https://via.placeholder.com/300x200" alt="음식 이미지" class="res_thumbnail">
+			    <!-- 텍스트 정보 영역 (가게명, 주소, 평점) -->
+			    <div class="res-info">
+			    	<h5 class="res_name" >해물짬뽕 전문점</h5>
+			    	<p class="res_addr" >광주광역시 북구</p>
+			    </div>
+			    <div class="rating_info">
+			    	<span class="ratings_text">4.8</span>
+			    </div>
+			    <i class="bi bi-chevron-right text-muted arrow-icon"></i>
+			</div>
+			</div>
+			
+			<!-- 게시글 탭 -->
+			<div id="feed-section" style="display: none;">피드 콘텐츠</div>
+			
+			<!-- 사용자 탭 -->
+			<div id="member-section" style="display: none;">사용자 콘텐츠</div>
+		
+			
 			<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 		</div>
 	</div>
+	
+	<script>
+	$(function() {
+	  // 탭 클릭 이벤트
+	  $('.search-tabs .tab').on('click', function(e) {
+	    e.preventDefault(); // <a href="#"> 기본 동작 막기
+	
+	    // 1. 모든 탭의 'active' 클래스 제거 → 시각적 효과 초기화
+	    $('.search-tabs .tab').removeClass('active');
+	
+	    // 2. 클릭한 탭(this)에만 'active' 클래스 추가
+	    $(this).addClass('active');
+	
+	    // 3. 모든 콘텐츠 영역 숨기기
+	    $('#res-section, #feed-section, #member-section').hide();
+	
+	    // 4. 클릭한 탭 ID에 따라 해당 콘텐츠 영역만 표시
+	    if (this.id === 'tab-res') {
+	      $('#res-section').show();        // 음식점 탭 클릭 시
+	    } else if (this.id === 'tab-feed') {
+	      $('#feed-section').show();       // 피드 탭 클릭 시
+	    } else if (this.id === 'tab-member') {
+	      $('#member-section').show();     // 사용자 탭 클릭 시
+	    }
+	  });
+	});
+	</script>
 	
 </body>
 </html>

@@ -17,4 +17,6 @@ public interface MemberService {
 	// 로그인 여부를 체크
 	boolean loginCheck(HttpSession session);
 
+	void followMem(String follower_id, String following_id);
+
 }

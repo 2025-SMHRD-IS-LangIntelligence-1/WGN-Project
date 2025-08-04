@@ -31,4 +31,7 @@ public interface MemberMapper {
 	// mem이 가지고 있는 모든 피드를 id를 활용해서 구하는 메서드
 	int countFeed(String mb_id);
 
+	@Insert("insert into t_follow values(null, #{follower_id}, #{following_id}, now())")
+	void followMem(String follower_id, String following_id);
+
 }
