@@ -80,4 +80,20 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public void unfollowMem(String follower_id, String following_id) {
+		memberMapper.unfollowMem(follower_id, following_id);
+	}
+
+	@Override
+	public boolean isFollowing(String mbId, String feedOwnerId) {
+		int result = memberMapper.isFollowing(mbId, feedOwnerId);
+		
+		if (result == 0) {
+			return false;
+		}
+		
+		return true;
+	}
+
 }

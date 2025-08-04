@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class FeedController {
-	
+
 	@Autowired
 	FeedService feedService;
 	@Autowired
@@ -41,91 +41,126 @@ public class FeedController {
 	@Autowired
 	RestaurantService restaurantService;
 
-    FeedController(CloudinaryService cloudinaryService) {
-        this.cloudinaryService = cloudinaryService;
-    }
-	
-    @GetMapping
-    public String feedDetail(@RequestParam("feed_idx") int feedIdx, Model model) {
-        // feedIdx를 이용해 DB에서 피드 상세 데이터 조회
-        FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feedIdx);
-        // 음식점 정보 가져오기
-        int resIdx = feed.getRes_idx();
-        RestaurantDTO resInfo = restaurantService.getByResIdx(resIdx);
-        List<t_comment> comments = feedService.getCmtByFeedIdx(feedIdx);
-        
-        model.addAttribute("feed", feed);
-        model.addAttribute("resInfo", resInfo);
-        model.addAttribute("comments", comments);
-        return "feed/feed";
-    }
-    
-	@GetMapping("/addFeed")
-	public String goAddFeed(HttpSession session) {
-		
-		// 로그인 되어 있는지 체크
-				boolean loginCheck = memberService.loginCheck(session);
-				
-		// 로그인이 되어 있지 않으면 로그인 페이지로
-		if (!loginCheck) {
-			return "member/login";
-		}	
-		
-		return "feed/addFeed";
+	FeedController(CloudinaryService cloudinaryService) {
+		this.cloudinaryService = cloudinaryService;
 	}
-	
-	@PostMapping("/upload")
-	public String uploadFeed(@ModelAttribute t_feed feed,
-	                         @RequestParam("files") List<MultipartFile> files,
-	                         @RequestParam("res_idx") Integer res_idx,
-	                         HttpSession session) {
+
+	@GetMapping
+	public String feedDetail(HttpSession session, @RequestParam("feed_idx") int feedIdx, Model model) {
 
 		// 로그인 되어 있는지 체크
 		boolean loginCheck = memberService.loginCheck(session);
-		
+
 		// 로그인이 되어 있지 않으면 로그인 페이지로
 		if (!loginCheck) {
 			return "member/login";
 		}
 		
+		// 세션에서 로그인한 멤버 정보 꺼내오기 
+		t_member logined = (t_member) session.getAttribute("member");
+		String mbId = logined.getMb_id();
+		
+		// feedIdx를 이용해 DB에서 피드 상세 데이터 조회
+		FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feedIdx);
+		
+		// 피드에서 피드 주인 아이디 꺼내오기
+		String feedOwnerId = feed.getMb_id();
+		
+		// 해당 사용자가 피드 주인을 팔로우하고 있는지 여부를 체크하는 메서드
+		boolean isFollowing = memberService.isFollowing(mbId, feedOwnerId);
+		
+		model.addAttribute("isFollowing", isFollowing);
+		model.addAttribute("feedOwnerId", feedOwnerId);
+
+		// 음식점 정보 가져오기
+		int resIdx = feed.getRes_idx();
+		RestaurantDTO resInfo = restaurantService.getByResIdx(resIdx);
+		List<t_comment> comments = feedService.getCmtByFeedIdx(feedIdx);
+
+		model.addAttribute("feed", feed);
+		model.addAttribute("resInfo", resInfo);
+		model.addAttribute("comments", comments);
+		return "feed/feed";
+	}
+
+	@GetMapping("/addFeed")
+	public String goAddFeed(HttpSession session) {
+
+		// 로그인 되어 있는지 체크
+		boolean loginCheck = memberService.loginCheck(session);
+
+		// 로그인이 되어 있지 않으면 로그인 페이지로
+		if (!loginCheck) {
+			return "member/login";
+		}
+
+		return "feed/addFeed";
+	}
+
+	@PostMapping("/upload")
+	public String uploadFeed(@ModelAttribute t_feed feed, @RequestParam("files") List<MultipartFile> files,
+			@RequestParam("res_idx") Integer res_idx, HttpSession session) {
+
+		// 로그인 되어 있는지 체크
+		boolean loginCheck = memberService.loginCheck(session);
+
+		// 로그인이 되어 있지 않으면 로그인 페이지로
+		if (!loginCheck) {
+			return "member/login";
+		}
+
 		// 세션에서 멤버 정보 가져오기
 		t_member member = (t_member) session.getAttribute("member");
 
-	    String mb_id = member.getMb_id();
-	    
-	    feed.setMb_id(mb_id);
-	    feed.setRes_idx(res_idx);
+		String mb_id = member.getMb_id();
 
-	    try {
-	        feedService.saveFeed(feed, files);
-	    } catch (IOException e) {
-	    	log.error("파일 업로드 중 오류 발생", e); 
-	    }
+		feed.setMb_id(mb_id);
+		feed.setRes_idx(res_idx);
 
-	    return "redirect:/";
+		try {
+			feedService.saveFeed(feed, files);
+		} catch (IOException e) {
+			log.error("파일 업로드 중 오류 발생", e);
+		}
+
+		return "redirect:/";
 	}
-	
+
+	@GetMapping("/delete")
+	public String deleteFeed(HttpSession session) {
+
+		// 로그인 되어 있는지 체크
+		boolean loginCheck = memberService.loginCheck(session);
+
+		// 로그인이 되어 있지 않으면 로그인 페이지로
+		if (!loginCheck) {
+			return "member/login";
+		}
+
+		// 세션에서 멤버 정보 가져오기
+		t_member member = (t_member) session.getAttribute("member");
+
+		String mb_id = member.getMb_id();
+
+		return "redirect:/myPage";
+	}
+
 	@PostMapping("/comment")
-	public String saveComment(@RequestParam("feed_idx") int feed_idx,
-	                          @RequestParam("cmt_content") String cmt_content,
-	                          HttpSession session,
-	                          HttpServletRequest request,
-	                          Model model) {
+	public String saveComment(@RequestParam("feed_idx") int feed_idx, @RequestParam("cmt_content") String cmt_content,
+			HttpSession session, HttpServletRequest request, Model model) {
 
-	    // 여기서 세션에서 로그인 유저 꺼냄
-	    t_member logined = (t_member) session.getAttribute("member");
+		// 여기서 세션에서 로그인 유저 꺼냄
+		t_member logined = (t_member) session.getAttribute("member");
 
-	    if (logined == null) {
-	        return "redirect:/member/login";  // 로그인 안 된 경우
-	    }
+		if (logined == null) {
+			return "redirect:/member/login"; // 로그인 안 된 경우
+		}
 
-	    feedService.saveComment(feed_idx, cmt_content, logined);
-	    
-	    log.info("댓글 저장 완료");
-	    
-	    return "redirect:" + request.getHeader("Referer");
+		feedService.saveComment(feed_idx, cmt_content, logined);
+
+		log.info("댓글 저장 완료");
+
+		return "redirect:" + request.getHeader("Referer");
 	}
 
-	
-	
 }
