@@ -47,8 +47,8 @@
 						<!-- Carousel: 여러 장 (이미지 클릭 -> 상세페이지) -->
 						<a
 							href="${pageContext.request.contextPath}/feed?feed_idx=${feed.feed_idx}">
-							<div id="carousel1" class="carousel slide" data-bs-touch="true"
-								data-bs-interval="false">
+							<div id="carousel1" class="carousel slide" data-bs-touch="true" data-bs-interval="false">
+							
 								<div class="carousel-inner">
 									<div class="carousel-item active">
 										<img
