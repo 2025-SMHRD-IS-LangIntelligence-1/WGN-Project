@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.dto.RestaurantDTO;
+import com.smhrd.web.entity.t_comment;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.CloudinaryService;
@@ -22,6 +23,7 @@ import com.smhrd.web.service.FeedService;
 import com.smhrd.web.service.MemberService;
 import com.smhrd.web.service.RestaurantService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,9 +52,11 @@ public class FeedController {
         // 음식점 정보 가져오기
         int resIdx = feed.getRes_idx();
         RestaurantDTO resInfo = restaurantService.getByResIdx(resIdx);
+        List<t_comment> comments = feedService.getCmtByFeedIdx(feedIdx);
         
         model.addAttribute("feed", feed);
         model.addAttribute("resInfo", resInfo);
+        model.addAttribute("comments", comments);
         return "feed/feed";
     }
     
@@ -96,6 +100,28 @@ public class FeedController {
 
 	    return "redirect:/";
 	}
+	
+	@PostMapping("/comment")
+	public String saveComment(@RequestParam("feed_idx") int feed_idx,
+	                          @RequestParam("cmt_content") String cmt_content,
+	                          HttpSession session,
+	                          HttpServletRequest request,
+	                          Model model) {
 
+	    // 여기서 세션에서 로그인 유저 꺼냄
+	    t_member logined = (t_member) session.getAttribute("member");
+
+	    if (logined == null) {
+	        return "redirect:/member/login";  // 로그인 안 된 경우
+	    }
+
+	    feedService.saveComment(feed_idx, cmt_content, logined);
+	    
+	    log.info("댓글 저장 완료");
+	    
+	    return "redirect:" + request.getHeader("Referer");
+	}
+
+	
 	
 }
