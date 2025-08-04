@@ -63,17 +63,14 @@
 
 		<!-- 게시글 섹션 -->
 		<div id="posts-section">
-		  <div class="container-fluid grid-feed px-0">
-		    <div class="row g-1">
-		      <c:forEach var="feed" items="${feedDTOList}"> 
-		        <div class="col-4" onclick="window.location='${pageContext.request.contextPath}/feed?feed_idx=${feed.feed_idx}'" style="cursor:pointer;">
-					<img src="${feed.imageUrls[0]}" alt="대표 이미지" style="width:100%; height:auto;" />
+		<div class="image-grid">
+			<c:forEach var="feed" items="${feedDTOList}">
+				<div class="cell" onclick="window.location='${pageContext.request.contextPath}/feed?feed_idx=${feed.feed_idx}'">
+					<img src="${feed.imageUrls[0]}" alt="대표 이미지">
 				</div>
-		      </c:forEach>
-		    </div>
-		  </div>
-		</div> 
-
+			</c:forEach>
+		</div>
+		</div>
     	<!-- 지도 섹션 (처음엔 비워둠) -->
     	<!-- 지도 섹션 -->
 <div id="map-section" style="display:none;">
