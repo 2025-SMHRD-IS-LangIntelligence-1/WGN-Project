@@ -24,5 +24,7 @@ public interface FeedService {
 	void saveComment(int feed_idx, String feed_content, t_member logined);
 
 	List<t_comment> getCmtByFeedIdx(int feedIdx);
+
+	void deleteFeed(int feed_idx);
 	
 }

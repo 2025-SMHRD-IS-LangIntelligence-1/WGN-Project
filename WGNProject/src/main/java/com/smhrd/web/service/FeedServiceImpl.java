@@ -77,4 +77,10 @@ public class FeedServiceImpl implements FeedService{
 		return comments;
 	}
 
+	@Override
+	public void deleteFeed(int feed_idx) {
+		feedMapper.deleteFeed(feed_idx);
+		
+	}
+
 }

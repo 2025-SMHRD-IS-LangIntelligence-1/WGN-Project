@@ -126,23 +126,20 @@ public class FeedController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/delete")
-	public String deleteFeed(HttpSession session) {
+	@PostMapping("/delete")
+	public String deleteFeed(HttpSession session, @RequestParam("feed_idx") int feed_idx) {
 
-		// 로그인 되어 있는지 체크
-		boolean loginCheck = memberService.loginCheck(session);
+		// 해당 피드 정보 불러오기
+		FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feed_idx);
+		
+		feed
+				
+		// DB에서 피드 삭제
+		feedService.deleteFeed(feed_idx);
+		
+		cloudinaryService.extractPublicId(null);
 
-		// 로그인이 되어 있지 않으면 로그인 페이지로
-		if (!loginCheck) {
-			return "member/login";
-		}
-
-		// 세션에서 멤버 정보 가져오기
-		t_member member = (t_member) session.getAttribute("member");
-
-		String mb_id = member.getMb_id();
-
-		return "redirect:/myPage";
+		return "redirect:/profile/myPage";
 	}
 
 	@PostMapping("/comment")
