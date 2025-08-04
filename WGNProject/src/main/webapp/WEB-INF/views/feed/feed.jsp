@@ -11,15 +11,13 @@
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/feed.css" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/home.css" />
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 </head>
 <body>
 	<div class="mobile-container">
-		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
+	<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 		<div class="content">
 
 			<!-- 상단 프로필 -->
@@ -90,7 +88,7 @@
 
 				<!-- 장소 카드 -->
 				<div class="location-card">
-					<div class="location-info">
+					<div class="location-info"  onclick="window.location='${pageContext.request.contextPath}/restaurant'">
 						<img src="${resInfo.res_thumbnail}">
 						<div>
 							<div style="font-weight: bold;">${resInfo.res_name}</div>
@@ -131,17 +129,15 @@
 				</div>
 
 			</div>
-			<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 		</div>
 	</div>
-
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 		contextPath = "${pageContext.request.contextPath}"
 	</script>
-	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
+
 </body>
 </html>
