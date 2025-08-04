@@ -80,4 +80,9 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public void unfollowMem(String follower_id, String following_id) {
+		memberMapper.unfollowMem(follower_id, following_id);
+	}
+
 }
