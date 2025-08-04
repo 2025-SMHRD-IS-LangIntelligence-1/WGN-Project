@@ -16,6 +16,7 @@ public class t_follow {
 
     // 팔로워 아이디 
     private String follower_id;
+    
     // 팔로잉 아이디 
     private String following_id;
 

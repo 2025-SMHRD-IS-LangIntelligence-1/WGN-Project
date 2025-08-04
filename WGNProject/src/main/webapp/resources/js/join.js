@@ -77,11 +77,11 @@ $('#inputNick').on('input', debounce(function () {
     $("#checkResult").text("");
 
     let inputNick = $('#inputNick').val();
-    let filtered = inputNick.replace(/[^가-힣0-9]/g, ''); // 한글과 숫자만 허용
+    let filtered = inputNick.replace(/[^A-Z가-힣0-9]/g, ''); // 한글과 숫자만 허용
 
     if (inputNick !== filtered) {
         $('#inputNick').val(filtered);
-        $("#checkResult").text("닉네임은 한글과 숫자만 사용할 수 있습니다.");
+        $("#checkResult").text("닉네임은 영어, 한글과 숫자만 사용할 수 있습니다.");
         nickValid = false;
         $('#nickCheckBtn').prop('disabled', true);
     } else if (inputNick.trim() === "") {

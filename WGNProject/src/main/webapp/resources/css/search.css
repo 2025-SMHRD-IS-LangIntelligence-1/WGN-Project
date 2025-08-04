@@ -1,6 +1,15 @@
 @charset "UTF-8";
 
 /* 검색 입력 */
-.search-box{margin-top:60px;padding:10px;}
+.search-box {
+    margin-top:60px;
+    padding:10px;
+}
+
 /* 검색 결과 그리드 */
-.result-grid .col-4 img{width:100%;display:block;object-fit:cover;}
+.result-grid .col-4 img {
+    width:100%;
+    display:block;
+    object-fit:cover;
+}
+

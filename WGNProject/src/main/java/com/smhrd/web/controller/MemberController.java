@@ -14,6 +14,7 @@ import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.MemberService;
 import com.smhrd.web.service.ProfileService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/member")
@@ -25,22 +26,33 @@ public class MemberController {
 	@Autowired
 	ProfileService profileService;
 
+	// 회원 가입 페이지로 이동
 	@GetMapping("/join")
-	public String showJoin() {
+	public String goJoin() {
 		return "member/join";
 	}
 	
+	// 멤버 정보를 DB에 저장
 	@PostMapping("/joinMember")
-	public String join(t_member mem, @RequestParam("mb_pw_check") String pwCheck) {
+	public String join(t_member mem, @RequestParam("mb_pw_check") String pwCheck, HttpServletRequest request) {
+		
+		// 기존 세션 파괴
+		request.getSession().invalidate();
+		
+		// 회원가입
 		boolean joinCheck = memberService.join(mem, pwCheck);
 		
+		// 회원가입 성공 시 새로운 세션 만들어서 회원 정보 저장
 		if (joinCheck) {
-			return "redirect:/";
-		}
-		return "member/join";
+	        HttpSession newSession = request.getSession(true);
+	        newSession.setAttribute("member", mem); // 또는 가입 결과를 다시 조회해서 최신 정보 저장
+	    }
+		
+		return "redirect:/";
 		
 	}
 	
+	// 아이디 중복체크
 	@GetMapping("/checkId")
 	@ResponseBody
 	public String checkId(@RequestParam String inputId) {
@@ -48,6 +60,7 @@ public class MemberController {
 		return idCheckResult;
 	}
 
+	// 닉네임 중복체크
 	@GetMapping("/checkNick")
 	@ResponseBody
 	public String checkNick(@RequestParam String inputNick) {
@@ -55,15 +68,17 @@ public class MemberController {
 		return NickCheckResult;
 	}
 	
+	// 로그인 페이지로 이동
 	@GetMapping("/login")
 	public String goLogin() {
 		return "member/login";	
 	}
 	
+	// 로그인 기능
 	@PostMapping("/loginMember")
 	public String login(t_member mem, HttpSession session, Model model) {
 	    t_member member = memberService.login(mem);
-	    ProfileDTO profile = profileService.showMyPage(mem.getMb_id());
+	    ProfileDTO profile = profileService.getProfileInfo(mem.getMb_id());
 	    
 	    if (member != null) {
 	        session.setAttribute("member", member);  // 멤버 정보 세션에 저장
@@ -75,6 +90,7 @@ public class MemberController {
 	    }
 	}
 	
+	// 로그아웃 기능
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("member");

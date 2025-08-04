@@ -71,7 +71,14 @@
 .follow-btn {
   background: #FFD84D; border: none; padding: 4px 10px;
   border-radius: 8px; font-size: 13px; font-weight: bold;
+  margin: 0px;
 }
+
+.btn-wrapper {
+  display: flex;
+  gap: 4px; /* 버튼 간격 조절 */
+}
+
 
 /* Carousel 이미지 */
 .carousel-item img {
@@ -108,3 +115,4 @@
 .more-btn {
   color:#666; font-size:13px; cursor:pointer; display:inline-block;
 }
+

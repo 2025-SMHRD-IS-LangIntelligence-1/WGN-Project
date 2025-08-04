@@ -13,11 +13,10 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/")
 public class HomeController {
 
-	@GetMapping  // 홈 페이지 매핑 예시
-	public String showHome(HttpSession session, Model model) {
+	@GetMapping  
+	public String goHome(HttpSession session, Model model) {
 	    t_member logined = (t_member) session.getAttribute("member");
-	    System.out.println("[홈 페이지] session member: " + logined); 
-	    return "home";  // 뷰 이름
+	    return "home"; 
 	}
 	
 }
