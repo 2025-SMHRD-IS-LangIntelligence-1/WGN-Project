@@ -21,12 +21,14 @@ public class ProfileServiceImpl implements ProfileService {
 	        throw new IllegalArgumentException("회원 정보를 찾을 수 없습니다: " + mb_id);
 	    }
 		
-		System.out.println(mem.getMb_nick());
 		String nickname = mem.getMb_nick();
 		int feed_num = memberMapper.countFeed(mb_id);
 		int follower = memberMapper.countFollowers(mb_id);
 		int following = memberMapper.countFollowings(mb_id);
-		ProfileDTO profileDTO = new ProfileDTO(nickname, feed_num, follower, following);
+		String intro = "간단한 자기소개를 입력할 수 있습니다.";
+		String mb_img = mem.getMb_img();
+		System.out.println("Profile Image: " + mem.getMb_img());
+		ProfileDTO profileDTO = new ProfileDTO(nickname, feed_num, follower, following, intro, mb_img);
 		return profileDTO;
 	}
 

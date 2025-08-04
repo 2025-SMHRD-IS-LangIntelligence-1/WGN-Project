@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
+import com.smhrd.web.dto.CommentDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.dto.RestaurantDTO;
-import com.smhrd.web.entity.t_comment;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.CloudinaryService;
@@ -78,8 +76,10 @@ public class FeedController {
 		// 음식점 정보 가져오기
 		int resIdx = feed.getRes_idx();
 		RestaurantDTO resInfo = restaurantService.getByResIdx(resIdx);
-		List<t_comment> comments = feedService.getCmtByFeedIdx(feedIdx);
-
+		
+		// 댓글 정보 가져오기
+		List<CommentDTO> comments = feedService.getCmtByFeedIdx(feedIdx);
+		
 		model.addAttribute("feed", feed);
 		model.addAttribute("resInfo", resInfo);
 		model.addAttribute("comments", comments);

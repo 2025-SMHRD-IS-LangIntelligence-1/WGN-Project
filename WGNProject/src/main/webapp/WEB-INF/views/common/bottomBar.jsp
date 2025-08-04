@@ -13,7 +13,7 @@
 	  <a href="${pageContext.request.contextPath}/search"><i class="bi bi-search"></i></a>
 	  <a href="${pageContext.request.contextPath}/feed/addFeed"><i class="bi bi-plus-square"></i></a>
 	  <a href="${pageContext.request.contextPath}/profile/notifications"><i class="bi bi-heart"></i></a>
-	  <a href="${pageContext.request.contextPath}/profile/${member.mb_id}"><i class="bi bi-person-circle"></i></a>
+	  <a href="${pageContext.request.contextPath}/profile/myPage"><i class="bi bi-person-circle"></i></a>
 	</div>
 	
 </body>

@@ -17,7 +17,7 @@
 			<c:choose>
 			    <c:when test="${not empty profile}">
 			        <div class="profile-info">
-			        	<img src="myimg.jpg" alt="프로필 사진">
+			        	<img src="${profile.mb_img}" alt="프로필 사진" style="width: 70px; height: 70px";>
 						<h5>${profile.nickname}</h5>
 						<p>간단한 소개글을 적을 수 있습니다.</p>
 					</div>

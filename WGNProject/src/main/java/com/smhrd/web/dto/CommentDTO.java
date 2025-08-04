@@ -1,5 +1,7 @@
 package com.smhrd.web.dto;
 
+import com.smhrd.web.entity.t_comment;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,13 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfileDTO {
+public class CommentDTO {
 
-	private String nickname;
-	private int feed_num=0;
-	private int follower=0;
-	private int following=0;
-	private String intro;
+
+	// 댓글 entity
+	private t_comment comment;
+
+	// 댓글 작성자 프로필 이미지
 	private String mb_img;
 	
 }
