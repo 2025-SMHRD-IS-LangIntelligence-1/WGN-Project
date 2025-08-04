@@ -71,8 +71,9 @@
 			</c:forEach>
 		</div>
 		</div>
-    	<!-- 지도 섹션 (처음엔 비워둠) -->
-    	<!-- 지도 섹션 -->
+		
+<!-- 지도 섹션 (처음엔 비워둠) -->
+<!-- 지도 섹션 -->
 <div id="map-section" style="display:none;">
     <div id="map" style="width:100%;height:auto;aspect-ratio:16/9;max-height:70vh;"></div>
 
@@ -87,6 +88,7 @@
         </li>
     </ul>
     <div class="tab-content" id="rankingTabContent">
+    
         <!-- 랭킹 탭 -->
         <div class="tab-pane fade show active p-2" id="rank-content" role="tabpanel">
             <div id="rank-list" class="list-group">
