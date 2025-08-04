@@ -1,6 +1,7 @@
 package com.smhrd.web.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.dto.RestaurantDTO;
 import com.smhrd.web.entity.t_comment;
@@ -132,12 +135,18 @@ public class FeedController {
 		// 해당 피드 정보 불러오기
 		FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feed_idx);
 		
-		feed
-				
+		// url 리스트 불러오기
+		List<String> urls = feed.getImageUrls();
+		List<String> publicIds = new ArrayList<>();
+		
+		// publicId 추출 후 파일 삭제하기
+		for (String url : urls) {
+			String publicId = cloudinaryService.extractPublicId(url);
+			cloudinaryService.deleteFile(publicId);
+		}
+		
 		// DB에서 피드 삭제
 		feedService.deleteFeed(feed_idx);
-		
-		cloudinaryService.extractPublicId(null);
 
 		return "redirect:/profile/myPage";
 	}

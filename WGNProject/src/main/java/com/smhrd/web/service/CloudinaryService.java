@@ -2,6 +2,9 @@ package com.smhrd.web.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class CloudinaryService {
 
     private final Cloudinary cloudinary;
@@ -45,6 +49,15 @@ public class CloudinaryService {
             return url.substring(lastSlash + 1, dotIndex); // 시작 인덱스, 끝 인덱스(포함 안함)으로 String을 잘라냄
         }
         return null;
+    }
+    
+    // 클라우디너리에서 파일을 지우는 메서드
+    public void deleteFile(String publicId) {
+    	try {
+            cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+        } catch (Exception e) {
+            log.error("Cloudinary 이미지 삭제 실패: " + publicId, e);
+        }
     }
     
 }
