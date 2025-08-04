@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.smhrd.web.dto.ProfileDTO;
@@ -29,8 +30,8 @@ public class ProfileController {
 	@Autowired
 	MemberService memberService;
 	
-    @GetMapping("/myPage")
-    public String showMyPage(HttpSession session, Model model) {
+    @GetMapping("/{mb_id}")
+    public String showMyPage(@PathVariable String mb_id, HttpSession session, Model model) {
     	
     	// 로그인 체크
     	boolean loginCheck = memberService.loginCheck(session);
@@ -42,12 +43,16 @@ public class ProfileController {
 		// 세션에서 로그인한 사용자 정보 가져오기
         t_member logined = (t_member) session.getAttribute("member");
         
+        // 마이페이지 여부 확인
+        boolean isMyPage = logined.getMb_id().equals(mb_id);
+        model.addAttribute("isMypage", isMyPage);
+        
         // 프로필 정보 저장
-        ProfileDTO profile = profileService.getProfileInfo(logined.getMb_id());
+        ProfileDTO profile = profileService.getProfileInfo(mb_id);
         model.addAttribute("profile", profile);
         
         // 사용자가 작성한 피드 리스트 저장
-        List<FeedWithImgDTO> feeds = feedService.getFeedByMemId(logined.getMb_id());
+        List<FeedWithImgDTO> feeds = feedService.getFeedByMemId(mb_id);
         
         // 사용자의 피드 리스트를 넣으면 각 피드 별로 이미지 리스트가 포함된 DTO를 생성해주는 메서드
         List<FeedWithImgDTO> feedDTOList = feedService.getImgUrls(feeds);
@@ -61,26 +66,10 @@ public class ProfileController {
         return "profile/myPage";
     }
 	
-	@GetMapping("/{mb_id}")
-	public String showOtherMemPage(String mb_id, HttpSession session, Model model) {
-
-    	// 로그인 체크
-    	boolean loginCheck = memberService.loginCheck(session);
-		
-		if (!loginCheck) {
-			return "member/login";
-		}
-		
-        ProfileDTO profile = profileService.getProfileInfo(mb_id);
-        return "myPage/{mb_id}";
-	}
+	@GetMapping("/notifications")
+	public String showNotifications() {
+	return "profile/notifications";
 	
-	
-	// 사용자 알림 관련 컨트롤러, 현재 안씀
-	
-	// @GetMapping("/notifications")
-	// public String showNotifications() {
-	//	return "myPage/notifications";
-	// }
+}
 	
 }

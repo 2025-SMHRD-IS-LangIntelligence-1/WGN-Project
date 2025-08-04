@@ -3,6 +3,7 @@ package com.smhrd.web.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,5 +32,8 @@ public interface FeedMapper {
 
 	@Select("select * from t_comment where feed_idx=#{feed_idx} order by created_at desc")
 	public ArrayList<t_comment> getCmtByfeedIdx(int feedIdx);
+
+	@Delete("delete from t_feed where feed_idx = #{feed_idx}")
+	public void deleteFeed(int feed_idx);
 	
 }

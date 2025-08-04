@@ -24,7 +24,9 @@
 					<tr>
 						<td><input type="submit" value="로그인"></td>
 					</tr>
-					
+					<tr>
+						<td><a href="${pageContext.request.contextPath}/member/join">회원가입</a></td>
+					</tr>
 				</table>
 			</form>
 		</div>

@@ -50,8 +50,11 @@
 					</c:when>
 					<c:when test="${feed.mb_id eq sessionScope.member.mb_id}">
 						<div class="btn-wrapper">
-							<button class="follow-btn">수정</button>
-							<button class="follow-btn">삭제</button>
+							<form action="${pageContext.request.contextPath}/feed/delete" method="post">
+								<input type="hidden" name="feed_idx" value="${feed.feed_idx}">
+								<button class="follow-btn edit-btn" type="submit">수정</button>
+								<button class="follow-btn delete-btn" type="submit">삭제</button>
+							</form>
 						</div>
 					</c:when>
 				</c:choose>
