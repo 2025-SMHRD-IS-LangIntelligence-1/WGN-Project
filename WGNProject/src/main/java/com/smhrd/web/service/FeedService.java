@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.smhrd.web.entity.t_comment;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
@@ -21,5 +22,7 @@ public interface FeedService {
 	FeedWithImgDTO getFeedByFeedIdx(int feedIdx);
 
 	void saveComment(int feed_idx, String feed_content, t_member logined);
+
+	List<t_comment> getCmtByFeedIdx(int feedIdx);
 	
 }

@@ -71,4 +71,10 @@ public class FeedServiceImpl implements FeedService{
 		feedMapper.saveComment(comment);
 	}
 
+	@Override
+	public List<t_comment> getCmtByFeedIdx(int feedIdx) {
+		List<t_comment> comments = feedMapper.getCmtByfeedIdx(feedIdx);
+		return comments;
+	}
+
 }

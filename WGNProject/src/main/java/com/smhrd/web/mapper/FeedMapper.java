@@ -26,7 +26,10 @@ public interface FeedMapper {
 	
 	FeedWithImgDTO selectFeedByIdx(int feed_idx);
 
-	@Insert("insert into t_comment values(null, #{feed_idx}, #{mb_id}, #{mb_nick}, #{cmt_content}, null)")
-	public void saveComment(t_comment c);
+	@Insert("insert into t_comment values(null, #{feed_idx}, #{mb_id}, #{mb_nick}, #{cmt_content}, now())")
+	public void saveComment(t_comment cmt);
+
+	@Select("select * from t_comment where feed_idx=#{feed_idx} order by created_at desc")
+	public ArrayList<t_comment> getCmtByfeedIdx(int feedIdx);
 	
 }
