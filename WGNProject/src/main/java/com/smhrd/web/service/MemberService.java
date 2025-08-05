@@ -1,6 +1,7 @@
 package com.smhrd.web.service;
 
-import com.smhrd.web.entity.t_log;
+import org.springframework.scheduling.annotation.Async;
+
 import com.smhrd.web.entity.t_member;
 
 import jakarta.servlet.http.HttpSession;
@@ -18,16 +19,21 @@ public interface MemberService {
 	// 로그인 여부를 체크
 	boolean loginCheck(HttpSession session);
 
+	@Async
 	void followMem(String follower_id, String following_id);
 
+	@Async
 	void unfollowMem(String follower_id, String following_id);
 
 	boolean isFollowing(String mbId, String feedOwnerId);
 
+	@Async
 	void updateWithImg(String mbId, String nickname, String intro, String url);
 	
+	@Async
 	void update(String mbId, String nickname, String intro);
 
+	@Async
 	void saveLog(String mb_id, Integer res_idx, String action_type);
 
 }

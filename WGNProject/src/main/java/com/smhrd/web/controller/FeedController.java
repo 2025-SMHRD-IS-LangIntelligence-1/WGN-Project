@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.CommentDTO;
@@ -186,6 +189,31 @@ public class FeedController {
 		System.out.println("Feedcontroller : 댓글 저장 완료");
 
 		return "redirect:" + request.getHeader("Referer");
+	}
+	
+	@PostMapping("/addFeedLike")
+	@ResponseBody
+	public int addFeedLike(@RequestBody int feed_idx, HttpSession session) {
+		
+		// 세션에서 로그인 유저 꺼냄
+		t_member logined = (t_member) session.getAttribute("member");		
+		String mb_id = logined.getMb_id();
+		
+		// 해당 피드 정보 불러오기
+		FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feed_idx);
+		int res_idx = feed.getRes_idx();
+		
+		int feedLikeNum = feedService.addFeedLike(feed_idx);
+		memberService.saveLog(mb_id, res_idx, "좋아요");
+		return feedLikeNum;
+	}
+	
+	@PostMapping("/deleteFeedLike")
+	@ResponseBody
+	public int deleteFeedLike(@RequestBody int feed_idx, HttpSession session) {
+		
+		int feedLikeNum = feedService.deleteFeedLike(feed_idx);
+		return feedLikeNum;
 	}
 	
 }

@@ -84,4 +84,16 @@ public class FeedServiceImpl implements FeedService{
 		
 	}
 
+	@Override
+	public int addFeedLike(int feed_idx) {
+		feedMapper.addFeedLike(feed_idx);
+		return feedMapper.countFeedLike(feed_idx);
+	}
+
+	@Override
+	public int deleteFeedLike(int feed_idx) {
+		feedMapper.deleteFeedLike(feed_idx);
+		return feedMapper.countFeedLike(feed_idx);
+	}
+
 }

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.smhrd.web.dto.CommentDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
@@ -35,5 +36,13 @@ public interface FeedMapper {
 
 	@Delete("delete from t_feed where feed_idx = #{feed_idx}")
 	public void deleteFeed(int feed_idx);
+
+	@Update("update t_feed set feed_likes = feed_likes + 1 where feed_idx = #{feed_idx}")
+	public void addFeedLike(int feed_idx);
 	
+	@Update("update t_feed set feed_likes = feed_likes - 1 where feed_idx = #{feed_idx}")
+	public void deleteFeedLike(int feed_idx);
+
+	@Select("select feed_likes from t_feed where feed_idx = #{feed_idx}")
+	public int countFeedLike(int feed_idx);
 }

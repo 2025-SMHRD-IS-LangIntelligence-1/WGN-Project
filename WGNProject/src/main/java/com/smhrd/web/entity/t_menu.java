@@ -20,9 +20,6 @@ public class t_menu {
  private String menu_name;
 
  // 메뉴 가격 
- private Integer menu_price;
-
- // 메뉴 사진 
- private String menu_img;
+ private String menu_price;
 
 }

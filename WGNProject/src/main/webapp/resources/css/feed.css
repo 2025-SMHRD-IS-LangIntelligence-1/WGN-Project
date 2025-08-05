@@ -77,6 +77,29 @@
 	line-height: 1.4; /* 줄 간격 1.4배 */
 }
 
+/* 좋아요, 댓글수 div */
+.post-info {
+	padding: 10px 12px; /* 상하 10px, 좌우 12px 여백 */
+	font-size: 14px; /* 글자 크기 14px */
+	line-height: 1.4; /* 줄 간격 1.4배 */
+	gap: 10px
+}
+
+.post-info .clickable-heart,
+.post-info .like-count {
+
+  width: 80px;      /* 고정 너비 */
+  height: 30px;     /* 고정 높이 */
+  font-size: 18px;
+  user-select: none; /* 숫자 드래그 방지 */
+}
+
+.post-info .clickable-heart i {
+  font-size: 20px;  /* 아이콘 크기 */
+  line-height: 1;
+  color: red;
+}
+
 /* 장소 카드 (위치 표시 박스) */
 .location-card {
 	display: flex; /* 플렉스 박스 */

@@ -14,17 +14,19 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+	rel="stylesheet">
 </head>
 <body>
 	<div class="mobile-container">
-	<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
+		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 		<div class="content">
 
 			<!-- 상단 프로필 -->
 			<div class="post-header">
 				<div class="post-user">
-					<img
-						src="${feedOwnerProfile.mb_img}">
+					<img src="${feedOwnerProfile.mb_img}">
 					<div class="post-user-info">
 						<span><b>${feed.mb_nick}</b></span> <span
 							style="font-size: 12px; color: #888;">광주 ·
@@ -39,18 +41,21 @@
 							<c:choose>
 								<c:when test="${isFollowing}">
 									<button class="my-follow-btn following"
-										data-following-id="${feedOwnerProfile.mb_id}" data-followed="true">팔로잉</button>
+										data-following-id="${feedOwnerProfile.mb_id}"
+										data-followed="true">팔로잉</button>
 								</c:when>
 								<c:otherwise>
 									<button class="my-follow-btn"
-										data-following-id="${feedOwnerProfile.mb_id}" data-followed="false">팔로우</button>
+										data-following-id="${feedOwnerProfile.mb_id}"
+										data-followed="false">팔로우</button>
 								</c:otherwise>
 							</c:choose>
 						</form>
 					</c:when>
 					<c:when test="${feed.mb_id eq sessionScope.member.mb_id}">
 						<div class="btn-wrapper">
-							<form action="${pageContext.request.contextPath}/feed/delete" method="post">
+							<form action="${pageContext.request.contextPath}/feed/delete"
+								method="post">
 								<input type="hidden" name="feed_idx" value="${feed.feed_idx}">
 								<button class="follow-btn edit-btn" type="submit">수정</button>
 								<button class="follow-btn delete-btn" type="submit">삭제</button>
@@ -83,12 +88,23 @@
 					</button>
 				</div>
 
+				<!-- 좋아요 / 댓글 수 -->
+				<div class="post-info" data-feed-idx="${feed.feed_idx}">
+					<span class="clickable-heart"> <i
+						class="bi bi-heart"></i>
+					</span>
+					<span class="like-count">${feed.feed_likes}</span>
+					<i class="bi bi-chat-square-dots" style="font-size: 20px"></i>
+					<span></span>
+				</div>
+
 				<!-- 본문 내용 -->
 				<div class="post-text">${feed.feed_content}</div>
 
 				<!-- 장소 카드 -->
 				<div class="location-card">
-					<div class="location-info"  onclick="window.location='${pageContext.request.contextPath}/restaurant?res_idx=${resInfo.res_idx}'">
+					<div class="location-info"
+						onclick="window.location='${pageContext.request.contextPath}/restaurant?res_idx=${resInfo.res_idx}'">
 						<img src="${resInfo.res_thumbnail}">
 						<div>
 							<div style="font-weight: bold;">${resInfo.res_name}</div>
@@ -129,7 +145,7 @@
 				</div>
 
 			</div>
-	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+			<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 		</div>
 	</div>
 	<script
@@ -138,6 +154,8 @@
 	<script>
 		contextPath = "${pageContext.request.contextPath}"
 	</script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
 
 </body>
 </html>

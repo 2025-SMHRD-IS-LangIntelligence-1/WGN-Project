@@ -26,5 +26,9 @@ public interface FeedService {
 	List<CommentDTO> getCmtByFeedIdx(int feedIdx);
 
 	void deleteFeed(int feed_idx);
+
+	int addFeedLike(int feed_idx);
+	
+	int deleteFeedLike(int feed_idx);
 	
 }

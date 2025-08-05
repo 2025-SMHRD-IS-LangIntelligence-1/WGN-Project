@@ -26,6 +26,9 @@ public class t_feed {
 
  // 좋아요 수 
  private Integer feed_likes;
+ 
+ // 별점
+ private Double ratings;
 
  // 작성 일자 
  private Timestamp created_at;
