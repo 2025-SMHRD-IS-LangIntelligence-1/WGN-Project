@@ -25,22 +25,19 @@
 	<div class="mobile-container">
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 
-
 		<!-- 모달창 -->
 		<div id="profileModal" class="modal">
 			<div class="modal-content">
 				<span class="close">&times;</span>
-
-				<form action="${pageContext.request.contextPath}/profile/update}" method="post">
-					<label>프로필 사진</label>
-					<input type="file" name="profileImgUrl" value="${profile.mb_img}" />
-					<label>닉네임</label>
-					<input type="text" name="intro" value="${profile.nickname}" />
+				<form action="${pageContext.request.contextPath}/profile/update"
+					method="post" enctype="multipart/form-data">
+					<label>프로필 사진</label> <input type="file" name="file"
+						value="${profile.mb_img}" accept="image/*" /> <label>닉네임</label>
+					<input type="text" name="nickname" value="${profile.nickname}" />
 					<label>소개글</label>
 					<textarea name="intro">${profile.intro}</textarea>
-					<button type="submit">저장</button>
+					<button id="submitBtn" type="submit">저장</button>
 				</form>
-				
 			</div>
 		</div>
 
@@ -51,9 +48,7 @@
 
 				<!-- 프로필 상단: 사진 + 통계 -->
 				<div class="profile-top">
-					<img
-						src="${profile.mb_img}"
-						alt="프로필 사진">
+					<img src="${profile.mb_img}" alt="프로필 사진">
 					<div class="profile-stats">
 						<div class="profile-stat">
 							<strong>${profile.feed_num}</strong> <span>게시물</span>
@@ -70,12 +65,12 @@
 				<!-- 닉네임/소개 -->
 				<div class="profile-info">
 					<h5>${profile.nickname}</h5>
-					<p>간단한 소개글을 적을 수 있습니다.</p>
+					<p>${profile.intro}</p>
 				</div>
 				<div class="profile-info">
 
 					<c:choose>
-						<c:when test="${profile.nickname ne sessionScope.member.mb_nick}">
+						<c:when test="${profile.mb_id ne sessionScope.member.mb_id}">
 							<form action="${pageContext.request.contextPath}/member/follow"
 								method="post">
 								<input type="hidden" name="following_id" value="${member.mb_id}" />
@@ -85,18 +80,16 @@
 											data-following-id="${mb_id}" data-followed="true">팔로잉</button>
 									</c:when>
 									<c:otherwise>
-										<button class="my-follow-btn"
-											data-following-id="${mb_id}" data-followed="false">팔로우</button>
+										<button class="my-follow-btn" data-following-id="${mb_id}"
+											data-followed="false">팔로우</button>
 									</c:otherwise>
 								</c:choose>
 							</form>
 						</c:when>
-						<c:when test="${profile.nickname eq sessionScope.member.mb_nick}">
+						<c:when test="${profile.mb_id eq sessionScope.member.mb_id}">
 							<div class="btn-wrapper">
-								<form action="${pageContext.request.contextPath}/feed/edit"
-									method="post">
-									<button class="follow-btn profile-edit-btn" type="submit">프로필 수정</button>
-								</form>
+								<button class="follow-btn" id="profile-update-btn" type="submit">프로필
+									수정</button>
 							</div>
 						</c:when>
 					</c:choose>
@@ -237,17 +230,17 @@
 
 			</div>
 		</div>
+	</div>
 
-			<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
-		</div>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-		<script type="text/javascript"
-			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/js/myPage.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
+	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/myPage.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
 </body>
 </html>

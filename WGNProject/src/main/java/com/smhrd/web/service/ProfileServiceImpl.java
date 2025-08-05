@@ -25,10 +25,9 @@ public class ProfileServiceImpl implements ProfileService {
 		int feed_num = memberMapper.countFeed(mb_id);
 		int follower = memberMapper.countFollowers(mb_id);
 		int following = memberMapper.countFollowings(mb_id);
-		String intro = "간단한 자기소개를 입력할 수 있습니다.";
+		String intro = mem.getMb_intro();
 		String mb_img = mem.getMb_img();
-		System.out.println("Profile Image: " + mem.getMb_img());
-		ProfileDTO profileDTO = new ProfileDTO(nickname, feed_num, follower, following, intro, mb_img);
+		ProfileDTO profileDTO = new ProfileDTO(mb_id, nickname, feed_num, follower, following, intro, mb_img);
 		return profileDTO;
 	}
 

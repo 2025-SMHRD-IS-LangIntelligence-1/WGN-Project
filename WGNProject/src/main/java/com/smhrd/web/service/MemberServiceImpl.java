@@ -2,6 +2,8 @@ package com.smhrd.web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.smhrd.web.entity.t_log;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.MemberMapper;
 
@@ -98,6 +100,23 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public void updateWithImg(String mbId, String nickname, String intro, String url) {
+		memberMapper.updateWithImg(mbId, nickname, intro, url);
+	}
+
+	@Override
+	public void update(String mbId, String nickname, String intro) {
+		memberMapper.update(mbId, nickname, intro);
+		
+	}
+
+	@Override
+	public void saveLog(String mb_id, Integer res_idx, String action_type) {
+		System.out.println("MemberService : " + action_type + "로그 저장 완료");
+		memberMapper.saveLog(mb_id, res_idx, action_type);
 	}
 
 }

@@ -19,7 +19,7 @@ public class t_log {
  private String mb_id;
 
  // 음식점 아이디
- private String res_idx;
+ private int res_idx;
 
  // 행동 유형 
  private String action_type;

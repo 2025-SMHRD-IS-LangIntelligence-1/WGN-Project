@@ -16,12 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.CommentDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
+import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.dto.RestaurantDTO;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.CloudinaryService;
 import com.smhrd.web.service.FeedService;
 import com.smhrd.web.service.MemberService;
+import com.smhrd.web.service.ProfileService;
 import com.smhrd.web.service.RestaurantService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,6 +43,8 @@ public class FeedController {
 	MemberService memberService;
 	@Autowired
 	RestaurantService restaurantService;
+	@Autowired
+	ProfileService profileService;
 
 	FeedController(CloudinaryService cloudinaryService) {
 		this.cloudinaryService = cloudinaryService;
@@ -67,12 +71,15 @@ public class FeedController {
 		// 피드에서 피드 주인 아이디 꺼내오기
 		String feedOwnerId = feed.getMb_id();
 		
+		// 피드 주인 정보 가져오기
+		ProfileDTO feedOwnerProfile = profileService.getProfileInfo(feedOwnerId);
+		
 		// 해당 사용자가 피드 주인을 팔로우하고 있는지 여부를 체크하는 메서드
 		boolean isFollowing = memberService.isFollowing(mbId, feedOwnerId);
 		
 		model.addAttribute("isFollowing", isFollowing);
-		model.addAttribute("feedOwnerId", feedOwnerId);
-
+		model.addAttribute("feedOwnerProfile", feedOwnerProfile);
+		
 		// 음식점 정보 가져오기
 		int resIdx = feed.getRes_idx();
 		RestaurantDTO resInfo = restaurantService.getByResIdx(resIdx);
@@ -83,12 +90,17 @@ public class FeedController {
 		model.addAttribute("feed", feed);
 		model.addAttribute("resInfo", resInfo);
 		model.addAttribute("comments", comments);
+		
+		// 사용자 로그 저장
+		memberService.saveLog(mbId, resIdx, "클릭");
+		
 		return "feed/feed";
 	}
 
 	@GetMapping("/addFeed")
 	public String goAddFeed(HttpSession session) {
 
+		
 		// 로그인 되어 있는지 체크
 		boolean loginCheck = memberService.loginCheck(session);
 
@@ -125,7 +137,10 @@ public class FeedController {
 		} catch (IOException e) {
 			log.error("파일 업로드 중 오류 발생", e);
 		}
-
+		
+		// 사용자 로그 저장
+		memberService.saveLog(mb_id, res_idx, "글작성");
+		
 		return "redirect:/";
 	}
 
@@ -161,12 +176,16 @@ public class FeedController {
 		if (logined == null) {
 			return "redirect:/member/login"; // 로그인 안 된 경우
 		}
+		
+		String mb_id = logined.getMb_id();
 
 		feedService.saveComment(feed_idx, cmt_content, logined);
+		FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feed_idx);
+		int res_idx = feed.getRes_idx();
 
-		log.info("댓글 저장 완료");
+		System.out.println("Feedcontroller : 댓글 저장 완료");
 
 		return "redirect:" + request.getHeader("Referer");
 	}
-
+	
 }

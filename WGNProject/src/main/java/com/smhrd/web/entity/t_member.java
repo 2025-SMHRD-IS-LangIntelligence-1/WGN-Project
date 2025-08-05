@@ -29,5 +29,8 @@ public class t_member {
     
     // 회원 프로필 이미지 링크
     private String mb_img;
+    
+    // 회원 자기소개
+    private String mb_intro;
 	
 }
