@@ -131,57 +131,22 @@
 				</div>
 			</div>
 			
-			<!----------------------- 사용자member 탭 ------------------------------>
+			<!----------------------- 사용자 member 탭 ------------------------------>
 			<div id="member-section" style="display: none;">
 				<div class="member-header">
-					<div class="feed-member">
-						<img src="https://via.placeholder.com/40 alt="프로필">
-						<!-- 예시 이미지 -->
-
-						<div class="member-info">
-							<span><b>홍길동</b></span> <span
-								style="font-size: 12px; color: #888;">가나다라마바사</span>
-						</div>
-					</div>
-
-					<!-- 팔로우 버튼 -->
-					<form action="/member/follow" method="post">
-						<input type="hidden" name="following_id" value="user123" />
-						<button class="my-follow-btn">팔로우</button>
-					</form>
+					
 				</div>
 			</div>
 
 			<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 		</div>
 	</div>
-
-	<script>
-		$(function() {
-			// 탭 클릭 이벤트
-			$('.search-tabs .tab').on('click', function(e) {
-				e.preventDefault(); // <a href="#"> 기본 동작 막기
-
-				// 1. 모든 탭의 'active' 클래스 제거 → 시각적 효과 초기화
-				$('.search-tabs .tab').removeClass('active');
-
-				// 2. 클릭한 탭(this)에만 'active' 클래스 추가
-				$(this).addClass('active');
-
-				// 3. 모든 콘텐츠 영역 숨기기
-				$('#res-section, #feed-section, #member-section').hide();
-
-				// 4. 클릭한 탭 ID에 따라 해당 콘텐츠 영역만 표시
-				if (this.id === 'tab-res') {
-					$('#res-section').show(); // 음식점 탭 클릭 시
-				} else if (this.id === 'tab-feed') {
-					$('#feed-section').show(); // 피드 탭 클릭 시
-				} else if (this.id === 'tab-member') {
-					$('#member-section').show(); // 사용자 탭 클릭 시
-				}
-			});
-		});
+	<script type="text/javascript">
+		const contextPath = "${pageContext.request.contextPath}";
 	</script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/search.js"></script>
 
 </body>
 </html>

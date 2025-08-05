@@ -21,8 +21,6 @@ import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.CloudinaryService;
 import com.smhrd.web.service.FeedService;
 import com.smhrd.web.service.MemberService;
-import com.smhrd.web.service.ProfileService;
-
 import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/profile")
@@ -30,9 +28,7 @@ import jakarta.servlet.http.HttpSession;
 public class ProfileController {
 
     private final CloudinaryService cloudinaryService;
-
-	@Autowired
-	ProfileService profileService;
+    
 	@Autowired
 	FeedService feedService;
 	@Autowired
@@ -85,7 +81,7 @@ public class ProfileController {
  		model.addAttribute("mb_id", mb_id);
      	
         // 프로필 정보 저장
-        ProfileDTO profile = profileService.getProfileInfo(mb_id);
+        ProfileDTO profile = memberService.getProfileInfo(mb_id);
         model.addAttribute("profile", profile);
         
         // 사용자가 작성한 피드 리스트 저장

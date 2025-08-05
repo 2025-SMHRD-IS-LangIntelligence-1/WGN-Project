@@ -14,8 +14,6 @@ import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.entity.t_log;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.MemberService;
-import com.smhrd.web.service.ProfileService;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -25,8 +23,6 @@ public class MemberController {
 
 	@Autowired
 	MemberService memberService;
-	@Autowired
-	ProfileService profileService;
 
 	// 회원 가입 페이지로 이동
 	@GetMapping("/join")
@@ -82,7 +78,7 @@ public class MemberController {
 		
 		// 로그인 메서드
 	    t_member member = memberService.login(mem);
-	    ProfileDTO profile = profileService.getProfileInfo(mem.getMb_id());
+	    ProfileDTO profile = memberService.getProfileInfo(mem.getMb_id());
 	    
 	    if (member != null) {
 	        session.setAttribute("member", member);  // 멤버 정보 세션에 저장

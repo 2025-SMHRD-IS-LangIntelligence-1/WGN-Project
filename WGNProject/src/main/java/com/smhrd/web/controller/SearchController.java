@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smhrd.web.dto.RestaurantDTO;
+import com.smhrd.web.entity.t_member;
+import com.smhrd.web.service.MemberService;
 import com.smhrd.web.service.RestaurantService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 public class SearchController {
 	
 	@Autowired
-    private RestaurantService restaurantService;
+    RestaurantService restaurantService;
+	@Autowired
+	MemberService memberService;
 	
 	@GetMapping
 	public String goSearch() {
@@ -39,6 +43,20 @@ public class SearchController {
 	    }
 	    
 	    return resInfoList;
+	}
+	
+	@GetMapping("/member")
+	@ResponseBody
+	public List<t_member> searchMember(@RequestParam("keyword") String keyword) {
+		
+		List<t_member> memberList = memberService.searchByIdOrNick(keyword);
+		if(memberList == null) {
+	        log.warn("검색 결과가 null");
+	    } else {
+	        log.info("검색 결과 개수: {}", memberList.size());
+	    }
+		
+		return memberList;
 	}
 	
 }

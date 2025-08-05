@@ -38,6 +38,11 @@ $(document).ready(() => {
 
 	$(function() {
 	  $(".clickable-heart").on("click", function() {
+		
+		const $btn = $(this);
+		if ($btn.prop("disabled")) return;  // 이미 비활성화 상태면 무시		 
+		$btn.prop("disabled", true);
+		
 	    const postDiv = $(this).closest(".post-info");
 	    const feed_idx = postDiv.data("feed-idx");
 	    const icon = $(this).find("i");
@@ -46,8 +51,8 @@ $(document).ready(() => {
 	    // 현재 좋아요 눌림 상태 확인
 	    const liked = icon.hasClass("clicked");
 	    
-	    const url = liked ? "/feed/deleteFeedLike" : "/feed/addFeedLike";
-
+	    const url = liked ? "/feed/deleteFeedLike" : "/feed/addFeedLike";		
+		 
 	    $.ajax({
 	      url: contextPath + url,
 	      method: "POST",
@@ -67,6 +72,9 @@ $(document).ready(() => {
 	        alert("좋아요 처리 중 오류가 발생했습니다.");
 	      }
 	    });
+		
+		$btn.prop("disabled", false);  // 버튼 다시 활성화
+		
 	  });
 	});
 });
