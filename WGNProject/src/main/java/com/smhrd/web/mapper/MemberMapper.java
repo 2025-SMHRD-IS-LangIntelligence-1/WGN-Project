@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.smhrd.web.entity.t_log;
 import com.smhrd.web.entity.t_member;
 
 @Mapper
@@ -47,5 +48,8 @@ public interface MemberMapper {
 	
 	@Update("update t_member set mb_nick=#{nickname}, mb_intro=#{intro} where mb_id=#{mbId}")
 	void update(String mbId, String nickname, String intro);
+
+	@Insert("insert into t_log values(null, #{mb_id}, #{res_idx}, #{action_type}, now())")
+	void saveLog(String mb_id, Integer res_idx, String action_type);
 
 }

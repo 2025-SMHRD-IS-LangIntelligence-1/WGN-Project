@@ -1,5 +1,6 @@
 package com.smhrd.web.service;
 
+import com.smhrd.web.entity.t_log;
 import com.smhrd.web.entity.t_member;
 
 import jakarta.servlet.http.HttpSession;
@@ -26,5 +27,7 @@ public interface MemberService {
 	void updateWithImg(String mbId, String nickname, String intro, String url);
 	
 	void update(String mbId, String nickname, String intro);
+
+	void saveLog(String mb_id, Integer res_idx, String action_type);
 
 }

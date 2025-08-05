@@ -24,7 +24,7 @@
 			<div class="post-header">
 				<div class="post-user">
 					<img
-						src="${profile.mb_img}">
+						src="${feedOwnerProfile.mb_img}">
 					<div class="post-user-info">
 						<span><b>${feed.mb_nick}</b></span> <span
 							style="font-size: 12px; color: #888;">광주 ·
@@ -39,11 +39,11 @@
 							<c:choose>
 								<c:when test="${isFollowing}">
 									<button class="my-follow-btn following"
-										data-following-id="${feedOwnerId}" data-followed="true">팔로잉</button>
+										data-following-id="${feedOwnerProfile.mb_id}" data-followed="true">팔로잉</button>
 								</c:when>
 								<c:otherwise>
 									<button class="my-follow-btn"
-										data-following-id="${feedOwnerId}" data-followed="false">팔로우</button>
+										data-following-id="${feedOwnerProfile.mb_id}" data-followed="false">팔로우</button>
 								</c:otherwise>
 							</c:choose>
 						</form>

@@ -36,7 +36,7 @@
 					<input type="text" name="nickname" value="${profile.nickname}" />
 					<label>소개글</label>
 					<textarea name="intro">${profile.intro}</textarea>
-					<button type="submit">저장</button>
+					<button id="submitBtn" type="submit">저장</button>
 				</form>
 			</div>
 		</div>
