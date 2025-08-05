@@ -1,3 +1,39 @@
+// ============================== 프로필 ==============================
+
+// 프로필 수정 모달창
+const modal = document.getElementById('profileModal');
+
+// 모달 열기 버튼
+const openBtn = document.getElementById('profile-update-btn');
+
+// 모달 닫기 버튼
+const closeBtn = modal.querySelector('.close');
+
+// 모달 띄우기
+function openModal() {
+  modal.style.display = 'block';
+}
+
+// 모달 닫기
+function closeModal() {
+  modal.style.display = 'none';
+}
+
+// 프로필 수정 버튼 클릭 시 모달 열기
+openBtn.addEventListener('click', openModal);
+
+// 닫기 버튼 클릭 시 모달 닫기
+closeBtn.addEventListener('click', closeModal);
+
+// 모달 바깥 영역 클릭 시 모달 닫기
+window.addEventListener('click', function(event) {
+  if (event.target === modal) {
+    closeModal();
+  }
+});
+
+
+// ============================== 지도 ==============================
 var map = null;
 var markers = []; // 지도 마커 저장
 var center = new kakao.maps.LatLng(35.159545, 126.852601);

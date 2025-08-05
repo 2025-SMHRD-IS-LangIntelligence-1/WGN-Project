@@ -1,6 +1,8 @@
 
 package com.smhrd.web.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_member;
+import com.smhrd.web.service.CloudinaryService;
 import com.smhrd.web.service.FeedService;
 import com.smhrd.web.service.MemberService;
 import com.smhrd.web.service.ProfileService;
@@ -23,12 +29,18 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class ProfileController {
 
+    private final CloudinaryService cloudinaryService;
+
 	@Autowired
 	ProfileService profileService;
 	@Autowired
 	FeedService feedService;
 	@Autowired
 	MemberService memberService;
+
+    ProfileController(CloudinaryService cloudinaryService) {
+        this.cloudinaryService = cloudinaryService;
+    }
 	
     @GetMapping("/myPage")
     public String myPage(HttpSession session, Model model) {
@@ -95,6 +107,49 @@ public class ProfileController {
 	public String showNotifications() {
 	return "profile/notifications";
 	
-}
+	}	
+	
+	@PostMapping("/update")
+	public String updateProfile(HttpSession session,
+			@RequestParam("nickname") String nickname,
+			@RequestParam("intro") String intro,
+			@RequestParam("file") MultipartFile file) throws IOException {
+		
+		// 로그인 체크
+    	boolean loginCheck = memberService.loginCheck(session);
+		
+		if (!loginCheck) {
+			return "redirect:/member/login";
+		}
+		
+		// 세션에서 로그인한 사용자 정보 가져오기
+        t_member logined = (t_member) session.getAttribute("member");
+     	String myId = logined.getMb_id();
+		
+		// 리스트에 파일 추가
+		List<MultipartFile> files = new ArrayList<MultipartFile>();
+		files.add(file);
+		
+		String url;
+		
+		// 만약에 파일이 업로드 되지 않으면 
+		if (files == null || files.isEmpty()) {
+			memberService.update(myId, nickname, intro);
+		} else {
+		    List<String> urls = cloudinaryService.uploadFiles(files);
+
+		    if (urls != null && !urls.isEmpty()) {
+		        url = urls.get(0);
+		        memberService.updateWithImg(myId, nickname, intro, url);
+		    } else {
+		        // 업로드 실패나 예상 못한 상황
+		    	memberService.update(myId, nickname, intro);
+		        System.err.println("Cloudinary 업로드 결과가 비어 있음");
+		    }
+		}
+		
+		return "redirect:/profile/myPage";
+	}
+
 	
 }
