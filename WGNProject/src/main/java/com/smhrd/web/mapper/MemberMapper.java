@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -55,7 +56,7 @@ public interface MemberMapper {
 	@Insert("insert into t_log values(null, #{mb_id}, #{res_idx}, #{action_type}, now())")
 	void saveLog(String mb_id, Integer res_idx, String action_type);
 
-	@Select("select * from t_member where mb_id=#{keyword} or mb_nick=#{keyword}")
-	List<t_member> searchByIdOrNick(String keyword);
+	@Select("SELECT * FROM t_member WHERE mb_id LIKE CONCAT('%', #{keyword}, '%') OR mb_nick LIKE CONCAT('%', #{keyword}, '%')")
+	List<t_member> searchByIdOrNick(@Param("keyword") String keyword);
 
 }

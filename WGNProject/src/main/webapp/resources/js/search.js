@@ -52,11 +52,13 @@ $('.form-control').on('input', debounce(function() {
 		type: 'GET',
 		data: { keyword: keyword },
 		success: function(memberList) {
+			
+			console.log("검색 결과:", memberList); 
 
-			$('.member-header').empty(); // 기존 결과 비우기
+			$('#member-section').empty(); // 기존 결과 비우기
 
 			if (memberList.length === 0) {
-				$('.member-header').html('<p>검색 결과가 없습니다.</p>').show();
+				$('#member-section').html('<p>검색 결과가 없습니다.</p>').show();
 				return;
 			}
 
@@ -68,16 +70,17 @@ $('.form-control').on('input', debounce(function() {
 				        <img src="${member.mb_img}" alt="프로필">
 				        <div class="member-info">
 				          <span><b>${member.mb_nick}</b></span>
+						  <span style="font-size: 12px; color: #888;">@${member.mb_id}</span>
 				          <span style="font-size: 12px; color: #888;">${member.mb_intro}</span>
 				        </div>
 				      </div>
 				    </div>
 				  `
 				  
-				$('.member-header').append(card);
+				$('#member-section').append(card);
 			});
 
-			$('.member-header').show();
+			$('#member-section').show();
 		},
 		error: function() {
 			console.error("검색 실패");
