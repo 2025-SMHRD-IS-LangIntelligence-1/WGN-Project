@@ -45,59 +45,73 @@
   </div>
 </div>
 
-<!-- 정보 -->
+<c:set var="timeCount" value="${fn:length(res_time)}" />
+
 <div class="card-section" id="info-section">
-  <h5 class="section-title d-flex justify-content-between align-items-center">
-    정보
-    <i class="bi bi-chevron-down" id="toggleArrow" style="cursor: pointer;"></i>
-  </h5>
+  <h5 class="section-title">정보</h5>
 
-  <!-- 오늘 요일만 표시 -->
+  <!-- 오늘 요일 표시 -->
   <div id="todaySchedule">
-    <c:forEach var="time" items="${res_time}">
-      <c:if test="${fn:contains(time.weekday, todayKor)}">
-        <div class="review-card d-flex justify-content-between border-0">
-          <span><i class="bi bi-clock"></i> 영업시간</span>
-          <span>${time.weekday}</span>
-        </div>
 
-        <c:if test="${not empty time.last_time}">
-          <div class="review-card border-0 text-end">
-            <span class="sub-info">${time.last_time}</span>
-          </div>
-        </c:if>
-
-        <c:if test="${not empty time.break_time}">
-          <div class="review-card border-0 text-end">
-            <span class="sub-info">${time.break_time}</span>
-          </div>
-        </c:if>
-      </c:if>
-    </c:forEach>
+    
+<c:if test="${not empty singleTime}">
+  <div class="review-card d-flex justify-content-between border-0 align-items-center">
+    <span><i class="bi bi-clock"></i> 영업시간</span>
+    <span class="d-flex align-items-center">${singleTime.weekday}</span>
   </div>
+  <c:if test="${not empty singleTime.last_time}">
+    <div class="review-card border-0 text-end">
+      <span class="sub-info">${singleTime.last_time}</span>
+    </div>
+  </c:if>
+  <c:if test="${not empty singleTime.break_time}">
+    <div class="review-card border-0 text-end">
+      <span class="sub-info">${singleTime.break_time}</span>
+    </div>
+  </c:if>
+</c:if>
 
-  <!-- 전체 요일 영업시간 (초기엔 숨김) -->
-  <div id="fullSchedule" style="display: none;">
-    <c:forEach var="time" items="${res_time}">
-      <div class="review-card d-flex justify-content-between">
-        <span>영업시간</span>
-        <span>${time.weekday}</span>
+<!-- 2. 오늘 요일 포함된 항목 -->
+<c:forEach var="time" items="${todayTimes}">
+  <div class="review-card d-flex justify-content-between border-0 align-items-center">
+    <span><i class="bi bi-clock"></i> 영업시간</span>
+    <span class="d-flex align-items-center">
+      ${time.weekday}
+      <i class="bi bi-chevron-down ms-2" id="toggleArrow" style="cursor: pointer;"></i>
+    </span>
+  </div>
+  <c:if test="${not empty time.last_time}">
+    <div class="review-card border-0 text-end">
+      <span class="sub-info">${time.last_time}</span>
+    </div>
+  </c:if>
+  <c:if test="${not empty time.break_time}">
+    <div class="review-card border-0 text-end">
+      <span class="sub-info">${time.break_time}</span>
+    </div>
+  </c:if>
+</c:forEach>
+
+<!-- 3. 나머지 전체 요일 (접기용) -->
+<div id="fullSchedule" style="display:none;">
+  <c:forEach var="time" items="${otherTimes}">
+    <div class="review-card d-flex justify-content-between">
+      <span>영업시간</span>
+      <span>${time.weekday}</span>
+    </div>
+    <c:if test="${not empty time.last_time}">
+      <div class="review-card border-0 text-end">
+        <span class="sub-info">${time.last_time}</span>
       </div>
+    </c:if>
+    <c:if test="${not empty time.break_time}">
+      <div class="review-card border-0 text-end">
+        <span class="sub-info">${time.break_time}</span>
+      </div>
+    </c:if>
+  </c:forEach>
+</div>
 
-      <c:if test="${not empty time.last_time}">
-        <div class="review-card border-0 text-end">
-          <span class="sub-info">${time.last_time}</span>
-        </div>
-      </c:if>
-
-      <c:if test="${not empty time.break_time}">
-        <div class="review-card border-0 text-end">
-          <span class="sub-info">${time.break_time}</span>
-        </div>
-      </c:if>
-    </c:forEach>
-  </div>
-  
   <div class="review-card d-flex justify-content-between"><span><i class="bi bi-telephone"></i> 전화번호</span><span>${res.res_tel}</span></div>
   <div class="review-card d-flex justify-content-between"><span><i class="bi bi-geo-alt"></i> 주소</span><span>${res.res_addr }</span></div>
 
@@ -229,211 +243,9 @@
 
 
 <!-- 스크립트 -->
-<script>
-  // 탭 이동 + active
-  document.querySelectorAll('.tab-link').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
-      this.classList.add('active');
-      const targetId = this.getAttribute('href');
-      const target = document.querySelector(targetId);
-      if (target) {
-        const offsetTop = target.offsetTop - 70;
-        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-      }
-    });
-  });
-
-  // 탭 고정
-  document.addEventListener("DOMContentLoaded", () => {
-    const tab = document.getElementById("restaurantTabs");
-    const tabOffsetTop = tab.offsetTop;
-    window.addEventListener("scroll", () => {
-      if (window.scrollY >= tabOffsetTop - 60) {
-        tab.classList.add("fixed");
-      } else {
-        tab.classList.remove("fixed");
-      }
-    });
-  });
-
-
-  
-  //이미지
-  
-const images = [];
-let currentIndex = 0;
-
-// DOM 로드 후 이미지 수집 및 클릭 이벤트 연결
-document.addEventListener('DOMContentLoaded', () => {
-  const main = document.querySelector('.main-image');
-  const thumbs = document.querySelectorAll('.sub-image');
-
-  // 이미지 URL 추출 함수
-  function extractUrl(el) {
-    const bg = getComputedStyle(el).backgroundImage;
-    const match = bg.match(/url\("?(.+?)"?\)/);
-    return match ? match[1] : '';
-  }
-
-  // 이미지 배열에 push
-  if (main) {
-    const url = extractUrl(main);
-    images.push(url);
-    console.log("✅ 메인 이미지 URL:", url);
-  }
-
-  thumbs.forEach((thumb, i) => {
-    const url = extractUrl(thumb);
-    images.push(url);
-    console.log(`✅ 썸네일 ${i + 1} URL:`, url);
-  });
-
-  // 이미지 클릭 이벤트 등록
-  document.querySelectorAll('.main-image, .sub-image').forEach((img, idx) => {
-    img.addEventListener('click', () => openModal(idx));
-  });
-
-  // 스와이프 설정
-  setupTouchEvents();
-});
-
-// 모달 열기
-function openModal(index) {
-  currentIndex = index;
-  console.log("openModal 호출됨 - index:", index, "| 이미지 URL:", images[currentIndex]);
-  updateModalImage();
-  document.getElementById('imageModal').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-
-// 모달 닫기
-function closeModal() {
-  console.log("모달 닫기");
-  document.getElementById('imageModal').style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-// 이미지 업데이트
-function updateModalImage() {
-  const imgEl = document.getElementById('modalImageTag');
-  const currentUrl = images[currentIndex];
-  imgEl.src = currentUrl;
-  console.log("모달 이미지 업데이트 - index:", currentIndex, "| URL:", currentUrl);
-
-  document.querySelector('.nav-btn.prev').disabled = currentIndex === 0;
-  document.querySelector('.nav-btn.next').disabled = currentIndex === images.length - 1;
-}
-
-// 이전 이미지
-function prevImage() {
-  if (currentIndex > 0) {
-    currentIndex--;
-    console.log("이전 이미지로 - index:", currentIndex);
-    updateModalImage();
-  }
-}
-
-// 다음 이미지
-function nextImage() {
-  if (currentIndex < images.length - 1) {
-    currentIndex++;
-    console.log("다음 이미지로 - index:", currentIndex);
-    updateModalImage();
-  }
-}
-
-// 모바일 터치 스와이프
-function setupTouchEvents() {
-  const modal = document.getElementById('modalImage');
-  let startX = 0;
-  let endX = 0;
-
-  modal.addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
-  });
-
-  modal.addEventListener('touchend', e => {
-    endX = e.changedTouches[0].clientX;
-    handleSwipe();
-  });
-
-  function handleSwipe() {
-    const diff = endX - startX;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) {
-        prevImage();
-      } else {
-        nextImage();
-      }
-    }
-  }
-}
-const arrow = document.getElementById('toggleArrow');
-const fullBox = document.getElementById('fullSchedule');
-const todayBox = document.getElementById('todaySchedule');
-let isOpen = false;
-
-arrow.addEventListener('click', () => {
-  isOpen = !isOpen;
-  fullBox.style.display = isOpen ? 'block' : 'none';
-  todayBox.style.display = isOpen ? 'none' : 'block';
-
-  arrow.classList.toggle('bi-chevron-down');
-  arrow.classList.toggle('bi-chevron-up');
-});
-
-// 리뷰탭
-document.querySelectorAll(".review-tab").forEach(button => {
-	  button.addEventListener("click", () => {
-	    // 탭 활성화 토글
-	    document.querySelectorAll(".review-tab").forEach(btn => btn.classList.remove("active"));
-	    button.classList.add("active");
-
-	    // 컨텐츠 보이기 토글
-	    const targetId = button.getAttribute("data-target");
-	    document.querySelectorAll(".review-tab-content").forEach(content => {
-	      content.style.display = "none";
-	    });
-	    document.getElementById(targetId).style.display = "block";
-	  });
-	});
-
-// 카카오 네이버 더보기
-document.addEventListener('DOMContentLoaded', function () {
-  const toggleNaverBtn = document.getElementById('toggle-naver');
-  const toggleKakaoBtn = document.getElementById('toggle-kakao');
-
-  let naverExpanded = false;
-  let kakaoExpanded = false;
-
-  toggleNaverBtn.addEventListener('click', function () {
-    const hiddenEls = document.querySelectorAll('.naver-review');
-    naverExpanded = !naverExpanded;
-
-    hiddenEls.forEach((el, idx) => {
-      if (idx >= 3) {
-        el.classList.toggle('d-none', !naverExpanded);
-      }
-    });
-
-    this.textContent = naverExpanded ? '네이버 리뷰 접기' : '네이버 리뷰 더보기';
-  });
-
-  toggleKakaoBtn.addEventListener('click', function () {
-    const hiddenEls = document.querySelectorAll('.kakao-review');
-    kakaoExpanded = !kakaoExpanded;
-
-    hiddenEls.forEach((el, idx) => {
-      if (idx >= 3) {
-        el.classList.toggle('d-none', !kakaoExpanded);
-      }
-    });
-
-    this.textContent = kakaoExpanded ? '카카오 리뷰 접기' : '카카오 리뷰 더보기';
-  });
-});
+<script
+		src="${pageContext.request.contextPath}/resources/js/restaurant.js">
 </script>
+
 </body>
 </html>
