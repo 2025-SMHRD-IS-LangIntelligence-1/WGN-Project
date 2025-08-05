@@ -1,7 +1,10 @@
 package com.smhrd.web.service;
 
+import java.util.List;
+
 import org.springframework.scheduling.annotation.Async;
 
+import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.entity.t_member;
 
 import jakarta.servlet.http.HttpSession;
@@ -35,5 +38,9 @@ public interface MemberService {
 
 	@Async
 	void saveLog(String mb_id, Integer res_idx, String action_type);
+	
+	ProfileDTO getProfileInfo(String mb_id);
+
+	public List<t_member> searchByIdOrNick(String keyword);
 
 }

@@ -26,7 +26,6 @@ import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.CloudinaryService;
 import com.smhrd.web.service.FeedService;
 import com.smhrd.web.service.MemberService;
-import com.smhrd.web.service.ProfileService;
 import com.smhrd.web.service.RestaurantService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,8 +45,6 @@ public class FeedController {
 	MemberService memberService;
 	@Autowired
 	RestaurantService restaurantService;
-	@Autowired
-	ProfileService profileService;
 
 	FeedController(CloudinaryService cloudinaryService) {
 		this.cloudinaryService = cloudinaryService;
@@ -75,7 +72,7 @@ public class FeedController {
 		String feedOwnerId = feed.getMb_id();
 		
 		// 피드 주인 정보 가져오기
-		ProfileDTO feedOwnerProfile = profileService.getProfileInfo(feedOwnerId);
+		ProfileDTO feedOwnerProfile = memberService.getProfileInfo(feedOwnerId);
 		
 		// 해당 사용자가 피드 주인을 팔로우하고 있는지 여부를 체크하는 메서드
 		boolean isFollowing = memberService.isFollowing(mbId, feedOwnerId);
