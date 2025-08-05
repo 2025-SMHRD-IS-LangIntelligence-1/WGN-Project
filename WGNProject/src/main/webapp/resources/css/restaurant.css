@@ -1,53 +1,136 @@
 /* ==============================
-   대표 이미지 (클릭 시 전체보기 기능용)
+   이미지 영역: 대표 + 썸네일 + 확대
 ============================== */
-.hero-img {
-  margin-top: 50px;
-  height: 200px;
-  background-color: #ccc;
+
+.image-grid {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  margin: 80px 16px 20px;
+  flex-wrap: wrap;
+}
+
+.main-image {
+  flex: 2;
+  aspect-ratio: 16 / 9;
   background-size: cover;
   background-position: center;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 60%;
+}
+
+.sub-images {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 35%;
+}
+
+.sub-image {
+  flex: 1;
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.more-overlay::after {
+  content: '';
+  background-color: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+}
+
+.more-text {
+  position: absolute;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  bottom: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.full-hero {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 10px;
+  touch-action: pan-y;
+}
+
+.full-hero-img {
+  width: 100%;
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  background-color: #111;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  z-index: 10000;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-btn.prev {
+  left: 20px;
+}
+
+.nav-btn.next {
+  right: 20px;
+}
+
+.nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 2.5rem;
+  z-index: 10001;
   cursor: pointer;
 }
 
-/* 이미지 전체 보기 (확대된 뷰) */
-.full-hero {
-  position: fixed;
-  top: 60px;
-  bottom: 56px;
-  left: 0;
-  right: 0;
-  z-index: 998;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-/* 이미지가 가능한 영역 꽉 채우게 */
-.full-hero-img {
-  flex-grow: 1;
-  background-size: cover;
-  background-position: center;
-  min-height: 300px; /* 너무 작아지지 않도록 */
-}
-
-/* 식당 정보는 아래에 고정된 크기 */
-.full-hero .restaurant-info {
-  padding: 16px;
-  background: #fff;
-}
-
-/* 닫기 버튼 */
-.full-hero .close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 28px;
-  color: #333;
-  background: none;
-  border: none;
-  z-index: 999;
+@media (hover: none) and (pointer: coarse) {
+  .full-hero {
+    touch-action: pan-y;
+  }
 }
 
 /* ==============================
@@ -72,7 +155,7 @@
    탭 메뉴 스타일
 ============================== */
 .restaurant-tabs-wrapper {
-  height: 46px; /* 탭 높이 확보 */
+  height: 46px;
 }
 .restaurant-tabs {
   background: #fff;
@@ -94,7 +177,7 @@
 }
 .restaurant-tabs.fixed {
   position: fixed;
-  top: 60px; /* 탑바 고려 */
+  top: 60px;
   left: 0;
   right: 0;
   z-index: 999;
@@ -149,8 +232,6 @@
   font-weight: bold;
   color: #ff9900;
 }
-
-/* 워드 클라우드 이미지 */
 #rating-section img {
   max-width: 100%;
   border-radius: 10px;

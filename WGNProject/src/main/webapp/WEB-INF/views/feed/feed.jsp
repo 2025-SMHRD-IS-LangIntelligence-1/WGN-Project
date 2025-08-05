@@ -88,7 +88,7 @@
 
 				<!-- 장소 카드 -->
 				<div class="location-card">
-					<div class="location-info"  onclick="window.location='${pageContext.request.contextPath}/restaurant?res_idx=${resinfo.res_idx}'">
+					<div class="location-info"  onclick="window.location='${pageContext.request.contextPath}/restaurant?res_idx=${resInfo.res_idx}'">
 						<img src="${resInfo.res_thumbnail}">
 						<div>
 							<div style="font-weight: bold;">${resInfo.res_name}</div>
