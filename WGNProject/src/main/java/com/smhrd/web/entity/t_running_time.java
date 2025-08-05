@@ -18,16 +18,15 @@ public class t_running_time {
  // 음식점 식별자 
  private Integer res_idx;
 
- // 요일 
+ // 요일별 운영시간 
  private String weekday;
 
- // 오픈 시간 
- private Timestamp open_time;
+ // 라스트오더 시간 
+ private String last_time;
 
- // 종료 시간 
- private Timestamp close_time;
+ // 브레이크 시간 
+ private String break_time;
 
- // 운영 여부 
- private String is_running;
+
 
 }
