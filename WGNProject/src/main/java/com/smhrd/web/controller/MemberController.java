@@ -77,6 +77,8 @@ public class MemberController {
 	// 로그인 기능
 	@PostMapping("/loginMember")
 	public String login(t_member mem, HttpSession session, Model model) {
+		
+		// 로그인 메서드
 	    t_member member = memberService.login(mem);
 	    ProfileDTO profile = profileService.getProfileInfo(mem.getMb_id());
 	    
@@ -84,8 +86,9 @@ public class MemberController {
 	        session.setAttribute("member", member);  // 멤버 정보 세션에 저장
 	        session.setAttribute("profile", profile); // 프로필 정보 세션에 저장
 	        return "redirect:/";
+	        
 	    } else {
-	        model.addAttribute("msg", "아이디 또는 비밀번호가 올바르지 않습니다.");
+	        System.out.println("아이디와 비밀번호가 올바르지 않습니다.");
 	        return "member/login";  // 로그인 실패 시 다시 로그인 페이지로
 	    }
 	}

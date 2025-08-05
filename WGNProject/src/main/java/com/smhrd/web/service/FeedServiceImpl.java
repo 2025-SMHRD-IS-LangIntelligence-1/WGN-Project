@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.smhrd.web.dto.CommentDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_comment;
 import com.smhrd.web.entity.t_feed;
@@ -72,9 +73,15 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public List<t_comment> getCmtByFeedIdx(int feedIdx) {
-		List<t_comment> comments = feedMapper.getCmtByfeedIdx(feedIdx);
+	public List<CommentDTO> getCmtByFeedIdx(int feedIdx) {
+		List<CommentDTO> comments = feedMapper.getCmtByfeedIdx(feedIdx);
 		return comments;
+	}
+
+	@Override
+	public void deleteFeed(int feed_idx) {
+		feedMapper.deleteFeed(feed_idx);
+		
 	}
 
 }

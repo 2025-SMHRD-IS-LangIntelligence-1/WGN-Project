@@ -1,7 +1,58 @@
-@charset "UTF-8";
+/* ==============================
+   대표 이미지 (클릭 시 전체보기 기능용)
+============================== */
+.hero-img {
+  margin-top: 50px;
+  height: 200px;
+  background-color: #ccc;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+}
 
+/* 이미지 전체 보기 (확대된 뷰) */
+.full-hero {
+  position: fixed;
+  top: 60px;
+  bottom: 56px;
+  left: 0;
+  right: 0;
+  z-index: 998;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
 
-/* 식당 기본 정보 */
+/* 이미지가 가능한 영역 꽉 채우게 */
+.full-hero-img {
+  flex-grow: 1;
+  background-size: cover;
+  background-position: center;
+  min-height: 300px; /* 너무 작아지지 않도록 */
+}
+
+/* 식당 정보는 아래에 고정된 크기 */
+.full-hero .restaurant-info {
+  padding: 16px;
+  background: #fff;
+}
+
+/* 닫기 버튼 */
+.full-hero .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  color: #333;
+  background: none;
+  border: none;
+  z-index: 999;
+}
+
+/* ==============================
+   식당 기본 정보
+============================== */
 .restaurant-info {
   background: #fff;
   padding: 15px;
@@ -17,28 +68,60 @@
   margin-top: 5px;
 }
 
-/* 상세 정보 */
-.detail-section {
-  background: #fff;
-  padding: 15px;
-  margin-top: 8px;
+/* ==============================
+   탭 메뉴 스타일
+============================== */
+.restaurant-tabs-wrapper {
+  height: 46px; /* 탭 높이 확보 */
 }
-.detail-row {
+.restaurant-tabs {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 0;
+  justify-content: space-around;
+  padding: 10px 0;
+  font-weight: bold;
   font-size: 14px;
-  border-bottom: 1px solid #f0f0f0;
 }
-.detail-row:last-child { border-bottom: none; }
-
-/* 메뉴 섹션 */
-.menu-section {
+.restaurant-tabs a {
+  text-decoration: none;
+  color: #333;
+  position: relative;
+}
+.restaurant-tabs a.active {
+  color: #FFD84D;
+  border-bottom: 2px solid #FFD84D;
+}
+.restaurant-tabs.fixed {
+  position: fixed;
+  top: 60px; /* 탑바 고려 */
+  left: 0;
+  right: 0;
+  z-index: 999;
   background: #fff;
-  padding: 15px;
-  margin-top: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
 }
+
+/* ==============================
+   카드 섹션 공통
+============================== */
+.card-section {
+  background: #fff;
+  margin-top: 6px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* ==============================
+   메뉴 및 상세 정보
+============================== */
+.detail-row,
 .menu-item {
   display: flex;
   justify-content: space-between;
@@ -46,10 +129,16 @@
   border-bottom: 1px solid #f0f0f0;
   font-size: 14px;
 }
-.menu-item:last-child { border-bottom: none; }
+.detail-row:last-child,
+.menu-item:last-child {
+  border-bottom: none;
+}
 
-/* 평점 섹션 */
-.review-score {
+/* ==============================
+   평점 스타일
+============================== */
+.review-score,
+#rating-section {
   background: #fff;
   padding: 15px;
   margin-top: 8px;
@@ -61,7 +150,17 @@
   color: #ff9900;
 }
 
-/* 리뷰 섹션 */
+/* 워드 클라우드 이미지 */
+#rating-section img {
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+}
+
+/* ==============================
+   리뷰 카드 스타일
+============================== */
 .review-section {
   background: #fff;
   padding: 15px;
@@ -70,17 +169,24 @@
 .review-card {
   border-top: 1px solid #eee;
   padding: 10px 0;
+  display: flex;
+  align-items: center;
 }
-.review-card:first-child { border-top: none; }
-.review-user {
-  font-weight: bold;
+.review-card:first-child {
+  border-top: none;
 }
 .review-img {
-  width: 60px; height: 60px;
+  width: 45px;
+  height: 45px;
   background: #ddd;
   border-radius: 8px;
   margin-right: 10px;
 }
+.review-user {
+  font-size: 13px;
+  font-weight: bold;
+}
 .review-content {
-  font-size: 14px;
+  font-size: 13px;
+  color: #333;
 }

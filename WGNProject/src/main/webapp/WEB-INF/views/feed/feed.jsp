@@ -11,22 +11,20 @@
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/feed.css" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/home.css" />
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 </head>
 <body>
 	<div class="mobile-container">
-		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
+	<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 		<div class="content">
 
 			<!-- 상단 프로필 -->
 			<div class="post-header">
 				<div class="post-user">
 					<img
-						src="https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250724_184%2F1753329591483vtYsm_JPEG%2F%25C1%25A6%25B8%25F1%25C0%25BB-%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4_-001.jpg">
+						src="${profile.mb_img}">
 					<div class="post-user-info">
 						<span><b>${feed.mb_nick}</b></span> <span
 							style="font-size: 12px; color: #888;">광주 ·
@@ -52,8 +50,11 @@
 					</c:when>
 					<c:when test="${feed.mb_id eq sessionScope.member.mb_id}">
 						<div class="btn-wrapper">
-							<button class="follow-btn">수정</button>
-							<button class="follow-btn">삭제</button>
+							<form action="${pageContext.request.contextPath}/feed/delete" method="post">
+								<input type="hidden" name="feed_idx" value="${feed.feed_idx}">
+								<button class="follow-btn edit-btn" type="submit">수정</button>
+								<button class="follow-btn delete-btn" type="submit">삭제</button>
+							</form>
 						</div>
 					</c:when>
 				</c:choose>
@@ -87,7 +88,7 @@
 
 				<!-- 장소 카드 -->
 				<div class="location-card">
-					<div class="location-info">
+					<div class="location-info"  onclick="window.location='${pageContext.request.contextPath}/restaurant'">
 						<img src="${resInfo.res_thumbnail}">
 						<div>
 							<div style="font-weight: bold;">${resInfo.res_name}</div>
@@ -114,33 +115,29 @@
 					<div class="comments">
 						<c:forEach var="comment" items="${comments}">
 							<div class="comment">
-								<img src="" class="comment-avatar">
+								<img src="${comment.mb_img}" class="comment-avatar">
 								<div class="comment-body">
 									<!-- 작성자 닉네임 -->
-									<strong>${comment.mb_nick}</strong>
+									<strong>${comment.comment.mb_nick}</strong>
 									<!-- 댓글 내용 -->
-									<p>${comment.cmt_content}</p>
+									<p>${comment.comment.cmt_content}</p>
 								</div>
 								<i class="bi bi-heart"></i>
 							</div>
 						</c:forEach>
 					</div>
-
-
 				</div>
 
 			</div>
-			<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 		</div>
 	</div>
-
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 		contextPath = "${pageContext.request.contextPath}"
 	</script>
-	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
+
 </body>
 </html>

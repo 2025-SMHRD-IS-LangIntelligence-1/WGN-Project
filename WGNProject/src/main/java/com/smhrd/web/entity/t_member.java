@@ -26,5 +26,8 @@ public class t_member {
 
     // 가입 일자 
     private Timestamp joined_at;
+    
+    // 회원 프로필 이미지 링크
+    private String mb_img;
 	
 }

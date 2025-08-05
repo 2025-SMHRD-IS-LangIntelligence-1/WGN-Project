@@ -55,60 +55,60 @@
 }
 
 .res-section-box {
-  padding-left: 12px;
-  padding-right: 12px;
+  padding: 12px;                       /* ✅ 내부 여백 (사방) */
+  border-bottom: 1px solid #e0e0e0;    /* ✅ 아래 회색 선 */
 }
 
-/* 음식 썸네일 이미지 */
+/*------------------------------------------------------------------*/
+/*----------------------      음식점 검색 탭      ----------------------*/
+/*------------------------------------------------------------------*/
+
+/* 🍜 음식 썸네일 이미지 */
 .res_thumbnail {
   width: 80px;                     /* 정사각형 크기 */
   height: 80px;
   border-radius: 8px;              /* 모서리 둥글게 */
   object-fit: cover;               /* 비율 유지하며 꽉 채우기 */
-  margin-right: 12px;    		   /* 오른쪽 요소와 간격 */
+  margin-right: 12px;              /* 오른쪽 요소와 간격 */
+  cursor: pointer;				   /* 마우스 커서 반응*/
 }
 
-/* 텍스트 정보 (이름 + 주소) */
-.res_info {
+/* 📝 텍스트 정보 (가게명 + 주소) */
+.res-info {
   display: flex;
-  flex-direction: column;         /* 세로 정렬 */
-  gap: 6px;                       /* 요소 간 간격 */
-  margin-right: auto;     		  /* 평점과 화살표를 오른쪽으로 밀어냄 */
+  flex-direction: column;          /* 세로 정렬 */
+  gap: 6px;                        /* 요소 간 간격 */
+  margin-right: auto;              /* 오른쪽 요소들 밀어냄 */
 }
 
-/* 음식점 이름 */
+/* 🏷️ 음식점 이름 */
 .res_name {
-  font-size: 16px;                /* 조금 큰 글씨 */
-  font-weight: bold;              /* 굵게 */
+  font-size: 16px;                 /* 조금 큰 글씨 */
+  font-weight: bold;               /* 굵게 */
   margin: 0;
-  color: #171513;                 /* 거의 검정색 */
+  color: #171513;                  /* 거의 검정색 */
+  cursor: pointer;				   /* 마우스 커서 반응*/
 }
 
 /* 📍 음식점 주소 */
 .res_addr {
-  font-size: 13px;                /* 작고 부드러운 텍스트 */
-  color: #555;                    /* 회색 계열 */
+  font-size: 13px;                 /* 작고 부드러운 텍스트 */
+  color: #555;                     /* 회색 계열 */
   margin: 0;
 }
 
 /* ⭐ 평점 정보 박스 */
 .rating_info {
-  display: inline-flex;          /* 인라인 가로 정렬 */
+  display: inline-flex;            /* 인라인 가로 정렬 */
   align-items: center;
-  gap: 4px;                       /* 아이콘과 숫자 간격 */
-  background-color: #ffd700;      /* 금색 배경 */
-  border-radius: 12px;            /* 태그 형태 둥글게 */
-  padding: 2px 6px;               /* 내부 여백 */
-  font-size: 13px;                /* 글씨 */
-  font-weight: bold;              /* 굵게 */
-  color: #000;                    /* 글자 검정색 */
-  width: fit-content;             /* 내용 크기만큼 너비 */
-}
-
-/* 🌟 별 아이콘 (또는 코인) */
-.ratings_icon {
-  width: 16px;
-  height: 16px;
+  gap: 4px;                        /* 아이콘과 숫자 간격 */
+  background-color: #f4b400;       /* 금색 배경 */
+  border-radius: 10px;             /* 태그 형태 둥글게 */
+  padding: 2px 6px;                /* 내부 여백 */
+  font-size: 13px;                 /* 글씨 */
+  font-weight: bold;               /* 굵게 */
+  color: #000;                     /* 글자 검정색 */
+  width: fit-content;              /* 내용 크기만큼 너비 */
 }
 
 /* 🔢 평점 숫자 */
@@ -116,6 +116,214 @@
   font-size: 13px;
 }
 
+/* 📌 찜하기(압정) 버튼 */
+.bookmark-btn {
+  background: none;                /* 배경 제거 (투명하게) */
+  border: none;                    /* 테두리 제거 */
+  cursor: pointer;                 /* 마우스를 올렸을 때 손가락 모양 */
+  font-size: 20px;                 /* 아이콘 크기 설정 */
+  color: #f4b400;                  /* 아이콘 색상 (노란색 계열) */
+}
+
+/* ⭐ 오른쪽 요소들 (평점 + 찜 버튼) 묶음 */
+.right-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;                        /* 평점과 버튼 사이 간격 */
+  margin-left: auto;              /* 왼쪽 요소 밀어냄 */
+  margin-right: 12px;             /* search-box와 같은 오른쪽 여백 */
+}
 
 
 
+/*------------------------------------------------------------------*/
+/*----------------------     게시글 검색 탭      ----------------------*/
+/*------------------------------------------------------------------*/
+
+#feed-section {
+	border-bottom: 1px solid #eee; /* 얇고 연한 회색 선 */
+	overflow: hidden; /* 자식의 높이를 포함시킴 */
+}
+
+/* Bootstrap 캐러셀 요소들의 테두리, 아웃라인, 그림자 제거 */
+.carousel,
+.carousel-inner,
+.carousel-item {
+  outline: none !important;		 /* 요소가 포커스를 받아도 외곽선(파란 테두리 등) 제거 */
+  border: none !important;		 /* 기본 테두리 제거 */
+  box-shadow: none !important;   /* 그림자 효과 제거 */
+}
+
+
+/* 하트 아이콘: 호버 시 빨간색 + 약간 커짐 + 클릭 커서 */
+.feed-actions .bi-heart:hover {
+  color: red;
+  transform: scale(1.2);  /* 살짝 커지는 효과 */
+  cursor: pointer;        /* 클릭 가능 모양 */
+}
+
+/* 댓글 아이콘: 호버 시 커서만 손 모양으로 변경 */
+.feed-actions .bi-chat:hover {
+  cursor: pointer; /*마우스 커서 반응 효과*/
+}
+
+/* 피드 상단: 작성자 정보 + 팔로우 버튼 정렬 */
+.feed-header { 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px; 
+}
+
+/* 작성자 프로필 영역 설정 */
+.feed-member {
+	display: flex;
+	align-items: center;
+}
+
+/* 프로필 이미지 설정 */
+.feed-member img {
+	cursor: pointer;
+	width: 40px;
+	height: 40px;
+	object-fit: cover; /* 이미지 비율 유지하면서 강제 크기 맞춤 */
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+/* 작성자 이름 및 시간 정보 */
+.feed-member-info {
+	font-size: 13px;
+}
+
+.feed-member-info b {
+	font-size: 14px;
+	cursor: pointer;				   /* 마우스 커서 반응*/
+}
+
+/* 팔로우 버튼 스타일 */
+.follow-btn {
+  background: #f4b400;       		/* 노란색 배경 */
+  border: none;       				/* 테두리 없앰 */
+  padding: 5px 12px;				/* 상하 5px, 좌우 12px 여백 */
+  border-radius: 8px;				/* 둥근모서리 */
+  font-size: 14px;					/* 글자크기 14px */
+  font-weight: bold;
+  margin: 0px;
+}
+
+/* 수정/삭제 버튼 묶음 (작성자 본인일 경우) */
+.btn-wrapper {
+  display: flex;
+  gap: 4px; 						/* 버튼 간격 조절 */
+}
+
+/* 캐러셀 이미지 크기 설정 */
+.carousel-item img {
+  width: 100%;						/* 부모 너비 채움 */
+  height: 60vh; 					/* 화면 높이의 60% */
+  object-fit: cover;				/* 이미지 비율 유지하면서 채우기 */
+  border: none;
+}
+
+/* 캐러셀을 피드 내에서 확장 */
+.feed-item .carousel { flex: 1; }
+
+/* 하트, 댓글 등 액션 영역 설정 */
+.feed-actions {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 1.2rem;
+}
+.feed-actions .stats{
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+/* 장소 카드 */
+.location-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;	
+  background: #fdf7e6;				/* 연한 노란 배경 */
+  border-top: 1px solid #f2e3c0;	/* 위쪽 테두리 */
+  padding: 8px 12px;	
+  cursor: pointer;					/* 클릭 가능 */
+}
+
+/* 장소 이름과 분류 텍스트 */
+.location-info {
+  font-size: 13px;
+}
+.location-info b {
+  display: block;			/* 줄바꿈 */
+}
+
+/* 본문 텍스트 */
+.feed-caption {
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.4;			/* 줄 간격 */
+  min-height: 70px;			/* 최소 높이 확보 */
+}
+
+/* 더보기 버튼 스타일 */
+.more-btn {
+  color:#666;
+  font-size:13px;
+  cursor:pointer;
+  display:inline-block;
+}
+
+/*------------------------------------------------------------------*/
+/*----------------------      사용자 검색 탭      ----------------------*/
+/*------------------------------------------------------------------*/
+
+.member-header {
+	display: flex; /* 플렉스 박스 레이아웃 적용 */
+	justify-content: space-between; /* 좌우 아이템 사이를 최대한 벌림 */
+	align-items: center; /* 세로 가운데 정렬 */
+	padding: 12px; /* 안쪽 여백 12px */
+	border-bottom: 1px solid #eee;
+}
+
+/* 사용자 정보 영역 */
+.feed-member {
+	display: flex; /* 플렉스 박스 적용하여 가로 정렬 */
+	align-items: center; /* 세로 가운데 정렬 */
+}
+
+/* 프로필 이미지 설정 */
+.feed-member img {
+	cursor: pointer;
+	width: 40px;
+	height: 40px;
+	object-fit: cover; 			/* 이미지 비율 유지하면서 강제 크기 맞춤 */
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+/* 사용자 이름 및 기타 정보 텍스트 */
+.member-info {
+	display: flex; /* 플렉스 박스 */
+	flex-direction: column; /* 세로 방향 정렬 */
+	font-size: 14px; /* 글자 크기 14px */
+	cursor: pointer;				   /* 마우스 커서 반응*/
+}
+
+/* 팔로우 버튼 스타일 */
+.my-follow-btn {
+	background: #f4b400; /* 노란색 배경 */
+	border: none; /* 테두리 없앰 */
+	padding: 5px 12px; /* 상하 5px, 좌우 12px 여백 */
+	border-radius: 8px; /* 둥근 모서리 반경 8px */
+	font-size: 14px; /* 글자 크기 14px */
+	font-weight: bold; /* 글자 두껍게 */
+}
+
+.my-follow-btn.following {
+    color: gray !important;
+    background-color: #f0f0f0 !important; /* 배경색도 바꿔보기 */
+    border-color: gray !important;         /* 테두리 색 바꾸기 */
+}

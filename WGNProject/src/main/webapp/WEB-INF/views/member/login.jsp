@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>Home</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
@@ -23,7 +24,9 @@
 					<tr>
 						<td><input type="submit" value="로그인"></td>
 					</tr>
-					
+					<tr>
+						<td><a href="${pageContext.request.contextPath}/member/join">회원가입</a></td>
+					</tr>
 				</table>
 			</form>
 		</div>

@@ -55,8 +55,12 @@ public class MemberServiceImpl implements MemberService {
 		
 		if (foundMem == null) { // 입력한 아이디를 못 찾았으면 null 반환
 			return null;
-		}else { // 찾았으면 멤버 정보 반환
+		}else if (foundMem.getMb_pw().equals(mem.getMb_pw())) { // 입력한 비밀번호와 DB의 비밀번호가 같으면 멤버 정보 반환
+			System.out.println(foundMem.getMb_pw());
+			System.out.println(mem.getMb_pw());
 			return foundMem;
+		}else { // 입력한 비밀번호와 DB의 비밀번호가 다르면 null 반환
+			return null;
 		}
 	}
 
