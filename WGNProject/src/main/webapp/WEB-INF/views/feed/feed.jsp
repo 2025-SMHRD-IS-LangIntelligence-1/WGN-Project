@@ -26,7 +26,8 @@
 			<!-- 상단 프로필 -->
 			<div class="post-header">
 				<div class="post-user">
-					<img src="${feedOwnerProfile.mb_img}">
+					<img
+						src="${profile.mb_img}">
 					<div class="post-user-info">
 						<span><b>${feed.mb_nick}</b></span> <span
 							style="font-size: 12px; color: #888;">광주 ·
