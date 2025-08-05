@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProfileDTO {
 
+	private String mb_id;
 	private String nickname;
 	private int feed_num=0;
 	private int follower=0;

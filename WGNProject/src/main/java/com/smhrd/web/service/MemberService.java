@@ -23,4 +23,8 @@ public interface MemberService {
 
 	boolean isFollowing(String mbId, String feedOwnerId);
 
+	void updateWithImg(String mbId, String nickname, String intro, String url);
+	
+	void update(String mbId, String nickname, String intro);
+
 }

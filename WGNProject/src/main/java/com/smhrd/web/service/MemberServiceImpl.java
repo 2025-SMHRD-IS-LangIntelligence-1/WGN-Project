@@ -100,4 +100,15 @@ public class MemberServiceImpl implements MemberService {
 		return true;
 	}
 
+	@Override
+	public void updateWithImg(String mbId, String nickname, String intro, String url) {
+		memberMapper.updateWithImg(mbId, nickname, intro, url);
+	}
+
+	@Override
+	public void update(String mbId, String nickname, String intro) {
+		memberMapper.update(mbId, nickname, intro);
+		
+	}
+
 }

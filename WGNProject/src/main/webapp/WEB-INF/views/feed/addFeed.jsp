@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -37,12 +37,12 @@
 					<br>
 					<div class="upload-wrapper">
 						<!-- 업로드 버튼 -->
-						<label for="file-upload" class="upload-box"> <img
-							src="camera-icon.png" alt=■> <span>사진/영상</span>
+						<label for="file-upload" class=" upload-box"> <i
+							class="bi bi-camera"></i> <span>사진/영상</span>
 						</label>
 						<!-- 숨겨진 파일 업로드 -->
 						<input type="file" name="files" id="file-upload"
-							class="file-upload" accept="image/*, video/*" hidden multiple>
+							class="file-upload" accept="image/*" hidden multiple>
 					</div>
 					<br>
 					<!-- 검색창 -->
@@ -54,6 +54,18 @@
 				<div>
 					<!-- 회색 선 -->
 					<div class="section_divider"></div>
+					<!-- 별점 등록창 -->
+					<div id="ratingForm">
+						<input type="radio" id="star5" name="rating" value="5" /><label
+							for="star5" title="5 stars">★</label> <input type="radio"
+							id="star4" name="rating" value="4" /><label for="star4"
+							title="4 stars">★</label> <input type="radio" id="star3"
+							name="rating" value="3" /><label for="star3" title="3 stars">★</label>
+						<input type="radio" id="star2" name="rating" value="2" /><label
+							for="star2" title="2 stars">★</label> <input type="radio"
+							id="star1" name="rating" value="1" /><label for="star1"
+							title="1 star">★</label>
+					</div>
 					<!-- 검색창 -->
 					<input type="text" class="search_input" placeholder="음식점을 입력하세요">
 					<input type="hidden" name="res_idx" id="selectedResIdx">
