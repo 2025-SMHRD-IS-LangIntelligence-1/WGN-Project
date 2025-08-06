@@ -44,22 +44,21 @@ public class RecommendationServiceImpl implements RecommendationService {
 	}
 
 	@Override
-	public List<t_feed> getRecommendedFeeds(t_log log) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Integer> sendLogsAndFeeds(String mb_id) {
 
+		System.out.println("sendLogsAndFeeds 메서드 실행");
+		
 		// HTTP 헤더 설정
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-
+		
 		// 데이터 보내기
 		List<LogDTO> logs = this.getMemberLog(mb_id);
 		List<CandidateFeedDTO> feeds = this.getCandidateFeed(mb_id);
 
+		System.out.println("보낸 로그 수 : " + logs.size());
+		System.out.println("보낸 피드 수 : " + feeds.size());
+		
 		List<Map<String, Object>> logList = new ArrayList<>();
 
 		for (LogDTO log : logs) {
@@ -94,17 +93,24 @@ public class RecommendationServiceImpl implements RecommendationService {
 		requestBody.put("logs", logList);
 		requestBody.put("feeds", feedList);
 
+		System.out.println("requestBody의 크기 : " + requestBody.size());
+		
 		// 요청 생성
 		HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
+		System.out.println("요청 생성 완료");
+		
 		// FastAPI URL
 		String pythonUrl = "http://localhost:8000/receive_logs_and_feeds";
 
 		// 요청 보내고 결과 받기
 		ResponseEntity<FeedRecommendationResponse> response = restTemplate.postForEntity(pythonUrl, requestEntity, FeedRecommendationResponse.class);
 
+		System.out.println("요청 보내고 결과 받기 완료");
+		
 		List<Integer> recommendedIds = response.getBody().getRecommended_feed_ids();
 		
+		System.out.println("응답 본문: " + response.getBody());
 		System.out.println("추천 피드 ID: " + recommendedIds);
 
 		return recommendedIds;

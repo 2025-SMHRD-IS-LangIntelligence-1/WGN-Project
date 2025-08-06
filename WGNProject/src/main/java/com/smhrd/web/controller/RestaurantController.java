@@ -32,7 +32,7 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantMapper resmapper;
 	@Autowired
-	MemberService memberService;
+	private MemberService memberService;
 
 	@Autowired
 	private RestaurantService restaurantService;

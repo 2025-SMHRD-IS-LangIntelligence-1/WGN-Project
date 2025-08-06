@@ -3,6 +3,8 @@ package com.smhrd.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,13 +26,22 @@ public class RecommandationController {
     @GetMapping("/feed")
     public List<Integer> getRecommendedFeeds(HttpSession session) {
     	
+    	System.out.println("getRecommendFeeds 메서드 실행");
+    	
         t_member member = (t_member) session.getAttribute("member");
-        String mb_id = member.getMb_id();
+        String mb_id="hyereams";
         
-        if(mb_id == null) {
-        	mb_id = "hyereams"; // 로그인 전 테스트용 아이디
+        if (member == null) {
+            // 로그인 정보가 없으므로 에러 처리 or 리다이렉트 or 기본값 설정
+            System.out.println("세션에 로그인 정보가 없습니다.");
+        }else {
+        	mb_id = member.getMb_id();
         }
         
-        return recommendationService.sendLogsAndFeeds(mb_id);
+        List<Integer> FeedIdxList = recommendationService.sendLogsAndFeeds(mb_id);
+        
+        System.out.println("FeedIdxList : " + FeedIdxList);
+        
+        return FeedIdxList;
     }
 }

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FeedRecommendationResponse {
 	
-	private String message;
 	private List<Integer> recommended_feed_ids;
 
 }

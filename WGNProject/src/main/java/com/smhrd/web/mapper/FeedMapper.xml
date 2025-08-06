@@ -88,14 +88,7 @@
 		LEFT JOIN
 		t_restaurant r ON r.res_idx = f.res_idx
 		WHERE
-		f.created_at >= NOW() - INTERVAL 30 DAY
-		AND f.feed_likes >= 5 
-		AND f.mb_id != #{mb_id} 
-		AND f.res_idx NOT IN (
-		SELECT log.res_idx
-		FROM t_log log
-		WHERE log.mb_id = #{mb_id}
-		)
+		f.mb_id != #{mb_id}
 	</select>
 
 </mapper>
