@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* 화면 뒷배경 전체 설정*/
 body {
     background-color: #fafafa;
@@ -9,14 +10,22 @@ body {
     overflow: hidden; 			/* 스크롤 차단 */
 }
 
+.join h1 {
+    font-size: 32px;      /* 글자 크기 */
+    line-height: 46px;	  /* 줄 높이 */
+    font-weight: bold;    /* 굵기 */
+    margin: 0;            /* 기본 여백 제거 */
+    text-align: center;   /* 텍스트 가운데 정렬 */
+}
+
 /* 회원가입 글자*/
 .join {
-    color: #171513;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    margin-top: 40px;
-    margin-bottom: 40px;
+    color: #171513;			
+    display: flex;				
+    justify-content: center;	/* 가로 방향으로 가운데 정렬 */
+    align-items: center; 		/* 세로 방향으로 가운데 정렬 */
+    margin-top: 40px;			/* 위쪽 여백 40px */
+    margin-bottom: 40px;		/* 아래쪽 여백 40px */
 }
 
 .content table {
@@ -122,11 +131,6 @@ table input[type="submit"]:hover {
   opacity: 0.6;      
   transition: background-color 0.3s ease;
 }
-
-
-/*------------------------------------------------------------------------*/
-/*------------------------------- 로그인 화면 -------------------------------*/
-
 
 
 

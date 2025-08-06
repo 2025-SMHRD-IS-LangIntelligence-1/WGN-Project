@@ -14,4 +14,5 @@ public class t_convenience {
 	private int res_idx;
 	
 	private String res_con;
+	
 }

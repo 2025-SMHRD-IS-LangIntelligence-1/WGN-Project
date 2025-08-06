@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.smhrd.web.mapper.LogMapper">
+
+<select id="getMemberLog">
+	select l.log_idx, l.mb_id, r.res_idx, r.res_category,
+	r.res_tag, l.action_type, l.created_at
+	from t_log l
+	left join t_restaurant r on r.res_idx = l.res_idx
+	where l.mb_id = #{mb_id}
+	order by created_at desc
+	limit 500;
+</select>
+
+</mapper>

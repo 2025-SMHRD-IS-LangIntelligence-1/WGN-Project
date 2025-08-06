@@ -6,7 +6,6 @@ import org.springframework.scheduling.annotation.Async;
 
 import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.entity.t_member;
-
 import jakarta.servlet.http.HttpSession;
 
 public interface MemberService {

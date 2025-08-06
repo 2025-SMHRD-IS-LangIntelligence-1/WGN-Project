@@ -11,18 +11,10 @@
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/addFeed.css" />
-<!-- <link rel="stylesheet" href="../CSS/addFeed.css"> -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-
-	<!-- 
-    <div class="top-bar">
-        <i class="icon">▦</i>
-        <div class="logo">WGN</div>
-    </div>
-    -->
 
 	<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 	<div class="mobile-container">
