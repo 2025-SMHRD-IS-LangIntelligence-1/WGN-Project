@@ -174,133 +174,122 @@
 
 			<!-- 리뷰 -->
 			<div class="card-section" id="review-section">
-
-				<!-- 리뷰 제목 -->
 				<h5 class="section-title mb-2">리뷰</h5>
 
-				<!-- 리뷰 탭 메뉴 -->
-				<div class="review-tab-buttons d-flex mb-3">
-					<button class="review-tab active" data-target="user-reviews">사용자
-						리뷰</button>
-					<button class="review-tab" data-target="other-reviews">타사이트
-						리뷰</button>
-				</div>
+				<c:choose>
+					<c:when test="${not empty sessionScope.member.mb_id}">
+						<!-- 리뷰 탭 메뉴 -->
+						<div class="review-tab-buttons d-flex mb-3">
+							<button class="review-tab active" data-target="user-reviews">사용자
+								리뷰</button>
+							<button class="review-tab" data-target="other-reviews">타사이트
+								리뷰</button>
+						</div>
 
-				<!-- 사용자 리뷰 탭 내용 -->
-				<div id="user-reviews" class="review-tab-content">
+						<!-- 사용자 리뷰 탭 내용 -->
+						<div id="user-reviews" class="review-tab-content">
+							<!-- 사용자 리뷰 상단 : 작성 버튼 -->
+							<div
+								class="d-flex justify-content-between align-items-center mb-2">
+								<strong>사용자 리뷰</strong>
+								<button id="toggleReviewBtn">리뷰 작성</button>
+							</div>
 
-					<!-- 사용자 리뷰 상단 : 사용자 리뷰 + 작성 버튼 -->
-					<div class="d-flex justify-content-between align-items-center mb-2">
-						<strong>사용자 리뷰</strong>
-						<button id="toggleReviewBtn">리뷰 작성</button>
-					</div>
+							<!-- 리뷰 작성 폼 -->
+							<div id="reviewFormContainer" style="display: none;" class="mb-4">
+								<form id="reviewForm"
+									action="${pageContext.request.contextPath}/restaurant/insertReview?res_idx=${res.res_idx}"
+									method="post" enctype="multipart/form-data">
 
-					<!-- 리뷰 작성 폼 -->
-					<div id="reviewFormContainer" style="display: none;" class="mb-4">
-						<form id="reviewForm"
-							action="${pageContext.request.contextPath}/restaurant/insertReview?res_idx=${res.res_idx}"
-							method="post" enctype="multipart/form-data">
-
-							<!-- 별점 -->
-							<div class="mb-2">
-								<div class="d-flex align-items-center mb-1" style="gap: 8px;">
-									<label style="font-weight: bold; margin-bottom: 0;">별점</label>
-									<div id="ratingForm" style="font-size: 24px;">
-										<input type="radio" id="star5" name="ratings" value="5"><label
-											for="star5">★</label> <input type="radio" id="star4"
-											name="ratings" value="4"><label for="star4">★</label>
-										<input type="radio" id="star3" name="ratings" value="3"><label
-											for="star3">★</label> <input type="radio" id="star2"
-											name="ratings" value="2"><label for="star2">★</label>
-										<input type="radio" id="star1" name="ratings" value="1"><label
-											for="star1">★</label>
+									<!-- 별점 -->
+									<div class="mb-2">
+										<div class="d-flex align-items-center mb-1" style="gap: 8px;">
+											<label style="font-weight: bold; margin-bottom: 0;">별점</label>
+											<div id="ratingForm" style="font-size: 24px;">
+												<input type="radio" id="star5" name="ratings" value="5"><label
+													for="star5">★</label> <input type="radio" id="star4"
+													name="ratings" value="4"><label for="star4">★</label>
+												<input type="radio" id="star3" name="ratings" value="3"><label
+													for="star3">★</label> <input type="radio" id="star2"
+													name="ratings" value="2"><label for="star2">★</label>
+												<input type="radio" id="star1" name="ratings" value="1"><label
+													for="star1">★</label>
+											</div>
+										</div>
+										<span id="ratingError" class="text-danger"
+											style="font-size: 13px; display: none;">별점을 선택해주세요.</span>
 									</div>
-								</div>
-								<span id="ratingError" class="text-danger"
-									style="font-size: 13px; display: none;">별점을 선택해주세요.</span>
-							</div>
 
-							<!-- 리뷰 내용 -->
-							<div class="mb-2">
-								<textarea name="review_content" id="reviewContent"
-									class="form-control" rows="3" maxlength="300"
-									placeholder="리뷰를 작성해주세요. (최대 300자)"></textarea>
-								<span id="contentError" class="text-danger"
-									style="font-size: 13px; display: none;">리뷰 내용을 작성해주세요.</span>
-							</div>
-
-							<!-- 이미지 -->
-							<label>이미지 첨부</label> <input type="file" name="review_img"
-								class="form-control mb-2" accept="image/*">
-
-							<!-- 버튼 -->
-							<div class="text-end">
-								<button type="submit" id="toggleReviewBtn">리뷰 등록</button>
-							</div>
-						</form>
-					</div>
-
-					<!-- 사용자 리뷰 리스트 -->
-					<c:set var="userCount" value="0" />
-					<c:forEach var="review" items="${res_review}">
-						<c:if
-							test="${!fn:startsWith(review.mb_id, 'naver') and !fn:startsWith(review.mb_id, 'kakao')}">
-							<c:choose>
-								<c:when test="${userCount < 3}">
-									<div class="review-card d-flex align-items-start user-review">
-								</c:when>
-								<c:otherwise>
-									<div
-										class="review-card d-flex align-items-start user-review d-none">
-								</c:otherwise>
-							</c:choose>
-
-							<!-- 왼쪽: 프로필 이미지 -->
-							<div class="review-img me-2">
-								<img src="${review.mb_img}" class="rounded-circle" width="40"
-									height="40" />
-							</div>
-
-							<!-- 오른쪽: 닉네임, 별점, 내용, 이미지 -->
-							<div style="flex-grow: 1;">
-
-								<!-- 닉네임 + 별점 (한 줄) -->
-								<div
-									class="d-flex justify-content-between align-items-center mb-1">
-									<div class="review-user">${review.mb_nick}</div>
-									<div style="color: #FFC107; font-size: 14px;">★
-										${review.ratings}</div>
-								</div>
-
-								<!-- 리뷰 내용 -->
-								<div class="review-content">${review.review_content}</div>
-
-								<!-- 썸네일 이미지 (있을 때만) -->
-								<c:if test="${not empty review.img_link}">
-									<div class="mt-2">
-										<img src="${review.img_link}"
-											style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; cursor: pointer;"
-											onclick="openImageModal('${review.img_link}')" />
+									<!-- 리뷰 내용 -->
+									<div class="mb-2">
+										<textarea name="review_content" id="reviewContent"
+											class="form-control" rows="3" maxlength="300"
+											placeholder="리뷰를 작성해주세요. (최대 300자)"></textarea>
+										<span id="contentError" class="text-danger"
+											style="font-size: 13px; display: none;">리뷰 내용을 작성해주세요.</span>
 									</div>
-								</c:if>
+
+									<!-- 이미지 -->
+									<label>이미지 첨부</label> <input type="file" name="review_img"
+										class="form-control mb-2" accept="image/*">
+
+									<!-- 버튼 -->
+									<div class="text-end">
+										<button type="submit" id="toggleReviewBtn">리뷰 등록</button>
+									</div>
+								</form>
 							</div>
-				</div>
-				<c:set var="userCount" value="${userCount + 1}" />
-				</c:if>
-				</c:forEach>
-				<!-- 사용자 리뷰 더보기 버튼 -->
-				<c:if test="${userCount > 3}">
-					<div class="text-end mt-2">
-						<button id="toggle-user" class="btn btn-sm"
-							style="color: #FFC107;">사용자 리뷰 더보기</button>
-					</div>
-				</c:if>
+
+							<!-- 사용자 리뷰 리스트 -->
+							<c:set var="userCount" value="0" />
+							<c:forEach var="review" items="${res_review}">
+								<c:if
+									test="${!fn:startsWith(review.mb_id, 'naver') and !fn:startsWith(review.mb_id, 'kakao')}">
+									<c:choose>
+										<c:when test="${userCount < 3}">
+											<div class="review-card d-flex align-items-start user-review">
+										</c:when>
+										<c:otherwise>
+											<div
+												class="review-card d-flex align-items-start user-review d-none">
+										</c:otherwise>
+									</c:choose>
+									<div class="review-img me-2">
+										<img src="${review.mb_img}" class="rounded-circle" width="40"
+											height="40" />
+									</div>
+									<div style="flex-grow: 1;">
+										<div
+											class="d-flex justify-content-between align-items-center mb-1">
+											<div class="review-user">${review.mb_nick}</div>
+											<div style="color: #FFC107; font-size: 14px;">★
+												${review.ratings}</div>
+										</div>
+										<div class="review-content">${review.review_content}</div>
+										<c:if test="${not empty review.img_link}">
+											<div class="mt-2">
+												<img src="${review.img_link}"
+													style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; cursor: pointer;"
+													onclick="openImageModal('${review.img_link}')" />
+											</div>
+										</c:if>
+									</div>
+						</div>
+						<c:set var="userCount" value="${userCount + 1}" />
+						</c:if>
+						</c:forEach>
+
+						<c:if test="${userCount > 3}">
+							<div class="text-end mt-2">
+								<button id="toggle-user" class="btn btn-sm"
+									style="color: #FFC107;">사용자 리뷰 더보기</button>
+							</div>
+						</c:if>
 			</div>
 
 			<!-- 타사이트 리뷰 탭 내용 -->
 			<div id="other-reviews" class="review-tab-content"
 				style="display: none;">
-
 				<!-- 네이버 리뷰 -->
 				<div id="naver-reviews-wrapper">
 					<c:set var="naverCount" value="0" />
@@ -369,7 +358,18 @@
 			</c:if>
 		</div>
 	</div>
+	</c:when>
+	<c:otherwise>
+		<div class="text-center py-4">
+			<p class="text-muted mb-2">리뷰를 보시려면 로그인이 필요합니다.</p>
+			<a href="${pageContext.request.contextPath}/member/login"
+				class="btn btn-warning btn-sm">로그인 하러 가기</a>
+		</div>
+	</c:otherwise>
+	</c:choose>
 	</div>
+
+
 
 	<!-- 모달 전체 화면 이미지 뷰어 -->
 	<div id="reviewImageModal" class="modal"

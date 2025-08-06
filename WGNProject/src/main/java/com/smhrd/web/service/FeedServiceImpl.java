@@ -3,7 +3,8 @@ package com.smhrd.web.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +18,8 @@ import com.smhrd.web.mapper.FeedMapper;
 
 @Service
 public class FeedServiceImpl implements FeedService{
-
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	FeedMapper feedMapper;
 	@Autowired
@@ -41,11 +43,17 @@ public class FeedServiceImpl implements FeedService{
 
 	@Override
 	public void saveFeed(t_feed feed, List<MultipartFile> files) throws IOException {
-		feedMapper.saveFeed(feed); // feed 객체를 활용해 db에 튜플을 추가하고 feed 객체에 idx를 등록
-		int feed_idx = feed.getFeed_idx(); // 등록된 idx 꺼내오기
-		List<String> imgUrls =  cloudinaryService.uploadFiles(files); // 클라우디너리에 이미지 등록하고 url 받아오기
-		feedMapper.saveFeedImg(feed_idx, imgUrls);
 		
+		feedMapper.saveFeed(feed); // feed 객체를 활용해 db에 튜플을 추가하고 feed 객체에 idx를 등록
+		
+		int feed_idx = feed.getFeed_idx(); // 등록된 idx 꺼내오기
+		
+		
+		System.out.println("📷 업로드된 MultipartFile 수: " + files.size());
+		List<String> imgUrls =  cloudinaryService.uploadFiles(files); // 클라우디너리에 이미지 등록하고 url 받아오기
+		
+		System.out.println("🌐 클라우디너리에서 반환된 이미지 URL 수: " + imgUrls.size());
+		feedMapper.saveFeedImg(feed_idx, imgUrls);
 	}
 
 	@Override

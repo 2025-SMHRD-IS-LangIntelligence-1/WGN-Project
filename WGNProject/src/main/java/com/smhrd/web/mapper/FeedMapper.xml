@@ -14,11 +14,10 @@
 	</insert>
 
 	<insert id="saveFeedImg">
-		INSERT INTO t_feed_img (feed_img_idx, feed_idx, feed_img_url)
+		INSERT INTO t_feed_img (feed_idx, feed_img_url)
 		VALUES
 		<foreach collection="imgUrls" item="url" separator=",">
-			(NULL,
-			#{feed_idx}, #{url})
+			(#{feed_idx}, #{url})
 		</foreach>
 	</insert>
 
@@ -60,23 +59,27 @@
 
 	<select id="getCmtByfeedIdx" resultMap="CommentDTOMap">
 		select c.*, m.mb_img
-		from t_comment c
+		from
+		t_comment c
 		inner join
 		t_member m on m.mb_id = c.mb_id
-		where feed_idx=#{feed_idx}
+		where
+		feed_idx=#{feed_idx}
 		order by
 		created_at desc;
 	</select>
 
-	<resultMap id="CandidateFeedDTO" type="com.smhrd.web.dto.CandidateFeedDTO">
-	  <result property="feed_idx" column="feed_idx"/>
-	  <result property="res_idx" column="res_idx"/>
-	  <result property="feed_likes" column="feed_likes"/>
-	  <result property="res_category" column="res_category"/>
-	  <result property="res_tag" column="res_tag"/>
+	<resultMap id="CandidateFeedDTO"
+		type="com.smhrd.web.dto.CandidateFeedDTO">
+		<result property="feed_idx" column="feed_idx" />
+		<result property="res_idx" column="res_idx" />
+		<result property="feed_likes" column="feed_likes" />
+		<result property="res_category" column="res_category" />
+		<result property="res_tag" column="res_tag" />
 	</resultMap>
 
-	<select id="getCandidateFeed" parameterType="string" resultMap="CandidateFeedDTO">
+	<select id="getCandidateFeed" parameterType="string"
+		resultMap="CandidateFeedDTO">
 		SELECT
 		f.feed_idx,
 		r.res_idx,
@@ -89,12 +92,15 @@
 		t_restaurant r ON r.res_idx = f.res_idx
 		WHERE
 		f.created_at >= NOW() - INTERVAL 30 DAY
-		AND f.feed_likes >= 5 
-		AND f.mb_id != #{mb_id} 
+		AND f.feed_likes >= 5
+		AND
+		f.mb_id != #{mb_id}
 		AND f.res_idx NOT IN (
 		SELECT log.res_idx
-		FROM t_log log
-		WHERE log.mb_id = #{mb_id}
+		FROM t_log
+		log
+		WHERE log.mb_id =
+		#{mb_id}
 		)
 	</select>
 
