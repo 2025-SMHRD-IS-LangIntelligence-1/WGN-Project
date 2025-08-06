@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.smhrd.web.dto.RestaurantDTO;
+import com.smhrd.web.dto.ReviewDTO;
 import com.smhrd.web.entity.t_convenience;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.entity.t_menu;
@@ -38,7 +39,8 @@ public class RestaurantController {
 	@Autowired
 	MemberService memberService;
 	
-	
+	@Autowired
+	private RestaurantService restaurantService;
 	
     @GetMapping
     public String resdetail(@RequestParam("res_idx") int res_idx, HttpSession session, Model model ) {
@@ -72,8 +74,7 @@ public class RestaurantController {
 		
 		
 		// 리뷰
-		List<t_review> res_review = resmapper.res_review(res_idx);
-		
+		List<ReviewDTO> res_review = restaurantService.getresreview(res_idx);
 		model.addAttribute("res_review", res_review);
 		
 		// 편의시설
