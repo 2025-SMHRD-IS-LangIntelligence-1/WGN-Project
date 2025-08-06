@@ -62,7 +62,7 @@
 	
 				<!-- 회원가입 링크 -->
 				<div class="form-links">
-					마이페이지를 이용하고 싶다면?
+					게시글과 마이페이지를 이용하고 싶다면?
 					<a href="${pageContext.request.contextPath}/member/join">회원가입</a>
 				</div>
 	
