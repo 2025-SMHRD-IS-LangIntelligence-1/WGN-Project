@@ -3,6 +3,7 @@ package com.smhrd.web.controller;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.catalina.mapper.Mapper;
@@ -79,20 +80,39 @@ public class RestaurantController {
 		List<t_convenience> res_con = resmapper.res_convenience(res_idx);
 		model.addAttribute("res_con", res_con);
 		
-		// 영업시간
+		// 1. 영업시간 전체 조회
 		List<t_running_time> res_time = resmapper.res_running_time(res_idx);
-		model.addAttribute("res_time", res_time);
+
+		// 2. 요일 개수로 분기 처리
+		if (res_time.size() == 1) {
+		    // 요일 하나일 때
+		    model.addAttribute("singleTime", res_time.get(0));
+		} else {
+		    // 요일이 여러 개인 경우
+		    String todayKor = LocalDate.now()
+		            .getDayOfWeek()
+		            .getDisplayName(TextStyle.SHORT, Locale.KOREAN); // 예: 월
+
+		    List<t_running_time> todayTimes = new ArrayList<>();
+		    List<t_running_time> otherTimes = new ArrayList<>();
+
+		    for (t_running_time time : res_time) {
+		        if (time.getWeekday() != null && time.getWeekday().contains(todayKor)) {
+		            todayTimes.add(time);
+		        } else {
+		            otherTimes.add(time);
+		        }
+		    }
+
+		    model.addAttribute("todayTimes", todayTimes);
+		    model.addAttribute("otherTimes", otherTimes);
+		}
 		
 		// 메뉴
 		List<t_menu> res_menu = resmapper.res_menu(res_idx);
 		model.addAttribute("res_menu", res_menu);
 		
-		// 오늘 요일 구해서 model에 추가
-        String todayKor = LocalDate.now().getDayOfWeek()
-                .getDisplayName(TextStyle.SHORT, Locale.KOREAN); // ex: 월, 화
-        model.addAttribute("todayKor", todayKor);
-		
-		
+
         return "restaurant/restaurant";
     }
 }
