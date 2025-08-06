@@ -35,5 +35,8 @@ public class t_review {
 
  // 작성 일시 
  private Timestamp created_at;
+ 
+ // 리뷰 작성자 닉네임
+ private String mb_nick;
 
 }

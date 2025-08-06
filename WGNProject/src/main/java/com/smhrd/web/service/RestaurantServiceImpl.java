@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.smhrd.web.dto.RestaurantDTO;
-
+import com.smhrd.web.dto.ReviewDTO;
 import com.smhrd.web.mapper.RestaurantMapper;
 
 @Service
@@ -37,6 +37,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return resInfo;
 	}
 	
-
+	@Override
+	public List<ReviewDTO> getresreview(int res_idx) {
+		List<ReviewDTO> res_review = restaurantMapper.getresreview(res_idx);
+		return res_review;
+	}
 
 }
