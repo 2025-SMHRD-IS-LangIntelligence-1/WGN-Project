@@ -60,7 +60,6 @@
 		</div>
 
 		<c:set var="timeCount" value="${fn:length(res_time)}" />
-
 		<div class="card-section" id="info-section">
 			<h5 class="section-title">정보</h5>
 
@@ -126,18 +125,28 @@
 						</c:if>
 					</c:forEach>
 				</div>
-
-				<div class="review-card d-flex justify-content-between">
-					<span><i class="bi bi-telephone"></i> 전화번호</span><span>${res.res_tel}</span>
-				</div>
-				<div class="review-card d-flex justify-content-between">
-					<span><i class="bi bi-geo-alt"></i> 주소</span><span>${res.res_addr }</span>
-				</div>
-
-
-
+			</div>
+			<div class="review-card d-flex justify-content-between">
+				<span><i class="bi bi-telephone"></i> 전화번호</span><span>${res.res_tel}</span>
 			</div>
 
+			<!-- 주소 -->
+			<!-- 주소 -->
+			<div
+				class="review-card d-flex justify-content-between align-items-center border-0">
+				<span><i class="bi bi-geo-alt"></i> 주소</span> <span>${res.res_addr}</span>
+			</div>
+
+			<!-- 지도 보기 버튼 -->
+			<div class="text-end mt-2">
+				<button class="btn btn-sm toggle-map-btn" onclick="toggleMap()"
+					id="mapToggleBtn">지도 보기</button>
+			</div>
+
+			<!-- 지도 영역 -->
+			<div id="map-section" style="display: none;">
+				<div id="map" style="width: 100%; height: 400px; margin-top: 10px;"></div>
+			</div>
 			<!-- 메뉴 섹션 -->
 
 			<div class="card-section" id="menu-section">
@@ -188,29 +197,45 @@
 
 					<!-- 리뷰 작성 폼 -->
 					<div id="reviewFormContainer" style="display: none;" class="mb-4">
-						<form
+						<form id="reviewForm"
 							action="${pageContext.request.contextPath}/restaurant/insertReview?res_idx=${res.res_idx}"
 							method="post" enctype="multipart/form-data">
 
 							<!-- 별점 -->
-							<div id="ratingForm" class="mb-2">
-								<input type="radio" id="star5" name="ratings" value="5"><label
-									for="star5">★</label> <input type="radio" id="star4"
-									name="ratings" value="4"><label for="star4">★</label> <input
-									type="radio" id="star3" name="ratings" value="3"><label
-									for="star3">★</label> <input type="radio" id="star2"
-									name="ratings" value="2"><label for="star2">★</label> <input
-									type="radio" id="star1" name="ratings" value="1"><label
-									for="star1">★</label>
+							<div class="mb-2">
+								<div class="d-flex align-items-center mb-1" style="gap: 8px;">
+									<label style="font-weight: bold; margin-bottom: 0;">별점</label>
+									<div id="ratingForm" style="font-size: 24px;">
+										<input type="radio" id="star5" name="ratings" value="5"><label
+											for="star5">★</label> <input type="radio" id="star4"
+											name="ratings" value="4"><label for="star4">★</label>
+										<input type="radio" id="star3" name="ratings" value="3"><label
+											for="star3">★</label> <input type="radio" id="star2"
+											name="ratings" value="2"><label for="star2">★</label>
+										<input type="radio" id="star1" name="ratings" value="1"><label
+											for="star1">★</label>
+									</div>
+								</div>
+								<span id="ratingError" class="text-danger"
+									style="font-size: 13px; display: none;">별점을 선택해주세요.</span>
 							</div>
 
-							<textarea name="review_content" class="form-control mb-2"
-								rows="3" placeholder="리뷰를 작성해주세요."></textarea>
+							<!-- 리뷰 내용 -->
+							<div class="mb-2">
+								<textarea name="review_content" id="reviewContent"
+									class="form-control" rows="3" maxlength="300"
+									placeholder="리뷰를 작성해주세요. (최대 300자)"></textarea>
+								<span id="contentError" class="text-danger"
+									style="font-size: 13px; display: none;">리뷰 내용을 작성해주세요.</span>
+							</div>
+
+							<!-- 이미지 -->
 							<label>이미지 첨부</label> <input type="file" name="review_img"
 								class="form-control mb-2" accept="image/*">
 
+							<!-- 버튼 -->
 							<div class="text-end">
-								<button id="toggleReviewBtn">리뷰 등록</button>
+								<button type="submit" id="toggleReviewBtn">리뷰 등록</button>
 							</div>
 						</form>
 					</div>
@@ -222,35 +247,49 @@
 							test="${!fn:startsWith(review.mb_id, 'naver') and !fn:startsWith(review.mb_id, 'kakao')}">
 							<c:choose>
 								<c:when test="${userCount < 3}">
-									<div class="review-card d-flex align-items-center user-review">
+									<div class="review-card d-flex align-items-start user-review">
 								</c:when>
 								<c:otherwise>
 									<div
-										class="review-card d-flex align-items-center user-review d-none">
+										class="review-card d-flex align-items-start user-review d-none">
 								</c:otherwise>
 							</c:choose>
 
-							<div class="review-img">
-								<img src="${review.mb_img }" class="rounded-circle" width="40"
+							<!-- 왼쪽: 프로필 이미지 -->
+							<div class="review-img me-2">
+								<img src="${review.mb_img}" class="rounded-circle" width="40"
 									height="40" />
 							</div>
 
-							<div>
-								<div class="review-user">${review.mb_nick}</div>
+							<!-- 오른쪽: 닉네임, 별점, 내용, 이미지 -->
+							<div style="flex-grow: 1;">
+
+								<!-- 닉네임 + 별점 (한 줄) -->
+								<div
+									class="d-flex justify-content-between align-items-center mb-1">
+									<div class="review-user">${review.mb_nick}</div>
+									<div style="color: #FFC107; font-size: 14px;">★
+										${review.ratings}</div>
+								</div>
+
+								<!-- 리뷰 내용 -->
 								<div class="review-content">${review.review_content}</div>
 
+								<!-- 썸네일 이미지 (있을 때만) -->
 								<c:if test="${not empty review.img_link}">
-									<img src="${review.img_link}" class="mt-2 rounded"
-										style="max-width: 100%; max-height: 200px;" />
+									<div class="mt-2">
+										<img src="${review.img_link}"
+											style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; cursor: pointer;"
+											onclick="openImageModal('${review.img_link}')" />
+									</div>
 								</c:if>
 							</div>
 				</div>
 				<c:set var="userCount" value="${userCount + 1}" />
 				</c:if>
 				</c:forEach>
-
 				<!-- 사용자 리뷰 더보기 버튼 -->
-				<c:if test="${userCount >= 3}">
+				<c:if test="${userCount > 3}">
 					<div class="text-end mt-2">
 						<button id="toggle-user" class="btn btn-sm"
 							style="color: #FFC107;">사용자 리뷰 더보기</button>
@@ -288,7 +327,7 @@
 				<c:set var="naverCount" value="${naverCount + 1}" />
 				</c:if>
 				</c:forEach>
-				<c:if test="${naverCount >= 3}">
+				<c:if test="${naverCount > 3}">
 					<div class="text-end mt-2">
 						<button id="toggle-naver" class="btn btn-sm"
 							style="color: #FFC107;">네이버 리뷰 더보기</button>
@@ -322,7 +361,7 @@
 			<c:set var="kakaoCount" value="${kakaoCount + 1}" />
 			</c:if>
 			</c:forEach>
-			<c:if test="${kakaoCount >= 3}">
+			<c:if test="${kakaoCount > 3}">
 				<div class="text-end mt-2">
 					<button id="toggle-kakao" class="btn btn-sm"
 						style="color: #FFC107;">카카오 리뷰 더보기</button>
@@ -333,24 +372,31 @@
 	</div>
 
 	<!-- 모달 전체 화면 이미지 뷰어 -->
-	<div id="imageModal" class="full-hero">
-		<button class="close-btn" onclick="closeModal()">×</button>
-		<button class="nav-btn prev" onclick="prevImage()">‹</button>
-		<img id="modalImageTag" class="full-hero-img" src="" alt="확대 이미지" />
-		<button class="nav-btn next" onclick="nextImage()">›</button>
-	</div>
+	<div id="reviewImageModal" class="modal"
+		style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); justify-content: center; align-items: center;">
 
+		<!-- 닫기 버튼 -->
+		<button onclick="closeImageModal()"
+			style="position: absolute; top: 20px; right: 30px; background: none; border: none; font-size: 32px; color: white; cursor: pointer;">
+			&times;</button>
+
+		<!-- 이미지 -->
+		<img id="modalImage"
+			style="max-width: 90%; max-height: 90%; border-radius: 10px;" />
+	</div>
 
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
-	</div>
-
-
 
 	<!-- 스크립트 -->
 	<script
 		src="${pageContext.request.contextPath}/resources/js/restaurant.js">
 		
 	</script>
-
+	<script>
+		var reslat = "${res.lat}"
+		var reslon = "${res.lon}"
+	</script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
 </body>
 </html>
