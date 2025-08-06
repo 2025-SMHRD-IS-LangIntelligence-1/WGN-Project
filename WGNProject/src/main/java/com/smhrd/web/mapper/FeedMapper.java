@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.smhrd.web.dto.CandidateFeedDTO;
 import com.smhrd.web.dto.CommentDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_comment;
@@ -45,4 +46,6 @@ public interface FeedMapper {
 
 	@Select("select feed_likes from t_feed where feed_idx = #{feed_idx}")
 	public int countFeedLike(int feed_idx);
+	
+	public List<CandidateFeedDTO> getCandidateFeed(String mb_id);
 }

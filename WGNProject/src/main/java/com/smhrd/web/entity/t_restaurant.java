@@ -39,4 +39,7 @@ public class t_restaurant {
  // 음식점 태그
  private String res_tag;
  
+ // 음식점 별점
+ private float res_ratings;
+ 
 }

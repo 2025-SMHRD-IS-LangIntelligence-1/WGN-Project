@@ -2,7 +2,14 @@ package com.smhrd.web.entity;
 
 import java.sql.Timestamp;
 
-//찜한 음식점 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+//찜한 음식점
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class t_favorite {
 
  // 찜 식별자 
