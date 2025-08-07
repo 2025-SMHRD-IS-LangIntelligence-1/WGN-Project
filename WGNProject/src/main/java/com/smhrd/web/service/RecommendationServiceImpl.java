@@ -17,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.smhrd.web.dto.CandidateFeedDTO;
 import com.smhrd.web.dto.FeedForSearchDTO;
-import com.smhrd.web.dto.FeedRecommendationResponse;
 import com.smhrd.web.dto.LogDTO;
 import com.smhrd.web.mapper.FeedMapper;
 import com.smhrd.web.mapper.LogMapper;

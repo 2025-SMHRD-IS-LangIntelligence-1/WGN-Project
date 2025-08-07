@@ -1,41 +1,11 @@
 from fastapi import FastAPI # FastAPI : 인공지능 서버를 별도로 구축해서 서비스에 통합할 수 있는 백엔드 프레임워크 
-from pydantic import BaseModel # pydantic : 데이터 검증과 설정 관리를 위한 Python 라이브러리
 from typing import List # typing : 파이썬의 타입 힌트를 위한 도구 / List : List 타입을 명확하게 표현하기 위해 사용함
 from fastapi.responses import JSONResponse # JSONResponse : FastAPI에서 응답을 보낼 때 직접 JSON 형식으로 된 응답을 보낼 수 있도록 도와주는 클래스
+
 from feed_recommendation import recommend_feed
 from feed_searching import search_feed
-
-# ------------------ 데이터 모델 정의 ------------------
-
-class Log(BaseModel): # BaseModel을 활용하면 잘못된 데이터가 들어왔을 때 자동으로 422 에러를 띄워줌 (데이터 검증)
-    # 사용자 로그를 저장하는 클래스
-    log_idx: int
-    mb_id: str
-    res_idx: int
-    res_category: str
-    res_tag: str
-    action_type: str
-    created_at: str
-
-class Feed(BaseModel):
-    # 추천 후보 피드를 저장하는 클래스
-    feed_idx: int
-    res_idx: int
-    feed_likes: int
-    res_category: str
-    res_tag: str
-
-class LogsAndFeeds(BaseModel):
-    # Spring 요청 데이터를 저장하는 클래스
-    logs: List[Log] # Log 인스턴스가 List 형태로 저장됨
-    feeds: List[Feed] # Feed 인스턴스가 List 형태로 저장됨
-
-class FeedForSearch(BaseModel):
-    # 검색을 위한 후보 피드를 저장하는 클래스
-    feed_idx: int
-    feed_likes: int
-    res_tag : str
-    feed_content: str
+from making_wordclouds import make_wordclouds
+from models import LogsAndFeeds, FeedForSearch, Review # 클래스들이 모여있는 파일
 
 # ------------------ FastAPI 앱 객체 ------------------
 
@@ -75,7 +45,6 @@ async def receive_logs_and_feeds(data: LogsAndFeeds): # data : 클라이언트(S
         "recommended_feed_ids": recommended_feed_idx
     }, media_type="application/json; charset=utf-8")
 
-
 @app.post("/receive_feed_for_search")
 async def receive_feed_for_search(data: List[FeedForSearch]):
    
@@ -93,4 +62,22 @@ async def receive_feed_for_search(data: List[FeedForSearch]):
     print(f"검색된 피드 idx: {searched_feed_idx[:10]}")  # 최대 10개만 출력
     print("=== /receive_feed_for_search 처리 완료 ===\n")
 
-    return searched_feed_idx 
+    return searched_feed_idx
+
+@app.post("/receive_review")
+async def receive_review(data: List[Review]):
+   
+    # 데이터가 잘 들어왔는지 확인하는 프린트문
+    
+    print("=== /receive_review 호출됨 ===")
+
+    print("받은 리뷰 개수 : ", len(data))
+
+    # 워드클라우드 제작 함수 실행하고 그 결과를 저장
+    wordclouds = make_wordclouds(data)
+    
+    print(f"만들어진 wordclouds: ", wordclouds)
+    
+    print("=== /receive_review 처리 완료 ===\n")
+
+    return JSONResponse(content=wordclouds.dict(), media_type="application/json; charset=utf-8")
