@@ -21,19 +21,11 @@ import com.smhrd.web.entity.t_review;
 import com.smhrd.web.mapper.ReviewMapper;
 
 @Service
-public class ReviewServicempl implements ReviewService {
+public class ReviewServiceImpl implements ReviewService {
 
 	@Autowired
 	private ReviewMapper reviewMapper;
 
-<<<<<<< HEAD
-    @Override
-    public void insertReview(t_review review) {
-        reviewMapper.insertReview(review);
-    }
-    
-
-=======
 	@Override
 	public void insertReview(t_review review) {
 		reviewMapper.insertReview(review);
@@ -101,6 +93,5 @@ public class ReviewServicempl implements ReviewService {
 
 		return result;
 	}
->>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
 
 }

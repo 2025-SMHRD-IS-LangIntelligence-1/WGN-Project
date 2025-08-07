@@ -133,10 +133,7 @@ public class FeedController {
 		
         // 넘어온 파일 개수 로깅
 	    System.out.println("업로드 요청 파일 개수: " + files.size());
-<<<<<<< HEAD
-=======
-	    
->>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
+
 		// 로그인 되어 있는지 체크
 		boolean loginCheck = memberService.loginCheck(session);
 

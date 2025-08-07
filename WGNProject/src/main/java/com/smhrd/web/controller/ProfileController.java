@@ -17,24 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.ProfileDTO;
-<<<<<<< HEAD
-import com.smhrd.web.dto.RestaurantDTO;
 import com.smhrd.web.dto.FavoriteresDTO;
-=======
 import com.smhrd.web.config.AsyncConfig;
->>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.dto.GoingresDTO;
 import com.smhrd.web.entity.t_favorite;
-import com.smhrd.web.entity.t_feed_img;
 import com.smhrd.web.entity.t_going;
 import com.smhrd.web.entity.t_member;
-<<<<<<< HEAD
-import com.smhrd.web.entity.t_restaurant;
 import com.smhrd.web.mapper.RestaurantMapper;
-=======
 import com.smhrd.web.entity.t_notification;
->>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
 import com.smhrd.web.service.CloudinaryService;
 import com.smhrd.web.service.FavoriteService;
 import com.smhrd.web.service.FeedService;
@@ -56,7 +47,6 @@ public class ProfileController {
 	FeedService feedService;
 	@Autowired
 	MemberService memberService;
-<<<<<<< HEAD
 	
 	@Autowired
 	FavoriteService favoriteService;
@@ -66,10 +56,9 @@ public class ProfileController {
 	
 	@Autowired
 	RestaurantMapper restaurantmapper;
-=======
+	
 	@Autowired
 	NotificationService notificationService;
->>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
 
     ProfileController(CloudinaryService cloudinaryService, AsyncConfig asyncConfig) {
         this.cloudinaryService = cloudinaryService;
