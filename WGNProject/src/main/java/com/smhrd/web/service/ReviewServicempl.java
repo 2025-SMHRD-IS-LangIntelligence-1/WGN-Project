@@ -17,5 +17,7 @@ public class ReviewServicempl implements ReviewService{
     public void insertReview(t_review review) {
         reviewMapper.insertReview(review);
     }
+    
+
 
 }

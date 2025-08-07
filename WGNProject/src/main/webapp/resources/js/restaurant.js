@@ -1,6 +1,6 @@
 // 탭 이동 + active
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
 	const sections = document.querySelectorAll('#info-section, #menu-section, #rating-section, #review-section');
 	const tabLinks = document.querySelectorAll('.tab-link');
 	const tab = document.getElementById("restaurantTabs");
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// 탭 클릭 시 부드럽게 이동 + offset 고려
 	tabLinks.forEach(link => {
-		link.addEventListener('click', function (e) {
+		link.addEventListener('click', function(e) {
 			e.preventDefault();
 
 			const targetId = this.getAttribute('href');
@@ -238,25 +238,25 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // 사용자 리뷰 더보기
-document.addEventListener("DOMContentLoaded", function () {
-  const toggleUserBtn = document.getElementById("toggle-user");
+document.addEventListener("DOMContentLoaded", function() {
+	const toggleUserBtn = document.getElementById("toggle-user");
 
-  let userExpanded = false;
+	let userExpanded = false;
 
-  if (toggleUserBtn) {
-    toggleUserBtn.addEventListener("click", function () {
-      const hiddenEls = document.querySelectorAll(".user-review");
-      userExpanded = !userExpanded;
+	if (toggleUserBtn) {
+		toggleUserBtn.addEventListener("click", function() {
+			const hiddenEls = document.querySelectorAll(".user-review");
+			userExpanded = !userExpanded;
 
-      hiddenEls.forEach((el, idx) => {
-        if (idx >= 3) {
-          el.classList.toggle("d-none", !userExpanded);
-        }
-      });
+			hiddenEls.forEach((el, idx) => {
+				if (idx >= 3) {
+					el.classList.toggle("d-none", !userExpanded);
+				}
+			});
 
-      this.textContent = userExpanded ? "사용자 리뷰 접기" : "사용자 리뷰 더보기";
-    });
-  }
+			this.textContent = userExpanded ? "사용자 리뷰 접기" : "사용자 리뷰 더보기";
+		});
+	}
 });
 
 // 리뷰작성 토글
@@ -275,22 +275,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 리뷰 이미지
 function openImageModal(imgUrl) {
-  const modal = document.getElementById("reviewImageModal");
-  const modalImg = document.getElementById("modalImage");
-  modalImg.src = imgUrl;
-  modal.style.display = "flex";
+	const modal = document.getElementById("reviewImageModal");
+	const modalImg = document.getElementById("modalImage");
+	modalImg.src = imgUrl;
+	modal.style.display = "flex";
 }
 
 function closeImageModal() {
-  document.getElementById("reviewImageModal").style.display = "none";
+	document.getElementById("reviewImageModal").style.display = "none";
 }
 
 // 모달 배경 클릭 시 닫기
-document.getElementById("reviewImageModal").addEventListener("click", function (e) {
-  // 이미지나 버튼을 클릭한 경우는 무시
-  if (e.target === this) {
-    this.style.display = "none";
-  }
+document.getElementById("reviewImageModal").addEventListener("click", function(e) {
+	// 이미지나 버튼을 클릭한 경우는 무시
+	if (e.target === this) {
+		this.style.display = "none";
+	}
 });
 
 // 리뷰 작성
@@ -301,68 +301,159 @@ const reviewContent = document.getElementById("reviewContent");
 
 // 별점 선택 시 에러 숨김
 ratingInputs.forEach(input => {
-  input.addEventListener("change", () => {
-    ratingError.style.display = "none";
-  });
+	input.addEventListener("change", () => {
+		ratingError.style.display = "none";
+	});
 });
 
 // 리뷰 작성 시 에러 숨김
 reviewContent.addEventListener("input", () => {
-  if (reviewContent.value.trim() !== "") {
-    contentError.style.display = "none";
-  }
+	if (reviewContent.value.trim() !== "") {
+		contentError.style.display = "none";
+	}
 });
 
 // 제출 시 유효성 검사
-document.getElementById("reviewForm").addEventListener("submit", function (e) {
-  const ratingChecked = document.querySelector('input[name="ratings"]:checked');
-  const content = reviewContent.value.trim();
+document.getElementById("reviewForm").addEventListener("submit", function(e) {
+	const ratingChecked = document.querySelector('input[name="ratings"]:checked');
+	const content = reviewContent.value.trim();
 
-  let isValid = true;
+	let isValid = true;
 
-  if (!ratingChecked) {
-    ratingError.style.display = "block";
-    isValid = false;
-  }
+	if (!ratingChecked) {
+		ratingError.style.display = "block";
+		isValid = false;
+	}
 
-  if (content === "") {
-    contentError.style.display = "block";
-    isValid = false;
-  }
+	if (content === "") {
+		contentError.style.display = "block";
+		isValid = false;
+	}
 
-  if (!isValid) {
-    e.preventDefault();
-  }
+	if (!isValid) {
+		e.preventDefault();
+	}
 });
 
 // 지도구현
 var map;
 
 function toggleMap() {
-  const mapSection = document.getElementById("map-section");
-  const toggleBtn = document.getElementById("mapToggleBtn");
+	const mapSection = document.getElementById("map-section");
+	const toggleBtn = document.getElementById("mapToggleBtn");
 
-  if (mapSection.style.display === "none") {
-    mapSection.style.display = "block";
-    toggleBtn.innerText = "지도 접기";
+	if (mapSection.style.display === "none") {
+		mapSection.style.display = "block";
+		toggleBtn.innerText = "지도 접기";
 
-    // 중심 좌표
-    var center = new kakao.maps.LatLng(reslat, reslon);
+		// 중심 좌표
+		var center = new kakao.maps.LatLng(reslat, reslon);
 
-    // 지도 생성
-    map = new kakao.maps.Map(document.getElementById('map'), {
-      center: center,
-      level: 1
-    });
+		// 지도 생성
+		map = new kakao.maps.Map(document.getElementById('map'), {
+			center: center,
+			level: 1
+		});
 
-    // 마커 생성
-    var marker = new kakao.maps.Marker({
-      position: center,
-      map: map
-    });
+		// 마커 생성
+		var marker = new kakao.maps.Marker({
+			position: center,
+			map: map
+		});
 
-  } else {
-    mapSection.style.display = "none";
-    toggleBtn.innerText = "지도 보기";
-  }
+	} else {
+		mapSection.style.display = "none";
+		toggleBtn.innerText = "지도 보기";
+	}
 }
+
+
+// 찜
+document.addEventListener("DOMContentLoaded", function () {
+	const tooltip = document.getElementById("iconTooltip");
+	const closeBtn = document.querySelector(".close-tooltip");
+	const iconGroup = document.getElementById("restaurantIconGroup");
+	const iconElements = iconGroup.querySelectorAll(".icon-outline");
+
+	const res_idx = iconGroup.dataset.resIdx;
+	const mb_id = iconGroup.dataset.mbId;
+
+	// 로그인 여부 확인
+	if (!mb_id) {
+		if (tooltip) {
+			tooltip.style.display = "block";
+			setTimeout(() => tooltip.style.display = "none", 3000);
+		}
+		return;
+	}
+
+	// 최초 진입 시 찜 여부 확인하여 아이콘 상태 설정
+	fetch(`${contextPath}/going/check`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/x-www-form-urlencoded"
+		},
+		body: `res_idx=${res_idx}&mb_id=${mb_id}`
+	})
+	.then(res => res.json())
+	.then(data => {
+		if (data.isGoing) {
+			iconElements.forEach(icon => icon.classList.add("active"));
+
+			// 이미 찜한 경우 → 말풍선 숨김
+			if (tooltip) {
+				tooltip.style.display = "none";
+			}
+		} else {
+			// 찜 안한 경우 → 말풍선 보여주기
+			if (tooltip) {
+				tooltip.style.display = "block";
+				setTimeout(() => tooltip.style.display = "none", 3000);
+			}
+		}
+	});
+
+	// 아이콘 클릭 이벤트
+	iconGroup.addEventListener("click", function () {
+		if (!mb_id) {
+			alert("로그인이 필요합니다.");
+			return;
+		}
+
+		console.log("클릭한 res_idx:", res_idx);
+		console.log("현재 로그인 사용자:", mb_id);
+
+		// 상태 확인 후 등록 or 삭제
+		fetch(`${contextPath}/going/check`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			body: `res_idx=${res_idx}&mb_id=${mb_id}`
+		})
+		.then(res => res.json())
+		.then(data => {
+			const isGoing = data.isGoing;
+			const url = isGoing ? `${contextPath}/going/delete` : `${contextPath}/going/insert`;
+			const method = isGoing ? "DELETE" : "POST";
+
+			console.log(isGoing ? "삭제 요청" : "등록 요청");
+
+			return fetch(`${url}?res_idx=${res_idx}&mb_id=${mb_id}`, { method });
+		})
+		.then(res => res.json())
+		.then(result => {
+			if (result.success) {
+				console.log("요청 성공");
+				iconElements.forEach(icon => icon.classList.toggle("active"));
+			} else {
+				console.warn("❌ 요청 실패:", result);
+				alert("요청 실패");
+			}
+		})
+		.catch(err => {
+			console.error("오류 발생:", err);
+			alert("요청 처리 중 오류 발생");
+		});
+	});
+});

@@ -8,9 +8,9 @@
 	<insert id="saveFeed" parameterType="t_feed"
 		useGeneratedKeys="true" keyProperty="feed_idx">
 		INSERT INTO t_feed (mb_id,
-		res_idx, feed_content, feed_likes, created_at)
+		res_idx, feed_content, feed_likes, ratings, created_at)
 		VALUES (#{mb_id},
-		#{res_idx}, #{feed_content}, 0, NOW())
+		#{res_idx}, #{feed_content}, 0, #{ratings}, NOW())
 	</insert>
 
 	<insert id="saveFeedImg">

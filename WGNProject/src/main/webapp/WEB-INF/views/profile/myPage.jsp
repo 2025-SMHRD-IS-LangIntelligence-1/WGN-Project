@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -144,87 +145,130 @@
 							role="tabpanel">
 							<div id="rank-list" class="list-group">
 
-								<!-- 1위 -->
-								<div class="list-group-item d-flex align-items-center">
-									<img
-										src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340"
-										class="rounded me-2"
-										style="width: 60px; height: 60px; object-fit: cover;">
-									<div class="flex-fill">
-										<h6 class="mb-0">해물짬뽕 전문점</h6>
-										<small class="text-muted">광주광역시 북구</small>
-										<div class="mt-1">
-											<span class="badge bg-warning text-dark">4.8</span>
-										</div>
-									</div>
-									<div style="font-size: 24px; margin-left: 8px;">🥇</div>
-								</div>
+								<c:if test="${not empty myfavoriteres}">
+									<c:forEach var="favoriteres" items="${myfavoriteres}"
+										varStatus="status">
+										<c:choose>
+											<c:when test="${status.index lt 3}">
+												<!-- 1~3위: 메달 붙여서 출력 -->
+												<a href="${pageContext.request.contextPath}/restaurant?res_idx=${favoriteres.res_idx}"
+												style="text-decoration: none; color: inherit;">
+												<div class="list-group-item d-flex align-items-center">
+												
+													<img src="${favoriteres.res_thumbnail}"
+														class="rounded me-2"
+														style="width: 60px; height: 60px; object-fit: cover;">
+													<div class="flex-fill">
+														<h6 class="mb-0">${favoriteres.res_name}</h6>
+														<small class="text-muted">${favoriteres.res_addr}</small>
+														<div class="mt-1">
+															<span class="badge bg-warning text-dark">${favoriteres.fav_rating}</span>
+														</div>
+													</div>
+													<div style="font-size: 24px; margin-left: 8px;">
+														<c:choose>
+															<c:when test="${status.index == 0}">
+																<div style="font-size: 24px; margin-left: 8px;">🥇</div>
+															</c:when>
+															<c:when test="${status.index == 1}">
+																<div style="font-size: 24px; margin-left: 8px;">🥈</div>
+															</c:when>
+															<c:when test="${status.index == 2}">
+																<div style="font-size: 24px; margin-left: 8px;">🥉</div>
+															</c:when>
+														</c:choose>
+													</div>
 
-								<!-- 2위 -->
-								<div class="list-group-item d-flex align-items-center">
-									<img
-										src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340"
-										class="rounded me-2"
-										style="width: 60px; height: 60px; object-fit: cover;">
-									<div class="flex-fill">
-										<h6 class="mb-0">편육</h6>
-										<small class="text-muted">광주광역시 북구</small>
-										<div class="mt-1">
-											<span class="badge bg-warning text-dark">4.5</span>
-										</div>
-									</div>
-									<div style="font-size: 24px; margin-left: 8px;">🥈</div>
-								</div>
+												</div>
+												</a>
+											</c:when>
 
-								<!-- 3위 -->
-								<div class="list-group-item d-flex align-items-center">
-									<img
-										src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340"
-										class="rounded me-2"
-										style="width: 60px; height: 60px; object-fit: cover;">
-									<div class="flex-fill">
-										<h6 class="mb-0">조개찜 전문점</h6>
-										<small class="text-muted">광주광역시 북구</small>
-										<div class="mt-1">
-											<span class="badge bg-warning text-dark">4.3</span>
+											<c:otherwise>
+												<!-- 4위부터: 숨겨진 영역 -->
+												<div class="list-group-item d-flex align-items-center"
+													style="display: none;" data-more="true">
+													<img src="${favoriteres.res_thumbnail}"
+														class="rounded me-2"
+														style="width: 60px; height: 60px; object-fit: cover;">
+													<div class="flex-fill">
+														<h6 class="mb-0">${favoriteres.res_name}</h6>
+														<small class="text-muted">${favoriteres.res_addr}</small>
+														<div class="mt-1">
+															<span class="badge bg-warning text-dark">4</span>
+														</div>
+													</div>
+												</div>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+
+									<!-- 더보기 버튼 -->
+									<c:if test="${fn:length(myfavoriteres) > 3}">
+										<div class="text-center mt-2">
+											<button class="btn btn-outline-secondary btn-sm"
+												onclick="toggleFavorites()">더보기</button>
 										</div>
-									</div>
-									<div style="font-size: 24px; margin-left: 8px;">🥉</div>
-								</div>
+									</c:if>
+								</c:if>
 
 							</div>
 						</div>
 
 						<!-- 찜 탭 -->
+					
 						<div class="tab-pane fade p-2" id="wish-content" role="tabpanel">
 							<div id="wish-list" class="list-group">
+							<c:if test="${not empty mygoingres}">
+									<c:forEach var="goingres" items="${mygoingres}"
+										varStatus="status">
+										<c:choose>
+											<c:when test="${status.index lt 3}">
+												<a href="${pageContext.request.contextPath}/restaurant?res_idx=${goingres.res_idx}"
+												style="text-decoration: none; color: inherit;">
+												<div class="list-group-item d-flex align-items-center">
+												
+													<img src="${goingres.res_thumbnail}"
+														class="rounded me-2"
+														style="width: 60px; height: 60px; object-fit: cover;">
+													<div class="flex-fill">
+														<h6 class="mb-0">${goingres.res_name}</h6>
+														<small class="text-muted">${goingres.res_addr}</small>
+														
+													</div>
+												</div>
+												</a>
+											</c:when>
 
-								<!-- 찜 1 -->
-								<div class="list-group-item d-flex align-items-center">
-									<img
-										src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340"
-										class="rounded me-2"
-										style="width: 60px; height: 60px; object-fit: cover;">
-									<div class="flex-fill">
-										<h6 class="mb-0">내가 찜한 가게 1</h6>
-										<small class="text-muted">광주 남구</small>
-									</div>
-								</div>
+											<c:otherwise>
+												<!-- 4위부터: 숨겨진 영역 -->
+												<div class="list-group-item d-flex align-items-center"
+													style="display: none;" data-more="true">
+													<img src="${goingres.res_thumbnail}"
+														class="rounded me-2"
+														style="width: 60px; height: 60px; object-fit: cover;">
+													<div class="flex-fill">
+														<h6 class="mb-0">${goingres.res_name}</h6>
+														<small class="text-muted">${goingres.res_addr}</small>
+														<div class="mt-1">
+															<span class="badge bg-warning text-dark">4</span>
+														</div>
+													</div>
+												</div>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
 
-								<!-- 찜 2 -->
-								<div class="list-group-item d-flex align-items-center">
-									<img
-										src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340"
-										class="rounded me-2"
-										style="width: 60px; height: 60px; object-fit: cover;">
-									<div class="flex-fill">
-										<h6 class="mb-0">내가 찜한 가게 2</h6>
-										<small class="text-muted">광주 서구</small>
-									</div>
-								</div>
-
+									<!-- 더보기 버튼 -->
+									<c:if test="${fn:length(mygoingres) > 3}">
+										<div class="text-center mt-2">
+											<button class="btn btn-outline-secondary btn-sm"
+												onclick="toggleFavorites()">더보기</button>
+										</div>
+									</c:if>
+								</c:if>
 							</div>
 						</div>
+						
 					</div>
 				</div>
 
@@ -242,5 +286,28 @@
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/myPage.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
+	<script>
+	var rankData = [
+		<c:forEach var="favoriteres" items="${myfavoriteres}" varStatus="status">
+			{
+				res_idx: ${favoriteres.res_idx},
+				name: "${favoriteres.res_name}",
+				lat: ${favoriteres.lat},
+				lon: ${favoriteres.lon}
+			}<c:if test="${!status.last}">,</c:if>
+		</c:forEach>
+	];
+	
+	var goingData = [
+		<c:forEach var="goingres" items="${mygoingres}" varStatus="status">
+		{
+			res_idx: ${goingres.res_idx},
+			name: "${goingres.res_name}",
+			lat: ${goingres.lat},
+			lon: ${goingres.lon}
+		}<c:if test="${!status.last}">,</c:if>
+	</c:forEach>
+	];
+	</script>
 </body>
 </html>

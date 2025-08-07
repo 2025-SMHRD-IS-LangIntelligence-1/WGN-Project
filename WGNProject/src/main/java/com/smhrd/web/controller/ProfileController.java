@@ -4,6 +4,7 @@ package com.smhrd.web.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,10 +17,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.ProfileDTO;
+import com.smhrd.web.dto.RestaurantDTO;
+import com.smhrd.web.dto.FavoriteresDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
+import com.smhrd.web.dto.GoingresDTO;
+import com.smhrd.web.entity.t_favorite;
+import com.smhrd.web.entity.t_feed_img;
+import com.smhrd.web.entity.t_going;
 import com.smhrd.web.entity.t_member;
+import com.smhrd.web.entity.t_restaurant;
+import com.smhrd.web.mapper.RestaurantMapper;
 import com.smhrd.web.service.CloudinaryService;
+import com.smhrd.web.service.FavoriteService;
 import com.smhrd.web.service.FeedService;
+import com.smhrd.web.service.GoingService;
 import com.smhrd.web.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 
@@ -33,6 +44,15 @@ public class ProfileController {
 	FeedService feedService;
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	FavoriteService favoriteService;
+	
+	@Autowired
+	GoingService goingService;
+	
+	@Autowired
+	RestaurantMapper restaurantmapper;
 
     ProfileController(CloudinaryService cloudinaryService) {
         this.cloudinaryService = cloudinaryService;
@@ -95,6 +115,29 @@ public class ProfileController {
         }
         
 	    model.addAttribute("feedDTOList", feedDTOList);
+	    
+
+	    // 사용자가 랭킹 음식점id 가져오기
+	    List<t_favorite> myfavorite = favoriteService.getmyFavorite(mb_id);
+	    List<Integer> residx = myfavorite.stream()
+	    	    .map(t_favorite::getRes_idx)
+	    	    .collect(Collectors.toList());
+	    
+	    // 회원이 랭킹 등록한 음식점 데이터 가져오기
+	    List<FavoriteresDTO> myfavoriteres = restaurantmapper.myfavoriteres(residx, mb_id);
+	    model.addAttribute("myfavoriteres", myfavoriteres);
+	    
+	    // 사용자 찜 음식점 id 가져오기
+	    List<t_going> mygoing = goingService.getmygoing(mb_id);
+	    
+	    List<Integer> goingresidx = mygoing.stream()
+	    	    .map(t_going::getRes_idx)
+	    	    .collect(Collectors.toList());
+	    System.out.println("✔ goingresidx = " + goingresidx); // 전달할 res_idx 리스트 확인
+	    List<GoingresDTO> mygoingres = restaurantmapper.mygoingres(goingresidx, mb_id);
+	    model.addAttribute("mygoingres", mygoingres);
+	    
+	    System.out.println("feed_idx in controller = " + mygoingres.size());
 	    
         return "profile/myPage";
     }

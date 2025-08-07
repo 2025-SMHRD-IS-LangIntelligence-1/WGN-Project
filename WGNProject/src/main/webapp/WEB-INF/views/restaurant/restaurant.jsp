@@ -16,6 +16,8 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
 	rel="stylesheet">
 <link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/restaurant.css" />
@@ -41,11 +43,29 @@
 
 		<!-- 기본 정보 -->
 		<div class="restaurant-info">
-			<h2>${res.res_name }
-				<i class="bi bi-star-fill text-warning"></i>
+			<h2 class="d-flex align-items-center">
+				${res.res_name}
+
+				<!-- 아이콘 + 말풍선 묶음 -->
+				<span id="restaurantIconGroup"
+					class="ms-2 d-inline-flex align-items-center gap-1 position-relative"
+					style="cursor: pointer;" data-res-idx="${res.res_idx}"
+					data-mb-id="${sessionScope.member.mb_id}">
+					<div id="goingIconGroup" class="icon-outline-group">
+						<i class="bi bi-person-walking icon-outline"></i>
+						<i class="fas fa-store icon-outline"></i>
+					</div>
+
+					<div id="iconTooltip" class="icon-tooltip-inline"
+						style="display: none;">
+						이모티콘 클릭 시 찜 등록!
+						<button class="close-tooltip">&times;</button>
+					</div>
+				</span>
 			</h2>
-			<div>${res.res_addr }</div>
-			<div class="rating">4.0 (32 리뷰)</div>
+
+			<div>${res.res_addr}</div>
+			<div class="rating text-warning fw-bold">4.0 (32 리뷰)</div>
 		</div>
 
 		<!-- 탭 -->
@@ -55,7 +75,6 @@
 					href="#menu-section" class="tab-link">메뉴</a> <a
 					href="#rating-section" class="tab-link">평점</a> <a
 					href="#review-section" class="tab-link">리뷰</a>
-
 			</div>
 		</div>
 
@@ -130,7 +149,6 @@
 				<span><i class="bi bi-telephone"></i> 전화번호</span><span>${res.res_tel}</span>
 			</div>
 
-			<!-- 주소 -->
 			<!-- 주소 -->
 			<div
 				class="review-card d-flex justify-content-between align-items-center border-0">
@@ -398,5 +416,10 @@
 	</script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
+	<script>
+		let contextPath = '${pageContext.request.contextPath}';
+		let res_idx = '${res.res_idx}';
+		let mb_id = '${sessionScope.member.mb_id}';
+	</script>
 </body>
 </html>

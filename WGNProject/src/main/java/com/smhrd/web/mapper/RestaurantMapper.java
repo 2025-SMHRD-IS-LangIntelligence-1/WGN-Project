@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 
+import com.smhrd.web.dto.FavoriteresDTO;
+import com.smhrd.web.dto.GoingresDTO;
 import com.smhrd.web.dto.RestaurantDTO;
 import com.smhrd.web.dto.ReviewDTO;
 import com.smhrd.web.entity.t_convenience;
@@ -43,6 +45,11 @@ public interface RestaurantMapper {
 	List<t_menu> res_menu(int res_idx);
 
 	List<ReviewDTO> getresreview(int res_idx);
+
+	List<FavoriteresDTO> myfavoriteres(List<Integer> residx, String mb_id);
+
+	List<GoingresDTO> mygoingres(List<Integer> goingresidx, String mb_id);
+
 	
 
 }

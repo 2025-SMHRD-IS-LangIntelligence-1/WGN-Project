@@ -2,10 +2,12 @@ let fileValid = false;
 let contentValid = false;
 let resValid = false;
 let ratingValid = false;
+let isDuplicateRes = false;  // 음식점 중복 여부
 
-// 이미지 누적 관리용
+// 이미지 누적 관리용 배열
 let allSelectedFiles = [];
 
+// 디바운스 함수
 function debounce(callback, delay) {
 	let timer;
 	return function (...args) {
@@ -14,7 +16,7 @@ function debounce(callback, delay) {
 	};
 }
 
-// ✅ 파일 선택 시 미리보기 누적
+// 파일 선택 시 미리보기 및 유효성 검사
 $('#file-upload').on('change', function () {
 	const previewContainer = $('#preview-container');
 	const newFiles = Array.from(this.files);
@@ -45,7 +47,8 @@ $('#file-upload').on('change', function () {
 	submitButtonState();
 });
 
-// ✅ 내용 유효성 체크
+
+// 내용 입력 유효성 검사
 $('#feed_content').on('input', function () {
 	const content = $(this).val().trim();
 	contentValid = content.length > 0;
@@ -56,9 +59,10 @@ $('#feed_content').on('input', function () {
 
 	submitButtonState();
 });
+
 let selectedRestaurant = null;
 
-// ✅ 음식점 검색
+// 음식점 검색
 $('.search_input').on('input', debounce(function () {
 	const keyword = $(this).val().trim();
 
@@ -106,19 +110,20 @@ $('.search_input').on('input', debounce(function () {
 			console.error("음식점 검색 실패");
 		}
 	});
-}, 600));
+}, 300));
 
-// ✅ 음식점 선택 시 동작
+
+// 음식점 클릭 시 동작
 $(document).on('click', '.search-res', function () {
 	const selectedName = $(this).data('res-name');
 	const selectedIdx = $(this).data('res-idx');
-
-	// 기존 내용 유지하면서 줄바꿈 + #음식점명 입력
+	
+	// 기존 내용에 #음식점 명 추가
 	const currentContent = $('#feed_content').val().trim();
 	const newContent = currentContent ? `${currentContent}\n#${selectedName}` : `#${selectedName}`;
 	$('#feed_content').val(newContent);
-
-	// 선택된 음식점 카드만 남기고 ✅ 아이콘 추가
+	
+	// 선택된 음식점 카드로 대체 + 체크 아이콘 표시
 	const selectedCard = $(this).clone();
 	selectedCard.append(`
 		<div style="margin-left: auto; align-self: center;">
@@ -127,40 +132,73 @@ $(document).on('click', '.search-res', function () {
 	`);
 	$('.search-list').html(selectedCard).show();
 
-	// 검색창엔 음식점 이름만 남김
 	$('.search_input').val(selectedName);
 
-	// 숨겨진 input에 res_idx 저장
 	$('#selectedResIdx').val(selectedIdx);
 
-	// 에러메시지 제거
 	$('#resError').hide();
 	resValid = true;
 
+	checkFavoriteDuplicate(selectedIdx);  // 중복 체크 추가
 	submitButtonState();
 });
 
-
-// 별점 선택
-$('input[name="rating"]').on('change', function () {
+// 별점 유효성 검사
+$('input[name="ratings"]').on('change', function () {
 	ratingValid = true;
 	$('#ratingError').hide();
 
 	submitButtonState();
 });
 
-// 제출 버튼 활성화
+// 제출 버튼 상태 제어
 function submitButtonState() {
-	const isAllValid = fileValid && contentValid && resValid && ratingValid;
+	const isAllValid = fileValid && contentValid && resValid && ratingValid && !isDuplicateRes;
 	$('.submit-btn').prop('disabled', !isAllValid);
 }
 
-// 제출 시 최종 유효성 체크
+// 중복 랭킹 체크 AJAX
+function checkFavoriteDuplicate(resIdx) {
+	$.ajax({
+		url: contextPath + '/feed/rescheck',
+		type: 'GET',
+		data: { res_idx: resIdx },
+		success: function (isDuplicate) {
+			isDuplicateRes = isDuplicate;
+
+			if (isDuplicateRes) {
+				// 중복이면: 스위치 숨기고 문구 보여줌
+				$('#rankToggleWrapper').hide();
+				$('#duplicateFavoriteMsg').show();
+			} else {
+				// 중복 아니면: 스위치 보이고 문구 숨김
+				$('#rankToggleWrapper').show();
+				$('#duplicateFavoriteMsg').hide();
+			}
+
+			submitButtonState();  // 다른 조건도 판단할 경우 유지
+		},
+		error: function () {
+			console.error("중복 체크 실패");
+			isDuplicateRes = false;
+
+			// 오류 시에도 안전하게 스위치 보이기
+			$('#rankToggleWrapper').show();
+			$('#duplicateFavoriteMsg').hide();
+
+			submitButtonState();
+		}
+	});
+}
+
+
+
+// 최종 제출 시 유효성 체크
 $('form').on('submit', function (e) {
 	const fileCount = $('#file-upload')[0].files.length;
 	const content = $('#feed_content').val().trim();
 	const resIdx = $('#selectedResIdx').val().trim();
-	const ratingChecked = $('input[name="rating"]:checked').length > 0;
+	const ratingChecked = $('input[name="ratings"]:checked').length > 0;
 
 	let isValid = true;
 
@@ -180,16 +218,19 @@ $('form').on('submit', function (e) {
 		$('#ratingError').show();
 		isValid = false;
 	}
-
+	if (isDuplicateRes) {
+		$('#duplicateFavoriteMsg').show();
+		isValid = false;
+	}
+	
 	if (!isValid) {
 		e.preventDefault();
 		return;
 	}
-
-	// ✅ 게시 중 모달 띄우기
+	
+	// 게시 중 모달 띄우기
 	$('#postingModal').fadeIn();
 
-	// 누적된 이미지 파일을 다시 input에 넣기
 	let fileInput = document.getElementById('file-upload');
 	let dataTransfer = new DataTransfer();
 

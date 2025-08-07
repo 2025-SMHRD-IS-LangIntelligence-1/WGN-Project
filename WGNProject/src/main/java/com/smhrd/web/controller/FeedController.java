@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +23,12 @@ import com.smhrd.web.dto.CommentDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.dto.RestaurantDTO;
+import com.smhrd.web.entity.t_favorite;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
+import com.smhrd.web.mapper.FavoriteMapper;
 import com.smhrd.web.service.CloudinaryService;
+import com.smhrd.web.service.FavoriteService;
 import com.smhrd.web.service.FeedService;
 import com.smhrd.web.service.MemberService;
 import com.smhrd.web.service.RestaurantService;
@@ -47,6 +51,12 @@ public class FeedController {
 	MemberService memberService;
 	@Autowired
 	RestaurantService restaurantService;
+	
+	@Autowired
+	FavoriteMapper favoritemapper;
+	
+	@Autowired
+	FavoriteService favoriteService;
 
 	FeedController(CloudinaryService cloudinaryService) {
 		this.cloudinaryService = cloudinaryService;
@@ -118,12 +128,13 @@ public class FeedController {
 	}
 
 	@PostMapping("/upload")
-	public String uploadFeed(@ModelAttribute t_feed feed, @RequestParam("files") List<MultipartFile> files,
-			@RequestParam("res_idx") Integer res_idx, HttpSession session) {
+	public String uploadFeed(t_feed feed, @RequestParam("files") List<MultipartFile> files,
+			@RequestParam("res_idx") Integer res_idx, HttpSession session,
+			@RequestParam(value = "rank_toggle", required = false) String rankToggle) {
 		
 		
-        // ✅ 넘어온 파일 개수 로깅
-	    System.out.println("📷 업로드 요청 파일 개수: " + files.size());
+        // 넘어온 파일 개수 로깅
+	    System.out.println("업로드 요청 파일 개수: " + files.size());
 		// 로그인 되어 있는지 체크
 		boolean loginCheck = memberService.loginCheck(session);
 
@@ -141,20 +152,50 @@ public class FeedController {
 
 		feed.setMb_id(mb_id);
 		feed.setRes_idx(res_idx);
+		Double ratings = feed.getRatings();
+		System.out.println("피드 별점: " + feed.getRatings());
+		System.out.println("피드 별점: " + ratings);
 		
-
 	    try {
 	    	feedService.saveFeed(feed, files);
 	    } catch (IOException e) {
 	    	log.error("파일 업로드 중 오류 발생", e);
 	    }
 	    
+	    
+	    // 랭킹 등록
+	    if ("on".equals(rankToggle)) {
+	    	t_favorite favorite = new t_favorite();
+	    	favorite.setMb_id(mb_id);
+	    	favorite.setRes_idx(res_idx);
+	    	favorite.setFav_rating(feed.getRatings());
+	    	favoriteService.insertFavorite(favorite);
+	    }
+	    
+	    
 		// 사용자 로그 저장
 		memberService.saveLog(mb_id, res_idx, "글작성");
 		
 		return "redirect:/";
 	}
+	
+	
+	// 등록 음식점 체크
+	@GetMapping("/rescheck")
+	@ResponseBody
+	public ResponseEntity<Boolean> checkFavorite(@RequestParam("res_idx") int res_idx, HttpSession session) {
+	    // 세션에서 로그인 정보 가져오기
+	    t_member member = (t_member) session.getAttribute("member");
 
+	    String mb_id = member.getMb_id();
+	    System.out.println("넘어온 res_idx: " + res_idx);
+	    // 중복 확인
+	    boolean exists = favoriteService.checkFavoriteExists(mb_id, res_idx);
+	    return ResponseEntity.ok(exists);
+	}
+	
+	
+	
 	@PostMapping("/delete")
 	public String deleteFeed(HttpSession session, @RequestParam("feed_idx") int feed_idx) {
 

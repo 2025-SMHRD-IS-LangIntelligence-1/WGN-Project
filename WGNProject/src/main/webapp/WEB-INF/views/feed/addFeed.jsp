@@ -26,7 +26,7 @@
 					<!-- 상단 닫기 및 제출 버튼 -->
 					<div class="add-box-header">
 						<button class="close-btn" type="button">✕</button>
-						<button class="submit-btn" disabled>게시하기</button>
+						<button class="submit-btn" type="submit" disabled>게시하기</button>
 					</div>
 
 					<!-- 파일 업로드 영역 -->
@@ -64,12 +64,12 @@
 				<div class="rating-wrapper">
 					<span class="rating-title">별점</span>
 					<div class="star-input">
-						<input type="radio" id="star5" name="rating" value="5" /> <label
+						<input type="radio" id="star5" name="ratings" value="5" /> <label
 							for="star5" title="5 stars">★</label> <input type="radio"
-							id="star4" name="rating" value="4" /> <label for="star4"
+							id="star4" name="ratings" value="4" /> <label for="star4"
 							title="4 stars">★</label> <input type="radio" id="star3"
-							name="rating" value="3" /> <label for="star3" title="3 stars">★</label>
-						<input type="radio" id="star2" name="rating" value="2" /> <label
+							name="ratings" value="3" /> <label for="star3" title="3 stars">★</label>
+						<input type="radio" id="star2" name="ratings" value="2" /> <label
 							for="star2" title="2 stars">★</label> <input type="radio"
 							id="star1" name="rating" value="1" /> <label for="star1"
 							title="1 star">★</label>
@@ -79,16 +79,35 @@
 				<span id="ratingError" class="text-danger"
 					style="display: none; font-size: 13px;">별점을 선택해주세요.</span>
 
-				<!-- 음식점 검색 -->
-				<input type="text" class="search_input" placeholder="음식점을 입력하세요">
-				<input type="hidden" name="res_idx" id="selectedResIdx"> <span
-					id="resError" class="text-danger"
-					style="display: none; font-size: 13px;">음식점을 선택해주세요.</span>
+				<!-- 랭킹 등록 -->
+				<div class="favorite-wrapper">
+					<span class="favorite-title"> 내 랭킹 등록하기 </span>
+					<div class="favorite-input">
 
-				<!-- 검색 결과 리스트 -->
-				<div class="search-list"></div>
-			</form>
+						<div id="rankToggleWrapper">
+							<label class="switch-toggle"> <input type="checkbox"
+								id="rank_toggle" name="rank_toggle"> <span
+								class="slider"> <span class="label-on">ON</span> <span
+									class="label-off">OFF</span>
+							</span>
+							</label>
+						</div>
+
+						<span id="duplicateFavoriteMsg" class="text-danger"
+							style="display: none; font-size: 13px; margin-left: 10px;">이미
+							등록한 음식점입니다.</span>
+					</div>
+				</div>
 		</div>
+		<!-- 음식점 검색 -->
+		<input type="text" class="search_input" placeholder="음식점을 입력하세요">
+		<input type="hidden" name="res_idx" id="selectedResIdx"> <span
+			id="resError" class="text-danger"
+			style="display: none; font-size: 13px;">음식점을 선택해주세요.</span>
+		<!-- 검색 결과 리스트 -->
+		<div class="search-list"></div>
+		</form>
+	</div>
 	</div>
 
 	<!-- 게시 중 모달 -->
