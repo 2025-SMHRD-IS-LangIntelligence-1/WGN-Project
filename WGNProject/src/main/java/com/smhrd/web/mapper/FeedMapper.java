@@ -23,7 +23,7 @@ public interface FeedMapper {
 
 	public void saveFeed(t_feed feed);
 
-	public void saveFeedImg(@Param("feed_idx") int feed_idx, @Param("imgUrls") List<String> imgUrls);
+	void saveFeedImg(@Param("feed_idx") int feed_idx, @Param("imgUrls") List<String> imgUrls);
 	
 	@Select("select feed_img_url from t_feed_img where feed_idx=#{feed_idx} order by feed_img_idx asc")
 	public ArrayList<String> selectFeedImgByFeedIdx(int feed_idx);

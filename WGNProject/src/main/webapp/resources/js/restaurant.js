@@ -1,17 +1,19 @@
 // 탭 이동 + active
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 	const sections = document.querySelectorAll('#info-section, #menu-section, #rating-section, #review-section');
 	const tabLinks = document.querySelectorAll('.tab-link');
+	const tab = document.getElementById("restaurantTabs");
+	const tabOffsetTop = tab.offsetTop;
+	const scrollOffset = 110; // 상단바 + 탭 메뉴 높이
 
+	// 스크롤 시 탭 활성화
 	function updateActiveTab() {
 		let current = '';
 
 		sections.forEach((section) => {
 			const sectionTop = section.offsetTop;
-			const sectionHeight = section.offsetHeight;
-
-			if (pageYOffset >= sectionTop - 100) {
+			if (window.pageYOffset >= sectionTop - scrollOffset) {
 				current = section.getAttribute('id');
 			}
 		});
@@ -24,16 +26,30 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 
-	window.addEventListener('scroll', updateActiveTab);
-});
+	// 탭 클릭 시 부드럽게 이동 + offset 고려
+	tabLinks.forEach(link => {
+		link.addEventListener('click', function (e) {
+			e.preventDefault();
 
+			const targetId = this.getAttribute('href');
+			const targetSection = document.querySelector(targetId);
 
+			if (targetSection) {
+				const elementTop = targetSection.getBoundingClientRect().top;
+				const offsetTop = window.pageYOffset + elementTop - scrollOffset;
 
-// 탭 고정
-document.addEventListener("DOMContentLoaded", () => {
-	const tab = document.getElementById("restaurantTabs");
-	const tabOffsetTop = tab.offsetTop;
+				window.scrollTo({
+					top: offsetTop,
+					behavior: 'smooth'
+				});
+			}
+		});
+	});
+
+	// 스크롤 시 탭 고정
 	window.addEventListener("scroll", () => {
+		updateActiveTab(); // 탭 활성화도 같이 체크
+
 		if (window.scrollY >= tabOffsetTop - 60) {
 			tab.classList.add("fixed");
 		} else {
@@ -221,6 +237,28 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 });
 
+// 사용자 리뷰 더보기
+document.addEventListener("DOMContentLoaded", function () {
+  const toggleUserBtn = document.getElementById("toggle-user");
+
+  let userExpanded = false;
+
+  if (toggleUserBtn) {
+    toggleUserBtn.addEventListener("click", function () {
+      const hiddenEls = document.querySelectorAll(".user-review");
+      userExpanded = !userExpanded;
+
+      hiddenEls.forEach((el, idx) => {
+        if (idx >= 3) {
+          el.classList.toggle("d-none", !userExpanded);
+        }
+      });
+
+      this.textContent = userExpanded ? "사용자 리뷰 접기" : "사용자 리뷰 더보기";
+    });
+  }
+});
+
 // 리뷰작성 토글
 document.addEventListener('DOMContentLoaded', function() {
 	const toggleBtn = document.getElementById('toggleReviewBtn');
@@ -234,8 +272,97 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 });
 
-// 사용자 리뷰 숨김
-document.getElementById("toggle-user").addEventListener("click", function() {
-	document.querySelectorAll(".user-review.d-none").forEach(el => el.classList.remove("d-none"));
-	this.style.display = 'none'; // 버튼 숨기기
+
+// 리뷰 이미지
+function openImageModal(imgUrl) {
+  const modal = document.getElementById("reviewImageModal");
+  const modalImg = document.getElementById("modalImage");
+  modalImg.src = imgUrl;
+  modal.style.display = "flex";
+}
+
+function closeImageModal() {
+  document.getElementById("reviewImageModal").style.display = "none";
+}
+
+// 모달 배경 클릭 시 닫기
+document.getElementById("reviewImageModal").addEventListener("click", function (e) {
+  // 이미지나 버튼을 클릭한 경우는 무시
+  if (e.target === this) {
+    this.style.display = "none";
+  }
 });
+
+// 리뷰 작성
+const ratingError = document.getElementById("ratingError");
+const contentError = document.getElementById("contentError");
+const ratingInputs = document.querySelectorAll('input[name="ratings"]');
+const reviewContent = document.getElementById("reviewContent");
+
+// 별점 선택 시 에러 숨김
+ratingInputs.forEach(input => {
+  input.addEventListener("change", () => {
+    ratingError.style.display = "none";
+  });
+});
+
+// 리뷰 작성 시 에러 숨김
+reviewContent.addEventListener("input", () => {
+  if (reviewContent.value.trim() !== "") {
+    contentError.style.display = "none";
+  }
+});
+
+// 제출 시 유효성 검사
+document.getElementById("reviewForm").addEventListener("submit", function (e) {
+  const ratingChecked = document.querySelector('input[name="ratings"]:checked');
+  const content = reviewContent.value.trim();
+
+  let isValid = true;
+
+  if (!ratingChecked) {
+    ratingError.style.display = "block";
+    isValid = false;
+  }
+
+  if (content === "") {
+    contentError.style.display = "block";
+    isValid = false;
+  }
+
+  if (!isValid) {
+    e.preventDefault();
+  }
+});
+
+// 지도구현
+var map;
+
+function toggleMap() {
+  const mapSection = document.getElementById("map-section");
+  const toggleBtn = document.getElementById("mapToggleBtn");
+
+  if (mapSection.style.display === "none") {
+    mapSection.style.display = "block";
+    toggleBtn.innerText = "지도 접기";
+
+    // 중심 좌표
+    var center = new kakao.maps.LatLng(reslat, reslon);
+
+    // 지도 생성
+    map = new kakao.maps.Map(document.getElementById('map'), {
+      center: center,
+      level: 1
+    });
+
+    // 마커 생성
+    var marker = new kakao.maps.Marker({
+      position: center,
+      map: map
+    });
+
+  } else {
+    mapSection.style.display = "none";
+    toggleBtn.innerText = "지도 보기";
+  }
+}

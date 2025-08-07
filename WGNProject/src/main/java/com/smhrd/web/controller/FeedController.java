@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +40,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class FeedController {
-
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	FeedService feedService;
 	@Autowired
@@ -54,7 +57,10 @@ public class FeedController {
 
 	@GetMapping
 	public String feedDetail(HttpSession session, @RequestParam("feed_idx") int feedIdx, Model model) {
+		
+		
 
+        
 		// 로그인 되어 있는지 체크
 		boolean loginCheck = memberService.loginCheck(session);
 
@@ -117,7 +123,10 @@ public class FeedController {
 	@PostMapping("/upload")
 	public String uploadFeed(@ModelAttribute t_feed feed, @RequestParam("files") List<MultipartFile> files,
 			@RequestParam("res_idx") Integer res_idx, HttpSession session) {
-
+		
+		
+        // ✅ 넘어온 파일 개수 로깅
+	    System.out.println("📷 업로드 요청 파일 개수: " + files.size());
 		// 로그인 되어 있는지 체크
 		boolean loginCheck = memberService.loginCheck(session);
 
@@ -125,7 +134,9 @@ public class FeedController {
 		if (!loginCheck) {
 			return "member/login";
 		}
-
+		
+		
+			 
 		// 세션에서 멤버 정보 가져오기
 		t_member member = (t_member) session.getAttribute("member");
 
@@ -133,13 +144,14 @@ public class FeedController {
 
 		feed.setMb_id(mb_id);
 		feed.setRes_idx(res_idx);
-
-		try {
-			feedService.saveFeed(feed, files);
-		} catch (IOException e) {
-			log.error("파일 업로드 중 오류 발생", e);
-		}
 		
+
+	    try {
+	    	feedService.saveFeed(feed, files);
+	    } catch (IOException e) {
+	    	log.error("파일 업로드 중 오류 발생", e);
+	    }
+	    
 		// 사용자 로그 저장
 		memberService.saveLog(mb_id, res_idx, "글작성");
 		

@@ -40,13 +40,6 @@ public class RestaurantController {
     @GetMapping
     public String resdetail(@RequestParam("res_idx") int res_idx, HttpSession session, Model model ) {
     	
-    	// 로그인 체크
-    	boolean loginCheck = memberService.loginCheck(session);
-    	
-		if (!loginCheck) {
-			return "member/login";
-		}
-
 		// 음식점 정보
 		t_restaurant res = resmapper.resdetail(res_idx);
 
