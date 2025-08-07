@@ -208,7 +208,7 @@ public class FeedController {
 		FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feed_idx);
 		int res_idx = feed.getRes_idx();
 		
-		int feedLikeNum = feedService.addFeedLike(feed_idx);
+		int feedLikeNum = feedService.addFeedLike(feed_idx, session);
 		memberService.saveLog(mb_id, res_idx, "좋아요");
 		return feedLikeNum;
 	}

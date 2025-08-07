@@ -46,6 +46,8 @@ public class RecommendationServiceImpl implements RecommendationService {
 	@Override
 	public List<Integer> sendLogsAndFeeds(String mb_id) {
 
+		List<Integer> FeedIdxList;
+		
 		System.out.println("sendLogsAndFeeds 메서드 실행");
 
 		// HTTP 헤더 설정
@@ -59,6 +61,12 @@ public class RecommendationServiceImpl implements RecommendationService {
 		System.out.println("가져온 로그 수 : " + logs.size());
 		System.out.println("가져온 피드 수 : " + feeds.size());
 
+		if (logs.size() == 0) {
+	        // 사용자 로그가 없을 경우 기본 피드 제공
+	        FeedIdxList = feedMapper.getMixedFeeds();
+	        return FeedIdxList;
+	    }
+		
 		List<Map<String, Object>> logList = new ArrayList<>();
 
 		for (LogDTO log : logs) {
@@ -112,7 +120,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 		    responseType
 		);
 		
-		List<Integer> FeedIdxList = response.getBody();
+		FeedIdxList = response.getBody();
 
 		System.out.println("요청 보내고 결과 받기 완료");
 		System.out.println("응답 본문: " + FeedIdxList);

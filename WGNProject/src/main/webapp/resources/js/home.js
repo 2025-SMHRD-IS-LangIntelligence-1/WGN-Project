@@ -44,12 +44,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                     </div>
                                 `).join('')}
                             </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-${feed.feed_idx}" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon"></span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carousel-${feed.comment_count}" data-bs-slide="next">
-                                <span class="carousel-control-next-icon"></span>
-                            </button>
+							<button class="carousel-control-prev" type="button" data-bs-target="#carousel-${feed.feed_idx}" data-bs-slide="prev">
+							    <span class="carousel-control-prev-icon"></span>
+							</button>
+							<button class="carousel-control-next" type="button" data-bs-target="#carousel-${feed.feed_idx}" data-bs-slide="next">
+							    <span class="carousel-control-next-icon"></span>
+							</button>
+
                         </div>
                     </a>
                     <div class="post-actions">
@@ -57,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <i class="bi bi-chat ms-3"></i>
                         <span class="stats ms-2">${feed.feed_likes} 좋아요 · ${feed.comment_count || 0} 댓글</span>
                     </div>
-                    <div class="location-card" onclick="window.location='restaurant.html'">
+                    <div class="location-card" onclick="window.location='restaurant?res_idx=${feed.res_idx}'">
                         <div class="location-info">
                             <b>${feed.res_name || '가게명'}</b> <span>${feed.res_category || '카테고리'}</span>
                         </div>
@@ -74,5 +75,11 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch(err => {
         console.error("추천 피드 로드 실패:", err);
+		const postHTML = `
+		    <div class="post">
+		        
+		    </div>
+		`;
+		document.getElementById('feed-list').insertAdjacentHTML('beforeend', postHTML);
     });
 });

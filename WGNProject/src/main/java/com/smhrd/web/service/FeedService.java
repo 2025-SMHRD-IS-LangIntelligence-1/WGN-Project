@@ -12,6 +12,8 @@ import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 
+import jakarta.servlet.http.HttpSession;
+
 public interface FeedService {
 	
 	ArrayList<FeedWithImgDTO> getFeedByMemId(String mb_id);
@@ -28,10 +30,12 @@ public interface FeedService {
 
 	void deleteFeed(int feed_idx);
 
-	int addFeedLike(int feed_idx);
+	int addFeedLike(int feed_idx, HttpSession session);
 	
 	int deleteFeedLike(int feed_idx);
 
 	List<FeedPreviewDTO> getFeedsByFeedIdx(List<Integer> feedIdxList);
+
+	
 	
 }

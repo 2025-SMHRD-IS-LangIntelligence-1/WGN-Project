@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.smhrd.web.dto.ReviewDTO;
 import com.smhrd.web.dto.WordCloudDTO;
 import com.smhrd.web.entity.t_convenience;
+import com.smhrd.web.entity.t_member;
 import com.smhrd.web.entity.t_menu;
 import com.smhrd.web.entity.t_res_img;
+import com.smhrd.web.service.MemberService;
 import com.smhrd.web.service.ReviewService;
 import com.smhrd.web.entity.t_restaurant;
 import com.smhrd.web.entity.t_running_time;
@@ -34,10 +36,16 @@ public class RestaurantController {
 	private RestaurantMapper resmapper;
 	@Autowired
 	private ReviewService reviewService;
+	@Autowired
+	private MemberService memberService;
 	
 	@GetMapping
     public String resDetail(@RequestParam("res_idx") int res_idx, HttpSession session, Model model ) {
     	
+		// 세션에서 로그인 유저 꺼냄
+		t_member logined = (t_member) session.getAttribute("member");		
+		String mb_id = logined.getMb_id();
+				
 		// 음식점 정보
 		t_restaurant res = resmapper.resdetail(res_idx);
 
@@ -95,6 +103,8 @@ public class RestaurantController {
 		List<t_menu> res_menu = resmapper.res_menu(res_idx);
 		model.addAttribute("res_menu", res_menu);
 
+		memberService.saveLog(mb_id, null, null);
+		
 		return "restaurant/restaurant";
 	}
 	
