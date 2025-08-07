@@ -24,18 +24,13 @@
 
 	<div class="mobile-container">
 
-		<h1>홈 페이지</h1>
-
-		<div id="recommendation-result">
-			<h2>추천 피드 리스트</h2>
-			<ul id="feed-list">
-				<li>로딩 중...</li>
-			</ul>
-		</div>
-
 		<div class="content">
 			<!-- 광고 -->
 			<div class="ad-banner">광주맛집</div>
+			
+			<div class="feed" id="feed-list">
+				<!-- JavaScript로 동적으로 채워짐 -->
+			</div>
 		</div>
 		
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
@@ -44,9 +39,6 @@
 	<!-- Bootstrap JS (Carousel 동작 필수) -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script>
-		const contextPath = '${pageContext.request.contextPath}';
-	</script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/home.js"></script>

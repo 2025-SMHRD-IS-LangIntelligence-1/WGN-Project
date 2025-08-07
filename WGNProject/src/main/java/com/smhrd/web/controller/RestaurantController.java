@@ -9,14 +9,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.smhrd.web.dto.ReviewDTO;
+import com.smhrd.web.dto.WordCloudDTO;
 import com.smhrd.web.entity.t_convenience;
 import com.smhrd.web.entity.t_menu;
 import com.smhrd.web.entity.t_res_img;
-import com.smhrd.web.service.MemberService;
-import com.smhrd.web.service.RestaurantService;
+import com.smhrd.web.service.ReviewService;
 import com.smhrd.web.entity.t_restaurant;
 import com.smhrd.web.entity.t_running_time;
 import com.smhrd.web.mapper.RestaurantMapper;
@@ -32,13 +33,10 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantMapper resmapper;
 	@Autowired
-	MemberService memberService;
-
-	@Autowired
-	private RestaurantService restaurantService;
+	private ReviewService reviewService;
 	
-    @GetMapping
-    public String resdetail(@RequestParam("res_idx") int res_idx, HttpSession session, Model model ) {
+	@GetMapping
+    public String resDetail(@RequestParam("res_idx") int res_idx, HttpSession session, Model model ) {
     	
 		// 음식점 정보
 		t_restaurant res = resmapper.resdetail(res_idx);
@@ -60,7 +58,7 @@ public class RestaurantController {
 		model.addAttribute("remaining", remaining);
 
 		// 리뷰
-		List<ReviewDTO> res_review = restaurantService.getresreview(res_idx);
+		List<ReviewDTO> res_review = reviewService.getResReview(res_idx);
 		model.addAttribute("res_review", res_review);
 
 		// 편의시설
@@ -99,4 +97,11 @@ public class RestaurantController {
 
 		return "restaurant/restaurant";
 	}
+	
+	@PostMapping("/wordcloud")
+	public WordCloudDTO makeWordCloud(@RequestParam int res_idx) {
+		WordCloudDTO wc = reviewService.sendResReview(res_idx);
+		return wc;
+	}
+	
 }
