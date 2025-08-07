@@ -114,7 +114,49 @@
 		LEFT JOIN
 		t_restaurant r ON r.res_idx = f.res_idx
 		WHERE
-		f.mb_id != #{mb_id};
+		f.mb_id
+		!= #{mb_id};
+	</select>
+
+	<resultMap id="FeedPreviewDTO"
+		type="com.smhrd.web.dto.FeedPreviewDTO">
+		<result property="feed_idx" column="feed_idx" />
+		<result property="mb_id" column="mb_id" />
+		<result property="res_idx" column="res_idx" />
+		<result property="feed_content" column="feed_content" />
+		<result property="feed_likes" column="feed_likes" />
+		<result property="created_at" column="created_at" />
+		<result property="mb_nick" column="mb_nick" />
+		<result property="res_name" column="res_name" />
+		<result property="res_category" column="res_category" />
+		<result property="comment_count" column="comment_count" />
+		<result property="mb_img" column="mb_img" />
+	</resultMap>
+
+	<select id="getFeedsByFeedIdx" parameterType="int"
+		resultMap="FeedPreviewDTO">
+		SELECT
+		f.feed_idx,
+		f.mb_id,
+		f.res_idx,
+		f.feed_content,
+		f.feed_likes,
+		f.created_at,
+		m.mb_nick,
+		r.res_name,
+		r.res_category,
+		m.mb_img,
+		COUNT(c.cmt_idx) AS comment_count
+		FROM t_feed f
+		LEFT JOIN t_feed_img i ON f.feed_idx = i.feed_idx
+		LEFT JOIN t_member m ON f.mb_id = m.mb_id
+		LEFT JOIN t_restaurant r ON r.res_idx = f.res_idx
+		LEFT JOIN t_comment c ON f.feed_idx = c.feed_idx -- 댓글 테이블 조인
+		WHERE f.feed_idx = #{feed_idx}
+		GROUP BY
+		f.feed_idx, f.mb_id, f.res_idx, f.feed_content,
+		f.feed_likes, f.created_at, m.mb_nick,
+		r.res_name, r.res_category, m.mb_img;
 	</select>
 
 </mapper>

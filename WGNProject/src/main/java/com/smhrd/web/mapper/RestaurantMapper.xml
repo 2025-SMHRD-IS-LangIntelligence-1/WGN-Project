@@ -31,13 +31,4 @@
 	    </foreach>
 	</insert>
 	
-	
-	<select id="getresreview">
-		select review.*, m.mb_img
-		from t_review review
-		inner join
-		t_member m on m.mb_id = review.mb_id
-		where res_idx=#{res_idx}
-	</select>
-	
 </mapper>

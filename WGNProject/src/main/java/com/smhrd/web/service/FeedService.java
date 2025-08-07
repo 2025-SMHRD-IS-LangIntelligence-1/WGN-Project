@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.CommentDTO;
+import com.smhrd.web.dto.FeedPreviewDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
@@ -30,5 +31,7 @@ public interface FeedService {
 	int addFeedLike(int feed_idx);
 	
 	int deleteFeedLike(int feed_idx);
+
+	List<FeedPreviewDTO> getFeedsByFeedIdx(List<Integer> feedIdxList);
 	
 }

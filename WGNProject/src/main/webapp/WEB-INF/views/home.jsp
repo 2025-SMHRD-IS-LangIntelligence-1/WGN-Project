@@ -30,9 +30,9 @@
 			
 			<div class="feed" id="feed-list">
 				<!-- JavaScript로 동적으로 채워짐 -->
-			</div>
+			</div>          
 		</div>
-		
+			
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 	</div>
 

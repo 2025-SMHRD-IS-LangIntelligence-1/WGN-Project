@@ -14,7 +14,7 @@ function debounce(callback, delay) {
 	};
 }
 
-// ✅ 파일 선택 시 미리보기 누적
+// 파일 선택 시 미리보기 누적
 $('#file-upload').on('change', function () {
 	const previewContainer = $('#preview-container');
 	const newFiles = Array.from(this.files);
@@ -45,7 +45,7 @@ $('#file-upload').on('change', function () {
 	submitButtonState();
 });
 
-// ✅ 내용 유효성 체크
+// 내용 유효성 체크
 $('#feed_content').on('input', function () {
 	const content = $(this).val().trim();
 	contentValid = content.length > 0;
@@ -58,7 +58,7 @@ $('#feed_content').on('input', function () {
 });
 let selectedRestaurant = null;
 
-// ✅ 음식점 검색
+// 음식점 검색
 $('.search_input').on('input', debounce(function () {
 	const keyword = $(this).val().trim();
 
@@ -108,7 +108,7 @@ $('.search_input').on('input', debounce(function () {
 	});
 }, 600));
 
-// ✅ 음식점 선택 시 동작
+// 음식점 선택 시 동작
 $(document).on('click', '.search-res', function () {
 	const selectedName = $(this).data('res-name');
 	const selectedIdx = $(this).data('res-idx');
@@ -186,7 +186,7 @@ $('form').on('submit', function (e) {
 		return;
 	}
 
-	// ✅ 게시 중 모달 띄우기
+	// 게시 중 모달 띄우기
 	$('#postingModal').fadeIn();
 
 	// 누적된 이미지 파일을 다시 input에 넣기
