@@ -54,4 +54,16 @@ public interface FeedMapper {
 	public List<FeedForSearchDTO> getFeedForSearch(String mb_id);
 
 	public FeedPreviewDTO getFeedsByFeedIdx(int feed_idx);
+
+	@Select("""
+		    (SELECT feed_idx FROM t_feed ORDER BY created_at DESC LIMIT 8)
+		    UNION
+		    (SELECT feed_idx FROM t_feed ORDER BY feed_likes DESC LIMIT 6)
+		    UNION
+		    (SELECT feed_idx FROM t_feed ORDER BY RAND() LIMIT 6)
+		    LIMIT 20
+		""")
+		List<Integer> getMixedFeeds();
+
+
 }

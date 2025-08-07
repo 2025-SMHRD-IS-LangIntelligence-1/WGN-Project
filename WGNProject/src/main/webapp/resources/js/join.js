@@ -77,7 +77,7 @@ $('#inputNick').on('input', debounce(function () {
     $("#checkResult").text("");
 
     let inputNick = $('#inputNick').val();
-    let filtered = inputNick.replace(/[^A-Z가-힣0-9]/g, ''); // 한글과 숫자만 허용
+    let filtered = inputNick.replace(/[^A-Za-z가-힣0-9]/g, ''); // 한글과 숫자 영어 허용
 
     if (inputNick !== filtered) {
         $('#inputNick').val(filtered);

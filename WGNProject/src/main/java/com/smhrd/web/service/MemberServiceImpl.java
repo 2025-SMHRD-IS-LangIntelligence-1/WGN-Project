@@ -16,6 +16,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	MemberMapper memberMapper;
+	@Autowired
+	NotificationService notificationService;
 
 	@Override
 	public boolean join(t_member mem, String pwCheck) {
@@ -85,7 +87,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void followMem(String follower_id, String following_id) {
 		memberMapper.followMem(follower_id, following_id);
-		
+		notificationService.makeFollowNoti(follower_id, following_id);
 	}
 
 	@Override

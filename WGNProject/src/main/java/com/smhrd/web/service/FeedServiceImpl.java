@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.smhrd.web.config.AsyncConfig;
 import com.smhrd.web.dto.CommentDTO;
 import com.smhrd.web.dto.FeedPreviewDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
@@ -17,14 +17,25 @@ import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.FeedMapper;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class FeedServiceImpl implements FeedService{
+
+    private final AsyncConfig asyncConfig;
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	FeedMapper feedMapper;
 	@Autowired
 	CloudinaryService cloudinaryService;
+	@Autowired
+	NotificationService notificationService;
+
+    FeedServiceImpl(AsyncConfig asyncConfig) {
+        this.asyncConfig = asyncConfig;
+    }
 	
 	@Override
 	public ArrayList<FeedWithImgDTO> getFeedByMemId(String mb_id) {
@@ -79,6 +90,11 @@ public class FeedServiceImpl implements FeedService{
 		comment.setCmt_content(feed_content);
 		
 		feedMapper.saveComment(comment);
+		
+		String sender = mb_id;
+		String receiver = feedMapper.selectFeedByIdx(feed_idx).getMb_id();
+		
+		notificationService.makeCommentNoti(sender, receiver, feed_idx, feed_content);
 	}
 
 	@Override
@@ -94,8 +110,12 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public int addFeedLike(int feed_idx) {
+	public int addFeedLike(int feed_idx, HttpSession session) {
 		feedMapper.addFeedLike(feed_idx);
+		t_member member = (t_member) session.getAttribute("member");
+		String sender = member.getMb_id();
+		String receiver = feedMapper.selectFeedByIdx(feed_idx).getMb_id();
+		notificationService.makeLikeNoti(sender, receiver, feed_idx);
 		return feedMapper.countFeedLike(feed_idx);
 	}
 
