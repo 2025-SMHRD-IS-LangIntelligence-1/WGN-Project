@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 
 import com.smhrd.web.dto.RestaurantDTO;
-import com.smhrd.web.dto.ReviewDTO;
 import com.smhrd.web.entity.t_convenience;
 import com.smhrd.web.entity.t_menu;
 import com.smhrd.web.entity.t_res_img;

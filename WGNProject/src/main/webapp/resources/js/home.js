@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(feedIdxList => {
         console.log("추천 받은 feedIdxList:", feedIdxList);
 
-        // 💡 feedIdxList를 POST로 서버에 전달 (리스트 한 번에)
+        // feedIdxList를 POST로 서버에 전달
         return fetch('/wgn/feed/previews', {
             method: 'POST',
             headers: {

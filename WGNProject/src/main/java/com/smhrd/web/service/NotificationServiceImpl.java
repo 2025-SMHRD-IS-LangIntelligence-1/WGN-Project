@@ -61,5 +61,10 @@ public class NotificationServiceImpl implements NotificationService{
 		return notiList;
 	}
 
+	@Override
+	public void markAsRead(int notiId) {
+		notificationMapper.markAsRead(notiId);		
+	}
+
 	
 }

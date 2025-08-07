@@ -27,29 +27,28 @@
 
 			<div class="content notification-content">
 
-				<h3 class="page-title">알림</h3>
+				<br>
 
 				<div id="notification-list" class="notification-list">
-					<%-- 서버에서 알림 리스트를 넘겨줄 경우, JSTL로 출력 예시 --%>
 					<c:forEach var="noti" items="${notifications}">
-						<div
-							class="notification-item <c:if test='${noti.read}'>read</c:if>">
+						<div class="notification-item" data-noti-id="${noti.noti_id}"
+							data-type="${noti.type}" data-sender-id="${noti.sender_id}"
+							data-target-id="${noti.target_id}" data-read="${noti.read}">
 							<div class="noti-message">
 								<b>${noti.sender_id}</b>
 								<c:choose>
 									<c:when test="${noti.type == 'follow'}">
-                                    님이 팔로우하셨습니다.
-                                </c:when>
+					                    님이 팔로우하셨습니다.
+					                </c:when>
 									<c:when test="${noti.type == 'comment'}">
-                                    님이 게시글에 댓글을 남기셨습니다:<br>
-                                    <span class="comment-content">${noti.content}</span>
+                    					님이 게시글에 댓글을 남기셨습니다:<br>
+										<span class="comment-content">${noti.content}</span>
 									</c:when>
 									<c:when test="${noti.type == 'like'}">
-                                    님이 게시글에 좋아요를 누르셨습니다.
-                                </c:when>
+					                    님이 게시글에 좋아요를 누르셨습니다.
+					                </c:when>
 									<c:otherwise>
-                                    알림이 도착했습니다.
-                                </c:otherwise>
+									</c:otherwise>
 								</c:choose>
 							</div>
 							<div class="noti-time">${noti.created_at}</div>
@@ -72,7 +71,10 @@
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/js/notifications.js"></script>
 	</div>
 </body>
 </html>
