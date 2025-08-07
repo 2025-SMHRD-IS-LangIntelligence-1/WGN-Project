@@ -1,155 +1,167 @@
 @charset "UTF-8";
 /* 화면 뒷배경 전체 설정*/
 body {
-    background-color: #fafafa;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding-top: 61px;       	/* top-bar 만큼 아래로 밀어내기*/
-    overflow: hidden; 			/* 스크롤 차단 */
+	background-color: #fafafa;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	min-height: 100vh;
+	padding-top: 10px; /* top-bar 만큼 아래로 밀어내기*/
+	overflow: hidden; /* 스크롤 차단 */
 }
 
+/* 회원가입 로고 */
 .join h1 {
-    font-size: 32px;      /* 글자 크기 */
-    line-height: 46px;	  /* 줄 높이 */
-    font-weight: bold;    /* 굵기 */
-    margin: 0;            /* 기본 여백 제거 */
-    text-align: center;   /* 텍스트 가운데 정렬 */
+	font-size: 32px; /* 글자 크기 */
+	line-height: 46px; /* 줄 높이 */
+	font-weight: bold; /* 굵기 */
+	margin: 0; /* 기본 여백 제거 */
+	text-align: center; /* 텍스트 가운데 정렬 */
 }
 
-/* 회원가입 글자*/
 .join {
-    color: #171513;			
-    display: flex;				
-    justify-content: center;	/* 가로 방향으로 가운데 정렬 */
-    align-items: center; 		/* 세로 방향으로 가운데 정렬 */
-    margin-top: 40px;			/* 위쪽 여백 40px */
-    margin-bottom: 40px;		/* 아래쪽 여백 40px */
+	color: #171513; /* 텍스트 색상 */
+	display: flex;
+	justify-content: center; /* 가로 방향으로 가운데 정렬 */
+	align-items: center; /* 세로 방향으로 가운데 정렬 */
+	margin-top: 40px; /* 위쪽 여백 */
+	margin-bottom: 40px; /* 아래쪽 여백 */
+	overflow: hidden;
+	position: relative;
 }
 
-.content table {
-    width: 100%;             /* 테이블을 부모(.content)의 너비에 맞춰 가득 차게 설정 */
-    margin: 0 auto;          /* 좌우 자동 마진을 적용하여 테이블을 가로 기준 중앙으로 정렬 */
-    max-width: 400px;        /* table 최대 너비 제한 */
-    border-spacing: 0 10px;  /* 행(row) 간의 간격을 10px로 띄워서 입력창 사이에 여백을 주는 효과 */
+/* 뒤로가기 버튼 */
+.back-btn {
+	position: absolute; /* 부모(.join-wrapper)를 기준으로 절대 위치 지정 */
+	left: 20px; /* 왼쪽 끝에 붙임 */
+	top: 100px; /* 수직 중앙 기준 위치 → 아래에 붙는 원인 */
+	background: none; /* 배경 없음 */
+	border: none; /* 테두리 없음 */
+	font-size: 24px; /* 아이콘 크기 */
+	color: #333; /* 어두운 회색 텍스트 */
+	cursor: pointer; /* 마우스 커서 포인터 */
+	padding: 8px 12px; /* 클릭 영역 확보용 여백 */
 }
 
-.content td {
-    width: 100%;
-    padding: 0;
-}
-
-/* 모든 form-input 적용 (공통 입력창 스타일) */
-.form-input  {
-    width: 100%;
-    height: 55px;
-    background-color: white; /* 연한 회색 배경으로 앱 스타일 구현 */
-    color : #171513;
-    border: 2px solid #ddd;      /* 회색 테두리 추가 */
-    border-radius: 8px;          /* 모서리 둥글게 */
-    padding: 0 12px;             /* 좌우 여백으로 내용과 테두리 간격 확보 */
-    font-size: 17px;             /* 글자 크기 조정 */
-    box-sizing: border-box;      /* padding 포함해 너비 계산 → 오버플로우 방지 */
-}
-.form-input::placeholder {
-    color: #ddd;
-}
-
-.form-input:focus {
-    outline-color: #171513;
-}
-
-/* 중복확인 버튼 */
-table input[type="button"] {
-    height: 55px;
-    background-color: #171513;
-    color: #e2e2e2;
-    border: none;
-    border-radius: 8px;
-    padding: 0 16px;
-    font-size: 14px;            /* 글자 크기 조정 */
-    font-weight: bold;          /* 글자 굵기 조정 */
-    cursor: pointer;
-    white-space: nowrap;
-    margin-left: 8px;
-}
-
-table input[type="button"]:hover {
-  color: #aaa; /* 밝은 회색 */
-}
-/* 회원가입 버튼 */
-#joinBtn {
-	width: 100%;
-	height: 55px;
-	background-color: #171513;
+.back-btn:hover {
+	background-color: #171513; /* 버튼 배경을 검정색으로 */
 	color: white;
-	border: none;
-	border-radius: 30px;
-	padding: 12px 24px;
-	font-size: 17px;
-	font-weight: bold;
-	cursor: pointer;
-	margin: 90px auto 0;
+	border-radius: 5px;
+}
+
+/* 전체 좌우 여백*/
+.content {
+	padding: 0 60px; /* 좌우 여백 */
+	text-align: center;
+	position: relative; /* 자식 요소의 절대 위치 기준이 됨 */
+}
+
+/* 로그인 박스 */
+.form-input {
+	width: 100%; /* 부모 요소 기준 꽉 채우기 */
+	padding: 10px; /* 안쪽 여백 */
+	font-size: 16px; /* 글자 크기 */
+	border: none; /* 테두리 */
+	border-bottom: 1px solid #171513; /* 아래쪽에만 두꺼운 검정색 선 추가 */
+	border-radius: 0px; /* 모서리 둥글게 */
+	box-sizing: border-box; /* 패딩 포함한 너비 계산 */
+}
+
+/* 입력칸과 버튼 간격 */
+.form-row.two-cols {
+  display: flex;               /* 가로 방향 배치 */
+  gap: 8px;                   /* 요소 사이 간격 */
+  align-items: center;         /* 세로 정렬 중앙 */
+}
+.form-row.two-cols .form-input {
+  flex: 1;
+}
+
+/* 아이콘 스타일 */
+.icon-input-wrapper {
+  width: 100%;                /* 기존 input과 같은 너비 */
+  position: relative;         /* 아이콘 위치 기준 */
+}
+.icon-input-wrapper i {
+  position: absolute;
+  top: 50%;
+  left: 5px;                 	/* 왼쪽 여백 조정 */
+  transform: translateY(-60%);
+  font-size: 20px;				/* 아이콘 크기 */
+  color: #171513;                	/* 아이콘 색상 */
+  pointer-events: none;     	/* 클릭 방지 (focus 방해 X) */
+}
+.icon-input-wrapper .form-input {
+  width: 100%;
+  padding-left: 36px;         /* 아이콘 영역만큼 왼쪽 여백 확보 */
+  box-sizing: border-box;     /* padding 포함한 너비 계산 */
+}
+
+#idCheckBtn,
+#nickCheckBtn
+ {
+  white-space: nowrap;        	/* 버튼 글자가 줄바꿈되지 않게 */
+  height: 34px;					/* 세로 높이 설정 */
+  padding: 0 16px;				/* 좌우 안쪽 여백 설정 (상하는 0) */
+  font-weight: 500;			/* 글씨 굵기 */
+  background-color: #171513;	/* 버튼 배경색 */
+  color: white;
+  border: none;					/* 테두리 없음 */
+  border-radius: 5px;			/* 모서리 둥글게 */
+  cursor: pointer;				/* 마우스 포인트 반응 */
+}
+
+.join-box {
+	margin-top: 100px; /* 위 요소와의 사이 간격 */
+	display: flex;
+	flex-direction: column;
+	gap: 30px; /* 모든 자식 요소 사이 간격 */
+}
+
+/* 회원가입 버튼 */
+.form-row input[type="submit"] {
+	width: 100%; /* 부모 영역기준으로 가로 너비 100% 채움 */
+	height: 55px; /* 버튼 높이 고정 */
+	background-color: #171513; /* 배경색 */
+	color: white; /* 텍스트 흰색 */
+	border: none; /* 테두리 스타일 */
+	border-radius: 10px; /* 모서리 */
+	padding: 12px 24px; /* 위아래, 좌우 내부 여백 */
+	font-size: 17px; /* 글자 크기 */
+	font-weight: bold; /* 글자를 굵게 */
+	cursor: pointer; /* 마우스 오버 시 포인터 모양으로 변경 */
+	margin: 50px auto 0; /* 위 여백, 좌우 auto로 가운데 정렬, 아래 */
 	transition: background-color 0.3s ease, color 0.3s ease;
-	cursor: pointer;
+	/* 색상 변경 시 부드럽게 전환 */
+	display: block; /* 블록 요소로 설정 (margin auto 적용 위해 필요) */
+	text-align: center; /* 버튼 텍스트 가운데 정렬 */
 }
 
-/* 마우스를 올렸을 때 글자 색을 회색으로 변경 */
-table input[type="submit"]:hover {
-    color: #aaa;  /* 연한 회색 */
-}
-
-.resultMsg {
-    display: inline-block;  /* 인라인이면서도 사이즈 지정 가능 */
-    min-height: 50px;       /* 메시지가 출력되어도 크기가 유지됨 */
-    vertical-align: middle; /* 인라인 요소의 수직 정렬 */
-    color: #666;          
-    white-space: nowrap;
-}
-
-#joinBtn:disabled {
-  background-color: #cccccc; /* 회색 */
-  color: #666666;
-  cursor: not-allowed;
-  opacity: 0.6;      
-  transition: background-color 0.3s ease;
+/* [비활성화된 닉네임 중복확인 버튼 스타일] */
+#idCheckBtn:disabled {
+	background-color: #dddd; 
+	color: white;
+	cursor: not-allowed;
+	opacity: 0.6;
+	transition: background-color 0.3s ease;
+	transition: background-color 0.1s ease;
 }
 
 #nickCheckBtn:disabled {
-  background-color: #cccccc; /* 회색 */
-  color: #666666;
-  cursor: not-allowed;     
-  opacity: 0.6;      
-  transition: background-color 0.3s ease;
-}
-
-#idCheckBtn:disabled {
-  background-color: #cccccc; /* 회색 */
-  color: #666666;
-  cursor: not-allowed;     
-  opacity: 0.6;      
-  transition: background-color 0.3s ease;
+	background-color: #dddd; 
+	color: white;
+	cursor: not-allowed;
+	opacity: 0.6;
+	transition: background-color 0.3s ease;
+	transition: background-color 0.1s ease;
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#joinBtn:disabled {
+	background-color: #dddd; 
+	color: white;
+	cursor: not-allowed;
+	opacity: 0.6;
+	transition: background-color 0.3s ease;
+} 
 

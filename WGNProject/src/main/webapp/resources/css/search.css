@@ -2,7 +2,7 @@
 
 /* 검색 입력 */
 .search-box {
-	margin: 0 12px;       /* 좌우 여백 12px, 상하는 여백 없음 */
+	margin: 0 15px;       /* 좌우 여백, 상하는 여백 없음 */
 	padding: 12px 0;      /* 상하 내부 여백만 줌 */
 }
 
@@ -54,16 +54,17 @@
   border-bottom: 2px solid #f4b400;
 }
 
-.res-section-box {
-  padding: 12px;                       /* ✅ 내부 여백 (사방) */
-  border-bottom: 1px solid #e0e0e0;    /* ✅ 아래 회색 선 */
-}
-
 /*------------------------------------------------------------------*/
 /*----------------------      음식점 검색 탭      ----------------------*/
 /*------------------------------------------------------------------*/
 
-/* 🍜 음식 썸네일 이미지 */
+/* 음식점 */
+.res-section-box {
+  padding: 15px;                       /* ✅ 내부 여백 (사방) */
+  border-bottom: 1px solid #e0e0e0;    /* ✅ 아래 회색 선 */
+}
+
+/* 🍜 음식점 썸네일 이미지 */
 .res_thumbnail {
   width: 80px;                     /* 정사각형 크기 */
   height: 80px;
@@ -134,146 +135,28 @@
   margin-right: 12px;             /* search-box와 같은 오른쪽 여백 */
 }
 
-
-
 /*------------------------------------------------------------------*/
 /*----------------------     게시글 검색 탭      ----------------------*/
 /*------------------------------------------------------------------*/
 
-#feed-section {
-	border-bottom: 1px solid #eee; /* 얇고 연한 회색 선 */
-	overflow: hidden; /* 자식의 높이를 포함시킴 */
+.feed-image-grid {
+  display: grid;							/* CSS Grid Layout 적용 */
+  grid-template-columns: repeat(3, 1fr); 	/* 동일한 너비의 열 3개 생성 */
+  gap: 5px; 								/* 셀 사이 간격 */
+  padding: 15px; 							/* 전체 좌우 여백 */
+  background-color: #fff;					/* 배경색 */
 }
 
-/* Bootstrap 캐러셀 요소들의 테두리, 아웃라인, 그림자 제거 */
-.carousel,
-.carousel-inner,
-.carousel-item {
-  outline: none !important;		 /* 요소가 포커스를 받아도 외곽선(파란 테두리 등) 제거 */
-  border: none !important;		 /* 기본 테두리 제거 */
-  box-shadow: none !important;   /* 그림자 효과 제거 */
+.feed-image-grid .cell {
+  border: 1px solid #ddd; 					/* 셀 외곽에 옅은 회색 테두리 */
+  background-color: #fff;					/* 셀 배경색: 흰색 */
 }
 
-
-/* 하트 아이콘: 호버 시 빨간색 + 약간 커짐 + 클릭 커서 */
-.feed-actions .bi-heart:hover {
-  color: red;
-  transform: scale(1.2);  /* 살짝 커지는 효과 */
-  cursor: pointer;        /* 클릭 가능 모양 */
-}
-
-/* 댓글 아이콘: 호버 시 커서만 손 모양으로 변경 */
-.feed-actions .bi-chat:hover {
-  cursor: pointer; /*마우스 커서 반응 효과*/
-}
-
-/* 피드 상단: 작성자 정보 + 팔로우 버튼 정렬 */
-.feed-header { 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px; 
-}
-
-/* 작성자 프로필 영역 설정 */
-.feed-member {
-	display: flex;
-	align-items: center;
-}
-
-/* 프로필 이미지 설정 */
-.feed-member img {
-	cursor: pointer;
-	width: 40px;
-	height: 40px;
-	object-fit: cover; /* 이미지 비율 유지하면서 강제 크기 맞춤 */
-	border-radius: 50%;
-	margin-right: 10px;
-}
-
-/* 작성자 이름 및 시간 정보 */
-.feed-member-info {
-	font-size: 13px;
-}
-
-.feed-member-info b {
-	font-size: 14px;
-	cursor: pointer;				   /* 마우스 커서 반응*/
-}
-
-/* 팔로우 버튼 스타일 */
-.follow-btn {
-  background: #f4b400;       		/* 노란색 배경 */
-  border: none;       				/* 테두리 없앰 */
-  padding: 5px 12px;				/* 상하 5px, 좌우 12px 여백 */
-  border-radius: 8px;				/* 둥근모서리 */
-  font-size: 14px;					/* 글자크기 14px */
-  font-weight: bold;
-  margin: 0px;
-}
-
-/* 수정/삭제 버튼 묶음 (작성자 본인일 경우) */
-.btn-wrapper {
-  display: flex;
-  gap: 4px; 						/* 버튼 간격 조절 */
-}
-
-/* 캐러셀 이미지 크기 설정 */
-.carousel-item img {
-  width: 100%;						/* 부모 너비 채움 */
-  height: 60vh; 					/* 화면 높이의 60% */
-  object-fit: cover;				/* 이미지 비율 유지하면서 채우기 */
-  border: none;
-}
-
-/* 캐러셀을 피드 내에서 확장 */
-.feed-item .carousel { flex: 1; }
-
-/* 하트, 댓글 등 액션 영역 설정 */
-.feed-actions {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  font-size: 1.2rem;
-}
-.feed-actions .stats{
-  font-size: 14px;
-  margin-left: 8px;
-}
-
-/* 장소 카드 */
-.location-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;	
-  background: #fdf7e6;				/* 연한 노란 배경 */
-  border-top: 1px solid #f2e3c0;	/* 위쪽 테두리 */
-  padding: 8px 12px;	
-  cursor: pointer;					/* 클릭 가능 */
-}
-
-/* 장소 이름과 분류 텍스트 */
-.location-info {
-  font-size: 13px;
-}
-.location-info b {
-  display: block;			/* 줄바꿈 */
-}
-
-/* 본문 텍스트 */
-.feed-caption {
-  padding: 10px 12px;
-  font-size: 14px;
-  line-height: 1.4;			/* 줄 간격 */
-  min-height: 70px;			/* 최소 높이 확보 */
-}
-
-/* 더보기 버튼 스타일 */
-.more-btn {
-  color:#666;
-  font-size:13px;
-  cursor:pointer;
-  display:inline-block;
+.feed-image-grid .cell img {	
+  width: 100%;								/* 셀 너비에 꽉 차게 */
+  aspect-ratio: 1 / 1;						/* 정사각형 비율 유지 (너비와 높이가 같음) */
+  object-fit: cover;						/* 이미지가 셀 크기에 맞게 잘리더라도 꽉 채우도록 */
+  display: block;							/* 이미지 주변에 불필요한 여백 제거 (inline 요소 특성 제거) */
 }
 
 /*------------------------------------------------------------------*/
@@ -284,7 +167,7 @@
 	display: flex; /* 플렉스 박스 레이아웃 적용 */
 	justify-content: space-between; /* 좌우 아이템 사이를 최대한 벌림 */
 	align-items: center; /* 세로 가운데 정렬 */
-	padding: 12px; /* 안쪽 여백 12px */
+	padding: 15px; /* 안쪽 여백 */
 	border-bottom: 1px solid #eee;
 }
 

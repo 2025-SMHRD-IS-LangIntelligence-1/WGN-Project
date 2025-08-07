@@ -69,72 +69,36 @@
 
 			<!----------------------- 게시글feed 탭 ------------------------------>
 			<div id="feed-section" style="display: none;">
-				<div class="feed">
-
-					<!-- 게시물 1 -->
-					<div class="feed-item">
-						<div class="feed-header">
-							<div class="feed-member">
-								<img src="https://via.placeholder.com/40">
-								<div class="feed-member-info">
-									<b>OtherUsers</b> <span style="color: #888; font-size: 12px;">3분
-										전</span>
-								</div>
-							</div>
-							<button class="follow-btn">팔로우</button>
+				<div class="feed-box">
+					<div class="feed-image-grid">
+						<div class="cell" onclick="window.location='/feed?feed_idx=1'">
+							<img src="https://example.com/images/feed1.jpg" alt="대표 이미지">
 						</div>
-
-						<!-- Carousel -->
-						<a href="feed.html?feed_idx=1">
-							<div id="carousel1" class="carousel slide" data-bs-touch="true"
-								data-bs-interval="false">
-								<div class="carousel-inner">
-									<div class="carousel-item active">
-										<img src="https://via.placeholder.com/400x300" alt="음식 사진 1">
-									</div>
-									<div class="carousel-item">
-										<img src="https://via.placeholder.com/400x300" alt="음식 사진 2">
-									</div>
-								</div>
-								<button class="carousel-control-prev" type="button"
-									data-bs-target="#carousel1" data-bs-slide="prev">
-									<span class="carousel-control-prev-icon"></span>
-								</button>
-								<button class="carousel-control-next" type="button"
-									data-bs-target="#carousel1" data-bs-slide="next">
-									<span class="carousel-control-next-icon"></span>
-								</button>
-							</div>
-						</a>
-
-						<div class="feed-actions">
-							<i class="bi bi-heart"></i> <i class="bi bi-chat ms-3"></i> <span
-								class="stats ms-2">4 좋아요 · 15 댓글</span>
+						<div class="cell" onclick="window.location='/feed?feed_idx=2'">
+							<img src="https://example.com/images/feed2.jpg" alt="대표 이미지">
 						</div>
-
-						<div class="location-card"
-							onclick="window.location='restaurant.html'">
-							<div class="location-info">
-								<b>쿠로시로</b> <span>일식 · 면</span>
-							</div>
-							<i class="bi bi-chevron-right"></i>
+						<div class="cell" onclick="window.location='/feed?feed_idx=3'">
+							<img src="https://example.com/images/feed3.jpg" alt="대표 이미지">
 						</div>
-
-						<div class="feed-caption">
-							<span class="caption-text"> 금보도 잘 안되는 도로 쪽에 새로 생긴 구로시로
-								라멘집인데 완전 맛있네요 ㅋㅋㅋ 면도 쫄깃하고 시원한 국물이 일품! 분위기도 깔끔하고 다음에도 꼭 갈 생각입니다.
-							</span> <span class="more-btn" onclick="toggleMore(this)">더보기</span>
+						<div class="cell" onclick="window.location='/feed?feed_idx=4'">
+							<img src="https://example.com/images/feed1.jpg" alt="대표 이미지">
+						</div>
+						<div class="cell" onclick="window.location='/feed?feed_idx=5'">
+							<img src="https://example.com/images/feed2.jpg" alt="대표 이미지">
+						</div>
+						<div class="cell" onclick="window.location='/feed?feed_idx=6'">
+							<img src="https://example.com/images/feed3.jpg" alt="대표 이미지">
 						</div>
 					</div>
-
 				</div>
 			</div>
 			
 			<!----------------------- 사용자 member 탭 ------------------------------>
 			<div id="member-section" style="display: none;">
-				<div class="member-header">
-					
-				</div>
+				<div class="member-header"></div>
+				<!--<form>
+					<button class="my-follow-btn">팔로우</button>
+				</form> -->
 			</div>
 
 			<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
