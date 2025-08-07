@@ -3,27 +3,22 @@ package com.smhrd.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.stereotype.Controller;
-
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.RecommendationService;
 
 import jakarta.servlet.http.HttpSession;
 
-@Controller
 @RequestMapping("/recommendation")
 public class RecommandationController {
 
     @Autowired
     RecommendationService recommendationService;
 
-    @ResponseBody
     @GetMapping("/feed")
+    @ResponseBody
     public List<Integer> getRecommendedFeeds(HttpSession session) {
     	
     	System.out.println("getRecommendFeeds 메서드 실행");
@@ -44,4 +39,5 @@ public class RecommandationController {
         
         return FeedIdxList;
     }
+    
 }

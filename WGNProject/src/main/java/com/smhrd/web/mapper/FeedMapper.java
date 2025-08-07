@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.smhrd.web.dto.CandidateFeedDTO;
 import com.smhrd.web.dto.CommentDTO;
+import com.smhrd.web.dto.FeedForSearchDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_comment;
 import com.smhrd.web.entity.t_feed;
@@ -48,4 +49,6 @@ public interface FeedMapper {
 	public int countFeedLike(int feed_idx);
 	
 	public List<CandidateFeedDTO> getCandidateFeed(String mb_id);
+	
+	public List<FeedForSearchDTO> getFeedForSearch(String mb_id);
 }
