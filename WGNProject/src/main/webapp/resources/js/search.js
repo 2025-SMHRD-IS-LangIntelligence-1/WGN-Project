@@ -63,6 +63,21 @@ $('.form-control').on('input', debounce(function() {
 			}
 
 			memberList.forEach(function(member) {
+				
+				/* 팔로우 버튼
+				const isMyself = member.mb_id === loginUserId;
+
+					const followBtn = isMyself ? '' : `
+						<form action="/member/follow" method="post" style="margin-left:auto;">
+							<input type="hidden" name="following_id" value="${member.mb_id}" />
+							<button type="submit" class="my-follow-btn"
+								data-following-id="${member.mb_id}"
+								data-followed="${member.followed}">
+								${member.followed ? '언팔로우' : '팔로우'}
+							</button>
+						</form>
+					`;*/
+
 
 				const card = `
 				    <div class="member-header" data-mb-id="${member.mb_id}" style="cursor:pointer;">

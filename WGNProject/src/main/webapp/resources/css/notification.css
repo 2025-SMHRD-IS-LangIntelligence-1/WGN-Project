@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+/* 전체 배경 및 기본 폰트 */
+.notification-content {
+    padding: 15px;
+    background-color: #fff;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 페이지 제목 */
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+/* 알림 리스트 */
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 알림 한 항목 */
+.notification-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 16px;
+    background-color: #fafafa;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.notification-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* 읽은 알림은 연하게 */
+.notification-item.read {
+    background-color: #f5f5f5;
+    color: #999;
+}
+
+/* 알림 메시지 */
+.noti-message {
+    font-size: 15px;
+    color: #222;
+    flex: 1;
+}
+
+/* 보낸 사람 아이디 강조 */
+.noti-message b {
+    color: #f4b400;
+    margin-right: 6px;
+}
+
+/* 댓글 내용 강조 */
+.comment-content {
+    font-style: italic;
+    color: #555;
+    margin-left: 4px;
+}
+
+/* 시간 표시 */
+.noti-time {
+    font-size: 12px;
+    color: #888;
+    white-space: nowrap;
+    margin-left: 15px;
+}
+
+/* 알림 없을 때 메시지 */
+.no-notifications {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+    padding: 30px 0;
+}

@@ -1,128 +1,81 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import List
-from fastapi.responses import JSONResponse
-import pandas as pd
-import ast
+from fastapi import FastAPI # FastAPI : 인공지능 서버를 별도로 구축해서 서비스에 통합할 수 있는 백엔드 프레임워크 
+from typing import List # typing : 파이썬의 타입 힌트를 위한 도구 / List : List 타입을 명확하게 표현하기 위해 사용함
+from fastapi.responses import JSONResponse # JSONResponse : FastAPI에서 응답을 보낼 때 직접 JSON 형식으로 된 응답을 보낼 수 있도록 도와주는 클래스
 
-# ------------------ 데이터 모델 정의 ------------------
-class Log(BaseModel):
-    log_idx: int
-    mb_id: str
-    res_idx: int
-    res_category: str
-    res_tag: str
-    action_type: str
-    created_at: str
-
-class Feed(BaseModel):
-    feed_idx: int
-    res_idx: int
-    feed_likes: int
-    res_category: str
-    res_tag: str
-
-class RequestData(BaseModel):
-    logs: List[Log]
-    feeds: List[Feed]
+from feed_recommendation import recommend_feed
+from feed_searching import search_feed
+from making_wordclouds import make_wordclouds
+from models import LogsAndFeeds, FeedForSearch, Review # 클래스들이 모여있는 파일
 
 # ------------------ FastAPI 앱 객체 ------------------
-app = FastAPI()
+
+app = FastAPI() # FastAPI 클래스를 활용해서 만든 인스턴스 app
 
 # ------------------ API 엔드포인트 ------------------
+
+# 엔드포인트 : 클라이언트가 백엔드 서버에 요청을 보낼 수 있는 URL 경로 (ex : /receive_logs_and_feeds 경로로 post 메서드를 활용한 엔드포인트)
+
 @app.post("/receive_logs_and_feeds")
-def receive_logs_and_feeds(data: RequestData):
-    log_dicts = [log.dict() for log in data.logs]
-    feed_dicts = [feed.dict() for feed in data.feeds]
+async def receive_logs_and_feeds(data: LogsAndFeeds): # data : 클라이언트(Spring 서버)로부터 LogsAndFeeds 클래스 형태로 파싱해서 받은 데이터
+   
+    # 데이터가 잘 들어왔는지 확인하는 프린트문
+    
+    print("=== /receive_logs_and_feeds 호출됨 ===")
+    
+    print(f"받은 로그 개수: {len(data.logs)}") 
+    for i, log in enumerate(data.logs[:3]):  # 샘플 3개 출력
+        print(f"  로그 {i+1}: mb_id={log.mb_id}, res_idx={log.res_idx}, action={log.action_type}")
+        
+    print(f"받은 피드 개수: {len(data.feeds)}")
+    for i, feed in enumerate(data.feeds[:3]):  # 샘플 3개 출력
+        print(f"  피드 {i+1}: feed_idx={feed.feed_idx}, res_idx={feed.res_idx}, likes={feed.feed_likes}")
 
-    # 추천 피드 계산
-    recommended_feed_ids = recommend_feed(log_dicts, feed_dicts)
-
-    return JSONResponse(content={
-        "message": f"{data.logs[0].mb_id}님 로그 {len(data.logs)}건, 피드 {len(data.feeds)}건 잘 받았습니다.",
-        "recommended_feed_ids": recommended_feed_ids
-    }, media_type="application/json; charset=utf-8")
-
-# ------------------ 유틸 함수 ------------------
-def safe_literal_eval(x):
-    if isinstance(x, str):
-        try:
-            return ast.literal_eval(x)
-        except Exception:
-            return [x.strip()]
-    return x
-
-# ------------------ 추천 알고리즘 ------------------
-def recommend_score_and_priority(row, user_tag_info, top_tags, top_tag_category):
-    score = 0.0
-    matched_tags = []
-    best_priority = float('inf')
-
-    for tag in row['res_tag']:
-        if tag in user_tag_info:
-            tag_score, tag_cat, tag_rank = user_tag_info[tag]
-            matched_tags.append(tag)
-            score += tag_score
-            if tag_cat == row['res_category']:
-                score += 0.2 * tag_score
-            if tag_rank < best_priority:
-                best_priority = tag_rank
-
-    score += row['feed_likes'] * 0.03
-
-    if any(tag in top_tags for tag in row['res_tag']):
-        score += 5
-    if best_priority == 1 and row['res_category'] == top_tag_category:
-        score += 1
-
-    if best_priority == float('inf'):
-        best_priority = 999
-
-    return pd.Series([score, matched_tags, best_priority])
-
-def recommend_feed(log_dicts: List[dict], feed_dicts: List[dict]) -> List[int]:
-    log_df = pd.DataFrame(log_dicts)
-    feed_df = pd.DataFrame(feed_dicts)
-
-    log_df['res_tag'] = log_df['res_tag'].apply(safe_literal_eval)
-    feed_df['res_tag'] = feed_df['res_tag'].apply(safe_literal_eval)
-
-    weights = {"글작성": 2, "찜": 1.5, "검색": 1.5, "좋아요": 1, "클릭": 1}
-    log_df['score'] = log_df['action_type'].map(weights).fillna(0)
-
-    df_exploded = log_df.explode('res_tag')
-
-    user_tag_score = (
-        df_exploded.groupby(['mb_id', 'res_tag', 'res_category'])['score']
-        .sum().reset_index()
+    # 추천 알고리즘 함수 실행하고 그 결과를 recommended_feed_ids에 저장
+    
+    recommended_feed_idx = recommend_feed(
+        [log.dict() for log in data.logs], # pydantic 객체를 딕셔너리로 변환
+        [feed.dict() for feed in data.feeds] # pydantic 객체를 딕셔너리로 변환
     )
+    
+    print(f"추천된 피드 idx 개수: {len(recommended_feed_idx)}")
+    print(f"추천된 피드 idx : {recommended_feed_idx[:10]}")  # 최대 10개만 출력
+    print("=== /receive_logs_and_feeds 처리 완료 ===\n")
 
-    target_user = log_df['mb_id'].iloc[0]
-    user_pref = user_tag_score[user_tag_score['mb_id'] == target_user] \
-        .sort_values('score', ascending=False).reset_index(drop=True)
+    return JSONResponse(content=recommended_feed_idx, media_type="application/json; charset=utf-8")
 
-    user_tag_info = {
-        row['res_tag']: (row['score'], row['res_category'], idx + 1)
-        for idx, row in user_pref.iterrows()
-    }
-    top_score = user_pref['score'].iloc[0] if not user_pref.empty else None
-    top_tags = user_pref[user_pref['score'] == top_score]['res_tag'].tolist() if top_score else []
-    top_category = user_pref.iloc[0]['res_category'] if not user_pref.empty else None
+@app.post("/receive_feed_for_search")
+async def receive_feed_for_search(data: List[FeedForSearch]):
+   
+    # 데이터가 잘 들어왔는지 확인하는 프린트문
+    
+    print("=== /receive_feed_for_search 호출됨 ===")
 
-    feeds = feed_df.copy()
-    feeds[['recommend_score', 'matched_tags', 'priority']] = feeds.apply(
-        lambda row: recommend_score_and_priority(row, user_tag_info, top_tags, top_category), axis=1
-    )
+    print(f"받은 피드 개수: {len(data)}")
 
-    weights_map = {1: 2, 2: 1.5, 3: 1.2, 4: 1, 5: 0.8, 6: 0.7, 7: 0.5, 8: 0.4, 9: 0.3, 10: 0.1}
-    feeds['weight'] = feeds['priority'].apply(lambda p: weights_map.get(p, 0.05))
+    # 검색 알고리즘 함수 실행하고 그 결과를 searched_feed_idx에 저장
+    # feed를 딕셔너리 형태로 만든 리스트를 매개변수로 받음
+    searched_feed_idx = search_feed([feed.dict() for feed in data])
+    
+    print(f"검색된 피드 idx 개수: {len(searched_feed_idx)}")
+    print(f"검색된 피드 idx: {searched_feed_idx[:10]}")  # 최대 10개만 출력
+    print("=== /receive_feed_for_search 처리 완료 ===\n")
 
-    feeds = feeds[feeds['priority'] != 999]
-    if feeds.empty:
-        return []
+    return searched_feed_idx
 
-    probs = feeds['weight'] / feeds['weight'].sum()
-    recommended_feeds = feeds.sample(n=min(20, len(feeds)), weights=probs, replace=False)
+@app.post("/receive_review")
+async def receive_review(data: List[Review]):
+   
+    # 데이터가 잘 들어왔는지 확인하는 프린트문
+    
+    print("=== /receive_review 호출됨 ===")
 
-    # feed_idx만 추출하여 반환
-    return recommended_feeds.sort_values('recommend_score', ascending=False)['feed_idx'].tolist()
+    print("받은 리뷰 개수 : ", len(data))
+
+    # 워드클라우드 제작 함수 실행하고 그 결과를 저장
+    wordclouds = make_wordclouds(data)
+    
+    print(f"만들어진 wordclouds: ", wordclouds)
+    
+    print("=== /receive_review 처리 완료 ===\n")
+
+    return JSONResponse(content=wordclouds.dict(), media_type="application/json; charset=utf-8")

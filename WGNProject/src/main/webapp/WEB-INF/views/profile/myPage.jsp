@@ -284,6 +284,7 @@
 
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/myPage.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
 	<script>

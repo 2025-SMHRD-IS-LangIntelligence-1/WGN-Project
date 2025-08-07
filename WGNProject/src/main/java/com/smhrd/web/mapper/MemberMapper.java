@@ -9,8 +9,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.smhrd.web.dto.ProfileDTO;
-import com.smhrd.web.entity.t_log;
 import com.smhrd.web.entity.t_member;
 
 @Mapper

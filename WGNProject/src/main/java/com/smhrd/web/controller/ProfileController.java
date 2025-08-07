@@ -17,26 +17,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.ProfileDTO;
+<<<<<<< HEAD
 import com.smhrd.web.dto.RestaurantDTO;
 import com.smhrd.web.dto.FavoriteresDTO;
+=======
+import com.smhrd.web.config.AsyncConfig;
+>>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.dto.GoingresDTO;
 import com.smhrd.web.entity.t_favorite;
 import com.smhrd.web.entity.t_feed_img;
 import com.smhrd.web.entity.t_going;
 import com.smhrd.web.entity.t_member;
+<<<<<<< HEAD
 import com.smhrd.web.entity.t_restaurant;
 import com.smhrd.web.mapper.RestaurantMapper;
+=======
+import com.smhrd.web.entity.t_notification;
+>>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
 import com.smhrd.web.service.CloudinaryService;
 import com.smhrd.web.service.FavoriteService;
 import com.smhrd.web.service.FeedService;
 import com.smhrd.web.service.GoingService;
 import com.smhrd.web.service.MemberService;
+import com.smhrd.web.service.NotificationService;
+
 import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/profile")
 @Controller
 public class ProfileController {
+
+    private final AsyncConfig asyncConfig;
 
     private final CloudinaryService cloudinaryService;
     
@@ -44,6 +56,7 @@ public class ProfileController {
 	FeedService feedService;
 	@Autowired
 	MemberService memberService;
+<<<<<<< HEAD
 	
 	@Autowired
 	FavoriteService favoriteService;
@@ -53,9 +66,14 @@ public class ProfileController {
 	
 	@Autowired
 	RestaurantMapper restaurantmapper;
+=======
+	@Autowired
+	NotificationService notificationService;
+>>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
 
-    ProfileController(CloudinaryService cloudinaryService) {
+    ProfileController(CloudinaryService cloudinaryService, AsyncConfig asyncConfig) {
         this.cloudinaryService = cloudinaryService;
+        this.asyncConfig = asyncConfig;
     }
 	
     @GetMapping("/myPage")
@@ -143,9 +161,24 @@ public class ProfileController {
     }
 	
 	@GetMapping("/notifications")
-	public String showNotifications() {
-	return "profile/notifications";
-	
+	public String showNotifications(HttpSession session, Model model) {
+		
+		// 로그인 체크
+    	boolean loginCheck = memberService.loginCheck(session);
+		
+		if (!loginCheck) {
+			return "redirect:/member/login";
+		}
+		
+		// 세션에서 로그인한 사용자 정보 가져오기
+        t_member logined = (t_member) session.getAttribute("member");
+     	String myId = logined.getMb_id();
+		
+     	List<t_notification> notiList = notificationService.showRecentNoti(myId);
+     	
+     	model.addAttribute("notifications", notiList);
+		
+     	return "profile/notifications";
 	}	
 	
 	@PostMapping("/update")
@@ -189,6 +222,5 @@ public class ProfileController {
 		
 		return "redirect:/profile/myPage";
 	}
-
 	
 }

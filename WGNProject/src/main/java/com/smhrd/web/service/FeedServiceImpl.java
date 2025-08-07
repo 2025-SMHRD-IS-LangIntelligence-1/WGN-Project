@@ -8,22 +8,34 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.smhrd.web.config.AsyncConfig;
 import com.smhrd.web.dto.CommentDTO;
+import com.smhrd.web.dto.FeedPreviewDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_comment;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.FeedMapper;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class FeedServiceImpl implements FeedService{
+
+    private final AsyncConfig asyncConfig;
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	FeedMapper feedMapper;
 	@Autowired
 	CloudinaryService cloudinaryService;
+	@Autowired
+	NotificationService notificationService;
+
+    FeedServiceImpl(AsyncConfig asyncConfig) {
+        this.asyncConfig = asyncConfig;
+    }
 	
 	@Override
 	public ArrayList<FeedWithImgDTO> getFeedByMemId(String mb_id) {
@@ -49,10 +61,10 @@ public class FeedServiceImpl implements FeedService{
 		int feed_idx = feed.getFeed_idx(); // 등록된 idx 꺼내오기
 		
 		
-		System.out.println("📷 업로드된 MultipartFile 수: " + files.size());
+		System.out.println("업로드된 MultipartFile 수: " + files.size());
 		List<String> imgUrls =  cloudinaryService.uploadFiles(files); // 클라우디너리에 이미지 등록하고 url 받아오기
 		
-		System.out.println("🌐 클라우디너리에서 반환된 이미지 URL 수: " + imgUrls.size());
+		System.out.println("클라우디너리에서 반환된 이미지 URL 수: " + imgUrls.size());
 		feedMapper.saveFeedImg(feed_idx, imgUrls);
 	}
 
@@ -78,6 +90,11 @@ public class FeedServiceImpl implements FeedService{
 		comment.setCmt_content(feed_content);
 		
 		feedMapper.saveComment(comment);
+		
+		String sender = mb_id;
+		String receiver = feedMapper.selectFeedByIdx(feed_idx).getMb_id();
+		
+		notificationService.makeCommentNoti(sender, receiver, feed_idx, feed_content);
 	}
 
 	@Override
@@ -93,8 +110,12 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public int addFeedLike(int feed_idx) {
+	public int addFeedLike(int feed_idx, HttpSession session) {
 		feedMapper.addFeedLike(feed_idx);
+		t_member member = (t_member) session.getAttribute("member");
+		String sender = member.getMb_id();
+		String receiver = feedMapper.selectFeedByIdx(feed_idx).getMb_id();
+		notificationService.makeLikeNoti(sender, receiver, feed_idx);
 		return feedMapper.countFeedLike(feed_idx);
 	}
 
@@ -102,6 +123,21 @@ public class FeedServiceImpl implements FeedService{
 	public int deleteFeedLike(int feed_idx) {
 		feedMapper.deleteFeedLike(feed_idx);
 		return feedMapper.countFeedLike(feed_idx);
+	}
+
+	@Override
+	public List<FeedPreviewDTO> getFeedsByFeedIdx(List<Integer> feedIdxList) {
+		
+		List<FeedPreviewDTO> feedList = new ArrayList<>();
+		
+		for (int feedIdx : feedIdxList) {
+			FeedPreviewDTO feed = feedMapper.getFeedsByFeedIdx(feedIdx);
+			feedList.add(feed);
+			List<String> img = feedMapper.selectFeedImgByFeedIdx(feedIdx);
+			feed.setImageUrls(img);
+		}
+		
+		return feedList;
 	}
 
 }

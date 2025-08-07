@@ -7,9 +7,12 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.CommentDTO;
+import com.smhrd.web.dto.FeedPreviewDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
+
+import jakarta.servlet.http.HttpSession;
 
 public interface FeedService {
 	
@@ -27,8 +30,12 @@ public interface FeedService {
 
 	void deleteFeed(int feed_idx);
 
-	int addFeedLike(int feed_idx);
+	int addFeedLike(int feed_idx, HttpSession session);
 	
 	int deleteFeedLike(int feed_idx);
+
+	List<FeedPreviewDTO> getFeedsByFeedIdx(List<Integer> feedIdxList);
+
+	
 	
 }
