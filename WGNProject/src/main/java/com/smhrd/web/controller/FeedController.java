@@ -2,9 +2,7 @@ package com.smhrd.web.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.CommentDTO;
+import com.smhrd.web.dto.FeedPreviewDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.dto.RestaurantDTO;
@@ -58,9 +56,6 @@ public class FeedController {
 	@GetMapping
 	public String feedDetail(HttpSession session, @RequestParam("feed_idx") int feedIdx, Model model) {
 		
-		
-
-        
 		// 로그인 되어 있는지 체크
 		boolean loginCheck = memberService.loginCheck(session);
 
@@ -125,8 +120,9 @@ public class FeedController {
 			@RequestParam("res_idx") Integer res_idx, HttpSession session) {
 		
 		
-        // ✅ 넘어온 파일 개수 로깅
-	    System.out.println("📷 업로드 요청 파일 개수: " + files.size());
+        // 넘어온 파일 개수 로깅
+	    System.out.println("업로드 요청 파일 개수: " + files.size());
+	    
 		// 로그인 되어 있는지 체크
 		boolean loginCheck = memberService.loginCheck(session);
 
@@ -135,8 +131,6 @@ public class FeedController {
 			return "member/login";
 		}
 		
-		
-			 
 		// 세션에서 멤버 정보 가져오기
 		t_member member = (t_member) session.getAttribute("member");
 
@@ -227,53 +221,14 @@ public class FeedController {
 		return feedLikeNum;
 	}
 	
-	@GetMapping("/preview/{feed_idx}")
+	@PostMapping("/previews")
 	@ResponseBody
-	public Map<String, Object> getFeedDetailJson(
-	    @PathVariable("feed_idx") int feedIdx,
-	    HttpSession session
-	) {
-	    Map<String, Object> result = new HashMap<>();
-
-	    t_member logined = (t_member) session.getAttribute("member");
-
-	    if (logined == null) {
-	        result.put("error", "unauthorized");
-	        return result;  // 401 처리해도 됨
-	    }
-
-	    String mbId = logined.getMb_id();
-
-	    // 피드 상세 데이터
-	    FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feedIdx);
-
-	    // 피드 주인 정보
-	    String feedOwnerId = feed.getMb_id();
-	    ProfileDTO feedOwnerProfile = memberService.getProfileInfo(feedOwnerId);
-
-	    // 팔로우 여부
-	    boolean isFollowing = memberService.isFollowing(mbId, feedOwnerId);
-
-	    // 음식점 정보
-	    int resIdx = feed.getRes_idx();
-	    RestaurantDTO resInfo = restaurantService.getByResIdx(resIdx);
-
-	    // 댓글 수
-	    List<CommentDTO> comments = feedService.getCmtByFeedIdx(feedIdx);
-	    int commentCount = comments.size();
-
-	    // 로그 저장
-	    memberService.saveLog(mbId, resIdx, "클릭");
-
-	    // 응답 구성
-	    result.put("feed", feed);
-	    result.put("feedOwnerProfile", feedOwnerProfile);
-	    result.put("isFollowing", isFollowing);
-	    result.put("resInfo", resInfo);
-	    result.put("commentCount", commentCount);
-
-	    return result;
+	public List<FeedPreviewDTO> getFeedPreviews(@RequestBody List<Integer> feedIdxList) {
+	    
+		// feedIdxList를 받아서 해당 feed 리스트를 조회 후 반환
+		List<FeedPreviewDTO> feeds = feedService.getFeedsByFeedIdx(feedIdxList);
+		
+		return feeds;
 	}
-
 
 }

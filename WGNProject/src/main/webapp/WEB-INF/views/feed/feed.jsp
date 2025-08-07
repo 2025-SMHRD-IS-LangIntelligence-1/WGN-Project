@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,12 +27,11 @@
 			<!-- 상단 프로필 -->
 			<div class="post-header">
 				<div class="post-user">
-					<img
-						src="${profile.mb_img}">
+					<img src="${profile.mb_img}">
 					<div class="post-user-info">
 						<span><b>${feed.mb_nick}</b></span> <span
 							style="font-size: 12px; color: #888;">광주 ·
-							${feed.created_at}</span>
+							<fmt:formatDate value="${feed.created_at}" pattern="yyyy-MM-dd HH:mm" /></span>
 					</div>
 				</div>
 				<c:choose>
@@ -91,12 +91,9 @@
 
 				<!-- 좋아요 / 댓글 수 -->
 				<div class="post-info" data-feed-idx="${feed.feed_idx}">
-					<span class="clickable-heart"> <i
-						class="bi bi-heart"></i>
-					</span>
-					<span class="like-count">${feed.feed_likes}</span>
-					<i class="bi bi-chat-square-dots" style="font-size: 20px"></i>
-					<span></span>
+					<span class="clickable-heart"> <i class="bi bi-heart"></i>
+					</span> <span class="like-count">${feed.feed_likes}</span> <i
+						class="bi bi-chat-square-dots" style="font-size: 20px"></i> <span></span>
 				</div>
 
 				<!-- 본문 내용 -->
@@ -155,8 +152,7 @@
 	<script>
 		contextPath = "${pageContext.request.contextPath}"
 	</script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
 
 </body>
 </html>

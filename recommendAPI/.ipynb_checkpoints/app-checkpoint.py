@@ -41,9 +41,7 @@ async def receive_logs_and_feeds(data: LogsAndFeeds): # data : 클라이언트(S
     print(f"추천된 피드 idx : {recommended_feed_idx[:10]}")  # 최대 10개만 출력
     print("=== /receive_logs_and_feeds 처리 완료 ===\n")
 
-    return JSONResponse(content={
-        "recommended_feed_ids": recommended_feed_idx
-    }, media_type="application/json; charset=utf-8")
+    return JSONResponse(content=recommended_feed_idx, media_type="application/json; charset=utf-8")
 
 @app.post("/receive_feed_for_search")
 async def receive_feed_for_search(data: List[FeedForSearch]):

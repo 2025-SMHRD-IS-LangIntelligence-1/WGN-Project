@@ -35,8 +35,7 @@ def make_wordclouds(review_list: List[Review]) -> Wordcloud:
 
     print("=== make_wordclouds 함수 종료 ===")    
     
-    return 
-        Wordcloud(
+    return Wordcloud(
         NkPositiveWC=text_to_base64_wordcloud(), # 여기에 워드클라우드 이미지 문자열 넣을 것
         NkNegativeWC=text_to_base64_wordcloud(),
         WgnPositiveWC=text_to_base64_wordcloud(),
