@@ -185,5 +185,35 @@ public class RecommendationServiceImpl implements RecommendationService {
 
 		return FeedIdxList;
 	}
+
+	@Override
+	public List<Integer> sendRequest() {
+		
+	    System.out.println("sendRequest 메서드 실행");
+
+	    // FastAPI URL (코랩 ngrok 주소로 변경 필요)
+	    String pythonUrl = "https://687548475d8a.ngrok-free.app/receive_res";
+
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+
+	    // 요청 바디가 없다면 빈 바디 보내거나 필요한 경우 DTO 작성
+	    HttpEntity<String> requestEntity = new HttpEntity<>("{}", headers);
+
+	    ParameterizedTypeReference<List<Integer>> responseType = new ParameterizedTypeReference<>() {};
+	    ResponseEntity<List<Integer>> response = restTemplate.exchange(
+	        pythonUrl,
+	        HttpMethod.POST,
+	        requestEntity,
+	        responseType
+	    );
+
+	    List<Integer> recommendedFeedIdxList = response.getBody();
+
+	    System.out.println("추천 피드 인덱스 리스트: " + recommendedFeedIdxList);
+
+	    return recommendedFeedIdxList;
+	}
+
 	
 }

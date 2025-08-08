@@ -87,4 +87,15 @@ public class SearchController {
         return FeedIdxList;
     }
 	
+	@PostMapping("/res")
+	@ResponseBody
+	public List<Integer> getRecommendedRes() {
+		
+		System.out.println("getRecommendedRes 메서드 실행");
+		
+		List<Integer> result = recommendationService.sendRequest();
+		
+		return result;
+	}
+	
 }

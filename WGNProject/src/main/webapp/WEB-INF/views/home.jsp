@@ -42,6 +42,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/home.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
 </body>
 
 </html>

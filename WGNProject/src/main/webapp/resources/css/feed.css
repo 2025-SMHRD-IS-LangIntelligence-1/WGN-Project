@@ -59,9 +59,9 @@
 }
 
 .my-follow-btn.following {
-    color: gray !important;
-    background-color: #f0f0f0 !important; /* 배경색도 바꿔보기 */
-    border-color: gray !important;         /* 테두리 색 바꾸기 */
+	color: gray !important;
+	background-color: #f0f0f0 !important; /* 배경색도 바꿔보기 */
+	border-color: gray !important; /* 테두리 색 바꾸기 */
 }
 
 /* 게시물 이미지 영역 */
@@ -85,19 +85,31 @@
 	gap: 10px
 }
 
-.post-info .clickable-heart,
-.post-info .like-count {
-
-  width: 80px;      /* 고정 너비 */
-  height: 30px;     /* 고정 높이 */
-  font-size: 18px;
-  user-select: none; /* 숫자 드래그 방지 */
+.post-info .clickable-heart, .post-info .like-count {
+	width: 80px; /* 고정 너비 */
+	height: 30px; /* 고정 높이 */
+	font-size: 18px;
+	user-select: none; /* 숫자 드래그 방지 */
 }
 
 .post-info .clickable-heart i {
-  font-size: 20px;  /* 아이콘 크기 */
-  line-height: 1;
-  color: red;
+	font-size: 20px; /* 아이콘 크기 */
+	line-height: 1;
+}
+
+/* 평점 상자 */
+.rating-box {
+	background-color: #fff8e5;
+	color: black;
+	font-weight : 600;
+	font-size: 14px;
+	padding: 4px 10px;
+	border-radius: 15px; /* 둥근 모서리 */
+	box-shadow: 0 2px 6px rgba(49, 120, 198, 0.25); /* 은은한 그림자 */
+	user-select: none;
+	white-space: nowrap; /* 줄바꿈 방지 */
+	display: inline-block;
+	font-weight: 600;
 }
 
 /* 장소 카드 (위치 표시 박스) */
