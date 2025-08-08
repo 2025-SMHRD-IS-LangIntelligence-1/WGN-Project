@@ -14,7 +14,8 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
 	rel="stylesheet">
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+	rel='stylesheet'>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
@@ -101,12 +102,19 @@
 				</div>
 
 			</form>
+
+			<!-- 모달창 -->
+			
+
 		</div>
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 	</div>
 
 	<script>
 		const contextPath = '${pageContext.request.contextPath}';
+		
+		
+		
 	</script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/join.js"></script>
