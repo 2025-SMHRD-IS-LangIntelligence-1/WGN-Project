@@ -43,21 +43,14 @@
 }
 
 .notification-item.read {
-    background-color: #f5f5f5;
-    color: #ccc; /* 아주 연한 회색 */
+    background-color: #d6d6d6;
+    color: #ccc;
 }
 
 /* 알림 메시지 */
 .noti-message {
     font-size: 15px;
     color: #222;
-    flex: 1;
-}
-
-/* 읽은 알림 메시지 */
-.noti-message.read {
-    font-size: 15px;
-    color: #ccc;
     flex: 1;
 }
 
@@ -68,13 +61,7 @@
 }
 
 
-/* 읽은 보낸 사람 아이디 */
-.noti-message b.read {
-    color: #ccc;
-    margin-right: 6px;
-}
-
-/* 읽은 댓글 내용 */
+/* 댓글 내용 */
 .comment-content {
     font-style: italic;
     color: #ccc;

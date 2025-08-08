@@ -30,7 +30,6 @@ $(document).ready(function () {
         console.log("요청 성공")
 
         $this.addClass("read");
-		$this.find('.noti-message').addClass('read');
 
         // 2. 처리 후 페이지 이동
         let prefix = "http://localhost:8202/wgn";

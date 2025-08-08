@@ -26,10 +26,10 @@ public interface FeedMapper {
 	public void saveFeed(t_feed feed);
 
 	void saveFeedImg(@Param("feed_idx") int feed_idx, @Param("imgUrls") List<String> imgUrls);
-	
+
 	@Select("select feed_img_url from t_feed_img where feed_idx=#{feed_idx} order by feed_img_idx asc")
 	public ArrayList<String> selectFeedImgByFeedIdx(int feed_idx);
-	
+
 	FeedWithImgDTO selectFeedByIdx(int feed_idx);
 
 	@Insert("insert into t_comment values(null, #{feed_idx}, #{mb_id}, #{mb_nick}, #{cmt_content}, now())")
@@ -42,28 +42,30 @@ public interface FeedMapper {
 
 	@Update("update t_feed set feed_likes = feed_likes + 1 where feed_idx = #{feed_idx}")
 	public void addFeedLike(int feed_idx);
-	
+
 	@Update("update t_feed set feed_likes = feed_likes - 1 where feed_idx = #{feed_idx}")
 	public void deleteFeedLike(int feed_idx);
 
 	@Select("select feed_likes from t_feed where feed_idx = #{feed_idx}")
 	public int countFeedLike(int feed_idx);
-	
+
 	public List<CandidateFeedDTO> getCandidateFeed(String mb_id);
-	
+
 	public List<FeedForSearchDTO> getFeedForSearch(String mb_id);
 
 	public FeedPreviewDTO getFeedsByFeedIdx(int feed_idx);
 
 	@Select("""
-		    (SELECT feed_idx FROM t_feed ORDER BY created_at DESC LIMIT 8)
-		    UNION
-		    (SELECT feed_idx FROM t_feed ORDER BY feed_likes DESC LIMIT 6)
-		    UNION
-		    (SELECT feed_idx FROM t_feed ORDER BY RAND() LIMIT 6)
-		    LIMIT 20
-		""")
-		List<Integer> getMixedFeeds();
+			    (SELECT feed_idx FROM t_feed ORDER BY created_at DESC LIMIT 8)
+			    UNION
+			    (SELECT feed_idx FROM t_feed ORDER BY feed_likes DESC LIMIT 6)
+			    UNION
+			    (SELECT feed_idx FROM t_feed ORDER BY RAND() LIMIT 6)
+			    LIMIT 20
+			""")
+	List<Integer> getMixedFeeds();
 
+	@Select()
+	public List<Integer> getLikedFeedIdx(String mbId);
 
 }

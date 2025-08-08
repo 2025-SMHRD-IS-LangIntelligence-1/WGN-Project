@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,6 +25,7 @@ import com.smhrd.web.entity.t_favorite;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.FavoriteMapper;
+import com.smhrd.web.mapper.FeedMapper;
 import com.smhrd.web.service.CloudinaryService;
 import com.smhrd.web.service.FavoriteService;
 import com.smhrd.web.service.FeedService;
@@ -42,8 +41,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FeedController {
 	
-	private Logger logger = LoggerFactory.getLogger(getClass());
-	
 	@Autowired
 	FeedService feedService;
 	@Autowired
@@ -52,12 +49,12 @@ public class FeedController {
 	MemberService memberService;
 	@Autowired
 	RestaurantService restaurantService;
-	
 	@Autowired
 	FavoriteMapper favoritemapper;
-	
 	@Autowired
 	FavoriteService favoriteService;
+	@Autowired
+	FeedMapper feedMapper;
 
 	FeedController(CloudinaryService cloudinaryService) {
 		this.cloudinaryService = cloudinaryService;
@@ -100,9 +97,13 @@ public class FeedController {
 		// 댓글 정보 가져오기
 		List<CommentDTO> comments = feedService.getCmtByFeedIdx(feedIdx);
 		
+		// 로그인한 사용자가 좋아하고 있는 피드 idx 리스트 가져오기
+		List<Integer> likedFeedIdx = feedMapper.getLikedFeedIdx(mbId);
+		
 		model.addAttribute("feed", feed);
 		model.addAttribute("resInfo", resInfo);
 		model.addAttribute("comments", comments);
+		model.addAttribute("likedFeedIdx", likedFeedIdx);
 		
 		// 사용자 로그 저장
 		memberService.saveLog(mbId, resIdx, "클릭");
@@ -113,7 +114,6 @@ public class FeedController {
 	@GetMapping("/addFeed")
 	public String goAddFeed(HttpSession session) {
 
-		
 		// 로그인 되어 있는지 체크
 		boolean loginCheck = memberService.loginCheck(session);
 
@@ -129,7 +129,6 @@ public class FeedController {
 	public String uploadFeed(t_feed feed, @RequestParam("files") List<MultipartFile> files,
 			@RequestParam("res_idx") Integer res_idx, HttpSession session,
 			@RequestParam(value = "rank_toggle", required = false) String rankToggle) {
-		
 		
         // 넘어온 파일 개수 로깅
 	    System.out.println("업로드 요청 파일 개수: " + files.size());

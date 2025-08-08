@@ -3,8 +3,6 @@ package com.smhrd.web.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,15 +16,13 @@ import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.FeedMapper;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class FeedServiceImpl implements FeedService{
 
-    private final AsyncConfig asyncConfig;
-	
-	private Logger logger = LoggerFactory.getLogger(getClass());
-	
-	@Autowired
+    @Autowired
 	FeedMapper feedMapper;
 	@Autowired
 	CloudinaryService cloudinaryService;
@@ -34,7 +30,6 @@ public class FeedServiceImpl implements FeedService{
 	NotificationService notificationService;
 
     FeedServiceImpl(AsyncConfig asyncConfig) {
-        this.asyncConfig = asyncConfig;
     }
 	
 	@Override
@@ -99,7 +94,9 @@ public class FeedServiceImpl implements FeedService{
 
 	@Override
 	public List<CommentDTO> getCmtByFeedIdx(int feedIdx) {
+		log.info("getCmtByFeedIdx 함수 실행");
 		List<CommentDTO> comments = feedMapper.getCmtByfeedIdx(feedIdx);
+		log.info("가져온 코멘트 수 : " + comments.size());
 		return comments;
 	}
 

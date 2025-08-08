@@ -30,8 +30,8 @@
 					<img src="${profile.mb_img}">
 					<div class="post-user-info">
 						<span><b>${feed.mb_nick}</b></span> <span
-							style="font-size: 12px; color: #888;">광주 ·
-							<fmt:formatDate value="${feed.created_at}" pattern="yyyy-MM-dd HH:mm" /></span>
+							style="font-size: 12px; color: #888;">광주 · <fmt:formatDate
+								value="${feed.created_at}" pattern="yyyy-MM-dd HH:mm" /></span>
 					</div>
 				</div>
 				<c:choose>
@@ -89,12 +89,26 @@
 					</button>
 				</div>
 
-				<!-- 좋아요 / 댓글 수 -->
-				<div class="post-info" data-feed-idx="${feed.feed_idx}">
-					<span class="clickable-heart"> <i class="bi bi-heart"></i>
-					</span> <span class="like-count">${feed.feed_likes}</span> <i
-						class="bi bi-chat-square-dots" style="font-size: 20px"></i> <span></span>
+				<!-- 좋아요 / 댓글 수 / 평점 -->
+				<div
+					class="post-info d-flex align-items-center justify-content-between"
+					data-feed-idx="${feed.feed_idx}">
+
+					<div>
+						<span class="clickable-heart"> <i class="bi bi-heart"></i>
+						</span> <span class="like-count">${feed.feed_likes}</span> <i
+							class="bi bi-chat-square-dots"
+							style="font-size: 20px; margin-left: 10px;"></i> <span>${commentsCount}</span>
+						<!-- 댓글 수 있으면 넣기 -->
+					</div>
+
+					<div class="rating-box">
+						<i class="bi bi-star"></i>
+						${feed.ratings != null ? feed.ratings : '없음'}</div>
+
 				</div>
+
+
 
 				<!-- 본문 내용 -->
 				<div class="post-text">${feed.feed_content}</div>
@@ -132,9 +146,9 @@
 								<img src="${comment.mb_img}" class="comment-avatar">
 								<div class="comment-body">
 									<!-- 작성자 닉네임 -->
-									<strong>${comment.comment.mb_nick}</strong>
+									<strong>${comment.mb_nick}</strong>
 									<!-- 댓글 내용 -->
-									<p>${comment.comment.cmt_content}</p>
+									<p>${comment.cmt_content}</p>
 								</div>
 								<i class="bi bi-heart"></i>
 							</div>
