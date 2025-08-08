@@ -32,16 +32,3 @@ class FeedForSearch(BaseModel):
     feed_likes: int
     res_tag : str
     feed_content: str
-
-class Review(BaseModel):
-    # 리뷰를 저장하는 클래스
-    review_idx: int
-    res_idx: int
-    review_content: str
-    likes: int
-
-class Wordcloud(BaseModel):
-    NkPositiveWC: str
-    NkNegativeWC: str
-    WgnPositiveWC: str
-    WgnNegativeWC: str
