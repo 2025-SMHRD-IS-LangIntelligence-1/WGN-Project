@@ -314,35 +314,11 @@
 		</div>
 	</div>
 
-	<!-- 찜 해제 확인 모달 -->
-	<div class="modal fade" id="unGoingModal" tabindex="-1"
-		aria-labelledby="unGoingModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="unGoingModalLabel">찜 해제 확인</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="닫기"></button>
-				</div>
-				<div class="modal-body">
-					<p>
-						<strong id="modalResName"></strong>을(를) 찜 목록에서 삭제하시겠습니까?
-					</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" id="confirmUnGoingBtn">네</button>
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">아니오</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
 	<!-- 랭킹 정렬 모달 -->
 	<div class="modal fade" id="sortRankModal" tabindex="-1"
 		aria-labelledby="sortRankModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<!-- 스크롤 가능한 모달 -->
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="sortRankModalLabel">내 랭킹 순서 정렬</h5>
@@ -353,31 +329,39 @@
 				<div class="modal-body">
 					<p class="text-muted mb-2">항목을 드래그해서 원하는 순서로 바꾼 뒤 저장하세요.</p>
 
-					<!-- 드래그 리스트 -->
-					<ul id="sortableRankList" class="list-group">
-						<c:forEach var="favoriteres" items="${myfavoriteres}"
-							varStatus="s">
-							<li class="list-group-item d-flex align-items-center gap-2"
-								data-res-idx="${favoriteres.res_idx}">
-								<!-- 순위 배지 --> <span
-								class="badge text-bg-secondary me-2 order-badge">${s.index + 1}위</span>
-
-								<span class="bi bi-grip-vertical me-2" aria-hidden="true"></span>
-								<img src="${favoriteres.res_thumbnail}"
-								style="width: 44px; height: 44px; object-fit: cover; border-radius: 8px;">
-								<div class="flex-fill">
-									<div class="fw-semibold">${favoriteres.res_name}</div>
-									<small class="text-muted">${favoriteres.res_addr}</small>
-								</div> <span class="badge bg-warning text-dark">${favoriteres.fav_rating}</span>
-							</li>
-						</c:forEach>
-					</ul>
+					<!-- 리스트 전용 스크롤 래퍼 -->
+					<div id="sortableScrollWrap" class="rank-scroll-wrap">
+						<ul id="sortableRankList" class="list-group">
+							<c:forEach var="favoriteres" items="${myfavoriteres}"
+								varStatus="s">
+								<li
+									class="list-group-item compact-item d-flex align-items-center gap-2"
+									data-res-idx="${favoriteres.res_idx}">
+									<!-- 드래그 핸들 --> <span class="bi bi-grip-vertical"
+									aria-hidden="true"></span> <!-- 순위 배지 --> <span
+									class="badge text-bg-secondary order-badge">${s.index + 1}위</span>
+									<!-- 썸네일 --> <img src="${favoriteres.res_thumbnail}"
+									class="thumb" alt="thumb"> <!-- 가게명/주소 -->
+									<div class="flex-fill">
+										<div class="fw-semibold title">${favoriteres.res_name}</div>
+										<small class="text-muted addr">${favoriteres.res_addr}</small>
+									</div> <!-- 우측: 별점 + 삭제 버튼(세로 배치) -->
+									<div class="side-col d-flex flex-column align-items-end">
+										<span class="badge bg-warning text-dark mb-1">${favoriteres.fav_rating}</span>
+										<button type="button"
+											class="btn btn-outline-danger btn-xs btn-remove"
+											data-res-idx="${favoriteres.res_idx}">삭제</button>
+									</div>
+								</li>
+							</c:forEach>
+						</ul>
+					</div>
 				</div>
 
 				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="saveRankOrderBtn">저장</button>
 					<button type="button" class="btn btn-outline-secondary"
 						data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary" id="saveRankOrderBtn">저장</button>
 				</div>
 			</div>
 		</div>

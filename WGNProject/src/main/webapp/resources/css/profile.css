@@ -341,3 +341,107 @@ form textarea {
 .nav-link {
     color: inherit; /* 기본 글씨색 유지 */
 }
+
+/*//////////////////////////////////
+	내 랭킹 수정하기!!!!!
+/////////////////////////////////////////*/
+/* 기본 상태: 노란색 테두리 + 글씨 */
+#sortToggleBtn {
+  background-color: #ffc107;
+  color: black;
+  border-color: #ffc107;
+  borer: 1px;
+}
+
+#saveRankOrderBtn{
+  background-color: #ffc107;
+  color: #fff;
+  border-color: #ffc107;
+}
+/* 모달 안에서 리스트만 스크롤 */
+.rank-scroll-wrap {
+  max-height: min(65vh, 560px); 
+  overflow-y: auto;
+  overscroll-behavior: contain; 
+  padding-right: 4px; 
+}
+
+/* 보기 좋은 구분선 */
+#sortableRankList .list-group-item + .list-group-item {
+  border-top: 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* 모달 리스트만 스크롤 */
+.rank-scroll-wrap {
+  max-height: min(65vh, 560px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;
+}
+
+/* 간격 촘촘하게 */
+#sortableRankList .compact-item {
+  padding: 5px 8px;      
+  border: 0;
+  border-bottom: 1px solid #eee;
+}
+
+#sortableRankList .compact-item .title {
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+
+#sortableRankList .compact-item .addr {
+  line-height: 1.1;
+}
+
+/* 썸네일 크기 축소 */
+#sortableRankList .thumb {
+  width: 50px;               /* 원하는 고정 가로 */
+  height: 50px;              /* 원하는 고정 세로 */
+  object-fit: cover;         /* 잘라서 비율 유지 */
+  border-radius: 8px;
+  flex-shrink: 0;            /* 줄어들지 않게 */
+  display: block;            /* inline gap 제거 */
+}
+
+/* 오른쪽 컬럼 간격, 작은 삭제 버튼 */
+#sortableRankList .side-col .btn-xs {
+  padding: 2px 6px;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+/* 순위/핸들 좌우 여백 조금만 */
+#sortableRankList .order-badge { min-width: 34px; text-align:center; }
+
+/* 아이템 간격을 더 조밀하게 보이게 */
+#sortableRankList .compact-item + .compact-item { margin-top: 0; }
+
+
+/* 음식점 이름 크기 */
+.title {
+  font-size: 0.9rem; /* 기존보다 살짝 작게 */
+  font-weight: 600;
+}
+
+/* 주소 크기 */
+.addr {
+  font-size: 0.9rem; /* 기존보다 줄임 */
+  line-height: 1.2;
+}
+
+/* 우측 컬럼: 별점 + 삭제 버튼 */
+.side-col .badge {
+  font-size: 0.85rem;  /* 별점 글자 크기 */
+  min-width: 2.2rem;   /* 가로폭 확보 */
+  text-align: center;
+}
+
+.side-col .btn-remove {
+  font-size: 0.9rem;  /* 삭제 버튼 글자 크기 */
+  padding: 2px 6px;    /* 여백 조금 줌 */
+  line-height: 1.1;
+  min-width: 2.2rem;   /* 가로폭 확보 */
+}

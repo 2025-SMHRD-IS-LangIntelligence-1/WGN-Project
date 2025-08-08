@@ -56,4 +56,9 @@ public class FavoriteServicempl implements FavoriteService{
     	favoritemapper.resetFavoriteOrder(mb_id);
     }
     
+    @Override
+    public int deleteRanking(int resIdx, String mb_id) {
+    	return favoritemapper.deleteRanking(resIdx, mb_id);
+    }
+    
 }

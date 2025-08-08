@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return; 
     }
 
-    if (targetItemEl) targetItemEl.remove();               // 목록에서 제거
+    if (targetItemEl) targetItemEl.remove();               
     bootstrap.Modal.getInstance(modalEl).hide();           // 모달 닫기
   });
 });
@@ -255,67 +255,111 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // 내랭킹 수정
 (function () {
-  const sortBtn = document.getElementById('sortToggleBtn');   // "내 랭킹 수정하기" 버튼
-  const modalEl = document.getElementById('sortRankModal');
-  const saveBtn = document.getElementById('saveRankOrderBtn');
-  const listEl  = document.getElementById('sortableRankList');
-  if (!modalEl || !saveBtn || !listEl) return;
 
-  // 모달 열기 (상단 버튼이 있다면 연결)
-  if (sortBtn) {
-    sortBtn.addEventListener('click', () => {
-      new bootstrap.Modal(modalEl).show();
-    });
-  }
+  // ====== DOM 요소 캐싱 ======
+  const sortBtn = document.getElementById('sortToggleBtn');      
+  const modalEl = document.getElementById('sortRankModal');   
+  const saveBtn = document.getElementById('saveRankOrderBtn');   
+  const listEl  = document.getElementById('sortableRankList');    
 
-  // 순위 배지 재번호
+  // ====== 리스트 순위 배지 번호 재정렬 함수 ======
   function renumberModal() {
-    const items = listEl.querySelectorAll('.list-group-item[data-res-idx]');
-    items.forEach((el, i) => {
-      const badge = el.querySelector('.order-badge');
-      if (badge) badge.textContent = (i + 1) + '위';
+    listEl.querySelectorAll('.list-group-item[data-res-idx]').forEach((el, i) => {
+      const b = el.querySelector('.order-badge');
+      if (b) b.textContent = (i + 1) + '위';
     });
   }
 
-  // 모달 열리면 드래그 활성화 (1회만)
-  let sortableOnce = false;
+  // ====== 버튼 클릭 시 모달 열기 ======
+  if (sortBtn) {
+    sortBtn.addEventListener('click', () => new bootstrap.Modal(modalEl).show());
+  }
+
+  // ====== Sortable 초기화 (한 번만 실행) ======
+  let once = false;
   modalEl.addEventListener('shown.bs.modal', () => {
-    if (sortableOnce) return;
+    if (once) return;
+
+    // Sortable.js 설정
     new Sortable(listEl, {
-      animation: 150,
+      animation: 150,                                
       handle: '.bi-grip-vertical, .list-group-item',
-      draggable: '.list-group-item',
-      onSort: renumberModal,
-      onEnd: renumberModal
+      draggable: '.list-group-item',                
+      onSort: renumberModal,                        
+      onEnd: renumberModal,                         
+
+      // ====== 스크롤 설정 (리스트 영역만 스크롤) ======
+      scroll: true,             
+      scrollSensitivity: 80,    
+      scrollSpeed: 20,         
+      bubbleScroll: true       
     });
-    sortableOnce = true;
-    renumberModal();
+
+    once = true; // 두 번 초기화 방지
+    renumberModal(); 
   });
 
-  // 저장
+  // ====== 저장 버튼 클릭 시 서버로 순서 전송 ======
   saveBtn.addEventListener('click', async () => {
-    saveBtn.disabled = true;
+    saveBtn.disabled = true; 
 
+    // 서버로 보낼 데이터 구성
     const payload = {
-      type: 'favorite', // 필요 시 구분값
+      type: 'favorite', 
       list: Array.from(listEl.querySelectorAll('.list-group-item[data-res-idx]'))
-              .map((el, i) => ({ res_idx: Number(el.getAttribute('data-res-idx')), pos: i + 1 }))
+              .map((el, i) => ({
+                res_idx: Number(el.getAttribute('data-res-idx')),
+                pos: i + 1                                      
+              }))
     };
 
     try {
+      // AJAX 요청 (JSON 전송)
       const res = await fetch(`${contextPath}/favorite/order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
+
       if (!res.ok) throw new Error('순서 저장 실패');
 
+      // 저장 성공 → 모달 닫기 + 새로고침
       bootstrap.Modal.getInstance(modalEl).hide();
-      location.reload(); // 간단/확실
-    } catch (err) {
-      alert(err.message || '저장 중 오류가 발생했습니다.');
+      location.reload();
+
+    } catch (e) {
+      alert(e.message || '저장 중 오류가 발생했습니다.');
     } finally {
-      saveBtn.disabled = false;
+      saveBtn.disabled = false; // 버튼 다시 활성화
     }
   });
+
 })();
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".btn-remove").forEach(btn => {
+        btn.addEventListener("click", function () {
+            const resIdx = this.dataset.resIdx;
+
+            if (!confirm("정말 삭제하시겠습니까?")) return;
+
+            fetch(`${contextPath}/favorite/delete`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `res_idx=${encodeURIComponent(resIdx)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    this.closest("li").remove();
+                } else {
+                    alert("삭제 실패: " + (data.error || "알 수 없는 오류"));
+                }
+            })
+            .catch(err => alert("서버 오류: " + err));
+        });
+    });
+});

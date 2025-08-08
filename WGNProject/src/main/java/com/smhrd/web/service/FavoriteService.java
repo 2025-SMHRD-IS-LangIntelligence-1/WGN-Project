@@ -20,6 +20,8 @@ public interface FavoriteService {
 
 	void resetOrder(String mb_id);
 
+	int deleteRanking(int resIdx, String mb_id);
+
 
 
 

@@ -2,6 +2,7 @@ package com.smhrd.web.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -30,6 +31,12 @@ public interface FavoriteMapper {
 
 
 	void resetFavoriteOrder(String mb_id);
+
+
+
+	@Delete("DELETE FROM t_favorite "
+			+ "WHERE res_idx = #{resIdx} and mb_id = #{mb_id}")
+	int deleteRanking(int resIdx, String mb_id);
 
 
 }

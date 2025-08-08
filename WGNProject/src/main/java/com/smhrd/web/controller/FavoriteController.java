@@ -8,6 +8,10 @@ import com.smhrd.web.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,5 +63,25 @@ public class FavoriteController {
         favoriteService.resetOrder(mb_id);
         
         return ResponseEntity.ok().build();
+    }
+    
+    @PostMapping("/delete")
+    @ResponseBody
+    public Map<String, Object> deleteRanking(@RequestParam("res_idx") int resIdx, HttpSession session) {
+        Map<String, Object> result = new HashMap<>();
+        t_member mem = (t_member) session.getAttribute("member");
+    	
+    	String mb_id = mem.getMb_id();
+        
+        try {
+            int deletedCount = favoriteService.deleteRanking(resIdx, mb_id);
+
+            result.put("success", deletedCount > 0);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("error", e.getMessage());
+        }
+        return result;
+    
     }
 }
