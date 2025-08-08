@@ -143,6 +143,13 @@
 						<!-- 랭킹 탭 -->
 						<div class="tab-pane fade show active p-2" id="rank-content"
 							role="tabpanel">
+							<c:if test="${profile.mb_id eq sessionScope.member.mb_id}">
+								<div class="d-flex justify-content-end mb-2">
+									<button id="sortToggleBtn"
+										class="btn btn-outline-secondary btn-sm">내 랭킹 수정하기</button>
+								</div>
+							</c:if>
+
 							<div id="rank-list" class="list-group">
 
 								<c:if test="${not empty myfavoriteres}">
@@ -150,62 +157,71 @@
 										varStatus="status">
 										<c:choose>
 											<c:when test="${status.index lt 3}">
-												<!-- 1~3위: 메달 붙여서 출력 -->
-												<a href="${pageContext.request.contextPath}/restaurant?res_idx=${favoriteres.res_idx}"
-												style="text-decoration: none; color: inherit;">
-												<div class="list-group-item d-flex align-items-center">
-												
-													<img src="${favoriteres.res_thumbnail}"
-														class="rounded me-2"
-														style="width: 60px; height: 60px; object-fit: cover;">
-													<div class="flex-fill">
-														<h6 class="mb-0">${favoriteres.res_name}</h6>
-														<small class="text-muted">${favoriteres.res_addr}</small>
-														<div class="mt-1">
-															<span class="badge bg-warning text-dark">${favoriteres.fav_rating}</span>
+												<a
+													href="${pageContext.request.contextPath}/restaurant?res_idx=${favoriteres.res_idx}"
+													style="text-decoration: none; color: inherit;">
+													<div class="list-group-item d-flex align-items-center"
+														data-res-idx="${favoriteres.res_idx}">
+														<img src="${favoriteres.res_thumbnail}"
+															class="rounded me-2"
+															style="width: 60px; height: 60px; object-fit: cover;">
+														<div class="flex-fill">
+															<h6 class="mb-0">${favoriteres.res_name}</h6>
+															<small class="text-muted">${favoriteres.res_addr}</small>
+															<div class="mt-1">
+																<span class="badge bg-warning text-dark">${favoriteres.fav_rating}</span>
+															</div>
+														</div>
+														<div style="font-size: 24px; margin-left: 8px;">
+															<c:choose>
+																<c:when test="${status.index == 0}">
+																	<div style="font-size: 24px; margin-left: 8px;">🥇</div>
+																</c:when>
+																<c:when test="${status.index == 1}">
+																	<div style="font-size: 24px; margin-left: 8px;">🥈</div>
+																</c:when>
+																<c:when test="${status.index == 2}">
+																	<div style="font-size: 24px; margin-left: 8px;">🥉</div>
+																</c:when>
+															</c:choose>
 														</div>
 													</div>
-													<div style="font-size: 24px; margin-left: 8px;">
-														<c:choose>
-															<c:when test="${status.index == 0}">
-																<div style="font-size: 24px; margin-left: 8px;">🥇</div>
-															</c:when>
-															<c:when test="${status.index == 1}">
-																<div style="font-size: 24px; margin-left: 8px;">🥈</div>
-															</c:when>
-															<c:when test="${status.index == 2}">
-																<div style="font-size: 24px; margin-left: 8px;">🥉</div>
-															</c:when>
-														</c:choose>
-													</div>
-
-												</div>
 												</a>
 											</c:when>
 
 											<c:otherwise>
-												<!-- 4위부터: 숨겨진 영역 -->
-												<div class="list-group-item d-flex align-items-center"
-													style="display: none;" data-more="true">
-													<img src="${favoriteres.res_thumbnail}"
-														class="rounded me-2"
-														style="width: 60px; height: 60px; object-fit: cover;">
-													<div class="flex-fill">
-														<h6 class="mb-0">${favoriteres.res_name}</h6>
-														<small class="text-muted">${favoriteres.res_addr}</small>
-														<div class="mt-1">
-															<span class="badge bg-warning text-dark">4</span>
+												<!-- 4위부터: 초기 숨김 + 오른쪽에 순위 배지 표시 -->
+												<a
+													href="${pageContext.request.contextPath}/restaurant?res_idx=${favoriteres.res_idx}"
+													style="text-decoration: none; color: inherit; display: none;"
+													data-more="favorite">
+													<div class="list-group-item d-flex align-items-center"
+														data-res-idx="${favoriteres.res_idx}">
+														<img src="${favoriteres.res_thumbnail}"
+															class="rounded me-2"
+															style="width: 60px; height: 60px; object-fit: cover;">
+														<div class="flex-fill">
+															<h6 class="mb-0">${favoriteres.res_name}</h6>
+															<small class="text-muted">${favoriteres.res_addr}</small>
+															<div class="mt-1">
+																<span class="badge bg-warning text-dark">${favoriteres.fav_rating}</span>
+															</div>
+														</div>
+														<!-- 순위 배지 -->
+														<div class="ms-2">
+															<span class="badge rounded-pill bg-secondary">${status.index + 1}위</span>
 														</div>
 													</div>
-												</div>
+												</a>
 											</c:otherwise>
 										</c:choose>
 									</c:forEach>
 
-									<!-- 더보기 버튼 -->
+									<!-- 더보기 / 접기 버튼 -->
 									<c:if test="${fn:length(myfavoriteres) > 3}">
 										<div class="text-center mt-2">
-											<button class="btn btn-outline-secondary btn-sm"
+											<button id="favoritesToggleBtn"
+												style="background: none; border: none; color: #ffc107;"
 												onclick="toggleFavorites()">더보기</button>
 										</div>
 									</c:if>
@@ -215,60 +231,82 @@
 						</div>
 
 						<!-- 찜 탭 -->
-					
+
+
 						<div class="tab-pane fade p-2" id="wish-content" role="tabpanel">
 							<div id="wish-list" class="list-group">
-							<c:if test="${not empty mygoingres}">
+								<c:if test="${not empty mygoingres}">
 									<c:forEach var="goingres" items="${mygoingres}"
 										varStatus="status">
 										<c:choose>
 											<c:when test="${status.index lt 3}">
-												<a href="${pageContext.request.contextPath}/restaurant?res_idx=${goingres.res_idx}"
-												style="text-decoration: none; color: inherit;">
 												<div class="list-group-item d-flex align-items-center">
-												
-													<img src="${goingres.res_thumbnail}"
-														class="rounded me-2"
+													<!-- 왼쪽: 링크(이름/이미지/주소) -->
+													<a
+														href="${pageContext.request.contextPath}/restaurant?res_idx=${goingres.res_idx}"
+														class="d-flex align-items-center text-decoration-none text-reset flex-fill">
+														<img src="${goingres.res_thumbnail}" class="rounded me-2"
 														style="width: 60px; height: 60px; object-fit: cover;">
-													<div class="flex-fill">
-														<h6 class="mb-0">${goingres.res_name}</h6>
-														<small class="text-muted">${goingres.res_addr}</small>
-														
-													</div>
+														<div class="flex-fill">
+															<h6 class="mb-0">${goingres.res_name}</h6>
+															<small class="text-muted">${goingres.res_addr}</small>
+														</div>
+													</a>
+
+													<!-- 오른쪽: 배지(찜 해지) -->
+													<button type="button"
+														class="ms-2 badge rounded-pill bg-warning text-dark border-0"
+														style="cursor: pointer;" data-bs-toggle="modal"
+														data-bs-target="#unGoingModal"
+														data-res-idx="${goingres.res_idx}"
+														data-res-name="${goingres.res_name}">
+														<i class="bi bi-person-walking icon-outline"></i>
+													</button>
 												</div>
-												</a>
 											</c:when>
 
 											<c:otherwise>
-												<!-- 4위부터: 숨겨진 영역 -->
-												<div class="list-group-item d-flex align-items-center"
-													style="display: none;" data-more="true">
-													<img src="${goingres.res_thumbnail}"
-														class="rounded me-2"
+												<!-- 4위부터: 초기 숨김 + 오른쪽에 순위 배지 표시 -->
+												<div
+													class="list-group-item d-flex align-items-center d-none"
+													data-more="going">
+													<!-- 왼쪽 링크 -->
+													<a
+														href="${pageContext.request.contextPath}/restaurant?res_idx=${goingres.res_idx}"
+														class="d-flex align-items-center text-decoration-none text-reset flex-fill">
+														<img src="${goingres.res_thumbnail}" class="rounded me-2"
 														style="width: 60px; height: 60px; object-fit: cover;">
-													<div class="flex-fill">
-														<h6 class="mb-0">${goingres.res_name}</h6>
-														<small class="text-muted">${goingres.res_addr}</small>
-														<div class="mt-1">
-															<span class="badge bg-warning text-dark">4</span>
+														<div class="flex-fill">
+															<h6 class="mb-0">${goingres.res_name}</h6>
+															<small class="text-muted">${goingres.res_addr}</small>
 														</div>
-													</div>
+													</a>
+													<!-- 오른쪽 배지 -->
+													<button type="button"
+														class="ms-2 badge rounded-pill bg-warning text-dark border-0"
+														style="cursor: pointer;" data-bs-toggle="modal"
+														data-bs-target="#unGoingModal"
+														data-res-idx="${goingres.res_idx}"
+														data-res-name="${goingres.res_name}">
+														<i class="bi bi-person-walking icon-outline"></i>
+													</button>
 												</div>
 											</c:otherwise>
 										</c:choose>
 									</c:forEach>
 
-									<!-- 더보기 버튼 -->
+									<!-- 더보기 / 접기 버튼 -->
 									<c:if test="${fn:length(mygoingres) > 3}">
 										<div class="text-center mt-2">
-											<button class="btn btn-outline-secondary btn-sm"
-												onclick="toggleFavorites()">더보기</button>
+											<button id="goingToggleBtn"
+												style="background: none; border: none; color: #ffc107;"
+												onclick="togglegoing()">더보기</button>
 										</div>
 									</c:if>
 								</c:if>
 							</div>
 						</div>
-						
+
 					</div>
 				</div>
 
@@ -276,17 +314,80 @@
 		</div>
 	</div>
 
+	<!-- 찜 해제 확인 모달 -->
+	<div class="modal fade" id="unGoingModal" tabindex="-1"
+		aria-labelledby="unGoingModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="unGoingModalLabel">찜 해제 확인</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="닫기"></button>
+				</div>
+				<div class="modal-body">
+					<p>
+						<strong id="modalResName"></strong>을(를) 찜 목록에서 삭제하시겠습니까?
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" id="confirmUnGoingBtn">네</button>
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">아니오</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- 랭킹 정렬 모달 -->
+	<div class="modal fade" id="sortRankModal" tabindex="-1"
+		aria-labelledby="sortRankModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="sortRankModalLabel">내 랭킹 순서 정렬</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="닫기"></button>
+				</div>
+
+				<div class="modal-body">
+					<p class="text-muted mb-2">항목을 드래그해서 원하는 순서로 바꾼 뒤 저장하세요.</p>
+
+					<!-- 드래그 리스트 -->
+					<ul id="sortableRankList" class="list-group">
+						<c:forEach var="favoriteres" items="${myfavoriteres}"
+							varStatus="s">
+							<li class="list-group-item d-flex align-items-center gap-2"
+								data-res-idx="${favoriteres.res_idx}">
+								<!-- 순위 배지 --> <span
+								class="badge text-bg-secondary me-2 order-badge">${s.index + 1}위</span>
+
+								<span class="bi bi-grip-vertical me-2" aria-hidden="true"></span>
+								<img src="${favoriteres.res_thumbnail}"
+								style="width: 44px; height: 44px; object-fit: cover; border-radius: 8px;">
+								<div class="flex-fill">
+									<div class="fw-semibold">${favoriteres.res_name}</div>
+									<small class="text-muted">${favoriteres.res_addr}</small>
+								</div> <span class="badge bg-warning text-dark">${favoriteres.fav_rating}</span>
+							</li>
+						</c:forEach>
+					</ul>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary" id="saveRankOrderBtn">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
 
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/myPage.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
 	<script>
 	var rankData = [
 		<c:forEach var="favoriteres" items="${myfavoriteres}" varStatus="status">
@@ -309,6 +410,30 @@
 		}<c:if test="${!status.last}">,</c:if>
 	</c:forEach>
 	];
+	
+
 	</script>
+
+	<script>
+		var Mb_id = "${sessionScope.member.mb_id}";
+	</script>
+
+	<c:set var="loginId"
+		value="${sessionScope.member != null ? sessionScope.member.mb_id : ''}" />
+
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/myPage.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
+
+
 </body>
 </html>

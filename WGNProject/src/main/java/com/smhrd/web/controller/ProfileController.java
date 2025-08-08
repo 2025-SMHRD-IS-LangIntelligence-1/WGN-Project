@@ -78,13 +78,14 @@ public class ProfileController {
 		// 세션에서 로그인 정보 가져오기
     	t_member logined = (t_member) session.getAttribute("member");
     	String mb_id = logined.getMb_id();
-
+    	
         // 내 아이디로 프로필 페이지 보여주기
         return "redirect:/profile/" + mb_id;
     }
     
     @GetMapping("/{mb_id}")
     public String showMyPage(@PathVariable String mb_id, HttpSession session, Model model) {
+    	System.out.println(mb_id);
     	
     	// 로그인 체크
     	boolean loginCheck = memberService.loginCheck(session);
@@ -101,6 +102,7 @@ public class ProfileController {
         boolean isMyPage = logined.getMb_id().equals(mb_id);
         model.addAttribute("isMypage", isMyPage);
         
+        System.out.println(myId + mb_id);
         // 해당 사용자가 마이페이지 주인을 팔로우하고 있는지 여부를 체크하는 메서드
  		boolean isFollowing = memberService.isFollowing(myId, mb_id);
  		
@@ -123,7 +125,7 @@ public class ProfileController {
         
 	    model.addAttribute("feedDTOList", feedDTOList);
 	    
-
+	    
 	    // 사용자가 랭킹 음식점id 가져오기
 	    List<t_favorite> myfavorite = favoriteService.getmyFavorite(mb_id);
 	    List<Integer> residx = myfavorite.stream()
@@ -140,6 +142,7 @@ public class ProfileController {
 	    List<Integer> goingresidx = mygoing.stream()
 	    	    .map(t_going::getRes_idx)
 	    	    .collect(Collectors.toList());
+	    
 	    System.out.println("✔ goingresidx = " + goingresidx); // 전달할 res_idx 리스트 확인
 	    List<GoingresDTO> mygoingres = restaurantmapper.mygoingres(goingresidx, mb_id);
 	    model.addAttribute("mygoingres", mygoingres);

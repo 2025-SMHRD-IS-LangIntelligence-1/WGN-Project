@@ -1,3 +1,7 @@
+/* 모달이 백드롭보다 항상 위로 */
+.modal { z-index: 1060 !important; }
+.modal-backdrop.show { z-index: 1055 !important; }
+
 /* 프로필 전체 */
 .profile {
   padding: 20px 15px 10px;
@@ -328,5 +332,12 @@ form textarea {
   transition: background-color 0.25s ease;
 }
 
+/* 랭킹, 찜 탭 터치 엑티브*/
+.nav-link.active {
+    color: #ffc107 !important; /* Bootstrap 노란색 */
+}
 
-
+/* 비활성화된 탭은 기본 색상 */
+.nav-link {
+    color: inherit; /* 기본 글씨색 유지 */
+}

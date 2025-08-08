@@ -18,5 +18,6 @@ public interface GoingService {
     boolean isGoing(int res_idx, String mb_id);
 
 	List<t_going> getmygoing(String mb_id);
+
 }
 

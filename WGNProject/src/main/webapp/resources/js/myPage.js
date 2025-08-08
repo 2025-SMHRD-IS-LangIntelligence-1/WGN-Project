@@ -1,5 +1,7 @@
 // ============================== 프로필 ==============================
 
+console.log(contextPath)
+console.log(Mb_id)
 // 프로필 수정 모달창
 const modal = document.getElementById('profileModal');
 
@@ -54,7 +56,7 @@ function clearMarkers() {
 	}
 }
 
-// ✅ 데이터 기반으로 마커 렌더링
+// 데이터 기반으로 마커 렌더링
 function renderMarkers(dataset) {
 	clearMarkers();
 
@@ -175,11 +177,145 @@ $(function () {
 	});
 });
 
+// 랭킹 및 찜 음식점 더보기
+window.toggleFavorites = (function () {
+  let expanded = false; // 더보기 상태 저장
+  return function () {
+    const items = document.querySelectorAll('a[data-more="favorite"]');
+    const btn   = document.getElementById('favoritesToggleBtn');
 
-// 음식점 랭킹 더보기 토글 !!!
-function toggleFavorites() {
-	const moreItems = document.querySelectorAll('[data-more="true"]');
-	moreItems.forEach(item => {
-		item.style.display = (item.style.display === 'none') ? 'flex' : 'none';
-	});
-}
+    expanded = !expanded;
+
+    // 4위 이후 항목 보이기 / 숨기기
+    items.forEach(el => {
+      el.style.display = expanded ? 'block' : 'none';
+    });
+
+    // 버튼 텍스트만 변경 (색상은 CSS에서 고정)
+    if (btn) {
+      btn.textContent = expanded ? '접기' : '더보기';
+    }
+  };
+})();
+
+// 랭킹 및 찜 음식점 더보기
+window.togglegoing = (function () {
+  let expanded = false;
+  return function () {
+    const items = document.querySelectorAll('div[data-more="going"]');
+    const btn   = document.getElementById('goingToggleBtn');
+
+
+    // console.log('[togglegoing] items:', items.length);
+
+    expanded = !expanded;
+    items.forEach(el => el.classList.toggle('d-none', !expanded));
+    if (btn) btn.textContent = expanded ? '접기' : '더보기';
+  };
+})();
+
+// 찜 삭제
+document.addEventListener('DOMContentLoaded', function () {
+  const modalEl = document.getElementById('unGoingModal');
+  const modalResName = document.getElementById('modalResName');
+  const confirmBtn = document.getElementById('confirmUnGoingBtn');
+  if (!modalEl || !modalResName || !confirmBtn) return;
+
+  let targetResIdx = null;
+  let targetItemEl = null;
+
+  // 모달 열릴 때 데이터 주입
+  modalEl.addEventListener('show.bs.modal', function (event) {
+    const btn = event.relatedTarget;
+    targetResIdx = btn.getAttribute('data-res-idx');
+    modalResName.textContent = btn.getAttribute('data-res-name');
+    targetItemEl = btn.closest('.list-group-item') || btn.closest('.card') || btn.closest('li');
+  });
+
+  // 네 버튼 클릭 → AJAX POST (로컬 단순 버전)
+  confirmBtn.addEventListener('click', async function () {
+    const res = await fetch(`${contextPath}/going/delete`, {
+      method: 'DELETE',
+	  headers: {
+	  				"Content-Type": "application/x-www-form-urlencoded"
+	  			},
+      body: `res_idx=${encodeURIComponent(targetResIdx)}&mb_id=${Mb_id}`
+    });
+
+    if (!res.ok) { 
+      alert('삭제 실패'); 
+      return; 
+    }
+
+    if (targetItemEl) targetItemEl.remove();               // 목록에서 제거
+    bootstrap.Modal.getInstance(modalEl).hide();           // 모달 닫기
+  });
+});
+
+
+// 내랭킹 수정
+(function () {
+  const sortBtn = document.getElementById('sortToggleBtn');   // "내 랭킹 수정하기" 버튼
+  const modalEl = document.getElementById('sortRankModal');
+  const saveBtn = document.getElementById('saveRankOrderBtn');
+  const listEl  = document.getElementById('sortableRankList');
+  if (!modalEl || !saveBtn || !listEl) return;
+
+  // 모달 열기 (상단 버튼이 있다면 연결)
+  if (sortBtn) {
+    sortBtn.addEventListener('click', () => {
+      new bootstrap.Modal(modalEl).show();
+    });
+  }
+
+  // 순위 배지 재번호
+  function renumberModal() {
+    const items = listEl.querySelectorAll('.list-group-item[data-res-idx]');
+    items.forEach((el, i) => {
+      const badge = el.querySelector('.order-badge');
+      if (badge) badge.textContent = (i + 1) + '위';
+    });
+  }
+
+  // 모달 열리면 드래그 활성화 (1회만)
+  let sortableOnce = false;
+  modalEl.addEventListener('shown.bs.modal', () => {
+    if (sortableOnce) return;
+    new Sortable(listEl, {
+      animation: 150,
+      handle: '.bi-grip-vertical, .list-group-item',
+      draggable: '.list-group-item',
+      onSort: renumberModal,
+      onEnd: renumberModal
+    });
+    sortableOnce = true;
+    renumberModal();
+  });
+
+  // 저장
+  saveBtn.addEventListener('click', async () => {
+    saveBtn.disabled = true;
+
+    const payload = {
+      type: 'favorite', // 필요 시 구분값
+      list: Array.from(listEl.querySelectorAll('.list-group-item[data-res-idx]'))
+              .map((el, i) => ({ res_idx: Number(el.getAttribute('data-res-idx')), pos: i + 1 }))
+    };
+
+    try {
+      const res = await fetch(`${contextPath}/favorite/order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('순서 저장 실패');
+
+      bootstrap.Modal.getInstance(modalEl).hide();
+      location.reload(); // 간단/확실
+    } catch (err) {
+      alert(err.message || '저장 중 오류가 발생했습니다.');
+    } finally {
+      saveBtn.disabled = false;
+    }
+  });
+})();

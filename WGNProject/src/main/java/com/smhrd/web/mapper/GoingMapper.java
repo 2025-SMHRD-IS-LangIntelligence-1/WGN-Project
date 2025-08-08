@@ -27,6 +27,7 @@ public interface GoingMapper {
 	
 	@Select("Select * from t_going where mb_id=#{mb_id}")
 	List<t_going> selectgoing(String mb_id);
+
 	
 	
 	
