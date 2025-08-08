@@ -437,7 +437,6 @@
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
 	<script>
-		let contextPath = '${pageContext.request.contextPath}';
 		let res_idx = '${res.res_idx}';
 		let mb_id = '${sessionScope.member.mb_id}';
 	</script>

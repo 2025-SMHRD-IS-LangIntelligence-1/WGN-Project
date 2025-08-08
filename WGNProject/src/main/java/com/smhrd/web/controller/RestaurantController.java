@@ -42,10 +42,12 @@ public class RestaurantController {
 	@GetMapping
     public String resDetail(@RequestParam("res_idx") int res_idx, HttpSession session, Model model ) {
     	
+		
 		// 세션에서 로그인 유저 꺼냄
 		t_member logined = (t_member) session.getAttribute("member");		
 		String mb_id = logined.getMb_id();
-				
+		
+			
 		// 음식점 정보
 		t_restaurant res = resmapper.resdetail(res_idx);
 
@@ -103,7 +105,7 @@ public class RestaurantController {
 		List<t_menu> res_menu = resmapper.res_menu(res_idx);
 		model.addAttribute("res_menu", res_menu);
 
-		memberService.saveLog(mb_id, null, null);
+		memberService.saveLog(mb_id, res_idx, "클릭");
 		
 		return "restaurant/restaurant";
 	}
