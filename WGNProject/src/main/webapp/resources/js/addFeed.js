@@ -16,11 +16,11 @@ function debounce(callback, delay) {
 	};
 }
 
-<<<<<<< HEAD
+
 // 파일 선택 시 미리보기 및 유효성 검사
-=======
+
 // 파일 선택 시 미리보기 누적
->>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
+
 $('#file-upload').on('change', function () {
 	const previewContainer = $('#preview-container');
 	const newFiles = Array.from(this.files);
@@ -51,12 +51,12 @@ $('#file-upload').on('change', function () {
 	submitButtonState();
 });
 
-<<<<<<< HEAD
+
 
 // 내용 입력 유효성 검사
-=======
+
 // 내용 유효성 체크
->>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
+
 $('#feed_content').on('input', function () {
 	const content = $(this).val().trim();
 	contentValid = content.length > 0;
@@ -120,12 +120,12 @@ $('.search_input').on('input', debounce(function () {
 	});
 }, 300));
 
-<<<<<<< HEAD
+
 
 // 음식점 클릭 시 동작
-=======
+
 // 음식점 선택 시 동작
->>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
+
 $(document).on('click', '.search-res', function () {
 	const selectedName = $(this).data('res-name');
 	const selectedIdx = $(this).data('res-idx');
@@ -239,11 +239,7 @@ $('form').on('submit', function (e) {
 		e.preventDefault();
 		return;
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 59f76cfaf38153f41328f7b17eee92f0a12cc1a7
 	// 게시 중 모달 띄우기
 	$('#postingModal').fadeIn();
 

@@ -14,13 +14,23 @@
 
 	<aside class="side-bar">
 		<section class="profile-top">
+			<!-- 조건문 -->
 			<c:choose>
+				<!-- 참(로그인 된 상태) -->
 			    <c:when test="${not empty profile}">
+			    
 			        <div class="profile-info">
-			        	<img src="${profile.mb_img}" alt="프로필 사진" style="width: 70px; height: 70px";>
-						<h5>${profile.nickname}</h5>
-						<p>${profile.intro}</p>
+			       		<div class="profile-img">
+			        		<img src="${profile.mb_img}" alt="프로필 사진" style="width: 70px; height: 70px";>
+			        	</div>
+			        	<div class="profile-name">
+							<h5>${profile.nickname}</h5>
+						</div>
+						<div class="profile-intro">
+							<p>${profile.intro}</p>
+						</div>
 					</div>
+					
 					<div class="profile-stats">
 						<div class="profile-stat">
 							<strong>${profile.follower}</strong> <span>팔로워</span>
@@ -29,13 +39,16 @@
 							<strong>${profile.following}</strong> <span>팔로잉</span>
 						</div>
 					</div>
+					
 			    </c:when>
+			    <!-- 거짓(로그인 안된 상태) -->
 			    <c:otherwise>
 			        <p>로그인을 해주세요.</p>
 			        <a href="member/login">로그인 하러가기</a>
 			    </c:otherwise>
 			</c:choose>
 		</section>
+		<!-- 수평 구분선 -->
 		<hr class="divider">
 		  <ul class="user-menu">
 		    <li><a href="#">좋아요 관리</a></li>

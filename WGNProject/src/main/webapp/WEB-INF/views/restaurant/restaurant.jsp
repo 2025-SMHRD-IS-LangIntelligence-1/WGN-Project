@@ -52,8 +52,8 @@
 					style="cursor: pointer;" data-res-idx="${res.res_idx}"
 					data-mb-id="${sessionScope.member.mb_id}">
 					<div id="goingIconGroup" class="icon-outline-group">
-						<i class="bi bi-person-walking icon-outline"></i>
-						<i class="fas fa-store icon-outline"></i>
+						<i class="bi bi-person-walking icon-outline"></i> <i
+							class="fas fa-store icon-outline"></i>
 					</div>
 
 					<div id="iconTooltip" class="icon-tooltip-inline"
@@ -220,9 +220,9 @@
 									method="post" enctype="multipart/form-data">
 
 									<!-- 별점 -->
-									<div class="mb-2">
-										<div class="d-flex align-items-center mb-1" style="gap: 8px;">
-											<label style="font-weight: bold; margin-bottom: 0;">별점</label>
+									<div class="mb-2"style="margin:5px">
+										<div class="favorite-wrapper">
+											<span class="favorite-title"> 별점 </span>
 											<div id="ratingForm" style="font-size: 24px;">
 												<input type="radio" id="star5" name="ratings" value="5"><label
 													for="star5">★</label> <input type="radio" id="star4"
@@ -236,6 +236,25 @@
 										</div>
 										<span id="ratingError" class="text-danger"
 											style="font-size: 13px; display: none;">별점을 선택해주세요.</span>
+										<div class="favorite-wrapper" style="margin: 10px 0px">
+											<span class="favorite-title"> 내 랭킹 등록하기 </span>
+											<div class="favorite-input">
+
+												<div id="rankToggleWrapper">
+													<label class="switch-toggle"> <input
+														type="checkbox" id="rank_toggle" name="rank_toggle">
+														<span class="slider"> <span class="label-on">ON</span>
+															<span class="label-off">OFF</span>
+													</span>
+													</label>
+												</div>
+
+												<span id="duplicateFavoriteMsg" class="text-danger"
+													style="display: none; font-size: 13px; margin-left: 10px;">이미
+													등록한 음식점입니다.</span>
+											</div>
+										</div>
+										
 									</div>
 
 									<!-- 리뷰 내용 -->
@@ -248,8 +267,9 @@
 									</div>
 
 									<!-- 이미지 -->
-									<label>이미지 첨부</label> <input type="file" name="review_img"
-										class="form-control mb-2" accept="image/*">
+									<label style="font-size: 15px; color: #333; margin-right: 10px;white-space: nowrap;
+										font-weight: bold;" class="mb-2">이미지 첨부</label>
+										<input type="file" name="review_img" class="form-control mb-2" accept="image/*">
 
 									<!-- 버튼 -->
 									<div class="text-end">
