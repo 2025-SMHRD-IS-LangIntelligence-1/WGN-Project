@@ -26,14 +26,14 @@
 
 			<!-- 상단 프로필 -->
 			<div class="post-header">
-				<div class="post-user">
+				<a href="/wgn/profile/${feed.mb_id}" class="post-user" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
 					<img src="${profile.mb_img}">
 					<div class="post-user-info">
 						<span><b>${feed.mb_nick}</b></span> <span
-							style="font-size: 12px; color: #888;">광주 ·
-							<fmt:formatDate value="${feed.created_at}" pattern="yyyy-MM-dd HH:mm" /></span>
+							style="font-size: 12px; color: #888;">광주 · <fmt:formatDate
+								value="${feed.created_at}" pattern="yyyy-MM-dd HH:mm" /></span>
 					</div>
-				</div>
+				</a>
 				<c:choose>
 					<c:when test="${feed.mb_id ne sessionScope.member.mb_id}">
 						<form action="${pageContext.request.contextPath}/member/follow"
@@ -89,12 +89,39 @@
 					</button>
 				</div>
 
-				<!-- 좋아요 / 댓글 수 -->
-				<div class="post-info" data-feed-idx="${feed.feed_idx}">
-					<span class="clickable-heart"> <i class="bi bi-heart"></i>
-					</span> <span class="like-count">${feed.feed_likes}</span> <i
-						class="bi bi-chat-square-dots" style="font-size: 20px"></i> <span></span>
+				<!-- 좋아요 / 댓글 수 / 평점 -->
+				<div
+					class="post-info d-flex align-items-center justify-content-between"
+					data-feed-idx="${feed.feed_idx}">
+
+					<div>
+						<c:choose>
+							<c:when test="${isLiking}">
+								<!-- 좋아요 되어있으면 채워진 하트 -->
+								<span class="clickable-heart stats" data-is-liking="true"> <i
+									class="bi bi-heart-fill clicked stats"></i>
+								</span>
+							</c:when>
+							<c:otherwise>
+								<!-- 좋아요 안 되어있으면 빈 하트 -->
+								<span class="clickable-heart stats" data-is-liking="false"> <i
+									class="bi bi-heart stats"></i>
+								</span>
+							</c:otherwise>
+						</c:choose>
+							<span class="like-count stats ms-2">${feed.feed_likes}</span>
+							<span class="stats ms-2">좋아요  · </span>
+							<span class="stats ms-2">0</span>
+							<span class="stats ms-2">댓글</span>
+					</div>
+
+					<div class="rating-box">
+						<i class="bi bi-star"></i> ${feed.ratings != null ? feed.ratings : '없음'}
+					</div>
+
 				</div>
+
+
 
 				<!-- 본문 내용 -->
 				<div class="post-text">${feed.feed_content}</div>
@@ -132,9 +159,9 @@
 								<img src="${comment.mb_img}" class="comment-avatar">
 								<div class="comment-body">
 									<!-- 작성자 닉네임 -->
-									<strong>${comment.comment.mb_nick}</strong>
+									<strong>${comment.mb_nick}</strong>
 									<!-- 댓글 내용 -->
-									<p>${comment.comment.cmt_content}</p>
+									<p>${comment.cmt_content}</p>
 								</div>
 								<i class="bi bi-heart"></i>
 							</div>
@@ -150,7 +177,9 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-		contextPath = "${pageContext.request.contextPath}"
+		let contextPath = "${pageContext.request.contextPath}"
+		const feedIdx = ${feed != null ? feed.feed_idx : 'null'};
+		window.feedIdx = feedIdx;
 	</script>
 	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
 

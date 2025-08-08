@@ -24,5 +24,4 @@ public class FeedPreviewDTO {
     private int comment_count;
     private String mb_img;
     private List<String> imageUrls;
-
 }

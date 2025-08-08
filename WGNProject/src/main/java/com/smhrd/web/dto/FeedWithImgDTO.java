@@ -18,6 +18,7 @@ public class FeedWithImgDTO {
     private int feed_likes;
     private Timestamp created_at;
     private String mb_nick;
+    private Double ratings;
     private List<String> imageUrls;
 
 }

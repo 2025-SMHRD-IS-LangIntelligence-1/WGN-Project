@@ -1,8 +1,0 @@
-# 베이스 이미지 지정 (자바 17버전 사용 예)
-FROM openjdk:17-jdk-alpine
-
-# 내 jar 파일 복사
-COPY target/myapp.jar app.jar
-
-# 컨테이너 실행 시 자바 앱 실행
-ENTRYPOINT ["java", "-jar", "/app.jar"]

@@ -169,6 +169,8 @@ function submitButtonState() {
 	$('.submit-btn').prop('disabled', !isAllValid);
 }
 
+console.log(contextPath + '/feed/rescheck')
+
 // 중복 랭킹 체크 AJAX
 function checkFavoriteDuplicate(resIdx) {
 	$.ajax({
