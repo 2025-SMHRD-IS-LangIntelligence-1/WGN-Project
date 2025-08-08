@@ -46,7 +46,7 @@ public interface FeedMapper {
 	@Delete("delete from t_feed_like where mb_id=#{mb_id} and feed_idx=#{feed_idx}")
 	public void deleteFeedLike(int feed_idx, String mb_id);
 	
-	@Select("SELECT COUNT(*) FROM t_feed_like WHERE feed_idx = #{feed_idx}")
+	@Select("SELECT feed_likes FROM t_feed WHERE feed_idx = #{feed_idx}")
 	public int countFeedLike(int feed_idx);
 
 	public List<CandidateFeedDTO> getCandidateFeed(String mb_id);
@@ -68,7 +68,11 @@ public interface FeedMapper {
 	@Select("select feed_idx from t_feed_like where mb_id=#{mbId}")
 	public List<Integer> getLikedFeedIdx(String mbId);
 
-	@Update("UPDATE t_feed SET feed_likes = #{likeNum} WHERE feed_idx = #{feed_idx}")
-	void updateFeedLikes(@Param("feed_idx") int feed_idx, @Param("likeNum") int likeNum);
+	@Update("UPDATE t_feed SET feed_likes = feed_likes + 1 WHERE feed_idx = #{feed_idx}")
+	void incrementFeedLikes(@Param("feed_idx") int feed_idx);
+
+	@Update("UPDATE t_feed SET feed_likes = feed_likes - 1 WHERE feed_idx = #{feed_idx} AND feed_likes > 0")
+	void decrementFeedLikes(@Param("feed_idx") int feed_idx);
+
 
 }
