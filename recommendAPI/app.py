@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse # JSONResponse : FastAPI에서 응답
 from feed_recommendation import recommend_feed
 from feed_searching import search_feed
 from making_wordclouds import make_wordclouds
-from models import LogsAndFeeds, FeedForSearch, Review # 클래스들이 모여있는 파일
+from models import LogsAndFeeds, FeedForSearch # 클래스들이 모여있는 파일
 
 # ------------------ FastAPI 앱 객체 ------------------
 
@@ -61,21 +61,3 @@ async def receive_feed_for_search(data: List[FeedForSearch]):
     print("=== /receive_feed_for_search 처리 완료 ===\n")
 
     return searched_feed_idx
-
-@app.post("/receive_review")
-async def receive_review(data: List[Review]):
-   
-    # 데이터가 잘 들어왔는지 확인하는 프린트문
-    
-    print("=== /receive_review 호출됨 ===")
-
-    print("받은 리뷰 개수 : ", len(data))
-
-    # 워드클라우드 제작 함수 실행하고 그 결과를 저장
-    wordclouds = make_wordclouds(data)
-    
-    print(f"만들어진 wordclouds: ", wordclouds)
-    
-    print("=== /receive_review 처리 완료 ===\n")
-
-    return JSONResponse(content=wordclouds.dict(), media_type="application/json; charset=utf-8")
