@@ -313,6 +313,45 @@ reviewContent.addEventListener("input", () => {
 	}
 });
 
+
+
+// 중복 랭킹 체크 AJAX
+function checkFavoriteDuplicate(res_idx) {
+	
+	console.log("중복 체크 요청 - res_idx:", res_idx);
+	$.ajax({
+		url: `${contextPath}/feed/rescheck`,
+		type: 'GET',
+		data: { res_idx: res_idx },
+		success: function (isDuplicate) {
+			isDuplicateRes = isDuplicate;
+
+			if (isDuplicateRes) {
+				// 중복이면: 스위치 숨기고 문구 보여줌
+				$('#rankToggleWrapper').hide();
+				$('#duplicateFavoriteMsg').show();
+			} else {
+				// 중복 아니면: 스위치 보이고 문구 숨김
+				$('#rankToggleWrapper').show();
+				$('#duplicateFavoriteMsg').hide();
+			}
+
+			submitButtonState();  // 다른 조건도 판단할 경우 유지
+		},
+		error: function () {
+			console.error("중복 체크 실패");
+			isDuplicateRes = false;
+
+			// 오류 시에도 안전하게 스위치 보이기
+			$('#rankToggleWrapper').show();
+			$('#duplicateFavoriteMsg').hide();
+
+			submitButtonState();
+		}
+	});
+}
+
+
 // 제출 시 유효성 검사
 document.getElementById("reviewForm").addEventListener("submit", function(e) {
 	const ratingChecked = document.querySelector('input[name="ratings"]:checked');
