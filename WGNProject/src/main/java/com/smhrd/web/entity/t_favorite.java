@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 //찜한 음식점
 @Data
 @AllArgsConstructor
@@ -26,6 +27,8 @@ public class t_favorite {
  
  // 랭킹 등록한 음식점 별점
  private Double fav_rating;
+ 
+ private Integer sortOrder;
 
 
 }

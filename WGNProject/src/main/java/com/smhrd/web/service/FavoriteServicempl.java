@@ -4,8 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.smhrd.web.dto.OrderPayloadDTO;
+import com.smhrd.web.dto.OrderPayloadDTO.Item;
 import com.smhrd.web.entity.t_favorite;
+import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.FavoriteMapper;
 
 @Service
@@ -37,5 +41,19 @@ public class FavoriteServicempl implements FavoriteService{
 		return exists;
 	}
 	
+	// 랭킹 순서
+    @Override
+    @Transactional
+    public void saveOrder(String mb_id, List<OrderPayloadDTO.Item> items) {
+        if (items == null || items.isEmpty()) return;
+
+        favoritemapper.updateFavoriteOrderCase(mb_id, items);
+    }
 	
+    @Override
+    @Transactional
+    public void resetOrder(String mb_id) {
+    	favoritemapper.resetFavoriteOrder(mb_id);
+    }
+    
 }

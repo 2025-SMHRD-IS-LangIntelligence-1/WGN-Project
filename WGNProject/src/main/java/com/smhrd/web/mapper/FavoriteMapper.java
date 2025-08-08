@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import com.smhrd.web.dto.OrderPayloadDTO.Item;
 import com.smhrd.web.entity.t_favorite;
+import com.smhrd.web.entity.t_member;
 
 @Mapper
 public interface FavoriteMapper {
@@ -22,6 +24,12 @@ public interface FavoriteMapper {
 	@Select(" SELECT COUNT(*) FROM t_favorite "
 			+ "WHERE mb_id = #{mb_id} AND res_idx = #{res_idx}")
 	int existsByMbIdAndResIdx(String mb_id, int res_idx);
+
+	
+	void updateFavoriteOrderCase(String mb_id, List<Item> items);
+
+
+	void resetFavoriteOrder(String mb_id);
 
 
 }
