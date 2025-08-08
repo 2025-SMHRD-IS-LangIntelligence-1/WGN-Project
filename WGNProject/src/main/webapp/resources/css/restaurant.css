@@ -469,3 +469,103 @@
 	color: #e0a800;
 	border-color: #e0a800;
 }
+/* 사용자 리뷰 - 리뷰작성 -내링킹 등록 */
+.favorite-wrapper {
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+}
+
+/* 랭킹 텍스트 */
+.favorite-title {
+	font-size: 15px;
+	color: #333;
+	margin-right: 10px;
+	white-space: nowrap;
+	font-weight: bold;
+}
+
+/* 스위치 전체 래퍼 */
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 32px;
+}
+
+/* 실제 체크박스는 숨김 */
+.switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* 슬라이더 박스 */
+.slider {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  border-radius: 32px;
+  transition: background-color 0.4s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 13px;
+  color: white;
+}
+
+/* 스위치 동그라미 */
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: transform 0.4s;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* 텍스트 라벨들 */
+.label-on,
+.label-off {
+  position: absolute;
+  z-index: 2;
+  transition: opacity 0.2s;
+}
+
+/* OFF 위치: 오른쪽 */
+.label-off {
+  right: 10px;
+  opacity: 1;
+}
+
+/* ON 위치: 왼쪽 */
+.label-on {
+  left: 10px;
+  opacity: 0;
+}
+
+/* 체크되었을 때 스타일 변경 */
+input:checked + .slider {
+  background-color: #FFD600;
+}
+
+/* 체크되었을 때 동그라미 이동 */
+input:checked + .slider::before {
+  transform: translateX(38px);
+}
+
+/* 체크되었을 때 텍스트 전환 */
+input:checked + .slider .label-off {
+  opacity: 0;
+}
+input:checked + .slider .label-on {
+  opacity: 1;
+}
