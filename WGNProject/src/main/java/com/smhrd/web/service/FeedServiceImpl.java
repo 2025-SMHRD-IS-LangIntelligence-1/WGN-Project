@@ -154,4 +154,11 @@ public class FeedServiceImpl implements FeedService {
 		return feedList;
 	}
 
+	@Override
+	public List<Integer> getDefaultFeeds() {
+		List<Integer> feedIdxList = feedMapper.getMixedFeeds();
+		
+		return feedIdxList;
+	}
+
 }

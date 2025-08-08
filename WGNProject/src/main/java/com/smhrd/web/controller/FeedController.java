@@ -102,12 +102,12 @@ public class FeedController {
 
 		// 해당 사용자가 피드를 좋아하는지 여부를 체크하는 메서드
 		boolean isLiking = memberService.isLiking(mbId, feedIdx);
-		
+
 		model.addAttribute("feed", feed);
 		model.addAttribute("resInfo", resInfo);
 		model.addAttribute("comments", comments);
 		model.addAttribute("isLiking", isLiking);
-		
+
 		// 사용자 로그 저장
 		memberService.saveLog(mbId, resIdx, "클릭");
 
@@ -268,23 +268,33 @@ public class FeedController {
 	public FeedResponseDTO getFeedPreviews(@RequestBody List<Integer> feedIdxList, HttpSession session) {
 
 		t_member member = (t_member) session.getAttribute("member");
-		String mb_id = member.getMb_id();
-		
+
+		FeedResponseDTO response = new FeedResponseDTO();
+
 		// feedIdxList를 받아서 해당 feed 리스트를 조회 후 반환
 		List<FeedPreviewDTO> feeds = feedService.getFeedsByFeedIdx(feedIdxList);
-		
-		// 이 멤버가 팔로우 하고 있는 모든 멤버 id를 가져오는 메서드
-		List<String> followingMemList = memberService.getAllfollowMem(mb_id);
-		
-		// 이 멤버가 좋아하는 모든 피드 idx를 가져오는 메서드
-		List<Integer> likedFeedList = memberService.getAllLikedFeed(mb_id);
-		
-		FeedResponseDTO response = new FeedResponseDTO();
-	    response.setFeeds(feeds);
-	    response.setFollowingMemList(followingMemList);
-	    response.setLikedFeedList(likedFeedList);
-		
-		return response;
+		response.setFeeds(feeds);
+
+		if (member == null) {
+			response.setFollowingMemList(new ArrayList<>());
+			response.setLikedFeedList(new ArrayList<>());
+			return response;
+		} else {
+
+			String mb_id = member.getMb_id();
+
+			// 이 멤버가 팔로우 하고 있는 모든 멤버 id를 가져오는 메서드
+			List<String> followingMemList = memberService.getAllfollowMem(mb_id);
+
+			// 이 멤버가 좋아하는 모든 피드 idx를 가져오는 메서드
+			List<Integer> likedFeedList = memberService.getAllLikedFeed(mb_id);
+
+			response.setFollowingMemList(followingMemList);
+			response.setLikedFeedList(likedFeedList);
+
+			return response;
+		}
+
 	}
 
 }

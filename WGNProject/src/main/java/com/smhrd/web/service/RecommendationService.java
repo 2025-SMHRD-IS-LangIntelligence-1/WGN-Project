@@ -24,4 +24,8 @@ public interface RecommendationService {
 	// 멤버 아이디를 바탕으로 Feed를 FastAPI로 보내서 추천 Feed의 Feed_idx List를 받아오는 메서드
 	List<Integer> sendFeedForSearch(String mb_id);
 
+	// === 음식점 검색 서비스 메서드 ===
+	
+	List<Integer> sendRequest();
+
 }

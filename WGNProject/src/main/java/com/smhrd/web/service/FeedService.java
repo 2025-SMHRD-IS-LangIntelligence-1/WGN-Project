@@ -34,5 +34,7 @@ public interface FeedService {
 
 	List<FeedPreviewDTO> getFeedsByFeedIdx(List<Integer> feedIdxList);
 
+	List<Integer> getDefaultFeeds();
+
 	
 }

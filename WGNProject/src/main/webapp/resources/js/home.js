@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", function() {
 			const { feeds, followingMemList, likedFeedList } = data;
 
 			feeds.forEach(feed => {
+				
+				console.log(feed.imageUrls);
+				
 				const isFollowing = followingMemList.includes(feed.mb_id);
 				const isLiked = likedFeedList.includes(feed.feed_idx);
 
@@ -113,7 +116,7 @@ $(document).on("click", ".my-follow-btn", function(e) {
 			} else if (res === "unfollowSuccess") {
 				$btn.text('팔로우').data('followed', false).removeClass('following');
 			} else if (res === "notLoggedIn") {
-				alert("로그인이 필요합니다.");
+				window.location.href = contextPath + "/member/login";
 			}
 		},
 		error: () => {
@@ -155,7 +158,6 @@ $(document).on("click", ".clickable-heart", function() {
 			likeCountSpan.text(res);
 		},
 		error: function() {
-			alert("좋아요 처리 중 오류가 발생했습니다.");
 			if (liked) {
 				icon.addClass("clicked bi-heart-fill").removeClass("bi-heart");
 				likeCountSpan.text(parseInt(likeCountSpan.text()) + 1);
@@ -163,6 +165,7 @@ $(document).on("click", ".clickable-heart", function() {
 				icon.removeClass("clicked bi-heart-fill").addClass("bi-heart");
 				likeCountSpan.text(parseInt(likeCountSpan.text()) - 1);
 			}
+			window.location.href = contextPath + "/member/login"; 
 		},
 		complete: function() {
 			$btn.prop("disabled", false);
