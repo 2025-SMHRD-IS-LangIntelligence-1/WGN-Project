@@ -29,8 +29,8 @@ $(document).ready(function () {
 
         console.log("요청 성공")
 
-        // 클릭한 알림 아이템에 바로 read 클래스 추가
         $this.addClass("read");
+		$this.find('.noti-message').addClass('read');
 
         // 2. 처리 후 페이지 이동
         let prefix = "http://localhost:8202/wgn";

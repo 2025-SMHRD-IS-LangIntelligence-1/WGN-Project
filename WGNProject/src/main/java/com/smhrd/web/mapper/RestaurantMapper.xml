@@ -5,128 +5,121 @@
 
 <mapper namespace="com.smhrd.web.mapper.RestaurantMapper">
 
-	<select id="getByResIdx">
-		SELECT r.res_idx,
-		r.res_name,
-		r.res_addr,
-		ri.res_img_url AS res_thumbnail,
-		IFNULL(AVG(rv.ratings), 0) AS
-		res_avg_rating
-		FROM t_restaurant r
-		LEFT JOIN t_res_img ri ON
-		r.res_idx =
-		ri.res_idx
-		AND ri.res_img_idx = (
-		SELECT MIN(res_img_idx)
-		FROM t_res_img
-		WHERE res_idx = r.res_idx
-		)
-		LEFT JOIN t_review rv ON rv.res_idx =
-		r.res_idx
-		where r.res_idx =
-		#{res_idx}
-		GROUP BY r.res_idx, r.res_name,
-		r.res_addr, ri.res_img_url
-	</select>
+   <select id="getByResIdx">
+      SELECT r.res_idx,
+      r.res_name,
+      r.res_addr,
+      ri.res_img_url AS res_thumbnail,
+      IFNULL(AVG(rv.ratings), 0) AS
+      res_avg_rating
+      FROM t_restaurant r
+      LEFT JOIN t_res_img ri ON
+      r.res_idx =
+      ri.res_idx
+      AND ri.res_img_idx = (
+      SELECT MIN(res_img_idx)
+      FROM t_res_img
+      WHERE res_idx = r.res_idx
+      )
+      LEFT JOIN t_review rv ON rv.res_idx =
+      r.res_idx
+      where r.res_idx =
+      #{res_idx}
+      GROUP BY r.res_idx, r.res_name,
+      r.res_addr, ri.res_img_url
+   </select>
 
-	<insert id="saveFeedImg">
-		INSERT INTO t_feed_img (feed_img_idx, feed_idx, feed_img_url)
-		VALUES
-		<foreach collection="imgUrls" item="url" separator=",">
-			(NULL,
-			#{feed_idx}, #{url})
-		</foreach>
-	</insert>
-
-
-
-	<select id="getresreview">
-		select review.*, m.mb_img
-		from t_review review
-		inner
-		join
-		t_member m on m.mb_id = review.mb_id
-		where res_idx=#{res_idx}
-	</select>
+   <select id="getresreview">
+      select review.*, m.mb_img
+      from t_review review
+      inner
+      join
+      t_member m on m.mb_id = review.mb_id
+      where res_idx=#{res_idx}
+   </select>
 
 
 
-	<select id="myfavoriteres"
-		resultType="com.smhrd.web.dto.FavoriteresDTO">
-		SELECT
-		r.res_idx,
-		r.res_name,
-		r.res_addr,
-		r.lat,
-		r.lon,
-		ri.res_img_url AS
-		res_thumbnail,
-		IFNULL(AVG(rv.ratings), 0) AS res_avg_rating,
-		f.fav_rating,
-		f.created_at
-		FROM t_restaurant r
-		LEFT JOIN t_res_img ri
-		ON
-		r.res_idx = ri.res_idx
-		AND ri.res_img_idx = (
-		SELECT MIN(res_img_idx)
-		FROM t_res_img
-		WHERE res_idx = r.res_idx
-		)
-		LEFT JOIN t_review rv
-		ON
-		rv.res_idx = r.res_idx
-		INNER JOIN t_favorite f
-		ON f.res_idx = r.res_idx
-		AND f.mb_id = #{mb_id}
-		WHERE r.res_idx IN
-		<foreach collection="residx" item="idx" open="(" separator=","
-			close=")">
-			#{idx}
-		</foreach>
-		GROUP BY
-		r.res_idx,
-		r.res_name,
-		r.res_addr,
-		r.lat,
-		r.lon,
-		ri.res_img_url,
-		f.fav_rating,
-		f.created_at
-		ORDER BY
-		f.fav_rating DESC,
-		f.created_at DESC
-	</select>
+<select id="myfavoriteres"
+      resultType="com.smhrd.web.dto.FavoriteresDTO">
+  SELECT
+    r.res_idx,
+    r.res_name,
+    r.res_addr,
+    r.lat,
+    r.lon,
+    ri.res_img_url AS res_thumbnail,
+    IFNULL(AVG(rv.ratings), 0) AS res_avg_rating,
+    f.fav_rating,
+    f.created_at
+  FROM t_restaurant r
+  LEFT JOIN t_res_img ri ON
+    r.res_idx = ri.res_idx
+    AND ri.res_img_idx = (
+      SELECT MIN(res_img_idx)
+      FROM t_res_img
+      WHERE res_idx = r.res_idx
+    )
+  LEFT JOIN t_review rv ON
+    rv.res_idx = r.res_idx
+  INNER JOIN t_favorite f ON
+    f.res_idx = r.res_idx
+    AND f.mb_id = #{mb_id}
+  <if test="residx != null and residx.size() > 0">
+    WHERE r.res_idx IN
+    <foreach collection="residx" item="idx" open="(" separator="," close=")">
+      #{idx}
+    </foreach>
+  </if>
+  <if test="residx == null or residx.size() == 0">
+    WHERE 1=0
+  </if>
+  GROUP BY
+    r.res_idx,
+    r.res_name,
+    r.res_addr,
+    r.lat,
+    r.lon,
+    ri.res_img_url,
+    f.fav_rating,
+    f.created_at
+  ORDER BY
+    f.fav_rating DESC,
+    f.created_at DESC
+</select>
 
-	<select id="mygoingres"
-		resultType="com.smhrd.web.dto.GoingresDTO">
-		SELECT
-		r.res_idx,
-		r.res_name,
-		r.res_addr,
-		r.lat,
-		r.lon,
-		ri.res_img_url AS
-		res_thumbnail,
-		g.created_at
-		FROM t_going g
-		INNER JOIN t_restaurant r
-		ON g.res_idx = r.res_idx
-		LEFT JOIN t_res_img ri
-		ON r.res_idx = ri.res_idx
-		AND ri.res_img_idx = (
-		SELECT MIN(res_img_idx)
-		FROM t_res_img
-		WHERE res_idx = r.res_idx
-		)
-		WHERE g.mb_id = #{mb_id}
-		AND g.res_idx IN
-		<foreach collection="goingresidx" item="idx" open="("
-			separator="," close=")">
-			#{idx}
-		</foreach>
-		ORDER BY g.created_at DESC
-	</select>
+<select id="mygoingres"
+      resultType="com.smhrd.web.dto.GoingresDTO">
+  SELECT
+    r.res_idx,
+    r.res_name,
+    r.res_addr,
+    r.lat,
+    r.lon,
+    ri.res_img_url AS res_thumbnail,
+    g.created_at
+  FROM t_going g
+  INNER JOIN t_restaurant r ON g.res_idx = r.res_idx
+  LEFT JOIN t_res_img ri ON
+    r.res_idx = ri.res_idx
+    AND ri.res_img_idx = (
+      SELECT MIN(res_img_idx)
+      FROM t_res_img
+      WHERE res_idx = r.res_idx
+    )
+  WHERE g.mb_id = #{mb_id}
+  <if test="goingresidx != null and goingresidx.size() > 0">
+    AND g.res_idx IN
+    <foreach collection="goingresidx" item="idx" open="(" separator="," close=")">
+      #{idx}
+    </foreach>
+  </if>
+  <if test="goingresidx == null or goingresidx.size() == 0">
+    AND 1=0
+  </if>
+  ORDER BY g.created_at DESC
+</select>
+
 
 
 </mapper>
