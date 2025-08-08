@@ -74,5 +74,8 @@ public interface FeedMapper {
 	@Update("UPDATE t_feed SET feed_likes = feed_likes - 1 WHERE feed_idx = #{feed_idx} AND feed_likes > 0")
 	void decrementFeedLikes(@Param("feed_idx") int feed_idx);
 
+	@Select("select feed_idx from t_feed_like where mb_id=#{mb_id}")
+	public List<Integer> getAllLikedFeed(String mb_id);
+
 
 }

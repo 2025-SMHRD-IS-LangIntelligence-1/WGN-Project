@@ -171,4 +171,16 @@ public class MemberServiceImpl implements MemberService {
 		return false;
 	}
 
+	@Override
+	public List<Integer> getAllLikedFeed(String mb_id) {
+		List<Integer> feed_idxs = feedMapper.getAllLikedFeed(mb_id);
+		return feed_idxs;
+	}
+
+	@Override
+	public List<String> getAllfollowMem(String mb_id) {
+		List<String> allFollowMem = memberMapper.getAllfollowMem(mb_id);
+		return allFollowMem;
+	}
+
 }

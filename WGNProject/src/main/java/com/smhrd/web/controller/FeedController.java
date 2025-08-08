@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smhrd.web.dto.CommentDTO;
 import com.smhrd.web.dto.FeedPreviewDTO;
+import com.smhrd.web.dto.FeedResponseDTO;
 import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.dto.RestaurantDTO;
@@ -265,12 +265,26 @@ public class FeedController {
 
 	@PostMapping("/previews")
 	@ResponseBody
-	public List<FeedPreviewDTO> getFeedPreviews(@RequestBody List<Integer> feedIdxList) {
+	public FeedResponseDTO getFeedPreviews(@RequestBody List<Integer> feedIdxList, HttpSession session) {
 
+		t_member member = (t_member) session.getAttribute("member");
+		String mb_id = member.getMb_id();
+		
 		// feedIdxList를 받아서 해당 feed 리스트를 조회 후 반환
 		List<FeedPreviewDTO> feeds = feedService.getFeedsByFeedIdx(feedIdxList);
-
-		return feeds;
+		
+		// 이 멤버가 팔로우 하고 있는 모든 멤버 id를 가져오는 메서드
+		List<String> followingMemList = memberService.getAllfollowMem(mb_id);
+		
+		// 이 멤버가 좋아하는 모든 피드 idx를 가져오는 메서드
+		List<Integer> likedFeedList = memberService.getAllLikedFeed(mb_id);
+		
+		FeedResponseDTO response = new FeedResponseDTO();
+	    response.setFeeds(feeds);
+	    response.setFollowingMemList(followingMemList);
+	    response.setLikedFeedList(likedFeedList);
+		
+		return response;
 	}
 
 }

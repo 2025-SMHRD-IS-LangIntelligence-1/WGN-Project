@@ -26,14 +26,14 @@
 
 			<!-- 상단 프로필 -->
 			<div class="post-header">
-				<div class="post-user">
+				<a href="/wgn/profile/${feed.mb_id}" class="post-user" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
 					<img src="${profile.mb_img}">
 					<div class="post-user-info">
 						<span><b>${feed.mb_nick}</b></span> <span
 							style="font-size: 12px; color: #888;">광주 · <fmt:formatDate
 								value="${feed.created_at}" pattern="yyyy-MM-dd HH:mm" /></span>
 					</div>
-				</div>
+				</a>
 				<c:choose>
 					<c:when test="${feed.mb_id ne sessionScope.member.mb_id}">
 						<form action="${pageContext.request.contextPath}/member/follow"
@@ -98,21 +98,21 @@
 						<c:choose>
 							<c:when test="${isLiking}">
 								<!-- 좋아요 되어있으면 채워진 하트 -->
-								<span class="clickable-heart" data-is-liking="true"> <i
-									class="bi bi-heart-fill clicked"></i>
+								<span class="clickable-heart stats" data-is-liking="true"> <i
+									class="bi bi-heart-fill clicked stats"></i>
 								</span>
 							</c:when>
 							<c:otherwise>
 								<!-- 좋아요 안 되어있으면 빈 하트 -->
-								<span class="clickable-heart" data-is-liking="false"> <i
-									class="bi bi-heart"></i>
+								<span class="clickable-heart stats" data-is-liking="false"> <i
+									class="bi bi-heart stats"></i>
 								</span>
 							</c:otherwise>
 						</c:choose>
-						</span> <span class="like-count">${feed.feed_likes}</span> <i
-							class="bi bi-chat-square-dots"
-							style="font-size: 20px; margin-left: 10px;"></i> <span>${commentsCount}</span>
-						<!-- 댓글 수 있으면 넣기 -->
+							<span class="like-count stats ms-2">${feed.feed_likes}</span>
+							<span class="stats ms-2">좋아요  · </span>
+							<span class="stats ms-2">0</span>
+							<span class="stats ms-2">댓글</span>
 					</div>
 
 					<div class="rating-box">

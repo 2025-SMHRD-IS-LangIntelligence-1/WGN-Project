@@ -44,4 +44,8 @@ public interface MemberService {
 
 	boolean isLiking(String mbId, int feedIdx);
 
+	List<Integer> getAllLikedFeed(String mb_id);
+
+	List<String> getAllfollowMem(String mb_id);
+
 }
