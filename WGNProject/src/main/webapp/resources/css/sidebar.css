@@ -1,0 +1,138 @@
+@charset "UTF-8";
+
+/* 사이드바 규격*/
+.side-bar {
+	right: -200px; 							/* 기본 상태: 화면 오른쪽 밖으로 숨겨둠 */
+	width: 200px; 							/* 사이드바 너비 */
+	height: calc(100vh - 80px); 			/* 하단바 높이만큼 줄임 */
+	background-color: #f5f5f5; 				/* 배경색: 거의 흰색에 가까운 연한 회색 */
+	color: #171513; 						/* 기본 글자색: 어두운 브라운 */
+	position: fixed; 						/* 스크롤해도 항상 같은 위치에 고정 */
+	top: 0; 								/* 브라우저 상단부터 시작 */
+	padding-top: 60px;						/* 위쪽 여백 */
+	z-index: 900; 							/* 최상위에 오도록 매우 높은 값 설정 */
+	transition: right 0.3s ease; 			/* right 속성 변경 시 0.3초 동안 부드럽게 애니메이션 */
+}
+
+/* 사이드바 활성화 상태 */
+.side-bar.active {
+	right: 0; 								/* 화면 오른쪽 끝에 딱 붙어서 보이도록 이동 */
+}
+
+/* 사이드바 안의 링크 스타일 */
+.side-bar a {
+	color: #171513; 						/* 링크 기본 글자색 */
+	text-decoration: none; 					/* 밑줄 제거 */
+}
+
+.side-bar a:hover {
+	color: #171513; 						/* 마우스 오버 시 글자색 */
+}
+
+/* 프로필 영역 (사이드바 내부) */
+.sidebar-profile-top {
+	padding: 12px 14px; 					/* 상하, 좌우 여백 */
+}
+
+/* 프로필 -사진, 닉네임, 소개글 */
+.sidebar-profile-info {
+	display: grid; 							/* grid 레이아웃 사용 */
+	gap: 6px; 								/* grid 아이템 간격 6px */
+	text-align: center; 					/* 텍스트와 인라인 요소 중앙 정렬 */
+	justify-items: center; 					/* Grid 내 모든 아이템을 가로 중앙 배치 */
+}
+/* 사진 규격*/
+.sidebar-profile-img img {
+	width: 70px; 							/* 프로필 사진 너비 */
+	height: 70px; 							/* 프로필 사진 높이 */
+	object-fit: cover; 						/* 사진 비율 유지하며 잘라내기 */
+	border-radius: 50%; 					/* 동그란 모양으로 만들기 */
+	border: 2px solid white; 				/* 흰색 테두리 */
+}
+
+/* 닉네임 글꼴*/
+.sidebar-profile-name h5 {
+	margin: 6px 0 0; 						/* 위쪽, 나머지 0 */
+	font-size: 16px; 						/* 글자 크기 */
+	color: #171513; 						/* 글자색 */
+}
+
+/* 소개글 글꼴 */
+.sidebar-profile-intro p {
+	margin: 4px 0 0; 						/* 위쪽 4px, 나머지 0 */
+	font-size: 12px; 						/* 소개글 글자 크기 */
+	color: #171513; 						/* 소개글 글자색 */
+}
+
+.side-bar.active { transform: translateX(0); }
+.left-panel.show { display: block; }
+
+:root {
+	--topbar-h: 60px;     					 /* 실제 top-bar 높이에 맞춰 조정 */
+  --sidebar-w: 200px;  						/* 오른쪽 .side-bar의 너비 값 저장 */
+  --panel-w:   300px;  						/* 왼쪽 패널(.left-panel)의 너비 값 저장 */
+}
+
+/* 오른쪽에 있는 side-bar의 '왼쪽'에 붙여두기 */
+.left-panel {
+	position: fixed;						/* 화면에 고정 */
+	top: var(--topbar-h);                   /* ⬅ 상단바 만큼 내림 */
+	right: calc(-1 * var(--panel-w));   	/* 자기 너비만큼 오른쪽 바깥으로 이동 → 숨김 상태 */
+	width: var(--panel-w);					/* 패널 너비 */
+	height: calc(100dvh - var(--topbar-h));        /* ⬅ top-bar 제외한 높이 */
+	background: #fff;						/* 배경색 흰색 */
+	border-left: 1px solid #ddd;  			/* 왼쪽 경계선(옅은 회색) */
+	z-index: 890;                 			/* 사이드바(z=900)보다 낮게 → 겹쳐도 사이드바가 위 */
+	overflow: auto;                         /* 패널 내부 스크롤 */
+	
+	transform: translateX(1px);   /* 아주 조금 오른쪽으로 이동 */
+	pointer-events: none;
+  
+	transition: opacity 0.15s ease, transform 0.3s ease;
+	z-index: 1100;
+}
+
+/* 패널 표시: 사이드바 왼쪽에 딱 붙음(겹치지 않음) */
+.left-panel.show {
+  right: var(--sidebar-w);					/* 사이드바 너비만큼 떨어진 위치에 고정 */
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.left-panel h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #171513;
+  margin: 10px 0;
+}
+
+/*  패널 안 여백/제목 스타일 유지 */
+.left-panel .left-panel-content{ padding:12px; box-sizing:border-box; }
+.left-panel h3{ font-size:20px; font-weight:bold; color:#171513; margin:10px 0; }
+
+/* 메뉴 리스트 */
+.user-menu {
+	list-style: none; 						/* 불릿(●) 제거 */
+	margin: 6px 0 0; 						/* 위쪽 6px, 나머지 0 */
+	padding: 0; 							/* 기본 padding 제거 */
+}
+
+.user-menu li {
+	border-top: 1px solid rgba(255, 255, 255, 0.08);/* 위쪽 경계선 (흰색 투명도 8%) */
+}
+
+.user-menu li:first-child {
+	border-top: 0; 							/* 첫 번째 항목은 경계선 없음 */
+}
+
+.user-menu a {
+	display: block; 						/* a 태그가 li 전체 넓이를 차지하도록 설정 */
+	padding: 12px 14px; 					/* 상하 12px, 좌우 14px 여백 */
+	font-size: 14px; 						/* 메뉴 글자 크기 */
+}
+
+/* 로그아웃 글자 숨기기 */
+body.logged-out .user-menu a[href$="/member/logout"] {
+  display: none;
+}
