@@ -95,7 +95,20 @@
 					data-feed-idx="${feed.feed_idx}">
 
 					<div>
-						<span class="clickable-heart"> <i class="bi bi-heart"></i>
+						<c:choose>
+							<c:when test="${isLiking}">
+								<!-- 좋아요 되어있으면 채워진 하트 -->
+								<span class="clickable-heart" data-is-liking="true"> <i
+									class="bi bi-heart-fill clicked"></i>
+								</span>
+							</c:when>
+							<c:otherwise>
+								<!-- 좋아요 안 되어있으면 빈 하트 -->
+								<span class="clickable-heart" data-is-liking="false"> <i
+									class="bi bi-heart"></i>
+								</span>
+							</c:otherwise>
+						</c:choose>
 						</span> <span class="like-count">${feed.feed_likes}</span> <i
 							class="bi bi-chat-square-dots"
 							style="font-size: 20px; margin-left: 10px;"></i> <span>${commentsCount}</span>
@@ -103,8 +116,8 @@
 					</div>
 
 					<div class="rating-box">
-						<i class="bi bi-star"></i>
-						${feed.ratings != null ? feed.ratings : '없음'}</div>
+						<i class="bi bi-star"></i> ${feed.ratings != null ? feed.ratings : '없음'}
+					</div>
 
 				</div>
 
@@ -164,7 +177,9 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-		contextPath = "${pageContext.request.contextPath}"
+		let contextPath = "${pageContext.request.contextPath}"
+		const feedIdx = ${feed != null ? feed.feed_idx : 'null'};
+		window.feedIdx = feedIdx;
 	</script>
 	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
 

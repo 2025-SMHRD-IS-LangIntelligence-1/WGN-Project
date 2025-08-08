@@ -42,4 +42,6 @@ public interface MemberService {
 
 	public List<t_member> searchByIdOrNick(String keyword);
 
+	boolean isLiking(String mbId, int feedIdx);
+
 }

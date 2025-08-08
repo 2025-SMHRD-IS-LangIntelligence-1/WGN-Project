@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.entity.t_member;
+import com.smhrd.web.mapper.FeedMapper;
 import com.smhrd.web.mapper.MemberMapper;
 
 import jakarta.servlet.http.HttpSession;
@@ -18,6 +19,8 @@ public class MemberServiceImpl implements MemberService {
 	MemberMapper memberMapper;
 	@Autowired
 	NotificationService notificationService;
+	@Autowired
+	FeedMapper feedMapper;
 
 	@Override
 	public boolean join(t_member mem, String pwCheck) {
@@ -153,6 +156,19 @@ public class MemberServiceImpl implements MemberService {
 		List<t_member> profileList = memberMapper.searchByIdOrNick(keyword);
 		
 		return profileList;
+	}
+
+	@Override
+	public boolean isLiking(String mbId, int feedIdx) {
+		List<Integer> likingList = feedMapper.getLikedFeedIdx(mbId);
+		
+		for (int likingFeedIdx : likingList) {
+			if (feedIdx == likingFeedIdx) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 }

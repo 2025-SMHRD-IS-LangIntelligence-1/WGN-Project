@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import com.smhrd.web.config.AsyncConfig;
 import com.smhrd.web.dto.CommentDTO;
@@ -15,7 +17,6 @@ import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.FeedMapper;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -107,19 +108,44 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public int addFeedLike(int feed_idx, HttpSession session) {
-		feedMapper.addFeedLike(feed_idx);
-		t_member member = (t_member) session.getAttribute("member");
-		String sender = member.getMb_id();
-		String receiver = feedMapper.selectFeedByIdx(feed_idx).getMb_id();
-		notificationService.makeLikeNoti(sender, receiver, feed_idx);
-		return feedMapper.countFeedLike(feed_idx);
+	@Transactional
+	public int addFeedLike(int feed_idx, String mb_id) {
+	    try {
+	        // 1. 좋아요 기록 추가 (중복 시 예외 발생)
+	        feedMapper.addFeedLike(feed_idx, mb_id);
+
+	        // 2. 좋아요 알림 생성 (성공 시에만)
+	        String sender = mb_id;
+	        String receiver = feedMapper.selectFeedByIdx(feed_idx).getMb_id();
+	        notificationService.makeLikeNoti(sender, receiver, feed_idx);
+
+	    } catch (DuplicateKeyException e) {
+	        // 이미 좋아요 되어 있음 → 알림 생성, 좋아요 수 증가는 안 함
+	    }
+	    
+	    // 최종 좋아요 수 조회
+	    int likeNum = feedMapper.countFeedLike(feed_idx);
+	    
+	    // 최종 좋아요 수 피드에 캐싱
+	    feedMapper.updateFeedLikes(feed_idx, likeNum);
+
+	    // 4. 최종 좋아요 수 조회 및 반환
+	    return likeNum;
 	}
 
+
 	@Override
-	public int deleteFeedLike(int feed_idx) {
-		feedMapper.deleteFeedLike(feed_idx);
-		return feedMapper.countFeedLike(feed_idx);
+	public int deleteFeedLike(int feed_idx, String mb_id) {
+
+	    feedMapper.deleteFeedLike(feed_idx, mb_id);
+	    
+	    // 최종 좋아요 수 조회
+	    int likeNum = feedMapper.countFeedLike(feed_idx);
+	    
+	    // 최종 좋아요 수 피드에 캐싱
+	    feedMapper.updateFeedLikes(feed_idx, likeNum);
+		
+		return likeNum;
 	}
 
 	@Override
