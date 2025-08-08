@@ -42,10 +42,9 @@
     background-color: #f0f0f0;
 }
 
-/* 읽은 알림은 연하게 */
 .notification-item.read {
     background-color: #f5f5f5;
-    color: #999;
+    color: #ccc; /* 아주 연한 회색 */
 }
 
 /* 알림 메시지 */
@@ -55,10 +54,31 @@
     flex: 1;
 }
 
+/* 읽은 알림 메시지 */
+.noti-message.read {
+    font-size: 15px;
+    color: #ccc;
+    flex: 1;
+}
+
 /* 보낸 사람 아이디 강조 */
 .noti-message b {
     color: #f4b400;
     margin-right: 6px;
+}
+
+
+/* 읽은 보낸 사람 아이디 */
+.noti-message b.read {
+    color: #ccc;
+    margin-right: 6px;
+}
+
+/* 읽은 댓글 내용 */
+.comment-content {
+    font-style: italic;
+    color: #ccc;
+    margin-left: 4px;
 }
 
 /* 댓글 내용 강조 */
