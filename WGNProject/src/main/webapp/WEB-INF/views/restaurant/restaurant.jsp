@@ -426,19 +426,20 @@
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 
 	<!-- 스크립트 -->
-	<script
+
+	<script>
+		var reslat = "${res.lat}";
+		var reslon = "${res.lon}";
+		let res_idx = "${res.res_idx}";
+		console.log(res_idx);
+		let mb_id = "${sessionScope.member.mb_id}";
+	</script>
+		<script
 		src="${pageContext.request.contextPath}/resources/js/restaurant.js">
 		
 	</script>
-	<script>
-		var reslat = "${res.lat}"
-		var reslon = "${res.lon}"
-	</script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
-	<script>
-		let res_idx = '${res.res_idx}';
-		let mb_id = '${sessionScope.member.mb_id}';
-	</script>
+
 </body>
 </html>

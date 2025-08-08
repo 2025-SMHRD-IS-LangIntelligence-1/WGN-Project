@@ -1,3 +1,7 @@
+console.log(res_idx);
+console.log(mb_id);
+
+
 // 탭 이동 + active
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -313,42 +317,51 @@ reviewContent.addEventListener("input", () => {
 	}
 });
 
+console.log('요청할 URL:', contextPath + "/feed/rescheck?res_idx=" + res_idx);
+console.log(contextPath)
+console.log(res_idx)
 
+// 중복 랭킹 체크 
+// 페이지 로딩 시 자동 실행
+$(document).ready(function () {
+    if (typeof res_idx !== 'undefined' && res_idx) {
+        console.log("페이지 로드 후 중복 랭킹 체크 실행:", res_idx, mb_id);
+        checkFavoriteDuplicate(res_idx);
+    } else {
+        console.warn("res_idx 또는 mb_id 값이 없어 중복 랭킹 체크를 실행하지 않음");
+    }
+});
 
-// 중복 랭킹 체크 AJAX
+// 중복 랭킹 체크
 function checkFavoriteDuplicate(res_idx) {
-	
-	console.log("중복 체크 요청 - res_idx:", res_idx);
-	$.ajax({
-		url: `${contextPath}/feed/rescheck`,
-		type: 'GET',
-		data: { res_idx: res_idx },
-		success: function (isDuplicate) {
-			isDuplicateRes = isDuplicate;
+    $.ajax({
+        url: contextPath + "/feed/rescheck",
+        type: 'GET',
+        data: { res_idx: res_idx},
+        success: function (isDuplicate) {
+            isDuplicateRes = isDuplicate;
+            console.log("isDuplicateRes:", isDuplicateRes);
 
-			if (isDuplicateRes) {
-				// 중복이면: 스위치 숨기고 문구 보여줌
-				$('#rankToggleWrapper').hide();
-				$('#duplicateFavoriteMsg').show();
-			} else {
-				// 중복 아니면: 스위치 보이고 문구 숨김
-				$('#rankToggleWrapper').show();
-				$('#duplicateFavoriteMsg').hide();
-			}
+            if (isDuplicateRes) {
+                $('#rankToggleWrapper').hide();
+                $('#duplicateFavoriteMsg').show();
+            } else {
+                $('#rankToggleWrapper').show();
+                $('#duplicateFavoriteMsg').hide();
+            }
 
-			submitButtonState();  // 다른 조건도 판단할 경우 유지
-		},
-		error: function () {
-			console.error("중복 체크 실패");
-			isDuplicateRes = false;
+            submitButtonState?.(); // 안전하게 호출
+        },
+        error: function (xhr, status, err) {
+            console.error("중복 체크 실패:", status, err);
+            isDuplicateRes = false;
 
-			// 오류 시에도 안전하게 스위치 보이기
-			$('#rankToggleWrapper').show();
-			$('#duplicateFavoriteMsg').hide();
+            $('#rankToggleWrapper').show();
+            $('#duplicateFavoriteMsg').hide();
 
-			submitButtonState();
-		}
-	});
+            submitButtonState?.();
+        }
+    });
 }
 
 
@@ -414,8 +427,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	const iconGroup = document.getElementById("restaurantIconGroup");
 	const iconElements = iconGroup.querySelectorAll(".icon-outline");
 
-	const res_idx = iconGroup.dataset.resIdx;
-	const mb_id = iconGroup.dataset.mbId;
+	// const res_idx = iconGroup.dataset.resIdx;
+	// const mb_id = iconGroup.dataset.mbId;
 
 	// 로그인 여부 확인
 	if (!mb_id) {
