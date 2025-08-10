@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.smhrd.web.dto.OrderPayloadDTO;
-import com.smhrd.web.dto.OrderPayloadDTO.Item;
 import com.smhrd.web.entity.t_favorite;
-import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.FavoriteMapper;
 
 @Service

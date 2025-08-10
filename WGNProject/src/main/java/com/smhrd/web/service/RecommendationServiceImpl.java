@@ -13,6 +13,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.smhrd.web.dto.CandidateFeedDTO;
@@ -47,7 +49,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 	public List<Integer> sendLogsAndFeeds(String mb_id) {
 
 		List<Integer> FeedIdxList;
-		
+
 		System.out.println("sendLogsAndFeeds 메서드 실행");
 
 		// HTTP 헤더 설정
@@ -62,11 +64,11 @@ public class RecommendationServiceImpl implements RecommendationService {
 		System.out.println("가져온 피드 수 : " + feeds.size());
 
 		if (logs.size() == 0) {
-	        // 사용자 로그가 없을 경우 기본 피드 제공
-	        FeedIdxList = feedMapper.getMixedFeeds();
-	        return FeedIdxList;
-	    }
-		
+			// 사용자 로그가 없을 경우 기본 피드 제공
+			FeedIdxList = feedMapper.getMixedFeeds();
+			return FeedIdxList;
+		}
+
 		List<Map<String, Object>> logList = new ArrayList<>();
 
 		for (LogDTO log : logs) {
@@ -112,14 +114,11 @@ public class RecommendationServiceImpl implements RecommendationService {
 		String pythonUrl = "http://localhost:8000/receive_logs_and_feeds";
 
 		// 요청 보내고 결과 받기
-		ParameterizedTypeReference<List<Integer>> responseType = new ParameterizedTypeReference<>() {};
-		ResponseEntity<List<Integer>> response = restTemplate.exchange(
-		    pythonUrl,
-		    HttpMethod.POST,
-		    requestEntity,
-		    responseType
-		);
-		
+		ParameterizedTypeReference<List<Integer>> responseType = new ParameterizedTypeReference<>() {
+		};
+		ResponseEntity<List<Integer>> response = restTemplate.exchange(pythonUrl, HttpMethod.POST, requestEntity,
+				responseType);
+
 		FeedIdxList = response.getBody();
 
 		System.out.println("요청 보내고 결과 받기 완료");
@@ -128,16 +127,15 @@ public class RecommendationServiceImpl implements RecommendationService {
 		return FeedIdxList;
 	}
 
-	
 	@Override
 	public List<FeedForSearchDTO> getFeedForSearch(String mb_id) {
 		List<FeedForSearchDTO> feeds = feedMapper.getFeedForSearch(mb_id);
 		return feeds;
 	}
-	
+
 	@Override
 	public List<Integer> sendFeedForSearch(String mb_id) {
-		
+
 		System.out.println("sendFeedForSearch 메서드 실행");
 
 		// HTTP 헤더 설정
@@ -170,14 +168,11 @@ public class RecommendationServiceImpl implements RecommendationService {
 		String pythonUrl = "http://localhost:8000/receive_feed_for_search";
 
 		// 요청 보내고 결과 받기
-		ParameterizedTypeReference<List<Integer>> responseType = new ParameterizedTypeReference<>() {};
-		ResponseEntity<List<Integer>> response = restTemplate.exchange(
-		    pythonUrl,
-		    HttpMethod.POST,
-		    requestEntity,
-		    responseType
-		);
-		
+		ParameterizedTypeReference<List<Integer>> responseType = new ParameterizedTypeReference<>() {
+		};
+		ResponseEntity<List<Integer>> response = restTemplate.exchange(pythonUrl, HttpMethod.POST, requestEntity,
+				responseType);
+
 		List<Integer> FeedIdxList = response.getBody();
 
 		System.out.println("요청 보내고 결과 받기 완료");
@@ -187,33 +182,30 @@ public class RecommendationServiceImpl implements RecommendationService {
 	}
 
 	@Override
-	public List<Integer> sendRequest() {
-		
-	    System.out.println("sendRequest 메서드 실행");
+	public List<Integer> sendQuery(String query) {
+	    System.out.println("sendQuery 메서드 실행");
 
-	    // FastAPI URL (코랩 ngrok 주소로 변경 필요)
-	    String pythonUrl = "https://687548475d8a.ngrok-free.app/receive_res";
+	    String pythonUrl = "http://localhost:8000/receive_res";
 
 	    HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    
+	    headers.setContentType(MediaType.TEXT_PLAIN);
+	    
+	    HttpEntity<String> request = new HttpEntity<>(query, headers);
 
-	    // 요청 바디가 없다면 빈 바디 보내거나 필요한 경우 DTO 작성
-	    HttpEntity<String> requestEntity = new HttpEntity<>("{}", headers);
-
-	    ParameterizedTypeReference<List<Integer>> responseType = new ParameterizedTypeReference<>() {};
 	    ResponseEntity<List<Integer>> response = restTemplate.exchange(
 	        pythonUrl,
 	        HttpMethod.POST,
-	        requestEntity,
-	        responseType
+	        request,
+	        new ParameterizedTypeReference<List<Integer>>() {}
 	    );
 
-	    List<Integer> recommendedFeedIdxList = response.getBody();
+	    List<Integer> recommendedResIdxList = response.getBody();
 
-	    System.out.println("추천 피드 인덱스 리스트: " + recommendedFeedIdxList);
+	    System.out.println("추천 음식점 인덱스 리스트: " + recommendedResIdxList);
 
-	    return recommendedFeedIdxList;
+	    return recommendedResIdxList;
 	}
 
-	
+
 }
