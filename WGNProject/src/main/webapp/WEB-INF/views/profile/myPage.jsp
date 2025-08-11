@@ -254,14 +254,16 @@
 													</a>
 
 													<!-- 오른쪽: 배지(찜 해지) -->
-													<button type="button"
-														class="ms-2 badge rounded-pill bg-warning text-dark border-0"
-														style="cursor: pointer;" data-bs-toggle="modal"
-														data-bs-target="#unGoingModal"
-														data-res-idx="${goingres.res_idx}"
-														data-res-name="${goingres.res_name}">
-														<i class="bi bi-person-walking icon-outline"></i>
-													</button>
+													<c:if test="${profile.mb_id eq sessionScope.member.mb_id}">
+														<button type="button"
+															class="ms-2 badge rounded-pill bg-warning text-dark border-0"
+															style="cursor: pointer;" data-bs-toggle="modal"
+															data-bs-target="#unGoingModal"
+															data-res-idx="${goingres.res_idx}"
+															data-res-name="${goingres.res_name}">
+															<i class="bi bi-person-walking icon-outline"></i>
+														</button>
+													</c:if>
 												</div>
 											</c:when>
 
@@ -282,14 +284,16 @@
 														</div>
 													</a>
 													<!-- 오른쪽 배지 -->
-													<button type="button"
-														class="ms-2 badge rounded-pill bg-warning text-dark border-0"
-														style="cursor: pointer;" data-bs-toggle="modal"
-														data-bs-target="#unGoingModal"
-														data-res-idx="${goingres.res_idx}"
-														data-res-name="${goingres.res_name}">
-														<i class="bi bi-person-walking icon-outline"></i>
-													</button>
+													<c:if test="${profile.mb_id eq sessionScope.member.mb_id}">
+														<button type="button"
+															class="ms-2 badge rounded-pill bg-warning text-dark border-0"
+															style="cursor: pointer;" data-bs-toggle="modal"
+															data-bs-target="#unGoingModal"
+															data-res-idx="${goingres.res_idx}"
+															data-res-name="${goingres.res_name}">
+															<i class="bi bi-person-walking icon-outline"></i>
+														</button>
+													</c:if>
 												</div>
 											</c:otherwise>
 										</c:choose>
@@ -360,6 +364,30 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" id="saveRankOrderBtn">저장</button>
+					<button type="button" class="btn btn-outline-secondary"
+						data-bs-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="unGoingModal" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">찜 해제</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="닫기"></button>
+				</div>
+				<div class="modal-body">
+					<p>
+						<b id="modalResName"></b>${goingres.res_name} 항목을 해제할까요?
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="confirmUnGoingBtn"
+						class="btn btn-warning">해제</button>
 					<button type="button" class="btn btn-outline-secondary"
 						data-bs-dismiss="modal">취소</button>
 				</div>

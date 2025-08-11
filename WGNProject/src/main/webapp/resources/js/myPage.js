@@ -216,9 +216,9 @@ window.togglegoing = (function () {
 
 // 찜 삭제
 document.addEventListener('DOMContentLoaded', function () {
-  const modalEl = document.getElementById('unGoingModal');
-  const modalResName = document.getElementById('modalResName');
-  const confirmBtn = document.getElementById('confirmUnGoingBtn');
+  const modalEl       = document.getElementById('unGoingModal');
+  const modalResName  = document.getElementById('modalResName');
+  const confirmBtn    = document.getElementById('confirmUnGoingBtn');
   if (!modalEl || !modalResName || !confirmBtn) return;
 
   let targetResIdx = null;
@@ -227,31 +227,57 @@ document.addEventListener('DOMContentLoaded', function () {
   // 모달 열릴 때 데이터 주입
   modalEl.addEventListener('show.bs.modal', function (event) {
     const btn = event.relatedTarget;
-    targetResIdx = btn.getAttribute('data-res-idx');
-    modalResName.textContent = btn.getAttribute('data-res-name');
-    targetItemEl = btn.closest('.list-group-item') || btn.closest('.card') || btn.closest('li');
+    if (!btn) return; // 안전가드
+
+    // data-* 읽기 (dataset 우선, 없으면 getAttribute)
+    targetResIdx = btn.dataset?.resIdx || btn.getAttribute('data-res-idx') || '';
+    const resName = btn.dataset?.resName || btn.getAttribute('data-res-name') || '';
+    modalResName.textContent = resName;
+
+    // 리스트에서 해당 아이템 DOM 잡기 (여러 구조 대응)
+    targetItemEl = btn.closest('.list-group-item') || btn.closest('.card') || btn.closest('li') || null;
   });
 
-  // 네 버튼 클릭 → AJAX POST (로컬 단순 버전)
+  // 해제 버튼 클릭 → AJAX
   confirmBtn.addEventListener('click', async function () {
-    const res = await fetch(`${contextPath}/going/delete`, {
-      method: 'DELETE',
-	  headers: {
-	  				"Content-Type": "application/x-www-form-urlencoded"
-	  			},
-      body: `res_idx=${encodeURIComponent(targetResIdx)}&mb_id=${Mb_id}`
-    });
+    try {
+      if (!targetResIdx) {
+        alert('대상 식별자가 없습니다.');
+        return;
+      }
+      if (typeof Mb_id === 'undefined' || !Mb_id) {
+        alert('로그인이 필요합니다.');
+        return;
+      }
 
-    if (!res.ok) { 
-      alert('삭제 실패'); 
-      return; 
+      const res = await fetch(`${contextPath}/going/delete`, {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `res_idx=${encodeURIComponent(targetResIdx)}&mb_id=${encodeURIComponent(Mb_id)}`
+      });
+
+      if (!res.ok) {
+        // 서버가 DELETE 바디를 안 받는 경우가 많음 → 필요시 서버측을 POST로 바꾸거나 쿼리스트링 사용 검토
+        const text = await res.text();
+        console.error('Delete failed:', text);
+        alert('삭제 실패');
+        return;
+      }
+
+
+      if (targetItemEl) targetItemEl.remove();
+
+      // 모달 닫기 (인스턴스 없으면 생성)
+      const instance = bootstrap.Modal.getInstance(modalEl) || bootstrap.Modal.getOrCreateInstance(modalEl);
+      instance.hide();
+    } catch (e) {
+      console.error(e);
+      alert('삭제 중 오류가 발생했습니다.');
     }
-
-    if (targetItemEl) targetItemEl.remove();               
-    bootstrap.Modal.getInstance(modalEl).hide();           // 모달 닫기
   });
 });
-
 
 // 내랭킹 수정
 (function () {
