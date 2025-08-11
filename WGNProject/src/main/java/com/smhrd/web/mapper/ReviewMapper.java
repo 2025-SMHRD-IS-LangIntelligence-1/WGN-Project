@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import com.smhrd.web.dto.ReviewDTO;
+import com.smhrd.web.dto.ReviewFeedDTO;
 import com.smhrd.web.entity.t_review;
 
 @Mapper
@@ -21,4 +22,6 @@ public interface ReviewMapper {
 			+ "inner join t_member m on m.mb_id = r.mb_id "
 			+ "where res_idx=#{res_idx}")
 	List<ReviewDTO> getResReview(int res_idx);
+
+	ReviewFeedDTO getReviewFeed(int res_idx);
 }

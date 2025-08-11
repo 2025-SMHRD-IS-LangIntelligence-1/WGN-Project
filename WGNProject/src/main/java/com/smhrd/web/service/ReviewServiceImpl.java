@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.smhrd.web.dto.ReviewDTO;
+import com.smhrd.web.dto.ReviewFeedDTO;
 import com.smhrd.web.dto.WordCloudDTO;
 import com.smhrd.web.entity.t_review;
 import com.smhrd.web.mapper.ReviewMapper;
@@ -36,62 +37,39 @@ public class ReviewServiceImpl implements ReviewService {
 		List<ReviewDTO> res_review = reviewMapper.getResReview(res_idx);
 		return res_review;
 	}
-
+	
 	@Override
 	public WordCloudDTO sendResReview(int res_idx) {
 
-		System.out.println("sendResReview 메서드 실행");
+	    System.out.println("sendResReview 메서드 실행");
 
-		// HTTP 헤더 설정
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
 
-		// 데이터 바인딩
-		List<ReviewDTO> reviews = this.getResReview(res_idx);
+	    HttpEntity<Integer> requestEntity = new HttpEntity<>(res_idx, headers);
 
-		System.out.println("가져온 리뷰 수 : " + reviews.size());
+	    System.out.println("요청 생성 완료: res_idx = " + res_idx);
 
-		List<Map<String, Object>> reviewList = new ArrayList<>();
+	    String pythonUrl = "http://localhost:8000/receive_review";
 
-		for (ReviewDTO review : reviews) {
+	    RestTemplate restTemplate = new RestTemplate();
 
-			Map<String, Object> reviewData = new HashMap<>();
+	    ParameterizedTypeReference<WordCloudDTO> responseType = new ParameterizedTypeReference<>() {};
 
-			reviewData.put("review_idx", review.getReview_idx()); // 리뷰 식별자
-			reviewData.put("res_idx", review.getRes_idx()); // 음식점 식별자
-			reviewData.put("review_content", review.getReview_content()); // 리뷰 내용
-			reviewData.put("likes", review.getLikes()); // 좋아요 수
+	    ResponseEntity<WordCloudDTO> response = restTemplate.exchange(
+	            pythonUrl,
+	            HttpMethod.POST,
+	            requestEntity,
+	            responseType
+	    );
 
-			reviewList.add(reviewData);
-		}
+	    WordCloudDTO result = response.getBody();
 
-		// 요청 생성
-		HttpEntity<List<Map<String, Object>>> requestEntity = new HttpEntity<>(reviewList, headers);
+	    System.out.println("요청 보내고 결과 받기 완료");
+	    System.out.println("응답 본문: " + result);
 
-		System.out.println("요청 생성 완료");
-
-		// FastAPI URL
-		String pythonUrl = "http://localhost:8000/receive_review";
-
-		RestTemplate restTemplate = new RestTemplate();
-		
-		// 1. 응답 타입 지정
-		ParameterizedTypeReference<WordCloudDTO> responseType = new ParameterizedTypeReference<>() {
-		};
-
-		// 2. 요청 보내고 결과 받기
-		ResponseEntity<WordCloudDTO> response = restTemplate.exchange(
-				pythonUrl,
-				HttpMethod.POST,
-				requestEntity,
-				responseType);
-
-		WordCloudDTO result = response.getBody();
-
-		System.out.println("요청 보내고 결과 받기 완료");
-		System.out.println("응답 본문: " + result);
-
-		return result;
+	    return result;
 	}
+
 
 }

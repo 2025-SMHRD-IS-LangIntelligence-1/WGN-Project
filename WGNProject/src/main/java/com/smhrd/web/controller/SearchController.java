@@ -89,13 +89,11 @@ public class SearchController {
 	
 	@PostMapping("/res")
 	@ResponseBody
-	public List<Integer> getRecommendedRes() {
+	public List<Integer> getRecommendedRes(@RequestParam String query) {
 		
-		System.out.println("getRecommendedRes 메서드 실행");
-		
-		List<Integer> result = recommendationService.sendRequest();
-		
-		return result;
+	    System.out.println("getRecommendedRes 실행, query: " + query);
+	    List<Integer> result = recommendationService.sendQuery(query);
+	    return result;
 	}
 	
 }

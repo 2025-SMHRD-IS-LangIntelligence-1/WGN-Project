@@ -25,7 +25,7 @@ public interface RecommendationService {
 	List<Integer> sendFeedForSearch(String mb_id);
 
 	// === 음식점 검색 서비스 메서드 ===
-	
-	List<Integer> sendRequest();
+
+	List<Integer> sendQuery(String query);
 
 }
