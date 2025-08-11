@@ -25,6 +25,33 @@
 	text-decoration: none; 					/* 밑줄 제거 */
 }
 
+/* 로그인 안내 박스 */
+.side-bar .login-prompt {
+  padding: 12px 14px;
+  text-align: center;
+}
+
+/* 안내 문구 */
+.side-bar .login-prompt p {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: #171513;
+}
+
+/* 로그인 버튼처럼 보이게 */
+.side-bar .login-prompt a {
+  display: block;
+  padding: 10px 12px;
+  background: #171513;
+  color: #fff;            /* 기본 .side-bar a 색을 덮어씀 */
+  border-radius: 8px;
+  text-decoration: none;
+}
+.side-bar .login-prompt a:hover {
+  opacity: 0.9;
+}
+
+
 .side-bar a:hover {
 	color: #171513; 						/* 마우스 오버 시 글자색 */
 }
@@ -64,13 +91,11 @@
 	color: #171513; 						/* 소개글 글자색 */
 }
 
-.side-bar.active { transform: translateX(0); }
-.left-panel.show { display: block; }
-
 :root {
 	--topbar-h: 60px;     					 /* 실제 top-bar 높이에 맞춰 조정 */
-  --sidebar-w: 200px;  						/* 오른쪽 .side-bar의 너비 값 저장 */
-  --panel-w:   300px;  						/* 왼쪽 패널(.left-panel)의 너비 값 저장 */
+	--bottombar-h: 80px;
+	--sidebar-w: 200px;  						/* 오른쪽 .side-bar의 너비 값 저장 */
+	--panel-w:   300px;  						/* 왼쪽 패널(.left-panel)의 너비 값 저장 */
 }
 
 /* 오른쪽에 있는 side-bar의 '왼쪽'에 붙여두기 */
@@ -79,17 +104,17 @@
 	top: var(--topbar-h);                   /* ⬅ 상단바 만큼 내림 */
 	right: calc(-1 * var(--panel-w));   	/* 자기 너비만큼 오른쪽 바깥으로 이동 → 숨김 상태 */
 	width: var(--panel-w);					/* 패널 너비 */
-	height: calc(100dvh - var(--topbar-h));        /* ⬅ top-bar 제외한 높이 */
+	bottom: var(--bottombar-h);
 	background: #fff;						/* 배경색 흰색 */
-	border-left: 1px solid #ddd;  			/* 왼쪽 경계선(옅은 회색) */
+	border-left: 1px solid #ddd;  		/* 왼쪽 경계선(옅은 회색) */
+	border-radius: 12px 0 0 12px; 			/* 왼쪽 위·아래만 12px, 오른쪽은 0 */	
 	z-index: 890;                 			/* 사이드바(z=900)보다 낮게 → 겹쳐도 사이드바가 위 */
 	overflow: auto;                         /* 패널 내부 스크롤 */
 	
-	transform: translateX(1px);   /* 아주 조금 오른쪽으로 이동 */
+	transform: translateX(1px);   			/* 아주 조금 오른쪽으로 이동 */
 	pointer-events: none;
   
 	transition: opacity 0.15s ease, transform 0.3s ease;
-	z-index: 1100;
 }
 
 /* 패널 표시: 사이드바 왼쪽에 딱 붙음(겹치지 않음) */
@@ -99,7 +124,6 @@
   transform: translateX(0);
   pointer-events: auto;
 }
-
 .left-panel h3 {
   font-size: 20px;
   font-weight: bold;
@@ -109,7 +133,6 @@
 
 /*  패널 안 여백/제목 스타일 유지 */
 .left-panel .left-panel-content{ padding:12px; box-sizing:border-box; }
-.left-panel h3{ font-size:20px; font-weight:bold; color:#171513; margin:10px 0; }
 
 /* 메뉴 리스트 */
 .user-menu {
@@ -117,19 +140,21 @@
 	margin: 6px 0 0; 						/* 위쪽 6px, 나머지 0 */
 	padding: 0; 							/* 기본 padding 제거 */
 }
-
 .user-menu li {
 	border-top: 1px solid rgba(255, 255, 255, 0.08);/* 위쪽 경계선 (흰색 투명도 8%) */
 }
-
 .user-menu li:first-child {
 	border-top: 0; 							/* 첫 번째 항목은 경계선 없음 */
 }
-
 .user-menu a {
 	display: block; 						/* a 태그가 li 전체 넓이를 차지하도록 설정 */
 	padding: 12px 14px; 					/* 상하 12px, 좌우 14px 여백 */
 	font-size: 14px; 						/* 메뉴 글자 크기 */
+	color: #171513;
+}
+
+.side-bar .user-menu a {
+	color: black;
 }
 
 /* 로그아웃 글자 숨기기 */

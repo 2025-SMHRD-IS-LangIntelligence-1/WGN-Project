@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const icons = document.querySelectorAll('#top-bar i');
+    const icons = document.querySelectorAll('.top-bar i');
 
     icons.forEach(icon => {
         icon.addEventListener('click', () => {

@@ -20,8 +20,8 @@
 
 	<div class="mobile-container">
 		<div class="content">
-			<form action="${pageContext.request.contextPath}/feed/upload"
-				method="post" enctype="multipart/form-data">
+			<form action="<c:url value='/feed/upload'/>"
+      method="post" enctype="multipart/form-data">
 				<div class="add-box">
 					<!-- 상단 닫기 및 제출 버튼 -->
 					<div class="add-box-header">

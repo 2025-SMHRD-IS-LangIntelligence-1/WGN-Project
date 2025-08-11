@@ -445,7 +445,7 @@
 	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/myPage.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
-
+	<script src="${pageContext.request.contextPath}/resources/js/common.js" defer></script>
 
 </body>
 </html>

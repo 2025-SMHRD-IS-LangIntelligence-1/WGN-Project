@@ -62,6 +62,8 @@ body, html {
 
 /* 왼쪽 로고 */
 .top-bar .logo {
+	text-decoration: none;   /* 밑줄 제거 */
+	color: #171513;          /* 글자색 */
 	font-weight: bold;
 	font-size: 25px;
 	margin-left: 15px;
@@ -73,12 +75,7 @@ body, html {
 	transition: transform 0.2s, color 0.2s;
 	margin-right: 15px;
 	color: #000;
-	font-size: 23px;
-}
-
-/* hover */
-.top-bar i:hover {
-	transform: scale(1.2);
+	font-size: 30px;
 }
 
 /* 클릭(활성화)된 상태 */
@@ -86,62 +83,30 @@ body, html {
 	color: #FFD84D;
 }
 
-/*하단바*/
+/*========== 하단바 ==========*/
+/* 하단 네비게이션 바 전체 컨테이너 */
 .navbar-bottom {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background: #fff;
-	border-top: 1px solid #ddd;
-	height: 80px;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	z-index: 1000;
+	position: fixed;            /* 화면 하단에 고정 */
+	bottom: 0;                  /* 아래쪽에 붙이기 */
+	left: 0;                    /* 좌측 끝부터 */
+	right: 0;                   /* 우측 끝까지 (가로 전체) */
+	background: #fff;           /* 배경색 흰색 */
+	border-top: 1px solid #ddd; /* 위쪽 경계선 */
+	height: 80px;               /* 바 높이 */
+	display: flex;              /* 아이콘들을 가로로 배치 */
+	justify-content: space-around; /* 아이콘 간 균등 간격 */
+	align-items: center;        /* 수직 가운데 정렬 */
+	z-index: 1000;              /* 다른 요소들 위로 */
 }
 
+/* 하단바의 링크 기본 스타일 */
 .navbar-bottom a {
-	color: #000;
-	text-decoration: none;
+	color: #000;                /* 기본 글자/아이콘 색 */
+	text-decoration: none;      /* 밑줄 제거 */
 }
 
+/* 아이콘 크기 및 전환 효과 */
 .navbar-bottom i {
-	font-size: 1.5rem;
-	transition: transform 0.2s;
+	font-size: 1.5rem;          /* 아이콘 크기 */
+	transition: transform 0.2s; /* 크기 변환 애니메이션 */
 }
-
-.navbar-bottom a:hover i {
-	transform: scale(1.2);
-	color: #FFD84D;
-}
-<<<<<<< HEAD
-=======
-
-/* 사이드 네비바 */
-.side-bar {
-  width: 250px;
-  height: 100vh;
-  background-color: black;
-  color: white;
-  position: fixed;
-  top: 0;
-  right: -250px; /* 오른쪽 바깥으로 숨김 */
-  transition: right 0.3s ease; /* 수정: left → right */
-  padding-top: 60px;
-  z-index: 1000;
-}
-
-.side-bar.active {
-  right: 0;
-}
-
-.side-bar a {
-  color: white;
-  text-decoration: none;
-}
-
-.side-bar a:hover {
-  color: #ccc;
-}
->>>>>>> 524f8e35ba9c8d3c05a9066b2882f12bfa847bb4
