@@ -115,9 +115,6 @@ body, html {
 	transform: scale(1.2);
 	color: #FFD84D;
 }
-<<<<<<< HEAD
-=======
-
 /* 사이드 네비바 */
 .side-bar {
   width: 250px;
@@ -144,4 +141,3 @@ body, html {
 .side-bar a:hover {
   color: #ccc;
 }
->>>>>>> 524f8e35ba9c8d3c05a9066b2882f12bfa847bb4
