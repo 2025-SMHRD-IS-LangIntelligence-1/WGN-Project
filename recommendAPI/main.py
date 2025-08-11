@@ -9,7 +9,7 @@ from feed_recommendation import recommend_feed
 from feed_searching import show_recommendation_result
 from making_wordclouds import make_wordclouds
 from res_searching import prepare_data, recommend_with_reviewscore_auto
-from models import LogsAndFeeds, FeedForSearch # 클래스들이 모여있는 파일
+from models import LogsAndFeeds, FeedForSearch, WordcloudAndRatings # 클래스들이 모여있는 파일
 
 # ------------------ FastAPI 앱 객체 ------------------
 
@@ -83,18 +83,28 @@ async def receive_res(query: str = Query(..., description="검색어")):
 
 # --- 레스토랑 인덱스 번호 받아서 워드클라우드 제작 ---
 @app.post("/receive_review")
-async def receive_review(res_idx: int):
-
+async def receive_review(res_idx: int) -> WordcloudAndRatings:
     print("=== /receive_review 호출됨 ===")
 
-    # 워드클라우드 제작 함수 구현 필요
+    # 워드클라우드 제작 함수 호출 (res_idx 기반)
     wordclouds = make_wordclouds(res_idx)
 
-    print(f"만들어진 wordclouds: ", wordclouds)
-    
+    # 평점 계산 함수 호출 (res_idx 기반)
+    wgn_ratings = get_wgn_ratings(res_idx)
+
+    # WordcloudAndRatings 객체에 4개 워드클라우드와 평점 넣기
+    response = WordcloudAndRatings(
+        nk_positive_wc=wordclouds[0],
+        nk_negative_wc=wordclouds[1],
+        wgn_positive_wc=wordclouds[2],
+        wgn_negative_wc=wordclouds[3],
+        wgn_ratings=wgn_ratings
+    )
+
     print("=== /receive_review 처리 완료 ===\n")
 
-    return JSONResponse(content=wordclouds.dict(), media_type="application/json; charset=utf-8")
+    return response
+
 
 @app.post("/receive_logs_and_feeds")
 async def receive_logs_and_feeds(data: LogsAndFeeds): # data : 클라이언트(Spring 서버)로부터 LogsAndFeeds 클래스 형태로 파싱해서 받은 데이터
@@ -135,7 +145,7 @@ async def receive_feed_for_search(
     feed_dict_list = [feed.dict() for feed in feed_list]
 
     # 검색 함수 호출 (검색어, feed 리스트 전달)
-    searched_feed_idx = show_recommendation_result(feed_dict_list, query)
+    searched_feed_idx = show_recommendation_result(feed_dict_list, decoded_query)
 
     print(f"검색된 피드 idx 개수: {len(searched_feed_idx)}")
     print(f"검색된 피드 idx: {searched_feed_idx[:10]}")

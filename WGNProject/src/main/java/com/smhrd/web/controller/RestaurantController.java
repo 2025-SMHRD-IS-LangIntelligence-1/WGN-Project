@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.smhrd.web.dto.ReviewDTO;
-import com.smhrd.web.dto.WordCloudDTO;
+import com.smhrd.web.dto.WordCloudAndRatingsDTO;
 import com.smhrd.web.entity.t_convenience;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.entity.t_menu;
@@ -111,11 +111,5 @@ public class RestaurantController {
 	
 		return "restaurant/restaurant";
 	}
-	
-	@PostMapping("/wordcloud")
-	public WordCloudDTO makeWordCloud(@RequestParam int res_idx) {
-		WordCloudDTO wc = reviewService.sendResReview(res_idx);
-		return wc;
-	}
-	
+
 }

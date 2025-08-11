@@ -1,16 +1,18 @@
 package com.smhrd.web.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.smhrd.web.dto.FeedWithImgDTO;
 import com.smhrd.web.dto.RestaurantDTO;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.FeedService;
@@ -70,7 +72,7 @@ public class SearchController {
 	
 	@GetMapping("/feed")
 	@ResponseBody
-    public List<Integer> getRecommendedFeeds(@RequestParam String query, HttpSession session) {
+    public Map<String, Object> getRecommendedFeeds(@RequestParam String query, HttpSession session) {
     	
     	System.out.println("getRecommendFeeds 메서드 실행");
     	
@@ -86,11 +88,22 @@ public class SearchController {
         	
         }
         
-        List<Integer> FeedIdxList = recommendationService.sendFeedForSearch(mb_id, query);
+        List<Integer> feedIdxList = recommendationService.sendFeedForSearch(mb_id, query);
+        List<String> thumbnailList = new ArrayList<>();
         
-        System.out.println("FeedIdxList : " + FeedIdxList);
+        for (int idx : feedIdxList) {
+        	FeedWithImgDTO feed = feedService.getFeedByFeedIdx(idx);
+        	String thumbnail = feed.getImageUrls().get(0);
+        	thumbnailList.add(thumbnail);
+        }
         
-        return FeedIdxList;
+        System.out.println("FeedIdxList : " + feedIdxList);
+        
+        Map<String, Object> result = new HashMap<>();
+        result.put("feedIdxList", feedIdxList);
+        result.put("thumbnailList", thumbnailList);
+        
+        return result;
     }
 	
 	@GetMapping("/res")

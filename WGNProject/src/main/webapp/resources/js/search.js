@@ -89,24 +89,40 @@ $('.search-btn').on('click', function(e) {
             url: 'search/feed',
             type: 'GET',
             data: { query: keyword },
-            success: function(feedList) {
+            success: function(result) {
+
+				let feedIdxList = result.feedIdxList;
+				let thumbnailList = result.thumbnailList;				
+				console.log(feedIdxList, thumbnailList);
+				
                 $('#feed-section').empty();
-                if (feedList.length === 0) {
+                if (feedIdxList.length === 0) {
                     $('#feed-section').html('<p>검색 결과가 없습니다.</p>').show();
                     return;
                 }
-                feedList.forEach(function(feed) {
-                    let card = `
-					<div class="feed-box">
-						<div class="feed-image-grid">
-							<div class="cell" onclick="window.location='/feed?feed_idx=1'">
-								<img src="https://example.com/images/feed1.jpg" alt="대표 이미지">
-							</div>
-						</div>
-					</div>
-					`; 
-                    $('#feed-section').append(card);
-                });
+				
+				for (let i = 0; i < feedIdxList.length; i += 3) {
+				    // 3개씩 자르기
+				    let group = feedIdxList.slice(i, i + 3);
+				    
+				    // feed-image-grid 열기
+				    let gridHtml = `<div class="feed-image-grid">`;
+				    
+				    group.forEach((feedIdx, idx) => {
+				        let thumbnail = thumbnailList[i + idx] || '#';
+				        gridHtml += `
+				            <div class="cell" onclick="window.location='/wgn/feed?feed_idx=${feedIdx}'">
+				                <img src="${thumbnail}" alt="대표 이미지">
+				            </div>
+				        `;
+				    });
+				    
+				    gridHtml += `</div>`;
+				    
+				    // feed-box에 grid 넣기
+				    let boxHtml = `<div class="feed-box">${gridHtml}</div>`;
+				    $('#feed-section').append(boxHtml);
+				}
                 $('#feed-section').show();
                 $('#res-section, #member-section').hide();
             },

@@ -39,8 +39,6 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class ProfileController {
 
-    private final AsyncConfig asyncConfig;
-
     private final CloudinaryService cloudinaryService;
     
 	@Autowired
@@ -62,7 +60,6 @@ public class ProfileController {
 
     ProfileController(CloudinaryService cloudinaryService, AsyncConfig asyncConfig) {
         this.cloudinaryService = cloudinaryService;
-        this.asyncConfig = asyncConfig;
     }
 	
     @GetMapping("/myPage")
