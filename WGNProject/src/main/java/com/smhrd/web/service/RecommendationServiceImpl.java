@@ -1,5 +1,7 @@
 package com.smhrd.web.service;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,9 +15,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriUtils;
 
 import com.smhrd.web.dto.CandidateFeedDTO;
 import com.smhrd.web.dto.FeedForSearchDTO;
@@ -134,69 +135,64 @@ public class RecommendationServiceImpl implements RecommendationService {
 	}
 
 	@Override
-	public List<Integer> sendFeedForSearch(String mb_id) {
+	public List<Integer> sendFeedForSearch(String mb_id, String query) {
 
-		System.out.println("sendFeedForSearch 메서드 실행");
+	    System.out.println("sendFeedForSearch 메서드 실행");
 
-		// HTTP 헤더 설정
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
+	    // HTTP 헤더 설정
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
 
-		// 데이터 바인딩
-		List<FeedForSearchDTO> feeds = this.getFeedForSearch(mb_id);
+	    // 데이터 바인딩
+	    List<FeedForSearchDTO> feeds = this.getFeedForSearch(mb_id);
 
-		System.out.println("가져온 피드 수 : " + feeds.size());
+	    System.out.println("가져온 피드 수 : " + feeds.size());
 
-		List<Map<String, Object>> feedList = new ArrayList<>();
+	    List<Map<String, Object>> feedList = new ArrayList<>();
 
-		for (FeedForSearchDTO feed : feeds) {
+	    for (FeedForSearchDTO feed : feeds) {
+	        Map<String, Object> feedData = new HashMap<>();
+	        feedData.put("feed_idx", feed.getFeed_idx());
+	        feedData.put("feed_likes", feed.getFeed_likes());
+	        feedData.put("res_tag", feed.getRes_tag());
+	        feedData.put("feed_content", feed.getFeed_content());
+	        feedList.add(feedData);
+	    }
 
-			Map<String, Object> feedData = new HashMap<>();
-			feedData.put("feed_idx", feed.getFeed_idx());
-			feedData.put("feed_likes", feed.getFeed_likes());
-			feedData.put("res_tag", feed.getRes_tag());
-			feedData.put("feed_content", feed.getFeed_content());
-			feedList.add(feedData);
-		}
+	    // 요청 생성
+	    HttpEntity<List<Map<String, Object>>> requestEntity = new HttpEntity<>(feedList, headers);
 
-		// 요청 생성
-		HttpEntity<List<Map<String, Object>>> requestEntity = new HttpEntity<>(feedList, headers);
+	    System.out.println("요청 생성 완료");
 
-		System.out.println("요청 생성 완료");
+	    // FastAPI URL에 query 파라미터 붙이기
+	    String pythonUrl = "http://localhost:8000/receive_feed_for_search?query=" + UriUtils.encodeQueryParam(query, "UTF-8");
 
-		// FastAPI URL
-		String pythonUrl = "http://localhost:8000/receive_feed_for_search";
+	    // 요청 보내고 결과 받기
+	    ParameterizedTypeReference<List<Integer>> responseType = new ParameterizedTypeReference<>() {
+	    };
+	    ResponseEntity<List<Integer>> response = restTemplate.exchange(pythonUrl, HttpMethod.POST, requestEntity, responseType);
 
-		// 요청 보내고 결과 받기
-		ParameterizedTypeReference<List<Integer>> responseType = new ParameterizedTypeReference<>() {
-		};
-		ResponseEntity<List<Integer>> response = restTemplate.exchange(pythonUrl, HttpMethod.POST, requestEntity,
-				responseType);
+	    List<Integer> FeedIdxList = response.getBody();
 
-		List<Integer> FeedIdxList = response.getBody();
+	    System.out.println("요청 보내고 결과 받기 완료");
+	    System.out.println("응답 본문: " + FeedIdxList);
 
-		System.out.println("요청 보내고 결과 받기 완료");
-		System.out.println("응답 본문: " + FeedIdxList);
-
-		return FeedIdxList;
+	    return FeedIdxList;
 	}
+
 
 	@Override
 	public List<Integer> sendQuery(String query) {
 	    System.out.println("sendQuery 메서드 실행");
 
-	    String pythonUrl = "http://localhost:8000/receive_res";
+	    // query 파라미터를 URL에 쿼리 스트링으로 포함시키기
+	    String pythonUrl = "http://localhost:8000/receive_res?query=" + URLEncoder.encode(query, StandardCharsets.UTF_8);
 
-	    HttpHeaders headers = new HttpHeaders();
-	    
-	    headers.setContentType(MediaType.TEXT_PLAIN);
-	    
-	    HttpEntity<String> request = new HttpEntity<>(query, headers);
-
+	    // GET 요청 시 바디는 필요 없으므로 null 전달
 	    ResponseEntity<List<Integer>> response = restTemplate.exchange(
 	        pythonUrl,
-	        HttpMethod.POST,
-	        request,
+	        HttpMethod.GET,
+	        null,
 	        new ParameterizedTypeReference<List<Integer>>() {}
 	    );
 
@@ -206,6 +202,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
 	    return recommendedResIdxList;
 	}
+
 
 
 }

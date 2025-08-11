@@ -4,7 +4,7 @@ from io import BytesIO  # 메모리 버퍼를 사용하기 위한 모듈
 from wordcloud import WordCloud  # 워드클라우드 생성 라이브러리
 from typing import List # 리스트 타이핑
 import base64  # 바이너리 데이터를 base64 문자열로 인코딩하는 모듈
-from models import ReviewFeed, Wordcloud
+from models import Wordcloud
 
 # DB 연결 함수
 def db_connect(query, columns) :

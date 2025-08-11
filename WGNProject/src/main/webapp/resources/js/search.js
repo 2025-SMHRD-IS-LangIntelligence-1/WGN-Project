@@ -1,107 +1,157 @@
 const loginUserId = "${member.mb_id}";
 
 $(function() {
-	// 탭 클릭 이벤트
-	$('.search-tabs .tab').on('click', function(e) {
-		e.preventDefault(); // <a href="#"> 기본 동작 막기
+    // 탭 클릭 이벤트
+    $('.search-tabs .tab').on('click', function(e) {
+        e.preventDefault(); // <a href="#"> 기본 동작 막기
 
-		// 1. 모든 탭의 'active' 클래스 제거 → 시각적 효과 초기화
-		$('.search-tabs .tab').removeClass('active');
+        // 1. 모든 탭의 'active' 클래스 제거 → 시각적 효과 초기화
+        $('.search-tabs .tab').removeClass('active');
 
-		// 2. 클릭한 탭(this)에만 'active' 클래스 추가
-		$(this).addClass('active');
+        // 2. 클릭한 탭(this)에만 'active' 클래스 추가
+        $(this).addClass('active');
 
-		// 3. 모든 콘텐츠 영역 숨기기
-		$('#res-section, #feed-section, #member-section').hide();
+        // 3. 모든 콘텐츠 영역 숨기기
+        $('#res-section, #feed-section, #member-section').hide();
 
-		// 4. 클릭한 탭 ID에 따라 해당 콘텐츠 영역만 표시
-		if (this.id === 'tab-res') {
-			$('#res-section').show(); // 음식점 탭 클릭 시
-		} else if (this.id === 'tab-feed') {
-			$('#feed-section').show(); // 피드 탭 클릭 시
-		} else if (this.id === 'tab-member') {
-			$('#member-section').show(); // 사용자 탭 클릭 시
-		}
-	});
+        // 4. 클릭한 탭 ID에 따라 해당 콘텐츠 영역만 표시 및 form action 변경
+        if (this.id === 'tab-res') {
+            $('#res-section').show(); // 음식점 탭 클릭 시
+            $('#searchForm').attr('action', '${pageContext.request.contextPath}/search/res');
+        } else if (this.id === 'tab-feed') {
+            $('#feed-section').show(); // 피드 탭 클릭 시
+            $('#searchForm').attr('action', '${pageContext.request.contextPath}/search/feed');
+        } else if (this.id === 'tab-member') {
+            $('#member-section').show(); // 사용자 탭 클릭 시
+            $('#searchForm').attr('action', '${pageContext.request.contextPath}/search/member');
+        }
+    });
+});
+
+$('.search-btn').on('click', function(e) {
+	
+	console.log("클릭 함수 실행")
+	
+    e.preventDefault();
+
+    let keyword = $('.form-control').val().trim();
+
+    if (keyword === "") {
+        // 빈 검색어면 결과 숨김
+        $('#res-section, #feed-section, #member-section').empty().hide();
+        return;
+    }
+
+    const activeTabId = $('.tab.active').attr('id'); // 현재 활성 탭 ID
+	
+    if (activeTabId === 'tab-res') {
+		
+        // 음식점 검색 AJAX
+		$.ajax({
+		    url: 'search/res',
+		    type: 'GET',
+		    data: { query: keyword },
+		    success: function(resList) {
+		    
+                // 음식점 결과 처리
+                $('#res-section').empty();
+                if (resList.length === 0) {
+                    $('#res-section').html('<p>검색 결과가 없습니다.</p>').show();
+                    return;
+                }
+                resList.forEach(function(res) {
+					let card = `
+					  <a href="/wgn/restaurant?res_idx=${res.res_idx}" class="list-group-item d-flex align-items-center res-card" style="text-decoration:none; color:inherit;">
+					    <img src="${res.res_thumbnail}" alt="음식 이미지" class="res_thumbnail">
+					    <div class="res-info">
+					      <h5 class="res_name">${res.res_name}</h5>
+					      <p class="res_addr">${res.res_addr} 북구</p>
+					      <div class="rating_info">
+						  	<i class="bi bi-star"></i>
+					        <span class="ratings_text">${res.res_avg_rating}</span>
+					      </div>
+					    </div>
+					  </a>
+					`;
+                    $('#res-section').append(card);
+                });
+                $('#res-section').show();
+                // 다른 섹션 숨기기
+                $('#feed-section, #member-section').hide();
+            },
+            error: function() {
+                console.error("음식점 검색 실패");
+            }
+        });
+    } else if (activeTabId === 'tab-feed') {
+        // 피드 검색 AJAX
+        $.ajax({
+            url: 'search/feed',
+            type: 'GET',
+            data: { query: keyword },
+            success: function(feedList) {
+                $('#feed-section').empty();
+                if (feedList.length === 0) {
+                    $('#feed-section').html('<p>검색 결과가 없습니다.</p>').show();
+                    return;
+                }
+                feedList.forEach(function(feed) {
+                    let card = `
+					<div class="feed-box">
+						<div class="feed-image-grid">
+							<div class="cell" onclick="window.location='/feed?feed_idx=1'">
+								<img src="https://example.com/images/feed1.jpg" alt="대표 이미지">
+							</div>
+						</div>
+					</div>
+					`; 
+                    $('#feed-section').append(card);
+                });
+                $('#feed-section').show();
+                $('#res-section, #member-section').hide();
+            },
+            error: function() {
+                console.error("피드 검색 실패");
+            }
+        });
+    } else if (activeTabId === 'tab-member') {
+        // 사용자 검색 AJAX
+        $.ajax({
+            url: contextPath + '/search/member',
+            type: 'GET',
+            data: { keyword: keyword },
+            success: function(memberList) {
+                $('#member-section').empty();
+                if (memberList.length === 0) {
+                    $('#member-section').html('<p>검색 결과가 없습니다.</p>').show();
+                    return;
+                }
+                memberList.forEach(function(member) {
+                    const card = `
+                        <div class="member-header" data-mb-id="${member.mb_id}" style="cursor:pointer;">
+                            <div class="feed-member">
+                                <img src="${member.mb_img}" alt="프로필">
+                                <div class="member-info">
+                                    <span><b>${member.mb_nick}</b></span>
+                                    <span style="font-size: 12px; color: #888;">@${member.mb_id}</span>
+                                    <span style="font-size: 12px; color: #888;">${member.mb_intro}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    $('#member-section').append(card);
+                });
+                $('#member-section').show();
+                $('#res-section, #feed-section').hide();
+            },
+            error: function() {
+                console.error("사용자 검색 실패");
+            }
+        });
+    }
 });
 
 
-// debounce 함수 정의
-function debounce(callback, delay) {
-	let timer;
-	return function(...args) {
-		clearTimeout(timer);
-		timer = setTimeout(() => {
-			callback.apply(this, args);
-		}, delay);
-	};
-}
-
-// 사용자 검색 이벤트 리스너
-$('.form-control').on('input', debounce(function() {
-
-	let keyword = $(this).val().trim();
-
-	if (keyword === "") {
-		$('#member-section').empty().hide();
-		return;
-	}
-
-	$.ajax({
-		url: contextPath + '/search/member',
-		type: 'GET',
-		data: { keyword: keyword },
-		success: function(memberList) {
-			
-			console.log("검색 결과:", memberList); 
-
-			$('#member-section').empty(); // 기존 결과 비우기
-
-			if (memberList.length === 0) {
-				$('#member-section').html('<p>검색 결과가 없습니다.</p>').show();
-				return;
-			}
-
-			memberList.forEach(function(member) {
-				
-				/* 팔로우 버튼
-				const isMyself = member.mb_id === loginUserId;
-
-					const followBtn = isMyself ? '' : `
-						<form action="/member/follow" method="post" style="margin-left:auto;">
-							<input type="hidden" name="following_id" value="${member.mb_id}" />
-							<button type="submit" class="my-follow-btn"
-								data-following-id="${member.mb_id}"
-								data-followed="${member.followed}">
-								${member.followed ? '언팔로우' : '팔로우'}
-							</button>
-						</form>
-					`;*/
-
-
-				const card = `
-				    <div class="member-header" data-mb-id="${member.mb_id}" style="cursor:pointer;">
-				      <div class="feed-member">
-				        <img src="${member.mb_img}" alt="프로필">
-				        <div class="member-info">
-				          <span><b>${member.mb_nick}</b></span>
-						  <span style="font-size: 12px; color: #888;">@${member.mb_id}</span>
-				          <span style="font-size: 12px; color: #888;">${member.mb_intro}</span>
-				        </div>
-				      </div>
-				    </div>
-				  `
-				  
-				$('#member-section').append(card);
-			});
-
-			$('#member-section').show();
-		},
-		error: function() {
-			console.error("검색 실패");
-		}
-	});
-}, 600));
 
 $(document).off('click').on('click', '.member-header', function() {
   const mbId = $(this).data('mb-id');

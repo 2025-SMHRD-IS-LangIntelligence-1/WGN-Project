@@ -1,21 +1,42 @@
 @charset "UTF-8";
 
-/* 검색 입력 */
+/* 검색 박스 전체 레이아웃 */
 .search-box {
-	margin: 0 15px;       /* 좌우 여백, 상하는 여백 없음 */
-	padding: 12px 0;      /* 상하 내부 여백만 줌 */
+    max-width: 380px;      /* 최대 너비 제한 */
+    margin: 10px auto;     /* 위아래 20px, 좌우 auto로 가운데 정렬 */
+    box-sizing: border-box; /* 패딩 포함해서 크기 계산 */
+    display: flex;
 }
 
-/* 검색창 input */
-.search-box .form-control {
-	width: 100%;                   /* 부모(.search-box) 기준으로 가득 차게 */
-	border: none;                  /* 테두리 제거 */
-	border-radius: 30px;           /* 둥근 모서리 (완전 동그랗게) */
-	background-color: #f0f0f0;     /* 연한 회색 배경 */
-	padding: 10px 16px;            /* 안쪽 여백 */
-	font-size: 20px;               /* 글자 크기 */
-	box-shadow: none;              /* 기본 그림자 제거 */
-	outline: none;                 /* 클릭 시 파란 외곽선 제거 */
+/* 검색어 입력창 */
+.form-control {
+    flex: 1; /* 남는 공간 다 차지 */
+    padding: 10px 15px;
+    border: 2px solid #ccc;
+    border-radius: 30px 0 0 30px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #f4b400;
+}
+
+/* 검색 버튼 */
+.search-btn {
+    padding: 10px 20px;
+    border: 2px solid #f4b400;
+    background-color: #f4b400;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 0 30px 30px 0;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-btn:hover {
+    transform: scale(1.05);
 }
 
 /* 탭 컨테이너 */
@@ -62,6 +83,17 @@
 .res-section-box {
   padding: 15px;                       /* ✅ 내부 여백 (사방) */
   border-bottom: 1px solid #e0e0e0;    /* ✅ 아래 회색 선 */
+}
+
+.res-card {
+  background-color: #fff;       /* 흰색 배경 */
+  border-radius: 10px;          /* 모서리 둥글게 */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15); /* 약간의 그림자 */
+  padding: 15px;                /* 안쪽 여백 */
+  margin-bottom: 15px;          /* 아래 여백 */
+  display: flex;
+  align-items: center;
+  gap: 15px;                    /* 이미지와 텍스트 사이 공간 */
 }
 
 /* 🍜 음식점 썸네일 이미지 */
