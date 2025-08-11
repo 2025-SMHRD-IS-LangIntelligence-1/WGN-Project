@@ -26,6 +26,8 @@ def db_connect(query, columns) :
       df = pd.DataFrame(rows, columns=columns)
       conn.close()
 
+    print("DB 연결 완료!")
+
     return df
     
 def text_to_base64_wordcloud(text: str) -> str:

@@ -119,6 +119,8 @@ def db_connect(query, columns) :
       df = pd.DataFrame(rows, columns=columns)
       conn.close()
 
+    print("DB 연결 완료!")
+
     return df
 
 # ============== 데이터 준비 ==============
