@@ -77,5 +77,15 @@ public interface FeedMapper {
 	@Select("select feed_idx from t_feed_like where mb_id=#{mb_id}")
 	public List<Integer> getAllLikedFeed(String mb_id);
 
+	public void updateFeedMeta(Long feedIdx, String content, Integer ratings);
+
+	public List<String> selectImageUrlsByFeedId(Long feedIdx);
+
+	public void deleteImagesByFeedId(Long feedIdx);
+
+	public void deleteImagesByUrls(Long feedIdx, List<String> deleteUrls);
+
+	public void insertFeedImage(Long feedIdx, String url);
+
 
 }

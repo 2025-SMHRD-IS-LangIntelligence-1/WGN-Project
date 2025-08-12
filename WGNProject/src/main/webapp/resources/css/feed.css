@@ -88,6 +88,31 @@
 	line-height: 1.4;
 }
 
+/* 수정 삭제 버튼 */
+.btn-wrapper {
+  display: flex;
+  gap: 6px; /* 버튼 간격 */
+}
+
+.btn-wrapper form {
+  margin: 0; /* form 기본 여백 제거 */
+}
+
+.follow-btn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  background-color: #ffca28;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.follow-btn:hover {
+  background-color: #ffc107;
+}
+
+
 /* ================================
    📌 좋아요, 댓글 영역
 ================================ */
@@ -226,4 +251,39 @@
 /* 작성자 닉네임 */
 .comment-body strong {
 	display: block;
+}
+
+/* ================================
+   📌 수정 모달
+================================ */
+.star-rating {
+  direction: rtl; /* 별 순서 반전 (오른쪽부터 채움) */
+  display: inline-flex;
+}
+.star-rating input {
+  display: none; /* 라디오 버튼 숨김 */
+}
+.star-rating label {
+  font-size: 28px;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.star-rating input:checked ~ label {
+  color: #ffc107; /* 선택된 별 색 */
+}
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #ffc107; /* 마우스 올렸을 때 */
+}
+
+/* 노란색 버튼 고정 */
+.btn-yellow {
+  background-color: #ffc107 !important;
+  border-color: #ffc107 !important;
+  color: black !important;
+}
+.btn-yellow:hover {
+  background-color: #e0a800 !important;
+  border-color: #d39e00 !important;
 }

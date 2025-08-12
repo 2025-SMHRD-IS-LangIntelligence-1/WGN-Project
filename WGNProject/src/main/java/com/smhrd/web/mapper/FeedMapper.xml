@@ -155,6 +155,41 @@
 		r.res_name, r.res_category,
 		m.mb_img;
 	</select>
+	
+	
+	<update id="updateFeedMeta">
+        UPDATE t_feed
+        SET feed_content = #{content},
+            ratings      = #{ratings},
+            created_at   = NOW()
+        WHERE feed_idx  = #{feedIdx}
+    </update>
+
+    <select id="selectImageUrlsByFeedId" resultType="string">
+        SELECT feed_img_url
+        FROM t_feed_img
+        WHERE feed_idx = #{feedIdx}
+        ORDER BY feed_img_idx
+    </select>
+
+    <delete id="deleteImagesByFeedId">
+        DELETE FROM t_feed_img
+        WHERE feed_idx = #{feedIdx}
+    </delete>
+
+    <delete id="deleteImagesByUrls">
+        DELETE FROM t_feed_img
+        WHERE feed_idx = #{feedIdx}
+          AND feed_img_url IN
+          <foreach collection="deleteUrls" item="u" open="(" separator="," close=")">
+              #{u}
+          </foreach>
+    </delete>
+
+    <insert id="insertFeedImage">
+        INSERT INTO t_feed_img (feed_idx, feed_img_url)
+        VALUES (#{feedIdx}, #{url})
+    </insert>
 
 </mapper>
 
