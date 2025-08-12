@@ -152,7 +152,7 @@
 .search-input-wrap .search_input {
 	width: 100%;                               /* 래퍼 너비 100% */
 	margin: 0;                                 /* 바깥여백은 래퍼가 담당 */
-	height: 40px;                              /* 높이 */
+	height: 45px;                              /* 높이 */
 	border: none;                              /* 테두리 제거 */
 	border-radius: 8px;                        /* 둥근 모서리 */
 	padding: 0 12px;                           /* 기본 좌우 패딩 */
@@ -160,14 +160,14 @@
 	font-size: 16px;                           /* 글자 크기 */
 	background-color: #fff;                    /* 배경색 */
 	box-sizing: border-box;                    /* 패딩 포함 계산 */
-	box-shadow: 0 2px 6px rgba(0,0,0,0.12),    /* 입체감 그림자(얕은) */
+	box-shadow: 0 2px 4px rgba(0,0,0,0.12),    /* 입체감 그림자(얕은) */
 	            0 2px 6px rgba(0,0,0,0.08);   /* 입체감 그림자(깊은) */
-	transition: box-shadow .2s ease;           /* 그림자 전환 */
+	transition: box-shadow 0.1s ease;           /* 그림자 전환 */
 }
 .search-input-wrap .search_input:focus {
 	outline: none;                              /* 기본 포커스 제거 */
-	box-shadow: 0 0 0 3px rgba(255,208,0,0.25), /* 포커스 링(브랜드 옐로우) */
-	            0 6px 18px rgba(0,0,0,0.12);    /* 기본 그림자 유지 */
+	box-shadow: 0 0 0 4px rgba(255,208,0,0.25), /* 포커스 링(브랜드 옐로우) */
+	            0 2px 10px rgba(0,0,0,0.12);    /* 기본 그림자 유지 */
 }
 
 /* 음식점 검색 결과 */
