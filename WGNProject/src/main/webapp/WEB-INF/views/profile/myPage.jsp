@@ -26,7 +26,7 @@
 	<div class="mobile-container">
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 
-		<!-- 모달창 -->
+		<!-- 프로필 모달창 -->
 		<div id="profileModal" class="modal">
 			<div class="modal-content">
 				<span class="close">&times;</span>
@@ -42,6 +42,52 @@
 			</div>
 		</div>
 
+		<!-- 팔로워 모달창 -->
+		<div id="followerModal" class="modal">
+			<div class="modal-content">
+				<h2
+					style="margin-top: 0; margin-bottom: 20px; font-size: 1rem; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+					팔로워</h2>
+				<span class="close">&times;</span>
+				<c:forEach items="${followerList}" var="follower">
+					<div class="member-header" data-mb-id="${follower.mb_id}"
+						style="cursor: pointer;">
+						<div class="feed-member">
+							<img src="${follower.mb_img}" alt="프로필">
+							<div class="member-info">
+								<span><b>${follower.nickname}</b></span> <span
+									style="font-size: 12px; color: #888;">@${follower.mb_id}</span>
+								<span style="font-size: 12px; color: #888;">${follower.intro}</span>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+		
+		<!-- 팔로잉 모달창 -->
+		<div id="followingModal" class="modal">
+			<div class="modal-content">
+				<h2
+					style="margin-top: 0; margin-bottom: 20px; font-size: 1rem; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+					팔로잉</h2>
+				<span class="close">&times;</span>
+				<c:forEach items="${followingList}" var="following">
+					<div class="member-header" data-mb-id="${following.mb_id}"
+						style="cursor: pointer;">
+						<div class="feed-member">
+							<img src="${following.mb_img}" alt="프로필">
+							<div class="member-info">
+								<span><b>${following.nickname}</b></span> <span
+									style="font-size: 12px; color: #888;">@${following.mb_id}</span>
+								<span style="font-size: 12px; color: #888;">${following.intro}</span>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+
 		<div class="content">
 
 			<!-- 프로필 영역 -->
@@ -54,10 +100,10 @@
 						<div class="profile-stat">
 							<strong>${profile.feed_num}</strong> <span>게시물</span>
 						</div>
-						<div class="profile-stat">
+						<div class="profile-stat" id="follower-btn">
 							<strong>${profile.follower}</strong> <span>팔로워</span>
 						</div>
-						<div class="profile-stat">
+						<div class="profile-stat" id="following-btn">
 							<strong>${profile.following}</strong> <span>팔로잉</span>
 						</div>
 					</div>

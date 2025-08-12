@@ -7,7 +7,7 @@ from urllib.parse import unquote
 
 from feed_recommendation import recommend_feed
 from feed_searching import show_recommendation_result
-from making_wordclouds import make_wordclouds
+from making_wordclouds import run_pipeline
 from res_searching import prepare_data, recommend_with_reviewscore_auto
 from models import LogsAndFeeds, FeedForSearch, WordcloudAndRatings # 클래스들이 모여있는 파일
 
@@ -81,29 +81,17 @@ async def receive_res(query: str = Query(..., description="검색어")):
     return res_idx_list
 
 
-# --- 레스토랑 인덱스 번호 받아서 워드클라우드 제작 ---
+# --- 레스토랑 인덱스 번호 받아서 워드클라우드 제작 / 와구냠 평점 생성 ---
 @app.post("/receive_review")
 async def receive_review(res_idx: int) -> WordcloudAndRatings:
     print("=== /receive_review 호출됨 ===")
 
-    # 워드클라우드 제작 함수 호출 (res_idx 기반)
-    wordclouds = make_wordclouds(res_idx)
-
-    # 평점 계산 함수 호출 (res_idx 기반)
-    wgn_ratings = get_wgn_ratings(res_idx)
-
-    # WordcloudAndRatings 객체에 4개 워드클라우드와 평점 넣기
-    response = WordcloudAndRatings(
-        nk_positive_wc=wordclouds[0],
-        nk_negative_wc=wordclouds[1],
-        wgn_positive_wc=wordclouds[2],
-        wgn_negative_wc=wordclouds[3],
-        wgn_ratings=wgn_ratings
-    )
+    # 함수 호출
+    result = run_pipeline(res_idx)
 
     print("=== /receive_review 처리 완료 ===\n")
 
-    return response
+    return result
 
 
 @app.post("/receive_logs_and_feeds")

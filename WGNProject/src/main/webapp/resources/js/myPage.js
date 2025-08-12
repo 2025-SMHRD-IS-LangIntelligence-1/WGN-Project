@@ -87,17 +87,67 @@
   /* ============================== DOM 로드 후 바인딩 ============================== */
   document.addEventListener('DOMContentLoaded', () => {
     /* ---- 프로필 수정 모달 ---- */
-    const modal = document.getElementById('profileModal');
-    const openBtn = document.getElementById('profile-update-btn'); // 본인 페이지에서만 존재
-    const closeBtn = modal ? modal.querySelector('.close') : null;
+	const profileModal = document.getElementById('profileModal');
+	const profileOpenBtn = document.getElementById('profile-update-btn'); // 본인 페이지에서만 존재
+	const profileCloseBtn = profileModal ? profileModal.querySelector('.close') : null;
 
-    function openModal() { if (modal) modal.style.display = 'block'; }
-    function closeModal() { if (modal) modal.style.display = 'none'; }
+	function openProfileModal() {
+	    if (profileModal) profileModal.style.display = 'block';
+	}
+	function closeProfileModal() {
+	    if (profileModal) profileModal.style.display = 'none';
+	}
 
-    if (openBtn) openBtn.addEventListener('click', openModal);
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    window.addEventListener('click', (e) => { if (modal && e.target === modal) closeModal(); });
+	if (profileOpenBtn) profileOpenBtn.addEventListener('click', openProfileModal);
+	if (profileCloseBtn) profileCloseBtn.addEventListener('click', closeProfileModal);
+	window.addEventListener('click', (e) => {
+	    if (profileModal && e.target === profileModal) closeProfileModal();
+	});
 
+	/* ---- 팔로워 / 팔로잉 보기 모달 ---- */
+	const followerModal = document.getElementById('followerModal');
+	const followerOpenBtn = document.getElementById('follower-btn'); // 버튼 id 가정
+	const followerCloseBtn = followerModal ? followerModal.querySelector('.close') : null;
+
+	function openFollowerModal() {
+	    if (followerModal) followerModal.style.display = 'block';
+	}
+	function closeFollowerModal() {
+	    if (followerModal) followerModal.style.display = 'none';
+	}
+
+	if (followerOpenBtn) followerOpenBtn.addEventListener('click', openFollowerModal);
+	if (followerCloseBtn) followerCloseBtn.addEventListener('click', closeFollowerModal);
+	window.addEventListener('click', (e) => {
+	    if (followerModal && e.target === followerModal) closeFollowerModal();
+	});
+	
+	/* ---- 팔로잉 보기 모달---- */
+	const followingModal = document.getElementById('followingModal');
+		const followingOpenBtn = document.getElementById('following-btn'); // 버튼 id 가정
+		const followingCloseBtn = followingModal ? followingModal.querySelector('.close') : null;
+
+		function openFollowingModal() {
+		    if (followingModal) followingModal.style.display = 'block';
+		}
+		function closeFollowingModal() {
+		    if (followingModal) followingModal.style.display = 'none';
+		}
+
+		if (followingOpenBtn) followingOpenBtn.addEventListener('click', openFollowingModal);
+		if (followingCloseBtn) followingCloseBtn.addEventListener('click', closeFollowingModal);
+		window.addEventListener('click', (e) => {
+		    if (followingModal && e.target === followingModal) closeFollowingModal();
+		});
+		
+	/* 팔로잉 / 팔로우 페이지에서 해당 멤버 프로필로 이동할 수 있게 하는 코드 */
+	$('.member-header').click(function() {
+	  const mbId = $(this).data('mb-id');
+	  if(mbId) {
+	    window.location.href = `/wgn/profile/${mbId}`;
+	  }
+	});
+	
     /* ---- 게시글/지도 탭 전환 ---- */
     // 게시글 탭
     const $tabPosts = $('#tab-posts');

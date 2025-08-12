@@ -14,10 +14,18 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Autowired
 	private ReviewMapper reviewMapper;
+	@Autowired
+	private RestaurantService restaurantService;
 	
 	@Override
 	public void insertReview(t_review review) {
+		
+		// 리뷰 저장
 		reviewMapper.insertReview(review);
+		
+		// 레스토랑 최근 업데이트 시점 변경
+		int res_idx = review.getRes_idx();
+		restaurantService.updateRecord(res_idx);
 	}
 
 	@Override
