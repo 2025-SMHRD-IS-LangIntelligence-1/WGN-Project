@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.smhrd.web.dto.ReviewDTO;
+import com.smhrd.web.dto.WordCloudAndRatingsDTO;
 import com.smhrd.web.entity.t_convenience;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.entity.t_menu;
@@ -115,6 +116,9 @@ public class RestaurantController {
 		List<t_menu> res_menu = resmapper.res_menu(res_idx);
 		model.addAttribute("res_menu", res_menu);
 
+		// 평점 및 워드클라우드
+		WordCloudAndRatingsDTO data = resmapper.getWcAndRatingsDTO(res_idx);
+		model.addAttribute("data", data);
 
 		// 세션에서 로그인 유저 꺼냄
 		t_member logined = (t_member) session.getAttribute("member");		
