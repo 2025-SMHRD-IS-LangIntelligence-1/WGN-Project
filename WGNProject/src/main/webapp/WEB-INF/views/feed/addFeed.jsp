@@ -8,6 +8,8 @@
 <meta charset="UTF-8">
 <title>addFeed</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+	rel="stylesheet">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
@@ -20,8 +22,9 @@
 
 	<div class="mobile-container">
 		<div class="content">
-			<form action="<c:url value='/feed/upload'/>"
-      method="post" enctype="multipart/form-data">
+			<form action="<c:url value='/feed/upload'/>" method="post"
+				enctype="multipart/form-data">
+
 				<div class="add-box">
 					<!-- 상단 닫기 및 제출 버튼 -->
 					<div class="add-box-header">
@@ -31,15 +34,12 @@
 
 					<!-- 파일 업로드 영역 -->
 					<div class="upload-wrapper">
-
 						<!-- 업로드 버튼 영역 -->
 						<div class="upload-box-container">
 							<label for="file-upload" class="upload-box"> <i
 								class="bi bi-camera"></i> <span>사진/영상</span>
 							</label> <input type="file" name="files" id="file-upload"
 								class="file-upload" accept="image/*" hidden multiple>
-
-							<!-- 안내 문구 추가 -->
 							<p class="upload-limit-text">최대 5장까지 업로드할 수 있습니다.</p>
 						</div>
 
@@ -58,8 +58,8 @@
 						style="display: none; font-size: 13px;">내용을 입력해주세요.</span>
 				</div>
 
-				<!-- 구분선 -->
-				<div class="section_divider"></div>
+
+				<!-- 클래스명 통일 -->
 
 				<div class="rating-wrapper">
 					<span class="rating-title">별점</span>
@@ -69,10 +69,12 @@
 							id="star4" name="ratings" value="4" /> <label for="star4"
 							title="4 stars">★</label> <input type="radio" id="star3"
 							name="ratings" value="3" /> <label for="star3" title="3 stars">★</label>
+
 						<input type="radio" id="star2" name="ratings" value="2" /> <label
 							for="star2" title="2 stars">★</label> <input type="radio"
-							id="star1" name="rating" value="1" /> <label for="star1"
-							title="1 star">★</label>
+							id="star1" name="ratings" value="1" />
+						<!-- name 통일 -->
+						<label for="star1" title="1 star">★</label>
 					</div>
 				</div>
 
@@ -83,7 +85,6 @@
 				<div class="favorite-wrapper">
 					<span class="favorite-title"> 내 랭킹 등록하기 </span>
 					<div class="favorite-input">
-
 						<div id="rankToggleWrapper">
 							<label class="switch-toggle"> <input type="checkbox"
 								id="rank_toggle" name="rank_toggle"> <span
@@ -92,29 +93,23 @@
 							</span>
 							</label>
 						</div>
-
 						<span id="duplicateFavoriteMsg" class="text-danger"
 							style="display: none; font-size: 13px; margin-left: 10px;">이미
 							등록한 음식점입니다.</span>
 					</div>
 				</div>
-		</div>
-		<!-- 음식점 검색 -->
-		<input type="text" class="search_input" placeholder="음식점을 입력하세요">
-		<input type="hidden" name="res_idx" id="selectedResIdx"> <span
-			id="resError" class="text-danger"
-			style="display: none; font-size: 13px;">음식점을 선택해주세요.</span>
-		<!-- 검색 결과 리스트 -->
-		<div class="search-list"></div>
-		</form>
-	</div>
-	</div>
 
-	<!-- 게시 중 모달 -->
-	<div id="postingModal" class="modal-backdrop" style="display: none;">
-		<div class="modal-content">
-			<span class="loader"></span>
-			<p>게시 중입니다...</p>
+				<!-- 음식점 검색 (반드시 form 안에 둠) -->
+				<div class="search-input-wrap">
+					<i class="bx bx-search"></i>
+					<input type="text" class="search_input" placeholder="음식점을 입력하세요">
+				</div>
+				<input type="hidden" name="res_idx" id="selectedResIdx"> <span
+					id="resError" class="text-danger"
+					style="display: none; font-size: 13px;">음식점을 선택해주세요.</span>
+				<div class="search-list"></div>
+
+			</form>
 		</div>
 	</div>
 
