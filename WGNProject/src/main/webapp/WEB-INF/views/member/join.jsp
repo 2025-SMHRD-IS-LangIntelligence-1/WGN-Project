@@ -29,8 +29,8 @@
 
 			<div class="join-wrapper">
 				<!-- 뒤로가기 버튼 -->
-				<button type="button" class="back-btn" onclick="history.back()"
-					aria-label="뒤로가기">
+				<button type="button" class="back-btn"
+					onclick="if(history.length>1){history.back()}else{location.href='${pageContext.request.contextPath}/'}">
 					<i class="bi-chevron-left"></i>
 				</button>
 				<div class="join">
@@ -104,7 +104,7 @@
 			</form>
 
 			<!-- 모달창 -->
-			
+
 
 		</div>
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
@@ -112,9 +112,6 @@
 
 	<script>
 		const contextPath = '${pageContext.request.contextPath}';
-		
-		
-		
 	</script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/join.js"></script>

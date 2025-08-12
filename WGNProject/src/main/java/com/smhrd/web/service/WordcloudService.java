@@ -18,7 +18,7 @@ import com.smhrd.web.dto.WordCloudAndRatingsDTO;
 import com.smhrd.web.mapper.RestaurantMapper;
 
 @Component
-public class AutoUpdateScheduler {
+public class WordcloudService {
 
 	@Autowired
 	RestaurantMapper restaurantMapper;
@@ -30,10 +30,8 @@ public class AutoUpdateScheduler {
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 
-	    // 쿼리 파라미터를 URL에 붙임
 	    String pythonUrl = "http://localhost:8000/receive_review?res_idx=" + res_idx;
 
-	    // 바디는 필요 없으면 null로
 	    HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
 	    RestTemplate restTemplate = new RestTemplate();
@@ -74,9 +72,9 @@ public class AutoUpdateScheduler {
     	
     	 System.out.println("스케줄러 실행중! " + System.currentTimeMillis());
     	
-        // 최근 1시간 동안 리뷰/피드가 변경된 음식점 IDX + 최대 30개의 워드클라우드가 비어있는 res_idx 가져오기
+        // 최근 1시간 동안 리뷰/피드가 변경된 음식점 idx 가져오기
     	LocalDateTime time = LocalDateTime.now().minusHours(1);
-    	List<Integer> updateList = restaurantMapper.findRecentlyUpdatedOrMissingWC(time);
+    	List<Integer> updateList = restaurantMapper.findRecentlyUpdated(time);
 
         for (int res_idx : updateList) {
             try {
@@ -87,6 +85,21 @@ public class AutoUpdateScheduler {
                 System.err.println("워드클라우드 업데이트 실패 resId=" + res_idx + ", error=" + e.getMessage());
             }
         }
+    }
+    
+    public void updateEmpty() {
+    	List<Integer> EmptyList = restaurantMapper.selectEmpty();
+    	
+    	for (int res_idx : EmptyList) {
+            try {
+                // 워드클라우드 생성 요청 & DB 업데이트
+                this.updateWordCloud(res_idx);
+            } catch (Exception e) {
+                // 에러 로그 기록 후 다음 음식점 계속 처리
+                System.err.println("워드클라우드 업데이트 실패 resId=" + res_idx + ", error=" + e.getMessage());
+            }
+        }
+    	
     }
 	
 }

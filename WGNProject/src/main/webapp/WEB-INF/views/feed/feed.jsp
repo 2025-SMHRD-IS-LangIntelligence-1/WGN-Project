@@ -100,25 +100,29 @@
 				class="post-info d-flex align-items-center justify-content-between"
 				data-feed-idx="${feed.feed_idx}">
 
-				<div>
-					<c:choose>
-						<c:when test="${isLiking}">
-							<!-- 좋아요 되어있으면 채워진 하트 -->
-							<span class="clickable-heart stats" data-is-liking="true">
-								<i class="bi bi-heart-fill clicked stats"></i>
-							</span>
-						</c:when>
-						<c:otherwise>
-							<!-- 좋아요 안 되어있으면 빈 하트 -->
-							<span class="clickable-heart stats" data-is-liking="false">
-								<i class="bi bi-heart stats"></i>
-							</span>
-						</c:otherwise>
-					</c:choose>
-					<span class="like-count stats ms-2">${feed.feed_likes}</span> <span
-						class="stats ms-2">좋아요 · </span> <span class="stats ms-2">0</span>
-					<span class="stats ms-2">댓글</span>
-				</div>
+				<div class="post-info">
+  <c:choose>
+    <c:when test="${isLiking}">
+      <span class="clickable-heart stats" data-is-liking="true">
+        <i class="bi bi-heart-fill clicked stats"></i>
+      </span>
+    </c:when>
+    <c:otherwise>
+      <span class="clickable-heart stats" data-is-liking="false">
+        <i class="bi bi-heart stats"></i>
+      </span>
+    </c:otherwise>
+  </c:choose>
+
+  <!-- 좋아요, 댓글 묶음 -->
+  <span class="like-comment-group stats ms-2">
+    <span class="like-count">${feed.feed_likes}</span>
+    <span>좋아요 · </span>
+    <span class="comment-count">0</span>
+    <span>댓글</span>
+  </span>
+</div>
+
 
 				<div class="rating-box">
 					<i class="bi bi-star"></i> ${feed.ratings != null ? feed.ratings : '없음'}
