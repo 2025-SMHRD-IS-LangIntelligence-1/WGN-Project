@@ -42,6 +42,51 @@
 			</div>
 		</div>
 
+		<!-- 팔로잉 / 팔로워 모달창 -->
+<div id="followModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+
+        <!-- 탭 버튼 -->
+        <div class="tab-buttons">
+            <button type="button" class="tab-btn active" data-tab="followers">팔로워</button>
+            <button type="button" class="tab-btn" data-tab="followings">팔로잉</button>
+        </div>
+
+        <!-- 팔로워 리스트 -->
+        <div id="followers" class="tab-content active">
+            <c:forEach items="${followerList}" var="follower">
+                <div class="member-header" data-mb-id="${follower.mb_id}">
+                    <div class="feed-member">
+                        <img src="${follower.mb_img}" alt="프로필">
+                        <div class="member-info">
+                            <span><b>${follower.nickname}</b></span>
+                            <span>@${follower.mb_id}</span>
+                            <span>${follower.intro}</span>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+
+        <!-- 팔로잉 리스트 -->
+        <div id="followings" class="tab-content" style="display: none;">
+            <c:forEach items="${followingList}" var="following">
+                <div class="member-header" data-mb-id="${following.mb_id}">
+                    <div class="feed-member">
+                        <img src="${following.mb_img}" alt="프로필">
+                        <div class="member-info">
+                            <span><b>${following.nickname}</b></span>
+                            <span>@${following.mb_id}</span>
+                            <span>${following.intro}</span>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+</div>
+
 		<!-- 팔로워 모달창 -->
 		<div id="followerModal" class="modal">
 			<div class="modal-content">
@@ -87,6 +132,7 @@
 				</c:forEach>
 			</div>
 		</div>
+
 
 		<div class="content">
 
