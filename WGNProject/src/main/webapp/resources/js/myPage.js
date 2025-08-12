@@ -105,48 +105,72 @@
 	});
 
 	/* ---- 팔로워 / 팔로잉 보기 모달 ---- */
-	const followerModal = document.getElementById('followerModal');
-	const followerOpenBtn = document.getElementById('follower-btn'); // 버튼 id 가정
-	const followerCloseBtn = followerModal ? followerModal.querySelector('.close') : null;
+	const followModal = document.getElementById('followModal');
+	const followCloseBtn = followModal ? followModal.querySelector('.close') : null;
 
-	function openFollowerModal() {
-	    if (followerModal) followerModal.style.display = 'block';
-	}
-	function closeFollowerModal() {
-	    if (followerModal) followerModal.style.display = 'none';
+	function openFollowModal(defaultTabId) {
+	    if (!followModal) return;
+
+	    // 모달 열기
+	    followModal.style.display = 'block';
+
+	    // 탭 버튼 활성화
+	    document.querySelectorAll('.tab-btn').forEach(btn => {
+	        btn.classList.toggle('active', btn.dataset.tab === defaultTabId);
+	    });
+
+	    // 컨텐츠 표시
+	    document.querySelectorAll('.tab-content').forEach(content => {
+	        content.style.display = (content.id === defaultTabId) ? 'block' : 'none';
+	    });
 	}
 
-	if (followerOpenBtn) followerOpenBtn.addEventListener('click', openFollowerModal);
-	if (followerCloseBtn) followerCloseBtn.addEventListener('click', closeFollowerModal);
+	// 팔로워 버튼
+	document.getElementById('follower-btn')?.addEventListener('click', () => {
+	    openFollowModal('followers');
+	});
+
+	// 팔로잉 버튼
+	document.getElementById('following-btn')?.addEventListener('click', () => {
+	    openFollowModal('followings');
+	});
+
+	// 닫기 버튼
+	if (followCloseBtn) {
+	    followCloseBtn.addEventListener('click', () => followModal.style.display = 'none');
+	}
+
+	// 배경 클릭 시 닫기
 	window.addEventListener('click', (e) => {
-	    if (followerModal && e.target === followerModal) closeFollowerModal();
+	    if (followModal && e.target === followModal) {
+	        followModal.style.display = 'none';
+	    }
 	});
-	
-	/* ---- 팔로잉 보기 모달---- */
-	const followingModal = document.getElementById('followingModal');
-		const followingOpenBtn = document.getElementById('following-btn'); // 버튼 id 가정
-		const followingCloseBtn = followingModal ? followingModal.querySelector('.close') : null;
 
-		function openFollowingModal() {
-		    if (followingModal) followingModal.style.display = 'block';
-		}
-		function closeFollowingModal() {
-		    if (followingModal) followingModal.style.display = 'none';
-		}
+	/* ---- 팔로워 / 팔로잉 탭 전환 ---- */
+	document.querySelectorAll('.tab-btn').forEach(button => {
+	    button.addEventListener('click', () => {
+	        const tab = button.dataset.tab;
 
-		if (followingOpenBtn) followingOpenBtn.addEventListener('click', openFollowingModal);
-		if (followingCloseBtn) followingCloseBtn.addEventListener('click', closeFollowingModal);
-		window.addEventListener('click', (e) => {
-		    if (followingModal && e.target === followingModal) closeFollowingModal();
-		});
-		
-	/* 팔로잉 / 팔로우 페이지에서 해당 멤버 프로필로 이동할 수 있게 하는 코드 */
-	$('.member-header').click(function() {
-	  const mbId = $(this).data('mb-id');
-	  if(mbId) {
-	    window.location.href = `/wgn/profile/${mbId}`;
-	  }
+	        // 버튼 active 토글
+	        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+	        button.classList.add('active');
+
+	        // 컨텐츠 토글
+	        document.querySelectorAll('.tab-content').forEach(content => {
+	            content.style.display = content.id === tab ? 'block' : 'none';
+	        });
+	    });
 	});
+
+	/* 멤버 프로필 이동 */
+	$('.member-header').click(function () {
+	    const mbId = $(this).data('mb-id');
+	    if (mbId) {
+	        window.location.href = `/wgn/profile/${mbId}`;
+	    }
+	});
+
 	
     /* ---- 게시글/지도 탭 전환 ---- */
     // 게시글 탭

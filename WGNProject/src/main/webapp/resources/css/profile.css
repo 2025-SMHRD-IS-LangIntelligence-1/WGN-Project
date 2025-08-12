@@ -9,11 +9,7 @@
 
 /* 프로필 전체 */
 .profile {
-<<<<<<< HEAD
-  padding: 20px 31px 10px;
-=======
-	padding: 20px 15px 10px;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
+	padding: 20px 31px 10px;
 }
 
 /* 프로필 상단 한 줄 */
@@ -110,14 +106,9 @@
 
 /* 닉네임 / 소개 */
 .profile-info {
-<<<<<<< HEAD
-  margin-top: 12px;/* 프로필 전체 */
-  background: #fff;
-=======
 	margin-top: 12px;
-	padding : 20px 15px 10px;
+	padding: 20px 15px 10px;
 	background: #fff;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 
 /* 프로필 상단 한 줄 */
@@ -223,10 +214,7 @@
 	padding: 10px;
 }
 
-<<<<<<< HEAD
-=======
-}
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
+
 .profile-info h5 {
 	font-weight: bold;
 	margin-bottom: 5px;
@@ -263,69 +251,152 @@
 
 /* 모달 창 */
 
+
 /* 모달 배경 */
 .modal {
-	display: none;
-	position: fixed !important;
-	z-index: 1000 !important;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.5) !important;
+  display: none;
+  position: fixed !important;
+  z-index: 1000 !important;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
-/* 모달 컨텐츠 가운데 정렬 */
+/* 모달 컨텐츠 가운데 정렬 및 스타일 */
 .modal-content {
-	background-color: #fff !important;
-	margin: 5% auto !important;
-	padding: 20px !important;
-	border-radius: 12px !important;
-	width: 400px !important;
-	max-height: 80vh !important;
-	overflow-y: auto !important;
-	position: relative; 
+  background-color: #fff !important;
+  margin: 5% auto !important;
+  padding: 24px 32px !important;
+  border-radius: 16px !important;
+  width: 400px !important;
+  max-height: 80vh !important;
+  overflow-y: auto !important;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* 닫기 버튼 스타일 */
 .close {
   position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #888;
+  top: 12px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #aaa;
   cursor: pointer;
   user-select: none;
-  transition: color 0.3s;
-}
-
-
-
-/* 닫기 버튼 */
-.close {
-	position: absolute;
-	right: 15px;
-	font-size: 28px;
-	font-weight: bold;
-	color: #999;
-	cursor: pointer;
-	transition: color 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 .close:hover {
-	color: #333;
+  color: #333;
 }
 
-/* 멤버 전체 컨테이너 */
+/* 탭 버튼 컨테이너 */
+.tab-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #eee;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 탭 버튼 - 균등 너비, 가운데 정렬 */
+.tab-btn {
+  flex: 1;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-weight: 600;
+  font-size: 15px;
+  color: #ffc107;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px 4px 0 0;
+  text-align: center;
+  user-select: none;
+  min-width: 0;
+}
+
+/* 활성 탭 */
+.tab-btn.active {
+  color: #ffc107;
+  border-bottom-color: #ffc107;
+  font-weight: 700;
+  background-color: #fff;
+}
+
+/* 탭 컨텐츠 박스 */
+.tab-content {
+  border: 1px solid #eee;
+  border-radius: 0 16px 16px 16px;
+  padding: 16px 20px;
+  background-color: #fff;
+  max-height: 50vh;
+  overflow-y: auto;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.03);
+}
+
+/* 팔로워/팔로잉 리스트 아이템 */
 .member-header {
-	padding: 10px;
-	transition: background 0.2s;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .member-header:hover {
-	background-color: #f5f5f5;
+  background-color: #fff8e1;
 }
+
+/* 멤버 박스 내 배치 */
+.feed-member {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 프로필 이미지 */
+.feed-member img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* 텍스트 영역 */
+.member-info span {
+  display: block;
+  line-height: 1.1;
+  margin-top: 2px;
+}
+
+/* 첫 번째 span (닉네임) */
+.member-info span:first-child {
+  margin-top: 0;
+  font-weight: 700;
+  color: #d4a300;
+  font-size: 16px;
+}
+
+/* 아이디와 소개 */
+.member-info span:nth-child(2),
+.member-info span:nth-child(3) {
+  font-size: 13px;
+  color: #adb5bd;
+  font-weight: 400;
+  margin-top: 1px;
+}
+
 
 /* 프로필 영역 가로정렬 */
 .feed-member {
@@ -342,11 +413,7 @@
 	object-fit: cover;
 }
 
-#follower-btn {
-	cursor: pointer;
-}
-
-#following-btn {
+#followModal-btn {
 	cursor: pointer;
 }
 
