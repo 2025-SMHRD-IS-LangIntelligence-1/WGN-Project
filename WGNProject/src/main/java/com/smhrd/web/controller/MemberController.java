@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.entity.t_member;
@@ -72,21 +73,29 @@ public class MemberController {
 	
 	// 로그인 기능
 	@PostMapping("/loginMember")
-	public String login(t_member mem, HttpSession session, Model model) {
+	public String login(t_member mem, HttpSession session, RedirectAttributes ra) {
 		
 		// 로그인 메서드
 	    t_member member = memberService.login(mem);
-	    ProfileDTO profile = memberService.getProfileInfo(mem.getMb_id());
-	    
-	    if (member != null) {
-	        session.setAttribute("member", member);  // 멤버 정보 세션에 저장
-	        session.setAttribute("profile", profile); // 프로필 정보 세션에 저장
-	        return "redirect:/";
-	        
-	    } else {
-	        System.out.println("아이디와 비밀번호가 올바르지 않습니다.");
-	        return "member/login";  // 로그인 실패 시 다시 로그인 페이지로
+	    if (member == null) {
+	    	System.out.println("아이디 또는 비밀번호가 올바르지 않습니다.");
+	    	ra.addFlashAttribute("loginErrorMsg", "아이디와 비밀번호를 확인해주세요.");
+	        return "redirect:/member/login";
 	    }
+
+	    session.setAttribute("member", member);
+
+	    try {
+	        // 로그인 성공 후에만 프로필 로드 (입력값 mem.getMb_id() 말고, 검증된 member.getMb_id() 사용)
+	        ProfileDTO profile = memberService.getProfileInfo(member.getMb_id());
+	        session.setAttribute("profile", profile);
+	    } catch (IllegalArgumentException e) {
+	        // 프로필 없다고 로그인까지 막을 필요는 없으니, 경고만 주고 진행하거나 기본 프로필을 넣으세요.
+	        System.out.println("[WARN] 프로필 없음: " + e.getMessage());
+	        session.removeAttribute("profile"); // 또는 기본 프로필 세팅
+	    }
+
+	    return "redirect:/";
 	}
 	
 	// 로그아웃 기능

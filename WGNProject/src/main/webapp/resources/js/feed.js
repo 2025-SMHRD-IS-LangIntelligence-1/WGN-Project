@@ -155,3 +155,44 @@ document.addEventListener("DOMContentLoaded", function () {
   replaceRadio.addEventListener("change", updateButtonColor);
   appendRadio.addEventListener("change", updateButtonColor);
 });
+
+document.addEventListener('DOMContentLoaded', function(){
+  const form = document.querySelector('#editFeedModal form');
+  const overlay = document.getElementById('updatingOverlay');
+
+  if(!form || !overlay) return;
+
+  form.addEventListener('submit', function(e){
+    // 중복 제출 방지
+    if(form.dataset.submitting === 'true'){
+      e.preventDefault();
+      return;
+    }
+    form.dataset.submitting = 'true';
+
+    // 저장 버튼 비활성화 & 텍스트 변경
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if(submitBtn){
+      submitBtn.disabled = true;
+      submitBtn.dataset._old = submitBtn.innerHTML;
+      submitBtn.innerHTML = '저장 중...';
+    }
+
+    // 오버레이 표시
+    overlay.style.display = 'flex';
+  }, { passive: false });
+
+  // 페이지가 bfcache로 돌아왔을 때 오버레이가 남아있는 것 방지
+  window.addEventListener('pageshow', function(){
+    overlay.style.display = 'none';
+    if(form){
+      form.dataset.submitting = 'false';
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if(submitBtn && submitBtn.dataset._old){
+        submitBtn.innerHTML = submitBtn.dataset._old;
+        submitBtn.disabled = false;
+        delete submitBtn.dataset._old;
+      }
+    }
+  });
+});
