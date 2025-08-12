@@ -3,6 +3,7 @@ package com.smhrd.web.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -120,6 +121,7 @@ public class ProfileController {
             System.out.println("feed_idx in controller = " + feed.getFeed_idx());
         }
         
+        Collections.reverse(feedDTOList);
 	    model.addAttribute("feedDTOList", feedDTOList);
 	    
 	    

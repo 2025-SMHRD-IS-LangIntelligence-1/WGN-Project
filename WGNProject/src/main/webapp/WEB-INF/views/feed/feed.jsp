@@ -26,7 +26,8 @@
 
 			<!-- 상단 프로필 -->
 			<div class="post-header">
-				<a href="/wgn/profile/${feed.mb_id}" class="post-user" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+				<a href="/wgn/profile/${feed.mb_id}" class="post-user"
+					style="display: flex; align-items: center; text-decoration: none; color: inherit;">
 					<img src="${profile.mb_img}">
 					<div class="post-user-info">
 						<span><b>${feed.mb_nick}</b></span> <span
@@ -67,118 +68,121 @@
 			</div>
 
 			<!-- 게시물 이미지 -->
-			<div id="carousel1" class="carousel slide" data-bs-touch="true"
-				data-bs-interval="false" data-wrap="false">
+			<div id="carousel1" class="carousel slide feed-carousel"
+				data-bs-touch="true" data-bs-interval="false" data-wrap="false">
 
 				<div class="carousel-inner">
 					<c:forEach var="imgUrl" items="${feed.imageUrls}"
 						varStatus="status">
 						<div class="carousel-item ${status.first ? 'active' : ''}">
-							<img src="${imgUrl}" class="d-block w-100">
+							<img src="${imgUrl}" class="d-block w-100" alt="피드 이미지">
 						</div>
 					</c:forEach>
-
-					<!-- 좌우 버튼 -->
-					<button class="carousel-control-prev" type="button"
-						data-bs-target="#carousel1" data-bs-slide="prev">
-						<span class="carousel-control-prev-icon"></span>
-					</button>
-					<button class="carousel-control-next" type="button"
-						data-bs-target="#carousel1" data-bs-slide="next">
-						<span class="carousel-control-next-icon"></span>
-					</button>
 				</div>
 
-				<!-- 좋아요 / 댓글 수 / 평점 -->
-				<div
-					class="post-info d-flex align-items-center justify-content-between"
-					data-feed-idx="${feed.feed_idx}">
+				<!-- 좌우 버튼은 carousel-inner 바깥(형제) -->
+				<button class="carousel-control-prev" type="button"
+					data-bs-target="#carousel1" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon"></span>
+				</button>
+				<button class="carousel-control-next" type="button"
+					data-bs-target="#carousel1" data-bs-slide="next">
+					<span class="carousel-control-next-icon"></span>
+				</button>
+			</div>
+			<!-- 좋아요 / 댓글 수 / 평점 -->
+			<div
+				class="post-info d-flex align-items-center justify-content-between"
+				data-feed-idx="${feed.feed_idx}">
 
-					<div>
-						<c:choose>
-							<c:when test="${isLiking}">
-								<!-- 좋아요 되어있으면 채워진 하트 -->
-								<span class="clickable-heart stats" data-is-liking="true"> <i
-									class="bi bi-heart-fill clicked stats"></i>
-								</span>
-							</c:when>
-							<c:otherwise>
-								<!-- 좋아요 안 되어있으면 빈 하트 -->
-								<span class="clickable-heart stats" data-is-liking="false"> <i
-									class="bi bi-heart stats"></i>
-								</span>
-							</c:otherwise>
-						</c:choose>
-							<span class="like-count stats ms-2">${feed.feed_likes}</span>
-							<span class="stats ms-2">좋아요  · </span>
-							<span class="stats ms-2">0</span>
-							<span class="stats ms-2">댓글</span>
-					</div>
-
-					<div class="rating-box">
-						<i class="bi bi-star"></i> ${feed.ratings != null ? feed.ratings : '없음'}
-					</div>
-
+				<div>
+					<c:choose>
+						<c:when test="${isLiking}">
+							<!-- 좋아요 되어있으면 채워진 하트 -->
+							<span class="clickable-heart stats" data-is-liking="true">
+								<i class="bi bi-heart-fill clicked stats"></i>
+							</span>
+						</c:when>
+						<c:otherwise>
+							<!-- 좋아요 안 되어있으면 빈 하트 -->
+							<span class="clickable-heart stats" data-is-liking="false">
+								<i class="bi bi-heart stats"></i>
+							</span>
+						</c:otherwise>
+					</c:choose>
+					<span class="like-count stats ms-2">${feed.feed_likes}</span> <span
+						class="stats ms-2">좋아요 · </span> <span class="stats ms-2">0</span>
+					<span class="stats ms-2">댓글</span>
 				</div>
 
-
-
-				<!-- 본문 내용 -->
-				<div class="post-text">${feed.feed_content}</div>
-
-				<!-- 장소 카드 -->
-				<div class="location-card">
-					<div class="location-info"
-						onclick="window.location='${pageContext.request.contextPath}/restaurant?res_idx=${resInfo.res_idx}'">
-						<img src="${resInfo.res_thumbnail}">
-						<div>
-							<div style="font-weight: bold;">${resInfo.res_name}</div>
-							<div style="font-size: 12px; color: #777;">${resInfo.res_addr}</div>
-						</div>
-					</div>
-					<button>&rsaquo;</button>
-				</div>
-
-				<!-- 댓글 입력 -->
-				<form action="${pageContext.request.contextPath}/feed/comment"
-					method="post">
-					<div class="comment-input">
-						<input type="hidden" name="feed_idx" value="${feed.feed_idx}" />
-						<input type="text" name="cmt_content" placeholder="여기에 입력하세요">
-						<button type="submit">
-							<i class="bi bi-send"></i>
-						</button>
-					</div>
-				</form>
-
-				<!-- 댓글 목록 -->
-				<div class="comments">
-					<div class="comments">
-						<c:forEach var="comment" items="${comments}">
-							<div class="comment">
-								<img src="${comment.mb_img}" class="comment-avatar">
-								<div class="comment-body">
-									<!-- 작성자 닉네임 -->
-									<strong>${comment.mb_nick}</strong>
-									<!-- 댓글 내용 -->
-									<p>${comment.cmt_content}</p>
-								</div>
-								<i class="bi bi-heart"></i>
-							</div>
-						</c:forEach>
-					</div>
+				<div class="rating-box">
+					<i class="bi bi-star"></i> ${feed.ratings != null ? feed.ratings : '없음'}
 				</div>
 
 			</div>
-			<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+
+
+
+			<!-- 본문 내용 -->
+			<div class="post-text">${feed.feed_content}</div>
+
+			<!-- 장소 카드 -->
+			<div class="location-card"
+				onclick="window.location='${pageContext.request.contextPath}/restaurant?res_idx=${resInfo.res_idx}'">
+				<div class="location-info">
+
+					<img src="${resInfo.res_thumbnail}">
+					<div>
+						<div style="font-weight: bold;">${resInfo.res_name}</div>
+						<div style="font-size: 12px; color: #777;">${resInfo.res_addr}</div>
+					</div>
+				</div>
+				<button>&rsaquo;</button>
+			</div>
+
+			<!-- 댓글 입력 -->
+			<form action="${pageContext.request.contextPath}/feed/comment"
+				method="post">
+				<div class="comment-input">
+					<input type="hidden" name="feed_idx" value="${feed.feed_idx}" /> <input
+						type="text" name="cmt_content" placeholder="여기에 입력하세요">
+					<button type="submit">
+						<i class="bi bi-send"></i>
+					</button>
+				</div>
+			</form>
+
+			<!-- 댓글 목록 -->
+			<div class="comments">
+				<div class="comments">
+					<c:forEach var="comment" items="${comments}">
+						<div class="comment">
+							<img src="${comment.mb_img}" class="comment-avatar">
+							<div class="comment-body">
+								<!-- 작성자 닉네임 -->
+								<strong>${comment.mb_nick}</strong>
+								<!-- 댓글 내용 -->
+								<p>${comment.cmt_content}</p>
+							</div>
+							<i class="bi bi-heart"></i>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+
 		</div>
+		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+	</div>
 	</div>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 		let contextPath = "${pageContext.request.contextPath}"
-		const feedIdx = ${feed != null ? feed.feed_idx : 'null'};
+		const feedIdx = $
+		{
+			feed != null ? feed.feed_idx : 'null'
+		};
 		window.feedIdx = feedIdx;
 	</script>
 	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
