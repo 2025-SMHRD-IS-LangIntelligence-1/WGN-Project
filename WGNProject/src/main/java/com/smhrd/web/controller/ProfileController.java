@@ -110,7 +110,7 @@ public class ProfileController {
         model.addAttribute("profile", profile);
         
  		// 멤버의 팔로워, 팔로잉 리스트를 구하는 메서드
- 		Map<String, Object> listMap = memberService.getFollowInfo(myId);
+ 		Map<String, Object> listMap = memberService.getFollowInfo(mb_id);
  		List<ProfileDTO> followerList = (List<ProfileDTO>) listMap.get("followerList");
  		List<ProfileDTO> followingList = (List<ProfileDTO>) listMap.get("followingList");
  		
