@@ -96,6 +96,7 @@ public class FeedController {
 
 		model.addAttribute("isFollowing", isFollowing);
 		model.addAttribute("feedOwnerProfile", feedOwnerProfile);
+		
 
 		// 음식점 정보 가져오기
 		int resIdx = feed.getRes_idx();
@@ -106,7 +107,7 @@ public class FeedController {
 
 		// 해당 사용자가 피드를 좋아하는지 여부를 체크하는 메서드
 		boolean isLiking = memberService.isLiking(mbId, feedIdx);
-
+		
 		model.addAttribute("feed", feed);
 		model.addAttribute("resInfo", resInfo);
 		model.addAttribute("comments", comments);
