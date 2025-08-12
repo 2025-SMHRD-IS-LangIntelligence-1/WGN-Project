@@ -68,7 +68,7 @@ $('.search-btn').on('click', function(e) {
 					      <p class="res_addr">${res.res_addr} 북구</p>
 					      <div class="rating_info">
 						  	<i class="bi bi-star"></i>
-					        <span class="ratings_text">${res.res_avg_rating}</span>
+					        <span class="ratings_text">${res.res_ratings}</span>
 					      </div>
 					    </div>
 					  </a>

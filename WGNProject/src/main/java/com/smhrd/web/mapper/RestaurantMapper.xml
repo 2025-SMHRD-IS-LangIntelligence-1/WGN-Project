@@ -10,8 +10,7 @@
 		r.res_name,
 		r.res_addr,
 		ri.res_img_url AS res_thumbnail,
-		IFNULL(AVG(rv.ratings), 0) AS
-		res_avg_rating
+		res_ratings
 		FROM t_restaurant r
 		LEFT JOIN t_res_img ri ON
 		r.res_idx =
