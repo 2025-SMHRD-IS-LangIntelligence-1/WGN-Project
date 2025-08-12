@@ -16,7 +16,8 @@ public class WordCloudAndRatingsDTO {
 	private String wgn_positive_wc;
 	private String wgn_negative_wc;
 	
-	// 와구냠 평점 담을 수 있는 필드
+	// 평점 담을 수 있는 필드
+	private float res_ratings;
 	private float wgn_ratings;
 		
 }

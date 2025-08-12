@@ -190,6 +190,11 @@ def prepare_data():
     df['brand_keywords'] = df['res_name'].apply(
         lambda x: f"{x} 햄버거 버거 세트 감자튀김 치킨 샌드위치" if "롯데리아" in str(x) else ""
     )
+
+    # res_menu 컬럼 전처리
+    df['res_menu'] = df['res_menu'].fillna('')  # NaN → 빈 문자열
+    # 필요하면 공백 제거
+    df['res_menu'] = df['res_menu'].str.strip()
     
     # res_menu에 브랜드 키워드 추가
     df['res_menu'] = df['res_menu'] + " " + df['brand_keywords']
@@ -225,6 +230,11 @@ def prepare_data():
     else:
         df['feed_content'] = [""] * len(df)
     
+    # res_tag 컬럼 전처리
+    df['res_tag'] = df['res_tag'].fillna('')  # NaN 방지
+    df['res_tag'] = df['res_tag'].str.replace(',', ' ')
+    df['res_tag'] = df['res_tag'].str.strip()
+
     # res_con 컬럼 전처리
     if 'res_con' in df.columns:
         df['res_con'] = df['res_con'].apply(clean_tags)

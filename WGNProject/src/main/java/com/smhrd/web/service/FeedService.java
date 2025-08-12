@@ -36,5 +36,19 @@ public interface FeedService {
 
 	List<Integer> getDefaultFeeds();
 
+	void updateMeta(Long feedIdx, String feedContent, Integer ratings);
+
+	void deleteAllImages(Long feedIdx);
+
+	void saveImages(Long feedIdx, List<MultipartFile> images);
+
+	void deleteSelectedImages(Long feedIdx, List<String> deleteImgUrls);
+
+	
+
+
+
+
+
 	
 }

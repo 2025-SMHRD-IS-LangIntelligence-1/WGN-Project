@@ -24,7 +24,10 @@
 		<div class="content">
 			<form action="<c:url value='/feed/upload'/>" method="post"
 				enctype="multipart/form-data">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 				<div class="add-box">
 					<!-- 상단 닫기 및 제출 버튼 -->
 					<div class="add-box-header">
@@ -40,16 +43,24 @@
 								class="bi bi-camera"></i> <span>사진/영상</span>
 							</label> <input type="file" name="files" id="file-upload"
 								class="file-upload" accept="image/*" hidden multiple>
+<<<<<<< HEAD
 							<p class="upload-limit-text">최대 5장까지 업로드할 수 있습니다.</p>
+=======
+>>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 						</div>
+							<!-- 안내 문구 -->
+							<p class="upload-limit-text">최대 5장까지 업로드할 수 있습니다.</p>
 
-						<!-- 미리보기 썸네일은 옆에 유지 -->
-						<div id="preview-container" class="preview-container"></div>
+							<!-- 프리뷰 -->
+							<div id="preview-container" class="preview-container"></div>
+				
+
+						<!-- 에러 메시지 -->
+						<span id="fileError" class="text-danger"
+							style="display: none; font-size: 13px;">사진을 선택해주세요.</span>
 					</div>
 
-					<!-- 에러 메시지 -->
-					<span id="fileError" class="text-danger"
-						style="display: none; font-size: 13px;">사진을 선택해주세요.</span>
+
 
 					<!-- 피드 내용 입력 -->
 					<textarea name="feed_content" id="feed_content" class="desc-text"
@@ -72,9 +83,14 @@
 
 						<input type="radio" id="star2" name="ratings" value="2" /> <label
 							for="star2" title="2 stars">★</label> <input type="radio"
+<<<<<<< HEAD
 							id="star1" name="ratings" value="1" />
 						<!-- name 통일 -->
 						<label for="star1" title="1 star">★</label>
+=======
+							id="star1" name="ratings" value="1" /> <label for="star1"
+							title="1 star">★</label>
+>>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 					</div>
 				</div>
 

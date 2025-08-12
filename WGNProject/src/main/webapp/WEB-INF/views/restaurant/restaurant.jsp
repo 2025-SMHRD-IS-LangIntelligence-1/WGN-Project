@@ -17,6 +17,8 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
@@ -182,13 +184,123 @@
 				<h5 class="section-title">평점</h5>
 				<div
 					class="review-card d-flex justify-content-between align-items-center">
-					<span>네이버 평점</span><span style="color: green; font-size: 18px;">★★★★☆</span>
+					<span>와구냠 평점</span> <span style="color: orange; font-size: 18px;">
+						${data.wgn_ratings} &nbsp; <c:choose>
+							<c:when test="${data.wgn_ratings >= 5}">★★★★★</c:when>
+							<c:when test="${data.wgn_ratings >= 4}">★★★★☆</c:when>
+							<c:when test="${data.wgn_ratings >= 3}">★★★☆☆</c:when>
+							<c:when test="${data.wgn_ratings >= 2}">★★☆☆☆</c:when>
+							<c:when test="${data.wgn_ratings >= 1}">★☆☆☆☆</c:when>
+							<c:otherwise>☆☆☆☆☆</c:otherwise>
+						</c:choose>
+					</span>
 				</div>
 				<div
 					class="review-card d-flex justify-content-between align-items-center">
-					<span>와구냠 평점</span><span style="color: orange; font-size: 18px;">★★★★☆</span>
+					<span>플랫폼 평점</span> <span style="color: green; font-size: 18px;">
+						${data.res_ratings} &nbsp; <c:choose>
+							<c:when test="${data.res_ratings >= 5}">★★★★★</c:when>
+							<c:when test="${data.res_ratings >= 4}">★★★★☆</c:when>
+							<c:when test="${data.res_ratings >= 3}">★★★☆☆</c:when>
+							<c:when test="${data.res_ratings >= 2}">★★☆☆☆</c:when>
+							<c:when test="${data.res_ratings >= 1}">★☆☆☆☆</c:when>
+							<c:otherwise>☆☆☆☆☆</c:otherwise>
+						</c:choose>
+					</span>
 				</div>
 			</div>
+
+			<!-- 워드클라우드 -->
+			<div class="container mt-4">
+				<!-- 탭 버튼 -->
+				<ul class="nav nav-tabs" id="ratingTab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active" id="wgn-tab" data-bs-toggle="tab"
+							data-bs-target="#wgn" type="button" role="tab"
+							aria-controls="wgn" aria-selected="true">와구냠 키워드</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="platform-tab" data-bs-toggle="tab"
+							data-bs-target="#platform" type="button" role="tab"
+							aria-controls="platform" aria-selected="false">플랫폼 키워드</button>
+					</li>
+				</ul>
+
+				<!-- 탭 컨텐츠 -->
+				<div class="tab-content p-3 border border-top-0"
+					id="ratingTabContent">
+
+					<!-- 와구냠 탭 -->
+					<div class="tab-pane fade show active" id="wgn" role="tabpanel"
+						aria-labelledby="wgn-tab">
+
+						<div class="wordcloud-row">
+							<div>
+								<h5>긍정적인 리뷰 키워드</h5>
+								<c:choose>
+									<c:when test="${not empty data.wgn_positive_wc}">
+										<img src="data:image/png;base64,${data.wgn_positive_wc}"
+											alt="와구냠 긍정 워드클라우드" class="img-fluid" />
+									</c:when>
+									<c:otherwise>
+										<p>아직 키워드가 없습니다.</p>
+									</c:otherwise>
+								</c:choose>
+							</div>
+
+							<div>
+								<h5>부정적인 리뷰 키워드</h5>
+								<c:choose>
+									<c:when test="${not empty data.wgn_negative_wc}">
+										<img src="data:image/png;base64,${data.wgn_negative_wc}"
+											alt="와구냠 부정 워드클라우드" class="img-fluid" />
+									</c:when>
+									<c:otherwise>
+										<p>아직 키워드가 없습니다.</p>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</div>
+
+					</div>
+
+					<!-- 플랫폼 탭 -->
+					<div class="tab-pane fade" id="platform" role="tabpanel"
+						aria-labelledby="platform-tab">
+
+						<div class="wordcloud-row">
+							<div>
+								<h5>긍정적인 리뷰 키워드</h5>
+								<c:choose>
+									<c:when test="${not empty data.nk_positive_wc}">
+										<img src="data:image/png;base64,${data.nk_positive_wc}"
+											alt="플랫폼 긍정 워드클라우드" class="img-fluid" />
+									</c:when>
+									<c:otherwise>
+										<p>아직 키워드가 없습니다.</p>
+									</c:otherwise>
+								</c:choose>
+							</div>
+
+							<div>
+								<h5>부정적인 리뷰 키워드</h5>
+								<c:choose>
+									<c:when test="${not empty data.nk_negative_wc}">
+										<img src="data:image/png;base64,${data.nk_negative_wc}"
+											alt="플랫폼 부정 워드클라우드" class="img-fluid" />
+									</c:when>
+									<c:otherwise>
+										<p>아직 키워드가 없습니다.</p>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
 
 			<!-- 리뷰 -->
 			<div class="card-section" id="review-section">
@@ -220,7 +332,7 @@
 									method="post" enctype="multipart/form-data">
 
 									<!-- 별점 -->
-									<div class="mb-2"style="margin:5px">
+									<div class="mb-2" style="margin: 5px">
 										<div class="favorite-wrapper">
 											<span class="favorite-title"> 별점 </span>
 											<div id="ratingForm" style="font-size: 24px;">
@@ -254,7 +366,7 @@
 													등록한 음식점입니다.</span>
 											</div>
 										</div>
-										
+
 									</div>
 
 									<!-- 리뷰 내용 -->
@@ -267,9 +379,10 @@
 									</div>
 
 									<!-- 이미지 -->
-									<label style="font-size: 15px; color: #333; margin-right: 10px;white-space: nowrap;
-										font-weight: bold;" class="mb-2">이미지 첨부</label>
-										<input type="file" name="review_img" class="form-control mb-2" accept="image/*">
+									<label
+										style="font-size: 15px; color: #333; margin-right: 10px; white-space: nowrap; font-weight: bold;"
+										class="mb-2">이미지 첨부</label> <input type="file"
+										name="review_file" class="form-control mb-2" accept="image/*">
 
 									<!-- 버튼 -->
 									<div class="text-end">
@@ -434,7 +547,7 @@
 		console.log(res_idx);
 		let mb_id = "${sessionScope.member.mb_id}";
 	</script>
-		<script
+	<script
 		src="${pageContext.request.contextPath}/resources/js/restaurant.js">
 		
 	</script>

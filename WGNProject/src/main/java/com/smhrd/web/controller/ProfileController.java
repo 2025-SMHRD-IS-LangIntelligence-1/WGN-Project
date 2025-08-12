@@ -3,7 +3,9 @@ package com.smhrd.web.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import com.smhrd.web.dto.GoingresDTO;
 import com.smhrd.web.entity.t_favorite;
 import com.smhrd.web.entity.t_going;
 import com.smhrd.web.entity.t_member;
+import com.smhrd.web.mapper.MemberMapper;
 import com.smhrd.web.mapper.RestaurantMapper;
 import com.smhrd.web.entity.t_notification;
 import com.smhrd.web.service.CloudinaryService;
@@ -45,16 +48,12 @@ public class ProfileController {
 	FeedService feedService;
 	@Autowired
 	MemberService memberService;
-	
 	@Autowired
 	FavoriteService favoriteService;
-	
 	@Autowired
 	GoingService goingService;
-	
 	@Autowired
 	RestaurantMapper restaurantmapper;
-	
 	@Autowired
 	NotificationService notificationService;
 
@@ -105,10 +104,21 @@ public class ProfileController {
  		
  		model.addAttribute("isFollowing", isFollowing);
  		model.addAttribute("mb_id", mb_id);
-     	
-        // 프로필 정보 저장
+ 		
+ 		// 프로필 정보 저장
         ProfileDTO profile = memberService.getProfileInfo(mb_id);
         model.addAttribute("profile", profile);
+        
+ 		// 멤버의 팔로워, 팔로잉 리스트를 구하는 메서드
+ 		Map<String, Object> listMap = memberService.getFollowInfo(myId);
+ 		List<ProfileDTO> followerList = (List<ProfileDTO>) listMap.get("followerList");
+ 		List<ProfileDTO> followingList = (List<ProfileDTO>) listMap.get("followingList");
+ 		
+ 		System.out.println("팔로워 리스트" + followerList);
+ 		System.out.println("팔로잉 리스트" + followingList);
+ 		
+ 		model.addAttribute("followerList", followerList);
+ 		model.addAttribute("followingList", followingList);
         
         // 사용자가 작성한 피드 리스트 저장
         List<FeedWithImgDTO> feeds = feedService.getFeedByMemId(mb_id);
@@ -120,6 +130,7 @@ public class ProfileController {
             System.out.println("feed_idx in controller = " + feed.getFeed_idx());
         }
         
+        Collections.reverse(feedDTOList);
 	    model.addAttribute("feedDTOList", feedDTOList);
 	    
 	    
