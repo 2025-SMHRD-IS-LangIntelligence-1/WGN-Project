@@ -178,7 +178,7 @@ $(function () {
     });
   }, 300));
 
-  // 음식점 선택 토글
+  // 음식점 선택 토글 (선택 시 본문에 #가게명 미삽입)
   $(document).on('click', '.search-res', function () {
     const name = String($(this).data('res-name') || '');
     const idx = String($(this).data('res-idx') || '');
@@ -188,6 +188,7 @@ $(function () {
       selectedRestaurant = null;
       $('#selectedResIdx').val('');
 
+      // 혹시 본문에 해당 해시가 있었다면 제거(이전 저장글 편집 대비)
       const cur = $('#feed_content').val();
       $('#feed_content').val(removeHashtag(cur, name));
 
@@ -206,18 +207,9 @@ $(function () {
       return;
     }
 
-    // 새 선택
+    // 새 선택 (본문에는 아직 태그 넣지 않음)
     selectedRestaurant = { idx, name };
     $('#selectedResIdx').val(idx);
-
-    // #이름 추가(중복 방지)
-    let currentContent = $('#feed_content').val().trim();
-    const hashtag = `#${name}`;
-    const exists = new RegExp(`(^|\\s)${escapeRegExp(hashtag)}(?!\\S)`, 'm').test(currentContent);
-    if (!exists) {
-      currentContent = currentContent ? `${currentContent}\n${hashtag}` : hashtag;
-      $('#feed_content').val(currentContent);
-    }
 
     // 선택 카드 표시
     const selectedCard = $(this).clone();
@@ -245,7 +237,7 @@ $(function () {
     submitButtonState();
   });
 
-  // 중복 랭킹 체크 (네가 준 로직 적용)
+  // 중복 랭킹 체크 (중복이어도 제출은 허용)
   function checkFavoriteDuplicate(resIdx) {
     $.ajax({
       url: contextPath + '/feed/rescheck',
@@ -257,7 +249,7 @@ $(function () {
         if (isDuplicateRes) {
           // 랭킹 토글 강제 해제 + 비활성화, 경고 노출
           $('#rank_toggle').prop('checked', false).prop('disabled', true);
-          $('#rankToggleWrapper').hide();        // UI 정책: 중복이면 스위치 숨김
+          $('#rankToggleWrapper').hide();        // 정책: 중복이면 스위치 숨김
           $('#duplicateFavoriteMsg').show();     // "이미 등록한 음식점입니다."
         } else {
           // 중복 아님: 토글 다시 활성화
@@ -279,10 +271,10 @@ $(function () {
     });
   }
 
-  // 최종 제출
+  // 최종 제출 (저장 시점에만 #가게명 본문 맨 아래 자동 추가)
   $('form').on('submit', function (e) {
     const fileCount = allSelectedFiles.length; // 누적 기준
-    const content = $('#feed_content').val().trim();
+    let content = $('#feed_content').val().trim();
     const resIdx = $('#selectedResIdx').val().trim();
     const ratingChecked = $('input[name="ratings"]:checked').length > 0;
 
@@ -304,10 +296,21 @@ $(function () {
       $('#ratingError').show();
       isValid = false;
     }
-    // ⛔️ 중복 여부로 막지 않음 (isDuplicateRes는 제출 영향 X)
     if (!isValid) {
       e.preventDefault();
       return;
+    }
+
+    // 저장 시점에만 #가게명 자동 추가 (본문 맨 아래)
+    if (selectedRestaurant && selectedRestaurant.name) {
+      const tag = `#${selectedRestaurant.name}`;
+      const re = new RegExp(`(^|\\s)${escapeRegExp(tag)}(?!\\S)`, 'm'); // 중복 방지
+      if (!re.test(content)) {
+        content = content.replace(/\s+$/, '');
+        if (content.length && !content.endsWith('\n')) content += '\n';
+        content += tag;
+        $('#feed_content').val(content);
+      }
     }
 
     // input.files 최종 동기화
