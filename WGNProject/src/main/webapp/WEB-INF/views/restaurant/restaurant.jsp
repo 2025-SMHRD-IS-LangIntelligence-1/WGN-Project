@@ -269,7 +269,7 @@
 									<!-- 이미지 -->
 									<label style="font-size: 15px; color: #333; margin-right: 10px;white-space: nowrap;
 										font-weight: bold;" class="mb-2">이미지 첨부</label>
-										<input type="file" name="review_img" class="form-control mb-2" accept="image/*">
+										<input type="file" name="review_file" class="form-control mb-2" accept="image/*">
 
 									<!-- 버튼 -->
 									<div class="text-end">
