@@ -9,7 +9,11 @@
 
 /* 프로필 전체 */
 .profile {
+<<<<<<< HEAD
+  padding: 20px 31px 10px;
+=======
 	padding: 20px 15px 10px;
+>>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 
 /* 프로필 상단 한 줄 */
@@ -106,9 +110,14 @@
 
 /* 닉네임 / 소개 */
 .profile-info {
+<<<<<<< HEAD
+  margin-top: 12px;/* 프로필 전체 */
+  background: #fff;
+=======
 	margin-top: 12px;
 	padding : 20px 15px 10px;
 	background: #fff;
+>>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 
 /* 프로필 상단 한 줄 */
@@ -214,7 +223,10 @@
 	padding: 10px;
 }
 
+<<<<<<< HEAD
+=======
 }
+>>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 .profile-info h5 {
 	font-weight: bold;
 	margin-bottom: 5px;
