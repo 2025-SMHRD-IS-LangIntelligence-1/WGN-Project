@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const panelComments = document.querySelector('.left-panel[data-panel="comments"]');
   const panelReviews  = document.querySelector('.left-panel[data-panel="reviews"]');
   
-  const allComments = document.querySelectorAll('.comment');
+  const panels  = document.querySelectorAll('.left-panel');
+  const menuLinks = document.querySelectorAll('.user-menu a');
 
   if (!sideBar) return;
 
@@ -88,4 +89,48 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeAllPanels();
   });
+  
+   function lockBody() {
+      if (!document.body.classList.contains('no-scroll')) {
+        savedScrollY = window.scrollY || window.pageYOffset || 0;
+        document.body.style.top = `-${savedScrollY}px`;
+        document.body.classList.add('no-scroll');
+      }
+    }
+
+    function unlockBody() {
+      if (document.body.classList.contains('no-scroll')) {
+        document.body.classList.remove('no-scroll');
+        document.body.style.top = '';
+        window.scrollTo(0, savedScrollY || 0);
+      }
+    }
+
+    function needLock() {
+      const sidebarOpen = !!sideBar && sideBar.classList.contains('active');
+      let panelOpen = false;
+      panels.forEach(p => { if (p.classList.contains('show')) panelOpen = true; });
+      return sidebarOpen || panelOpen;
+    }
+
+    function recalcLock() {
+      if (needLock()) lockBody(); else unlockBody();
+    }
+
+    // 초기 동기화
+    recalcLock();
+
+    // 클래스 변화 감지 → 기존 코드 수정 없이 자동 반응
+    const observer = new MutationObserver(recalcLock);
+    if (sideBar) observer.observe(sideBar, { attributes: true, attributeFilter: ['class'] });
+    panels.forEach(p => observer.observe(p, { attributes: true, attributeFilter: ['class'] }));
+
+    // 해시/내비게이션 변화 대비
+    window.addEventListener('hashchange', recalcLock);
 });
+  
+
+
+
+
+

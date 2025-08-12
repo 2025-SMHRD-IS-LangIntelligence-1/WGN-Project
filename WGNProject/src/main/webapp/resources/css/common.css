@@ -110,37 +110,8 @@ body, html {
 	font-size: 1.5rem;          /* 아이콘 크기 */
 	transition: transform 0.2s; /* 크기 변환 애니메이션 */
 }
-<<<<<<< HEAD
-=======
 
 .navbar-bottom a:hover i {
 	transform: scale(1.2);
 	color: #FFD84D;
 }
-/* 사이드 네비바 */
-.side-bar {
-  width: 250px;
-  height: 100vh;
-  background-color: black;
-  color: white;
-  position: fixed;
-  top: 0;
-  right: -250px; /* 오른쪽 바깥으로 숨김 */
-  transition: right 0.3s ease; /* 수정: left → right */
-  padding-top: 60px;
-  z-index: 1000;
-}
-
-.side-bar.active {
-  right: 0;
-}
-
-.side-bar a {
-  color: white;
-  text-decoration: none;
-}
-
-.side-bar a:hover {
-  color: #ccc;
-}
->>>>>>> 256e671a5886b5c93342ad8327dc320402aaeb2e
