@@ -132,3 +132,26 @@ $(document).ready(() => {
     $carousel.on("slid.bs.carousel", updateControls);
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const replaceRadio = document.getElementById("modeReplace");
+  const appendRadio = document.getElementById("modeAppend");
+  const saveBtn = document.querySelector(".modal-footer .btn-primary");
+
+  function updateButtonColor() {
+    if (replaceRadio.checked) {
+      saveBtn.classList.remove("btn-primary");
+      saveBtn.classList.add("btn-warning-custom");
+    } else {
+      saveBtn.classList.remove("btn-warning-custom");
+      saveBtn.classList.add("btn-primary");
+    }
+  }
+
+  // 초기 상태 반영
+  updateButtonColor();
+
+  // 라디오 버튼 상태 변경 시 색상 업데이트
+  replaceRadio.addEventListener("change", updateButtonColor);
+  appendRadio.addEventListener("change", updateButtonColor);
+});

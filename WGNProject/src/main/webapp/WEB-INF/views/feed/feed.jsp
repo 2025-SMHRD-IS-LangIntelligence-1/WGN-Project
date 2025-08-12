@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,10 +58,13 @@
 					</c:when>
 					<c:when test="${feed.mb_id eq sessionScope.member.mb_id}">
 						<div class="btn-wrapper">
+							<!-- 수정: 모달 오픈 -->
+							<button type="button" class="follow-btn edit-btn"
+								data-bs-toggle="modal" data-bs-target="#editFeedModal">
+								수정</button>
 							<form action="${pageContext.request.contextPath}/feed/delete"
 								method="post">
 								<input type="hidden" name="feed_idx" value="${feed.feed_idx}">
-								<button class="follow-btn edit-btn" type="submit">수정</button>
 								<button class="follow-btn delete-btn" type="submit">삭제</button>
 							</form>
 						</div>
@@ -172,6 +177,103 @@
 
 		</div>
 		<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+		<!-- Edit Feed Modal -->
+		<div class="modal fade" id="editFeedModal" tabindex="-1"
+			aria-labelledby="editFeedModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<form class="modal-content"
+					action="${pageContext.request.contextPath}/feed/update"
+					method="post" enctype="multipart/form-data">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editFeedModalLabel">피드 수정</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="닫기"></button>
+					</div>
+
+					<div class="modal-body">
+						<input type="hidden" name="feed_idx" value="${feed.feed_idx}" />
+
+						<!-- 본문 -->
+						<div class="mb-3">
+							<label class="form-label">내용</label>
+							<textarea name="feed_content" class="form-control" rows="5">${fn:escapeXml(feed.feed_content)}</textarea>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label">별점</label>
+							<div class="star-rating">
+								<c:set var="curRating" value="${feed.ratings}" />
+								<input type="radio" id="star5" name="ratings" value="5"
+									${curRating==5 ? 'checked' : ''} /> <label for="star5"
+									title="5 stars">★</label> <input type="radio" id="star4"
+									name="ratings" value="4" ${curRating==4 ? 'checked' : ''} /> <label
+									for="star4" title="4 stars">★</label> <input type="radio"
+									id="star3" name="ratings" value="3"
+									${curRating==3 ? 'checked' : ''} /> <label for="star3"
+									title="3 stars">★</label> <input type="radio" id="star2"
+									name="ratings" value="2" ${curRating==2 ? 'checked' : ''} /> <label
+									for="star2" title="2 stars">★</label> <input type="radio"
+									id="star1" name="ratings" value="1"
+									${curRating==1 ? 'checked' : ''} /> <label for="star1"
+									title="1 star">★</label>
+							</div>
+						</div>
+
+						<!-- 이미지 편집 -->
+						<div class="mb-3">
+							<label class="form-label">이미지 편집</label>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="imageMode"
+									id="modeAppend" value="APPEND" checked> <label
+									class="form-check-label" for="modeAppend">선택 삭제 + 추가
+									업로드</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="imageMode"
+									id="modeReplace" value="REPLACE_ALL"> <label
+									class="form-check-label" for="modeReplace">모두 교체 (기존 전부
+									삭제 후 새로 업로드)</label>
+							</div>
+						</div>
+
+						<!-- 기존 이미지 목록 (선택 삭제용) -->
+						<c:if test="${not empty feed.imageUrls}">
+							<div class="mb-2">
+								<small class="text-muted">기존 이미지 (삭제할 이미지를 체크하세요)</small>
+								<div class="d-flex gap-2 flex-wrap mt-2">
+									<c:forEach var="u" items="${feed.imageUrls}">
+										<label class="position-relative"
+											style="display: inline-block;"> <img src="${u}"
+											style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+											<!-- 백엔드에서 URL 기준 삭제라면 delete_img_urls[] 로 전송 --> <input
+											type="checkbox" name="delete_img_urls" value="${u}"
+											class="form-check-input position-absolute"
+											style="top: 6px; left: 6px; transform: scale(1.1);">
+										</label>
+									</c:forEach>
+								</div>
+							</div>
+						</c:if>
+
+						<!-- 새 이미지 업로드 -->
+						<div class="mb-2">
+							<label class="form-label">새 이미지 업로드</label> <input type="file"
+								name="images" class="form-control" multiple accept="image/*" />
+							<div class="form-text">
+								• <b>선택 삭제 + 추가 업로드</b>: 체크한 것만 지우고 새 이미지를 추가합니다.<br> • <b>모두
+									교체</b>: 기존 이미지는 전부 삭제되고, 업로드한 이미지로 대체됩니다.
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-yellow">저장</button>
+						<button type="button" class="btn btn-light"
+							data-bs-dismiss="modal">취소</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 	</div>
 	<script

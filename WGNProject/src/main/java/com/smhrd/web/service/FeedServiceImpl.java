@@ -2,6 +2,7 @@ package com.smhrd.web.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -110,7 +111,53 @@ public class FeedServiceImpl implements FeedService {
 		feedMapper.deleteFeed(feed_idx);
 
 	}
-
+	
+	
+	@Override
+    @Transactional
+    public void updateMeta(Long feedIdx, String content, Integer ratings) {
+        feedMapper.updateFeedMeta(feedIdx, content, ratings);
+    }
+	
+	@Override
+    @Transactional
+    public void deleteAllImages(Long feedIdx) {
+        // 1) Cloudinary 원본 삭제 (URL 기준)
+        List<String> urls = feedMapper.selectImageUrlsByFeedId(feedIdx);
+        for (String url : urls) {
+            cloudinaryService.deleteFile(url); // 실패 시 무시
+        }
+        // 2) DB 삭제
+        feedMapper.deleteImagesByFeedId(feedIdx);
+    }
+	
+	@Override
+    @Transactional
+    public void deleteSelectedImages(Long feedIdx, List<String> deleteUrls) {
+        if (deleteUrls == null || deleteUrls.isEmpty()) return;
+        // 1) Cloudinary 삭제
+        for (String url : deleteUrls) {
+            cloudinaryService.deleteFile(url);
+        }
+        // 2) DB 삭제
+        feedMapper.deleteImagesByUrls(feedIdx, deleteUrls);
+    }
+	
+	@Override
+    @Transactional
+    public void saveImages(Long feedIdx, List<MultipartFile> images) {
+        try {
+            // 주신 구현: CloudinaryService.uploadFiles(List<MultipartFile>) -> List<String> (secure_url)
+            List<String> urls = cloudinaryService.uploadFiles(images);
+            for (String url : urls) {
+                feedMapper.insertFeedImage(feedIdx, url);
+            }
+        } catch (Exception e) {
+            // 업로드 실패 시 전체 롤백 원하면 RuntimeException으로 래핑
+            throw new RuntimeException("이미지 업로드 실패: " + e.getMessage(), e);
+        }
+    }
+	
 	@Override
 	@Transactional
 	public int addFeedLike(int feed_idx, String mb_id) {
@@ -133,6 +180,8 @@ public class FeedServiceImpl implements FeedService {
 		return feedMapper.countFeedLike(feed_idx);
 	}
 
+	
+	
 	@Override
 	public int deleteFeedLike(int feed_idx, String mb_id) {
 
