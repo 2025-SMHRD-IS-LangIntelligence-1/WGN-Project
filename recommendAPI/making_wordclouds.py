@@ -4,7 +4,6 @@ from io import BytesIO  # 메모리 버퍼를 사용하기 위한 모듈
 from wordcloud import WordCloud  # 워드클라우드 생성 라이브러리
 from typing import List # 리스트 타이핑
 import base64  # 바이너리 데이터를 base64 문자열로 인코딩하는 모듈
-from models import ReviewFeed, Wordcloud
 
 # DB 연결 함수
 def db_connect(query, columns) :
@@ -56,7 +55,7 @@ def text_to_base64_wordcloud(text: str) -> str:
 
 # =============================================================
 
-def make_wordclouds(res_idx : int) -> Wordcloud:
+def make_wordclouds(res_idx : int) :
 
     query = """
     SELECT
@@ -112,9 +111,7 @@ def make_wordclouds(res_idx : int) -> Wordcloud:
     
     print("=== make_wordclouds 함수 종료 ===")
 
-    return Wordcloud(
-        NkPositiveWC=text_to_base64_wordcloud(NkPositive_text),
-        NkNegativeWC=text_to_base64_wordcloud(NkNegative_text),
-        WgnPositiveWC=text_to_base64_wordcloud(WgnPositive_text),
-        WgnNegativeWC=text_to_base64_wordcloud(WgnNegative_text),
-    )
+    return [text_to_base64_wordcloud(NkPositive_text),
+        text_to_base64_wordcloud(NkNegative_text),
+        text_to_base64_wordcloud(WgnPositive_text),
+        text_to_base64_wordcloud(WgnNegative_text)]

@@ -1,6 +1,7 @@
 package com.smhrd.web.entity;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,4 +43,16 @@ public class t_restaurant {
  // 음식점 별점
  private float res_ratings;
  
+ // 와구냠 별점
+ private float wgn_ratings;
+ 
+ // 마지막 업데이트 (리뷰, 피드)
+ private Timestamp last_update;
+ 
+ // 워드클라우드 Base64 문자열 저장
+ private String nk_positive_wc;
+ private String nk_negative_wc;
+ private String wgn_positive_wc;
+ private String wgn_negative_wc;
+
 }

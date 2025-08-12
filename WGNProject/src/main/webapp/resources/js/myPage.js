@@ -1,7 +1,6 @@
 // ============================== 프로필 ==============================
 
-console.log(contextPath)
-console.log(Mb_id)
+
 // 프로필 수정 모달창
 const modal = document.getElementById('profileModal');
 
@@ -102,6 +101,7 @@ function renderMarkers(dataset) {
 
 $(function () {
 	// 게시글 탭
+	
 	$('#tab-posts').on('click', function (e) {
 		e.preventDefault();
 		$(this).addClass('active');
@@ -111,7 +111,9 @@ $(function () {
 	});
 
 	// 지도 탭
-	$('#tab-map').on('click', function (e) {
+	
+	$(document).on('click', '#tab-map', function(e) {
+		
 		e.preventDefault();
 		$(this).addClass('active');
 		$('#tab-posts').removeClass('active');
@@ -279,7 +281,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-// 내랭킹 수정
+// 내 랭킹 수정
 (function () {
 
   // ====== DOM 요소 캐싱 ======

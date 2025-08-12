@@ -23,7 +23,7 @@
 
 </head>
 <!--
-c:when : 조건문
+c:choose : 조건문
 c:when : 참
 c:otherwise : 거짓
 -->
@@ -87,6 +87,7 @@ c:otherwise : 거짓
 		<c:if test="${isLoggedIn}">
 			<hr class="divider">
 
+<<<<<<< HEAD
 			<ul class="user-menu">
 				<li><a href="#" data-target="likes">피드 좋아요 관리</a></li>
 				<li><a href="#" data-target="comments">마이 댓글달기 관리</a></li>
@@ -99,6 +100,14 @@ c:otherwise : 거짓
 				<li><a href="<c:url value='/member/logout'/>">로그아웃</a></li>
 			</ul>
 		</c:if>
+=======
+		<ul class="user-menu" id="user-menu">
+			<li><a href="#" data-target="likes">피드 좋아요 관리</a></li>
+			<li><a href="#" data-target="comments">마이 댓글달기 관리</a></li>
+			<li><a href="#" data-target="reviews">마이 리뷰작성 관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
+		</ul>
+>>>>>>> 256e671a5886b5c93342ad8327dc320402aaeb2e
 	</aside>
 
 </body>
