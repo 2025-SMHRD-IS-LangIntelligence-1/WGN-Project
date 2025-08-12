@@ -66,7 +66,7 @@ $(document).ready(() => {
       url: contextPath + url,
       method: "POST",
       contentType: "application/json",
-      data: JSON.stringify(feed_idx), // 서버가 숫자/문자열 어느 쪽을 기대하든 기존 방식 유지
+      data: JSON.stringify(feed_idx),
       success: function (res) {
         // 서버에서 최신 좋아요 수 반환 시 동기화
         if (res !== undefined && res !== null) likeCountSpan.text(res);
