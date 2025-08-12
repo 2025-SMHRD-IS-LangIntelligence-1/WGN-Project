@@ -6,20 +6,6 @@
 
 /* 게시글 취소 버튼 */
 .close-btn {
-<<<<<<< HEAD
-	background: none;          		/* 배경 없음 */
-	border: none;             		/* 테두리 없음 */
-	font-size: 25px;          		/* 글자/아이콘 크기 */
-	font-weight: bold;         		/* 굵게 */
-	cursor: pointer;           		/* 포인터 커서 */
-	color: #616161;            		/* 기본 색상 */
-	padding: 4px 8px;          		/* 클릭 여유 영역 */
-	line-height: 1;            		/* 줄높이(여백 최소화) */
-}
-
-.close-btn:hover {
-	color: #171513;
-=======
   background: none;
   border: none;
   font-size: 25px;
@@ -28,24 +14,11 @@
   color: #616161;
   padding: 4px 8px;
   line-height: 1;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 .close-btn:hover { color: #171513; }
 
 /* 게시글 업로드 버튼 */
 .submit-btn {
-<<<<<<< HEAD
-	height: 30px;              		/* 버튼 높이 */
-	background-color: #171513; 		/* 배경 색 */
-	color: #e2e2e2;            		/* 글자 색 */
-	border: none;              		/* 테두리 없음 */
-	border-radius: 8px;        		/* 둥근 모서리 */
-	padding: 0 16px;           		/* 좌우 패딩 */
-	font-size: 16px;           		/* 글자 크기 */
-	font-weight: bold;         		/* 글자 굵기 */
-	cursor: pointer;           		/* 포인터 커서 */
-	white-space: nowrap;      		/* 줄바꿈 방지 */
-=======
   height: 30px;
   background-color: #171513;
   color: #e2e2e2;
@@ -56,22 +29,13 @@
   font-weight: bold;
   cursor: pointer;
   white-space: nowrap;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 .submit-btn:disabled {
-<<<<<<< HEAD
-	background-color: #cccccc;         		/* 비활성 배경 */
-	color: white;                    		/* 비활성 글자 */
-	cursor: not-allowed;               		/* 금지 커서 */
-	opacity: 0.6;                      		/* 투명도 */
-	transition: background-color 0.3s ease; /* 배경 전환 */
-=======
   background-color: #cccccc;
   color: #666666;
   cursor: not-allowed;
   opacity: 0.6;
   transition: background-color 0.3s ease;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 
 /* ===========================
@@ -81,43 +45,18 @@
 
 /* 업로드 전체 래퍼: 세로 흐름 */
 .upload-wrapper {
-<<<<<<< HEAD
-	display: flex;               		/* 자식 가로 정렬 */
-	align-items: flex-start;     		/* 상단 기준 정렬 */
-	gap: 12px;                   		/* 아이템 간격 */
-	margin: 24px 31px 10px;      		/* 페이지 좌우 여백 규격(31px) */
-=======
   display: block;
   margin: 24px 25px 10px;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 
 /* 업로드 버튼 컨테이너 */
 .upload-box-container {
-<<<<<<< HEAD
-	flex-shrink: 0;            			/* 줄어들지 않음 */
-=======
   flex-shrink: 0;
   width: 100%;                 /* 프리뷰 줄이 가로폭을 쓰도록 */
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 
 /* 업로드 박스 */
 .upload-box {
-<<<<<<< HEAD
-	width: 80px;               			/* 가로 크기 */
-	height: 80px;              			/* 세로 크기 */
-	border: 1.5px solid #171513; 		/* 테두리 */
-	border-radius: 8px;        			/* 둥근 모서리 */
-	display: flex;             			/* 내부 정렬용 */
-	flex-direction: column;    			/* 세로 배치 */
-	align-items: center;       			/* 가로 중앙 */
-	justify-content: center;   			/* 세로 중앙 */
-	text-align: center;        			/* 텍스트 중앙정렬 */
-	cursor: pointer;           			/* 포인터 커서 */
-	background-color: #fafafa; 			/* 배경색 */
-	transition: background-color 0.2s; 	/* 배경 전환 */
-=======
   width: 80px;
   height: 80px;
   border: 1.5px solid #171513;
@@ -130,180 +69,10 @@
   cursor: pointer;
   background-color: #fafafa;
   transition: background-color 0.2s;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 .upload-box:hover { background-color: #f0f0f0; }
 .upload-box i { font-size: 20px; margin-bottom: 4px; }
 
-<<<<<<< HEAD
-.upload-box:hover {
-	background-color: #f0f0f0;		/* 호버 배경 */
-}
-
-.upload-box i {
-	font-size: 25px;           			/* 아이콘 크기 */
-	margin-bottom: 4px;        			/* 아이콘-텍스트 간격 */
-}
-
-.file-upload {
-	display: none;             			/* 실제 파일 인풋 숨김 */
-}
-
-/* 업로드 안내 문구 */
-.upload-limit-text {
-	font-size: 13px;           			/* 글자 크기 */
-	color: #666;               			/* 글자 색 */
-	text-align: center;        			/* 중앙 정렬 */
-	margin-top: 6px;           			/* 위 여백 */
-}
-
-/* 미리보기 영역 */
-.preview-container {
-	display: flex;             			/* 가로 흐름 */
-	flex-wrap: wrap;          			/* 줄바꿈 허용 */
-	gap: 6px;                  			/* 썸네일 간격 */
-	width: 100%;               			/* 가로 100% */
-	padding-top: 4px;          			/* 위 패딩 */
-}
-
-
-.preview-image {
-	width: 60px;               			/* 썸네일 너비 */
-	height: 60px;              			/* 썸네일 높이 */
-	object-fit: cover;         			/* 비율 유지 채우기 */
-	border-radius: 6px;        			/* 둥근 모서리 */
-	border: 1px solid #ccc;    			/* 테두리 */
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* 그림자 */
-}
-
-/* 게시글 작성 textarea */
-.desc-text {
-	resize: none;              			/* 크기 조절 금지 */
-	width: calc(100% - 62px);  			/* 좌우 마진만큼 차감 */
-	height: 25vh;              			/* 뷰포트 높이 기준 */
-	background-color: #fff;   			/* 배경색 */
-	color: #171513;            			/* 글자색 */
-	border: 1.5px solid #ddd;  			/* 테두리 */
-	border-radius: 10px;       			/* 둥근 모서리 */
-	padding: 12px;             			/* 내부 패딩 */
-	font-size: 16px;          			/* 글자 크기 */
-	box-sizing: border-box;    			/* 패딩 포함 계산 */
-	margin: 0px 31px 0px;      			/* 좌우 마진 */
-}
-
-.desc-text:focus {
-	outline: none;             			/* 기본 아웃라인 제거 */
-	border-color: #333;        			/* 포커스 테두리 색 */
-	background-color: #fff;    			/* 포커스 배경 유지 */
-}
-
-.search-input-wrap {
-	position: relative;          /* 아이콘 절대배치 기준 */
- 	margin: 0 31px;              /* 좌우 여백(기존 규격 유지) */
-	display: block;              /* 블록으로 줄 단위 배치 */
-}
-
-.search-input-wrap .bx {
-	position: absolute;          /* 인풋 안쪽 고정 */
-	left: 12px;                  /* 왼쪽 간격 */
-	top: 50%;                    /* 세로 중앙 */
-	transform: translateY(-50%); /* 중앙 정렬 */
-	font-size: 20px;             /* 아이콘 크기 */
-	color: #ffd000;                 /* 아이콘 색상 */
-	pointer-events: none;        /* 입력 방해 금지 */
-}
-
-/* 인풋은 래퍼 기준으로 꽉 채우고, 아이콘 자리만큼 패딩 추가 */
-.search-input-wrap .search_input {
-	width: 100%;                               /* 래퍼 너비 100% */
-	margin: 0;                                 /* 바깥여백은 래퍼가 담당 */
-	height: 45px;                              /* 높이 */
-	border: none;                              /* 테두리 제거 */
-	border-radius: 8px;                        /* 둥근 모서리 */
-	padding: 0 12px;                           /* 기본 좌우 패딩 */
-	padding-left: 36px;                        /* 아이콘 공간 확보 */
-	font-size: 16px;                           /* 글자 크기 */
-	background-color: #fff;                    /* 배경색 */
-	box-sizing: border-box;                    /* 패딩 포함 계산 */
-	box-shadow: 0 2px 4px rgba(0,0,0,0.12),    /* 입체감 그림자(얕은) */
-	            0 2px 6px rgba(0,0,0,0.08);   /* 입체감 그림자(깊은) */
-	transition: box-shadow 0.1s ease;           /* 그림자 전환 */
-}
-.search-input-wrap .search_input:focus {
-	outline: none;                              /* 기본 포커스 제거 */
-	box-shadow: 0 0 0 4px rgba(255,208,0,0.25), /* 포커스 링(브랜드 옐로우) */
-	            0 2px 10px rgba(0,0,0,0.12);    /* 기본 그림자 유지 */
-}
-
-/* 음식점 검색 결과 */
-.search-res {
-	display: flex;             			/* 가로 배치 */
-	align-items: flex-start;   			/* 상단 정렬 */
-	gap: 12px;                 			/* 아이템 간격 */
-	padding: 12px 0px;        			/* 내부 여백(상하/좌우) */
-	border-bottom: 1px solid #eee;		/* 하단 구분선 */
-	background-color: #fff;    			/* 배경색 */
-}
-
-.search-res.selected {
-	border: 2px solid #ffd000; 			/* 선택 테두리 */
-	background-color: #fffbe6; 			/* 선택 배경 */
-	border-radius: 8px;        			/* 둥근 모서리 */
-}
-
-/* 썸네일 이미지 */
-.res_thumbnail {
-	width: 80px;               			/* 너비 */
-	height: 80px;              			/* 높이 */
-	border-radius: 6px;        			/* 둥근 모서리 */
-	object-fit: cover;         			/* 비율 유지 채우기 */
-}
-
-/* 음식점 텍스트 정보 */
-.res_info {
-	flex: 1;                   			/* 남은 공간 채움 */
-	display: flex;             			/* 세로 스택 */
-	flex-direction: column;    			/* 세로 방향 */
-	gap: 6px;                  			/* 요소 간격 */
-}
-
-.res_name {
-	font-size: 16px;           			/* 이름 크기 */
-	font-weight: bold;         			/* 굵게 */
-	margin: 0;                 			/* 바깥 여백 제거 */
-	color: #171513;            			/* 글자색 */
-}
-
-.res_addr {
-	font-size: 13px;           			/* 주소 크기 */
-	color: #555;               		/* 글자색 */
-	margin: 0;                 			/* 바깥 여백 제거 */
-}
-
-/* 평점 박스 */
-.rating_info {
-	display: inline-flex;      			/* 내용 크기만큼 가로 배치 */
-	align-items: center;       			/* 수직 중앙정렬 */
-	gap: 4px;                  			/* 아이콘-숫자 간격 */
-	background-color: #ffd700; 			/* 배경색(골드) */
-	border-radius: 12px;       			/* 알약 모양 */
-	padding: 2px 6px;          			/* 내부 여백 */
-	font-size: 13px;           			/* 글자 크기 */
-	font-weight: bold;         			/* 굵기 */
-	color: #000;               			/* 글자색 */
-	width: fit-content;        			/* 내용 너비만큼 */
-}
-
-/* 별 아이콘 */
-.ratings_icon {
-	width: 16px;               			/* 너비 */
-	height: 16px;              			/* 높이 */
-}
-
-/* 별점 숫자 */
-.ratings_text {
-	font-size: 13px;           			/* 글자 크기 */
-=======
 /* 실제 파일 input 숨김 */
 .file-upload { display: none; }
 
@@ -349,7 +118,6 @@
   border:none; border-radius:50%;
   background:#ff4d4f; color:#fff; font-weight:700;
   cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.2);
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 
 /* ===========================
@@ -461,51 +229,20 @@
 =========================== */
 
 .rating-wrapper {
-<<<<<<< HEAD
-	display: flex;             			/* 가로 배치 */
-	align-items: center;       			/* 수직 중앙정렬 */
-	justify-content: space-between; 	/* 좌우 끝 정렬 */
-	margin: 10px 31px;         			/* 바깥 여백 */
-=======
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 10px 25px;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 .rating-title {
-<<<<<<< HEAD
-	font-size: 16px;           			/* 글자 크기 */
-	color: #333;              			/* 글자 색 */
-	margin-right: 10px;        			/* 오른쪽 간격 */
-	white-space: nowrap;       			/* 줄바꿈 방지 */
-=======
   font-size: 15px;
   color: #333;
   margin-right: 10px;
   white-space: nowrap;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 
 /* 별 모양 라디오 */
 .star-input {
-<<<<<<< HEAD
-	display: flex;             			/* 가로 배치 */
-	flex-direction: row-reverse; 		/* 오른쪽부터 별 배치 */
-	unicode-bidi: bidi-override;  		/* 시각적 순서 재정의 */
-}
-
-/* 라디오 숨김 */
-.star-input input[type="radio"] {
-	display: none;             			/* 기본 라디오 감춤 */
-}
-
-/* 기본 별 색상 */
-.star-input label {
-	color: #cccccc;               			/* 기본 별 색 */
-	cursor: pointer;           			/* 포인터 커서 */
-	font-size: 22px;           			/* 별 크기 */
-=======
   display: flex;
   flex-direction: row-reverse;
   unicode-bidi: bidi-override;
@@ -516,35 +253,16 @@
   cursor: pointer;
   font-size: 20px;
   transition: color 0.2s;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 .star-input input[type="radio"]:checked ~ label,
 .star-input label:hover,
-<<<<<<< HEAD
-.star-input label:hover ~ label {
-	color: #ffd000;            			/* 채워진 별 색 */
-}
-=======
 .star-input label:hover ~ label { color: #FFD700; }
 
 /* ===========================
    ⏳ 모달 (게시 중입니다…)
 =========================== */
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 
 .modal-backdrop {
-<<<<<<< HEAD
-	position: fixed;           			/* 화면 고정 */
-	top: 0;                   			/* 상단 0 */
-	left: 0;                   			/* 좌측 0 */
-	width: 100vw;              			/* 전체 너비 */
-	height: 100vh;             			/* 전체 높이 */
-	background-color: rgba(0, 0, 0, 0.4); /* 반투명 배경 */
-	display: flex;             			/* 중앙 정렬용 */
-	align-items: center;       			/* 수직 중앙 */
-	justify-content: center;   			/* 수평 중앙 */
-	z-index: 9999;             			/* 최상단 레이어 */
-=======
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
@@ -553,36 +271,16 @@
   align-items: center;
   justify-content: center;
   z-index: 9999;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 .modal-content {
-<<<<<<< HEAD
-	background: white;        			/* 배경색 */
-	padding: 30px 40px;        			/* 내부 여백 */
-	border-radius: 10px;       			/* 둥근 모서리 */
-	text-align: center;        			/* 중앙 정렬 */
-	box-shadow: 0 4px 20px rgba(0,0,0,0.2); /* 그림자 */
-	font-size: 16px;           			/* 기본 글자 크기 */
-=======
   background: white;
   padding: 30px 40px;
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   font-size: 16px;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 .loader {
-<<<<<<< HEAD
-	border: 4px solid #f3f3f3; 			/* 바탕 링 */
-	border-top: 4px solid #555;			/* 상단 링(회전 표시) */
-	border-radius: 50%;        			/* 원형 */
-	width: 30px;               			/* 너비 */
-	height: 30px;              			/* 높이 */
-	animation: spin 1s linear infinite; /* 회전 애니메이션 */
-	display: block;            			/* 블록 요소 */
-	margin: 0 auto 10px;       			/* 가운데 정렬/하단 여백 */
-=======
   border: 4px solid #f3f3f3;
   border-top: 4px solid #555;
   border-radius: 50%;
@@ -590,16 +288,10 @@
   animation: spin 1s linear infinite;
   display: block;
   margin: 0 auto 10px;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 @keyframes spin {
-<<<<<<< HEAD
-	0%   { transform: rotate(0deg); }   /* 시작 각도 */
-	100% { transform: rotate(360deg); } /* 끝 각도 */
-=======
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 
 /* ===========================
@@ -607,88 +299,31 @@
 =========================== */
 
 .favorite-wrapper {
-<<<<<<< HEAD
-	display: flex;             			/* 가로 배치 */
-	align-items: center;       			/* 수직 중앙정렬 */
-	justify-content: space-between; 	/* 좌우 끝 정렬 */
-	margin: 20px 31px;         			/* 바깥 여백 */
-=======
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 20px 25px;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 .favorite-title {
-<<<<<<< HEAD
-	font-size: 16px;           			/* 글자 크기 */
-	color: #333;               			/* 글자 색 */
-	margin-right: 10px;        			/* 오른쪽 간격 */
-	white-space: nowrap;       			/* 줄바꿈 방지 */
-=======
   font-size: 15px;
   color: #333;
   margin-right: 10px;
   white-space: nowrap;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 
 .switch-toggle {
-	position: relative;        			/* 자식 절대배치 기준 */
-	display: inline-block;      		/* 인라인 블록 */
-	width: 70px;                		/* 전체 너비 */
-	height: 32px;               		/* 전체 높이 */
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 32px;
 }
 /* 체크박스 숨김 */
 .switch-toggle input {
-<<<<<<< HEAD
-	opacity: 0;                 		/* 투명 처리 */
-	width: 0;                   		/* 가로 0 */
-	height: 0;                  		/* 세로 0 */
-=======
   opacity: 0;
   width: 0; height: 0;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 /* 슬라이더 */
 .slider {
-<<<<<<< HEAD
-  	position: absolute; 				/* 부모 기준 위치 */
-	top: 0; 							/* 위 0 */
-	left: 0; 							/* 왼 0 */
-	right: 0; 							/* 오른 0 */
-	bottom: 0; 							/* 아래 0 */
-	background-color: #ccc; 			/* OFF 배경 */
-	border-radius: 32px; 				/* 둥근 트랙 */
-	transition: background-color 0.1s; 	/* 배경 전환 */
-	cursor: pointer; 					/* 포인터 커서 */
-	display: flex; 						/* 중앙 정렬용 */
-	align-items: center; 				/* 수직 중앙 */
-	justify-content: center; 			/* 수평 중앙 */
-	font-weight: bold; 					/* 텍스트 굵기 */
-	font-size: 13px; 					/* 텍스트 크기 */
-	color: white; 						/* 텍스트 색 */}
-
-/* 스위치 동그라미 */
-.slider::before  {
-	content: ""; 						/* 가상요소 생성 */
-	position: absolute; 				/* 트랙 기준 위치 */
-	height: 26px; 						/* 핸들 높이 */
-	width: 26px; 						/* 핸들 너비 */
-	left: 3px; 							/* 왼쪽 위치 */
-	bottom: 3px; 						/* 아래 위치 */
-	background-color: white; 			/* 핸들 색 */
-	transition: transform 0.1s; 		/* 이동 전환 */
-	border-radius: 50%; 				/* 원형 */
-	z-index: 1; 						/* 텍스트 위에 표시 */}
-
-/* 텍스트 라벨들 */
-.label-on,
-.label-off {
-	position: absolute;         		/* 트랙 기준 배치 */
-	z-index: 2;                 		/* 핸들보다 위 */
-	transition: opacity 0.2s;   		/* 투명도 전환 */
-=======
   position: absolute;
   inset: 0;
   background-color: #ccc;
@@ -712,49 +347,12 @@
 /* 라벨 */
 .label-on, .label-off {
   position: absolute; z-index: 2; transition: opacity 0.2s;
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405
 }
 .label-off { right: 10px; opacity: 1; }
 .label-on  { left: 10px;  opacity: 0; }
 
-<<<<<<< HEAD
-/* OFF 위치: 오른쪽 */
-.label-off {
-	right: 10px;                /* 오른쪽 위치 */
-	opacity: 1;                 /* 보이기 */
-}
-
-/* ON 위치: 왼쪽 */
-.label-on {
-	left: 10px;                 /* 왼쪽 위치 */
-	opacity: 0;                 /* 숨기기 */
-}
-
-/* 체크되었을 때 스타일 변경 */
-input:checked + .slider {
-	background-color: #ffd000;  /* ON 배경 */
-}
-
-/* 체크되었을 때 동그라미 이동 */
-input:checked + .slider::before {
-	transform: translateX(38px);/* 오른쪽 이동 */
-}
-
-/* 체크되었을 때 텍스트 전환 */
-input:checked + .slider .label-off {
-  opacity: 0;
-}
-input:checked + .slider .label-on {
-  opacity: 1;
-}
-
-.search-list {
-  margin: 0 31px; /* 좌우 31px 여백 */
-}
-=======
 /* 체크 시 */
 input:checked + .slider { background-color: #FFD600; }
 input:checked + .slider::before { transform: translateX(38px); }
 input:checked + .slider .label-off { opacity: 0; }
 input:checked + .slider .label-on  { opacity: 1; }
->>>>>>> 8f82a66a7c90f7afa47646983754c0461fe5f405

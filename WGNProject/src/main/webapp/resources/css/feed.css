@@ -6,58 +6,58 @@
 
 /* 📍 메인 컨테이너 */
 .container {
-	max-width: 500px; /* 화면 최대 너비 */
-	margin: auto; /* 가운데 정렬 */
-	background: #fff; /* 흰 배경 */
-	min-height: 100vh; /* 화면 전체 높이 */
+   max-width: 500px; /* 화면 최대 너비 */
+   margin: auto; /* 가운데 정렬 */
+   background: #fff; /* 흰 배경 */
+   min-height: 100vh; /* 화면 전체 높이 */
 }
 
 /* ================================
    📌 상단 프로필 / 사용자 영역
 ================================ */
 .post-header {
-	display: flex;
-	justify-content: space-between; /* 좌우 배치 */
-	align-items: center; /* 세로 중앙 정렬 */
-	padding: 12px;
+   display: flex;
+   justify-content: space-between; /* 좌우 배치 */
+   align-items: center; /* 세로 중앙 정렬 */
+   padding: 12px;
 }
 
 /* 프로필 영역 (이미지 + 닉네임) */
 .post-user {
-	display: flex;
-	align-items: center;
+   display: flex;
+   align-items: center;
 }
 
 /* 프로필 이미지 */
 .post-user img {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%; /* 원형 */
-	margin-right: 10px; /* 닉네임과 간격 */
+   width: 40px;
+   height: 40px;
+   border-radius: 50%; /* 원형 */
+   margin-right: 10px; /* 닉네임과 간격 */
 }
 
 /* 닉네임 + 부가정보 */
 .post-user-info {
-	display: flex;
-	flex-direction: column; /* 세로 배치 */
-	font-size: 14px;
+   display: flex;
+   flex-direction: column; /* 세로 배치 */
+   font-size: 14px;
 }
 
 /* 팔로우 / 팔로잉 버튼 */
 .follow-btn, .my-follow-btn {
-	background: #FFD84D;
-	border: none;
-	padding: 5px 12px;
-	border-radius: 8px;
-	font-size: 14px;
-	font-weight: bold;
+   background: #FFD84D;
+   border: none;
+   padding: 5px 12px;
+   border-radius: 8px;
+   font-size: 14px;
+   font-weight: bold;
 }
 
 /* 팔로잉 상태 버튼 */
 .my-follow-btn.following {
-	color: gray !important;
-	background-color: #f0f0f0 !important;
-	border-color: gray !important;
+   color: gray !important;
+   background-color: #f0f0f0 !important;
+   border-color: gray !important;
 }
 
 /* ================================
@@ -65,310 +65,310 @@
 ================================ */
 /* 캐러셀 이미지 고정 크기 */
 .feed-carousel .carousel-item img {
-	width: 100%;
-	height: 500px; /* 고정 높이 */
-	object-fit: cover; /* 비율 유지 + 넘치는 부분 잘라냄 */
-	display: block;
+   width: 100%;
+   height: 500px; /* 고정 높이 */
+   object-fit: cover; /* 비율 유지 + 넘치는 부분 잘라냄 */
+   display: block;
 }
 
 /* 모바일 화면에서 이미지 높이 조정 */
 @media ( max-width : 480px) {
-	.feed-carousel .carousel-item img {
-		height: 420px;
-	}
+   .feed-carousel .carousel-item img {
+      height: 420px;
+   }
 }
 
 /* ================================
    📌 게시물 본문
 ================================ */
 .post-text {
-	padding: 10px 12px;
-	font-size: 14px;
-	line-height: 1.4;
+   padding: 10px 12px;
+   font-size: 14px;
+   line-height: 1.4;
 }
 
 /* 수정 삭제 버튼 */
 .btn-wrapper {
-	display: flex;
-	gap: 6px; /* 버튼 간격 */
+   display: flex;
+   gap: 6px; /* 버튼 간격 */
 }
 
 .btn-wrapper form {
-	margin: 0; /* form 기본 여백 제거 */
+   margin: 0; /* form 기본 여백 제거 */
 }
 
 .follow-btn {
-	padding: 6px 10px;
-	border-radius: 8px;
-	border: none;
-	background-color: #ffca28;
-	color: black;
-	font-weight: bold;
-	cursor: pointer;
+   padding: 6px 10px;
+   border-radius: 8px;
+   border: none;
+   background-color: #ffca28;
+   color: black;
+   font-weight: bold;
+   cursor: pointer;
 }
 
 .follow-btn:hover {
-	background-color: #ffc107;
+   background-color: #ffc107;
 }
 
 /* ================================
    📌 좋아요, 댓글 영역
 ================================ */
 .post-info {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	flex-wrap: nowrap;
-	white-space: nowrap; /* 줄 바꿈 방지 */
-	user-select: none;
-	padding: 10px 12px;
-	font-size: 14px;
-	line-height: 1.4;
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   flex-wrap: nowrap;
+   white-space: nowrap; /* 줄 바꿈 방지 */
+   user-select: none;
+   padding: 10px 12px;
+   font-size: 14px;
+   line-height: 1.4;
 }
 
 /* 하트 클릭 영역 */
 .post-info {
-	display: flex;
-	align-items: center;
-	gap: 0; /* 하트와 묶음 사이 간격 없애기 */
-	white-space: nowrap;
-	font-size: 14px;
+   display: flex;
+   align-items: center;
+   gap: 0; /* 하트와 묶음 사이 간격 없애기 */
+   white-space: nowrap;
+   font-size: 14px;
 }
 
 .post-info .clickable-heart {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 32px;
-	height: 32px;
-	font-size: 20px;
-	cursor: pointer;
-	color: #e0245e;
-	transition: color 0.3s ease;
-	margin-right: 0; /* 오른쪽 여백 제거해서 딱 붙도록 */
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 32px;
+   height: 32px;
+   font-size: 20px;
+   cursor: pointer;
+   color: #e0245e;
+   transition: color 0.3s ease;
+   margin-right: 0; /* 오른쪽 여백 제거해서 딱 붙도록 */
 }
 
 .post-info .clickable-heart:hover {
-	color: #a81d48;
+   color: #a81d48;
 }
 
 .post-info .clickable-heart i {
-	font-size: 20px;
-	line-height: 1;
+   font-size: 20px;
+   line-height: 1;
 }
 
 /* 좋아요 숫자 */
 .post-info .like-count {
-	font-size: 14px;
-	color: #333;
-	text-align: left;
+   font-size: 14px;
+   color: #333;
+   text-align: left;
 }
 
 /* 좋아요 · 댓글 묶음 내부 요소들 */
 .like-comment-group {
-	display: inline-flex; /* 내부 요소 가로로 붙게 */
-	align-items: center;
-	gap: 6px; /* 좋아요 숫자와 텍스트 사이 간격 */
-	margin-left: 0; /* 하트와 딱 붙게 */
-	font-size: 14px;
+   display: inline-flex; /* 내부 요소 가로로 붙게 */
+   align-items: center;
+   gap: 6px; /* 좋아요 숫자와 텍스트 사이 간격 */
+   margin-left: 0; /* 하트와 딱 붙게 */
+   font-size: 14px;
 }
 
 /* ================================
    📌 평점 박스
 ================================ */
 .rating-box {
-	background-color: #fff8e5;
-	color: black;
-	font-weight: 600;
-	font-size: 14px;
-	padding: 4px 10px;
-	border-radius: 15px;
-	box-shadow: 0 2px 6px rgba(49, 120, 198, 0.25);
-	user-select: none;
-	white-space: nowrap;
-	display: inline-block;
+   background-color: #fff8e5;
+   color: black;
+   font-weight: 600;
+   font-size: 14px;
+   padding: 4px 10px;
+   border-radius: 15px;
+   box-shadow: 0 2px 6px rgba(49, 120, 198, 0.25);
+   user-select: none;
+   white-space: nowrap;
+   display: inline-block;
 }
 
 /* ================================
    📌 장소 카드
 ================================ */
 .location-card {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	background: #fff8e5;
-	border: 1px solid #f2e3c0;
-	border-radius: 8px;
-	margin: 10px 12px;
-	padding: 10px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   background: #fff8e5;
+   border: 1px solid #f2e3c0;
+   border-radius: 8px;
+   margin: 10px 12px;
+   padding: 10px;
 }
 
 /* 장소 썸네일 + 텍스트 */
 .location-info {
-	display: flex;
-	align-items: center;
+   display: flex;
+   align-items: center;
 }
 
 .location-info img {
-	width: 50px;
-	height: 50px;
-	border-radius: 8px;
-	margin-right: 10px;
+   width: 50px;
+   height: 50px;
+   border-radius: 8px;
+   margin-right: 10px;
 }
 
 /* 장소 카드 화살표 버튼 */
 .location-card button {
-	background: none;
-	border: none;
-	font-size: 20px;
-	color: #000;
+   background: none;
+   border: none;
+   font-size: 20px;
+   color: #000;
 }
 
 /* ================================
    📌 댓글 입력창
 ================================ */
 .comment-input {
-	display: flex;
-	padding: 10px;
-	border-top: 1px solid #ddd;
-	position: sticky; /* 스크롤 시 하단 고정 */
-	bottom: 50px;
-	background: #fff;
+   display: flex;
+   padding: 10px;
+   border-top: 1px solid #ddd;
+   position: sticky; /* 스크롤 시 하단 고정 */
+   bottom: 50px;
+   background: #fff;
 }
 
 /* 댓글 입력 필드 */
 .comment-input input {
-	flex: 1;
-	border: none;
-	background: #f5f5f5;
-	padding: 8px 10px;
-	border-radius: 20px;
+   flex: 1;
+   border: none;
+   background: #f5f5f5;
+   padding: 8px 10px;
+   border-radius: 20px;
 }
 
 /* 전송 버튼 */
 .comment-input button {
-	background: none;
-	border: none;
-	margin-left: 10px;
-	font-size: 20px;
+   background: none;
+   border: none;
+   margin-left: 10px;
+   font-size: 20px;
 }
 
 /* ================================
    📌 댓글 리스트
 ================================ */
 .comments {
-	padding: 0 12px;
+   padding: 0 12px;
 }
 
 /* 개별 댓글 */
 .comment {
-	display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
-	padding: 10px 0;
-	border-bottom: 1px solid #f1f1f1;
+   display: flex;
+   align-items: flex-start;
+   justify-content: space-between;
+   padding: 10px 0;
+   border-bottom: 1px solid #f1f1f1;
 }
 
 /* 댓글 작성자 프로필 */
 .comment-avatar {
-	width: 32px;
-	height: 32px;
-	border-radius: 50%;
-	object-fit: cover;
-	flex-shrink: 0;
-	margin-right: 10px;
+   width: 32px;
+   height: 32px;
+   border-radius: 50%;
+   object-fit: cover;
+   flex-shrink: 0;
+   margin-right: 10px;
 }
 
 /* 댓글 본문 */
 .comment-body {
-	flex: 1;
+   flex: 1;
 }
 
 /* 작성자 닉네임 */
 .comment-body strong {
-	display: block;
+   display: block;
 }
 
 /* ================================
    📌 수정 모달
 ================================ */
 .star-rating {
-	direction: rtl; /* 별 순서 반전 (오른쪽부터 채움) */
-	display: inline-flex;
+   direction: rtl; /* 별 순서 반전 (오른쪽부터 채움) */
+   display: inline-flex;
 }
 
 .star-rating input {
-	display: none; /* 라디오 버튼 숨김 */
+   display: none; /* 라디오 버튼 숨김 */
 }
 
 .star-rating label {
-	font-size: 28px;
-	color: #ddd;
-	cursor: pointer;
-	transition: color 0.2s;
+   font-size: 28px;
+   color: #ddd;
+   cursor: pointer;
+   transition: color 0.2s;
 }
 
 .star-rating input:checked ~ label {
-	color: #ffc107; /* 선택된 별 색 */
+   color: #ffc107; /* 선택된 별 색 */
 }
 
 .star-rating label:hover, .star-rating label:hover ~ label {
-	color: #ffc107; /* 마우스 올렸을 때 */
+   color: #ffc107; /* 마우스 올렸을 때 */
 }
 
 /* 노란색 버튼 고정 */
 .btn-yellow {
-	background-color: #ffc107 !important;
-	border-color: #ffc107 !important;
-	color: black !important;
+   background-color: #ffc107 !important;
+   border-color: #ffc107 !important;
+   color: black !important;
 }
 
 .btn-yellow:hover {
-	background-color: #e0a800 !important;
-	border-color: #d39e00 !important;
+   background-color: #e0a800 !important;
+   border-color: #d39e00 !important;
 }
 
 /* ================================
    📌 수정 모달
 ================================ */
 .updating-backdrop {
-	position: fixed;
-	inset: 0;
-	display: none;
-	align-items: center;
-	justify-content: center;
-	background: rgba(0, 0, 0, .35);
-	z-index: 2000; /* 부트스트랩 모달보다 위 */
-	backdrop-filter: saturate(180%) blur(1px);
+   position: fixed;
+   inset: 0;
+   display: none;
+   align-items: center;
+   justify-content: center;
+   background: rgba(0, 0, 0, .35);
+   z-index: 2000; /* 부트스트랩 모달보다 위 */
+   backdrop-filter: saturate(180%) blur(1px);
 }
 
 .updating-card {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	background: #fff;
-	padding: 18px 22px;
-	border-radius: 12px;
-	box-shadow: 0 12px 36px rgba(0, 0, 0, .25);
-	font-size: 15px;
-	font-weight: 600;
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   background: #fff;
+   padding: 18px 22px;
+   border-radius: 12px;
+   box-shadow: 0 12px 36px rgba(0, 0, 0, .25);
+   font-size: 15px;
+   font-weight: 600;
 }
 
 .loader {
-	width: 22px;
-	height: 22px;
-	border-radius: 50%;
-	border: 3px solid #e5e7eb;
-	border-top-color: #0d6efd;
-	animation: spin 1s linear infinite;
+   width: 22px;
+   height: 22px;
+   border-radius: 50%;
+   border: 3px solid #e5e7eb;
+   border-top-color: #0d6efd;
+   animation: spin 1s linear infinite;
 }
 
-@
+
 keyframes spin {
-	to {transform: rotate(360deg)
+   to {transform: rotate(360deg)
 }
 
 }
 .updating-text {
-	margin: 0
+   margin: 0
 }

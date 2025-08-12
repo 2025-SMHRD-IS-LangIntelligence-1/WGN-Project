@@ -212,7 +212,11 @@
 	color: #000;
 }
 
-@
+/* 
+
+ */
+
+
 keyframes fadeIn {from { opacity:0;
 	transform: translateX(10px);
 }
