@@ -1,207 +1,229 @@
-@charset "UTF-8"; /* 이 CSS 파일이 UTF-8 문자 인코딩으로 작성되었음을 명시 */
+@charset "UTF-8";
 
-/*feed Page*/
+/* ================================
+   📌 Feed Page 전체 스타일
+================================ */
 
-/* container 클래스는 중앙 정렬과 너비 및 높이 설정 */
+/* 📍 메인 컨테이너 */
 .container {
-	max-width: 500px; /* 최대 너비 500px */
-	margin: auto; /* 수평 중앙 정렬 */
-	background: #fff; /* 배경 흰색 */
-	min-height: 100vh; /* 최소 높이 화면 전체 높이로 설정 */
+	max-width: 500px;       /* 화면 최대 너비 */
+	margin: auto;           /* 가운데 정렬 */
+	background: #fff;       /* 흰 배경 */
+	min-height: 100vh;      /* 화면 전체 높이 */
 }
 
-/* 상단 사용자 영역 스타일 */
+/* ================================
+   📌 상단 프로필 / 사용자 영역
+================================ */
 .post-header {
-	display: flex; /* 플렉스 박스 레이아웃 적용 */
-	justify-content: space-between; /* 좌우 아이템 사이를 최대한 벌림 */
-	align-items: center; /* 세로 가운데 정렬 */
-	padding: 12px; /* 안쪽 여백 12px */
+	display: flex;
+	justify-content: space-between; /* 좌우 배치 */
+	align-items: center;            /* 세로 중앙 정렬 */
+	padding: 12px;
 }
 
-/* 사용자 정보 영역 */
+/* 프로필 영역 (이미지 + 닉네임) */
 .post-user {
-	display: flex; /* 플렉스 박스 적용하여 가로 정렬 */
-	align-items: center; /* 세로 가운데 정렬 */
+	display: flex;
+	align-items: center;
 }
 
-/* 사용자 프로필 이미지 스타일 */
+/* 프로필 이미지 */
 .post-user img {
-	width: 40px; /* 가로 40px */
-	height: 40px; /* 세로 40px */
-	border-radius: 50%; /* 원형으로 만들기 */
-	margin-right: 10px; /* 오른쪽에 10px 간격 */
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;  /* 원형 */
+	margin-right: 10px;  /* 닉네임과 간격 */
 }
 
-/* 사용자 이름 및 기타 정보 텍스트 */
+/* 닉네임 + 부가정보 */
 .post-user-info {
-	display: flex; /* 플렉스 박스 */
-	flex-direction: column; /* 세로 방향 정렬 */
-	font-size: 14px; /* 글자 크기 14px */
+	display: flex;
+	flex-direction: column; /* 세로 배치 */
+	font-size: 14px;
 }
 
-/* 팔로우 버튼 스타일 */
-.follow-btn {
-	background: #FFD84D; /* 노란색 배경 */
-	border: none; /* 테두리 없앰 */
-	padding: 5px 12px; /* 상하 5px, 좌우 12px 여백 */
-	border-radius: 8px; /* 둥근 모서리 반경 8px */
-	font-size: 14px; /* 글자 크기 14px */
-	font-weight: bold; /* 글자 두껍게 */
-}
-
+/* 팔로우 / 팔로잉 버튼 */
+.follow-btn,
 .my-follow-btn {
-	background: #FFD84D; /* 노란색 배경 */
-	border: none; /* 테두리 없앰 */
-	padding: 5px 12px; /* 상하 5px, 좌우 12px 여백 */
-	border-radius: 8px; /* 둥근 모서리 반경 8px */
-	font-size: 14px; /* 글자 크기 14px */
-	font-weight: bold; /* 글자 두껍게 */
+	background: #FFD84D;
+	border: none;
+	padding: 5px 12px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: bold;
 }
 
+/* 팔로잉 상태 버튼 */
 .my-follow-btn.following {
 	color: gray !important;
-	background-color: #f0f0f0 !important; /* 배경색도 바꿔보기 */
-	border-color: gray !important; /* 테두리 색 바꾸기 */
+	background-color: #f0f0f0 !important;
+	border-color: gray !important;
 }
 
-/* 게시물 이미지 영역 */
-.post-image img {
-	width: 100%; /* 부모 요소 너비에 맞춤 */
-	display: block; /* 이미지 주변 불필요한 공백 제거 */
+/* ================================
+   📌 캐러셀 이미지 영역
+================================ */
+/* 캐러셀 이미지 고정 크기 */
+.feed-carousel .carousel-item img {
+	width: 100%;
+	height: 500px;        /* 고정 높이 */
+	object-fit: cover;    /* 비율 유지 + 넘치는 부분 잘라냄 */
+	display: block;
 }
 
-/* 게시물 본문 텍스트 */
+/* 모바일 화면에서 이미지 높이 조정 */
+@media (max-width: 480px) {
+	.feed-carousel .carousel-item img {
+		height: 420px;
+	}
+}
+
+/* ================================
+   📌 게시물 본문
+================================ */
 .post-text {
-	padding: 10px 12px; /* 상하 10px, 좌우 12px 여백 */
-	font-size: 14px; /* 글자 크기 14px */
-	line-height: 1.4; /* 줄 간격 1.4배 */
+	padding: 10px 12px;
+	font-size: 14px;
+	line-height: 1.4;
 }
 
-/* 좋아요, 댓글수 div */
+/* ================================
+   📌 좋아요, 댓글 영역
+================================ */
 .post-info {
-	padding: 10px 12px; /* 상하 10px, 좌우 12px 여백 */
-	font-size: 14px; /* 글자 크기 14px */
-	line-height: 1.4; /* 줄 간격 1.4배 */
-	gap: 10px
+	padding: 10px 12px;
+	font-size: 14px;
+	line-height: 1.4;
+	gap: 10px;
 }
 
+/* 좋아요 / 댓글 숫자 */
 .post-info .clickable-heart, .post-info .like-count {
-	width: 80px; /* 고정 너비 */
-	height: 30px; /* 고정 높이 */
+	width: 80px;
+	height: 30px;
 	font-size: 18px;
-	user-select: none; /* 숫자 드래그 방지 */
+	user-select: none; /* 드래그 방지 */
 }
 
+/* 하트 아이콘 크기 */
 .post-info .clickable-heart i {
-	font-size: 20px; /* 아이콘 크기 */
+	font-size: 20px;
 	line-height: 1;
 }
 
-/* 평점 상자 */
+/* ================================
+   📌 평점 박스
+================================ */
 .rating-box {
 	background-color: #fff8e5;
 	color: black;
-	font-weight : 600;
+	font-weight: 600;
 	font-size: 14px;
 	padding: 4px 10px;
-	border-radius: 15px; /* 둥근 모서리 */
-	box-shadow: 0 2px 6px rgba(49, 120, 198, 0.25); /* 은은한 그림자 */
+	border-radius: 15px;
+	box-shadow: 0 2px 6px rgba(49, 120, 198, 0.25);
 	user-select: none;
-	white-space: nowrap; /* 줄바꿈 방지 */
+	white-space: nowrap;
 	display: inline-block;
-	font-weight: 600;
 }
 
-/* 장소 카드 (위치 표시 박스) */
+/* ================================
+   📌 장소 카드
+================================ */
 .location-card {
-	display: flex; /* 플렉스 박스 */
-	align-items: center; /* 세로 가운데 정렬 */
-	justify-content: space-between; /* 좌우 아이템 사이 최대한 벌림 */
-	background: #fff8e5; /* 연한 노란색 배경 */
-	border: 1px solid #f2e3c0; /* 연한 노란색 테두리 */
-	border-radius: 8px; /* 모서리 둥글게 반경 8px */
-	margin: 10px 12px; /* 상하 10px, 좌우 12px 외부 여백 */
-	padding: 10px; /* 내부 여백 10px */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: #fff8e5;
+	border: 1px solid #f2e3c0;
+	border-radius: 8px;
+	margin: 10px 12px;
+	padding: 10px;
 }
 
-/* 장소 카드 내 위치 정보 */
+/* 장소 썸네일 + 텍스트 */
 .location-info {
-	display: flex; /* 플렉스 박스 */
-	align-items: center; /* 세로 가운데 정렬 */
+	display: flex;
+	align-items: center;
 }
 
-/* 위치 아이콘 또는 썸네일 이미지 */
 .location-info img {
-	width: 50px; /* 가로 50px */
-	height: 50px; /* 세로 50px */
-	border-radius: 8px; /* 둥근 모서리 */
-	margin-right: 10px; /* 오른쪽 10px 간격 */
+	width: 50px;
+	height: 50px;
+	border-radius: 8px;
+	margin-right: 10px;
 }
 
-/* 장소 카드 내 버튼 스타일 (예: 더보기 버튼) */
+/* 장소 카드 화살표 버튼 */
 .location-card button {
-	background: none; /* 배경 없앰 */
-	border: none; /* 테두리 없앰 */
-	font-size: 20px; /* 글자 크기 20px */
-	color: #000; /* 글자색 검정 */
+	background: none;
+	border: none;
+	font-size: 20px;
+	color: #000;
 }
 
-/* 댓글 입력 영역 */
+/* ================================
+   📌 댓글 입력창
+================================ */
 .comment-input {
-	display: flex; /* 플렉스 박스 */
-	padding: 10px; /* 내부 여백 10px */
-	border-top: 1px solid #ddd; /* 위쪽에 연한 회색 선 */
-	position: sticky; /* 스크롤 시 위치 고정 */
-	bottom: 50px; /* 화면 아래에서 50px 위에 고정 */
-	background: #fff; /* 배경 흰색 */
+	display: flex;
+	padding: 10px;
+	border-top: 1px solid #ddd;
+	position: sticky; /* 스크롤 시 하단 고정 */
+	bottom: 50px;
+	background: #fff;
 }
 
-/* 댓글 입력 input 박스 */
+/* 댓글 입력 필드 */
 .comment-input input {
-	flex: 1; /* 가능한 너비 최대한 확장 */
-	border: none; /* 테두리 없음 */
-	background: #f5f5f5; /* 연한 회색 배경 */
-	padding: 8px 10px; /* 상하 8px, 좌우 10px 내부 여백 */
-	border-radius: 20px; /* 둥근 모서리 20px (둥근 입력창) */
+	flex: 1;
+	border: none;
+	background: #f5f5f5;
+	padding: 8px 10px;
+	border-radius: 20px;
 }
 
-/* 댓글 입력 버튼 (전송 버튼 등) */
+/* 전송 버튼 */
 .comment-input button {
-	background: none; /* 배경 없음 */
-	border: none; /* 테두리 없음 */
-	margin-left: 10px; /* 왼쪽 여백 10px */
-	font-size: 20px; /* 글자 크기 20px */
+	background: none;
+	border: none;
+	margin-left: 10px;
+	font-size: 20px;
 }
 
-/* 댓글 리스트 영역 */
+/* ================================
+   📌 댓글 리스트
+================================ */
 .comments {
-	padding: 0 12px; /* 좌우 12px 패딩 */
+	padding: 0 12px;
 }
 
-/* 각 댓글 한 줄 */
+/* 개별 댓글 */
 .comment {
-	display: flex; /* 플렉스 박스 */
-	align-items: flex-start; /* 위쪽 정렬 */
-	justify-content: space-between; /* 좌우 벌림 */
-	padding: 10px 0; /* 상하 10px, 좌우 0 여백 */
-	border-bottom: 1px solid #f1f1f1; /* 연한 회색 밑줄 */
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	padding: 10px 0;
+	border-bottom: 1px solid #f1f1f1;
 }
 
-/* 댓글 아바타 (프로필 이미지) */
+/* 댓글 작성자 프로필 */
 .comment-avatar {
-	width: 32px; /* 가로 32px */
-	height: 32px; /* 세로 32px */
-	border-radius: 50%; /* 원형 */
-	margin-right: 10px; /* 오른쪽 10px 간격 */
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	object-fit: cover;
+	flex-shrink: 0;
+	margin-right: 10px;
 }
 
-/* 댓글 본문 텍스트 영역 */
+/* 댓글 본문 */
 .comment-body {
-	flex: 1; /* 가능한 너비 최대한 확장 */
+	flex: 1;
 }
 
-/* 댓글 작성자 이름 (볼드체) */
+/* 작성자 닉네임 */
 .comment-body strong {
 	display: block;
-	/* 블록 요소로 만듦 (줄 바꿈 효과) */
 }

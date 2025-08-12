@@ -71,7 +71,7 @@
 							name="ratings" value="3" /> <label for="star3" title="3 stars">★</label>
 						<input type="radio" id="star2" name="ratings" value="2" /> <label
 							for="star2" title="2 stars">★</label> <input type="radio"
-							id="star1" name="rating" value="1" /> <label for="star1"
+							id="star1" name="ratings" value="1" /> <label for="star1"
 							title="1 star">★</label>
 					</div>
 				</div>

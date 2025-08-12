@@ -72,52 +72,57 @@ let selectedRestaurant = null;
 
 // 음식점 검색
 $('.search_input').on('input', debounce(function () {
-	const keyword = $(this).val().trim();
+  const keyword = $(this).val().trim();
 
-	if (keyword === "") {
-		$('.search-list').empty().hide();
-		return;
-	}
+  if (keyword === "") {
+    $('.search-list').empty().hide();
+    return;
+  }
 
-	$.ajax({
-		url: contextPath + '/search/restaurant',
-		type: 'GET',
-		data: { keyword: keyword },
-		success: function (resInfoList) {
-			$('.search-list').empty();
+  const DEFAULT_IMG = 'https://cdn-icons-png.flaticon.com/128/17797/17797745.png';
 
-			if (resInfoList.length === 0) {
-				$('.search-list').html('<p>검색 결과가 없습니다.</p>').show();
-				return;
-			}
+  $.ajax({
+    url: contextPath + '/search/restaurant',
+    type: 'GET',
+    data: { keyword: keyword },
+    success: function (resInfoList) {
+      $('.search-list').empty();
 
-			resInfoList.forEach(res => {
-				const invalidThumbnails = ["", "null", "nan", "NaN", "undefined"];
-				const thumbnail = invalidThumbnails.includes(res.res_thumbnail?.trim())
-					? 'https://res.cloudinary.com/duyrajdqg/image/upload/v1754354334/free-icon-food-and-restaurant-mega-pack-color-8285335_h1rljq.png'
-					: res.res_thumbnail;
+      if (!Array.isArray(resInfoList) || resInfoList.length === 0) {
+        $('.search-list').html('<p>검색 결과가 없습니다.</p>').show();
+        return;
+      }
 
-				const card = `
-					<div class="search-res" data-res-idx="${res.res_idx}" data-res-name="${res.res_name}">
-						<img src="${thumbnail}" alt="음식 이미지" class="res_thumbnail">
-						<div class="res_info">
-							<h3 class="res_name">${res.res_name}</h3>
-							<p class="res_addr">${res.res_addr}</p>
-							<div class="rating_info">
-								<i class="bi bi-star"></i>
-								<span class="ratings_text">${res.res_avg_rating || '0.0'}</span>
-							</div>
-						</div>
-					</div>
-				`;
-				$('.search-list').append(card);
-			});
-			$('.search-list').show();
-		},
-		error: function () {
-			console.error("음식점 검색 실패");
-		}
-	});
+      resInfoList.forEach(res => {
+        const rawThumb = (res.res_thumbnail ?? '').toString().trim();
+        const invalid = !rawThumb || ['null', 'nan', 'NaN', 'undefined'].includes(rawThumb);
+        const thumbnail = invalid ? DEFAULT_IMG : rawThumb;
+
+        const rating = (res.res_avg_rating ?? '0.0').toString();
+
+        const card = `
+          <div class="search-res" data-res-idx="${res.res_idx}" data-res-name="${res.res_name}">
+            <img src="${thumbnail}" alt="음식 이미지" class="res_thumbnail"
+                 onerror="this.onerror=null;this.src='${DEFAULT_IMG}'">
+            <div class="res_info">
+              <h3 class="res_name">${res.res_name}</h3>
+              <p class="res_addr">${res.res_addr}</p>
+              <div class="rating_info">
+                <i class="bi bi-star"></i>
+                <span class="ratings_text">${rating}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        $('.search-list').append(card);
+      });
+
+      $('.search-list').show();
+    },
+    error: function () {
+      console.error("음식점 검색 실패");
+    }
+  });
 }, 300));
 
 
