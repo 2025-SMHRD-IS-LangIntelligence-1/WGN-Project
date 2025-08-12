@@ -287,3 +287,26 @@
   background-color: #e0a800 !important;
   border-color: #d39e00 !important;
 }
+
+/* ================================
+   📌 수정 모달
+================================ */
+  .updating-backdrop{
+    position:fixed; inset:0; display:none;
+    align-items:center; justify-content:center;
+    background:rgba(0,0,0,.35); z-index:2000; /* 부트스트랩 모달보다 위 */
+    backdrop-filter:saturate(180%) blur(1px);
+  }
+  .updating-card{
+    display:flex; align-items:center; gap:12px;
+    background:#fff; padding:18px 22px; border-radius:12px;
+    box-shadow:0 12px 36px rgba(0,0,0,.25);
+    font-size:15px; font-weight:600;
+  }
+  .loader{
+    width:22px; height:22px; border-radius:50%;
+    border:3px solid #e5e7eb; border-top-color:#0d6efd;
+    animation:spin 1s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .updating-text{margin:0}

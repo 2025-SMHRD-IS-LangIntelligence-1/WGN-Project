@@ -20,8 +20,8 @@
 
 	<div class="mobile-container">
 		<div class="content">
-			<form action="<c:url value='/feed/upload'/>"
-      method="post" enctype="multipart/form-data">
+			<form action="<c:url value='/feed/upload'/>" method="post"
+				enctype="multipart/form-data">
 				<div class="add-box">
 					<!-- 상단 닫기 및 제출 버튼 -->
 					<div class="add-box-header">
@@ -31,25 +31,26 @@
 
 					<!-- 파일 업로드 영역 -->
 					<div class="upload-wrapper">
-
 						<!-- 업로드 버튼 영역 -->
 						<div class="upload-box-container">
 							<label for="file-upload" class="upload-box"> <i
 								class="bi bi-camera"></i> <span>사진/영상</span>
 							</label> <input type="file" name="files" id="file-upload"
 								class="file-upload" accept="image/*" hidden multiple>
-
-							<!-- 안내 문구 추가 -->
-							<p class="upload-limit-text">최대 5장까지 업로드할 수 있습니다.</p>
 						</div>
+							<!-- 안내 문구 -->
+							<p class="upload-limit-text">최대 5장까지 업로드할 수 있습니다.</p>
 
-						<!-- 미리보기 썸네일은 옆에 유지 -->
-						<div id="preview-container" class="preview-container"></div>
+							<!-- 프리뷰 -->
+							<div id="preview-container" class="preview-container"></div>
+				
+
+						<!-- 에러 메시지 -->
+						<span id="fileError" class="text-danger"
+							style="display: none; font-size: 13px;">사진을 선택해주세요.</span>
 					</div>
 
-					<!-- 에러 메시지 -->
-					<span id="fileError" class="text-danger"
-						style="display: none; font-size: 13px;">사진을 선택해주세요.</span>
+
 
 					<!-- 피드 내용 입력 -->
 					<textarea name="feed_content" id="feed_content" class="desc-text"

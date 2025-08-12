@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -136,7 +136,18 @@
 				onclick="window.location='${pageContext.request.contextPath}/restaurant?res_idx=${resInfo.res_idx}'">
 				<div class="location-info">
 
-					<img src="${resInfo.res_thumbnail}">
+					<c:choose>
+						<c:when test="${empty resInfo.res_thumbnail}">
+							<img
+								src="https://cdn-icons-png.flaticon.com/128/17797/17797745.png"
+								alt="no image" loading="lazy">
+						</c:when>
+						<c:otherwise>
+							<img src="${resInfo.res_thumbnail}" alt="${resInfo.res_name}"
+								loading="lazy"
+								onerror="this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/128/17797/17797745.png';">
+						</c:otherwise>
+					</c:choose>
 					<div>
 						<div style="font-weight: bold;">${resInfo.res_name}</div>
 						<div style="font-size: 12px; color: #777;">${resInfo.res_addr}</div>
@@ -274,6 +285,16 @@
 				</form>
 			</div>
 		</div>
+		<!-- 수정 중 모달(오버레이) -->
+		<div id="updatingOverlay" class="updating-backdrop"
+			style="display: none;" role="dialog" aria-live="polite"
+			aria-busy="true" aria-label="수정 진행 중">
+			<div class="updating-card">
+				<span class="loader"></span>
+				<p class="updating-text">수정 중입니다...</p>
+			</div>
+		</div>
+
 	</div>
 	</div>
 	<script
