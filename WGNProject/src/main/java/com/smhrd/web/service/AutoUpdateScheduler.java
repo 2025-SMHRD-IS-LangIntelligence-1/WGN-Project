@@ -30,11 +30,11 @@ public class AutoUpdateScheduler {
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 
-	    HttpEntity<Integer> requestEntity = new HttpEntity<>(res_idx, headers);
+	    // 쿼리 파라미터를 URL에 붙임
+	    String pythonUrl = "http://localhost:8000/receive_review?res_idx=" + res_idx;
 
-	    System.out.println("요청 생성 완료: res_idx = " + res_idx);
-
-	    String pythonUrl = "http://localhost:8000/receive_review";
+	    // 바디는 필요 없으면 null로
+	    HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
 	    RestTemplate restTemplate = new RestTemplate();
 
@@ -54,6 +54,7 @@ public class AutoUpdateScheduler {
 
 	    return result;
 	}
+
 	
 	public void updateWordCloud(int res_idx) {
 		

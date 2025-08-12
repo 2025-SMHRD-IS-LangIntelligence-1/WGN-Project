@@ -10,7 +10,7 @@ class WordcloudAndRatings(BaseModel):
     nk_negative_wc: str
     wgn_positive_wc: str
     wgn_negative_wc: str
-    wgn_ratings: str
+    wgn_ratings: float
 
 class Log(BaseModel):
     # 사용자 로그를 저장하는 클래스

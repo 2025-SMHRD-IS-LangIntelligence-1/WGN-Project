@@ -74,5 +74,8 @@ public interface RestaurantMapper {
 			where res_idx = #{res_idx}
 			""")
 	void updateWcAndRatings(int res_idx, String wc1, String wc2, String wc3, String wc4, float ratings);
+
+	@Update("update t_restaurant set last_update = now() where res_idx = #{res_idx}")
+	void updateRecord(int res_idx);
 	
 }

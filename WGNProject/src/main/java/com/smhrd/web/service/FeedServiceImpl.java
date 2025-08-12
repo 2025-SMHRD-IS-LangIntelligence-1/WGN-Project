@@ -30,6 +30,8 @@ public class FeedServiceImpl implements FeedService {
 	CloudinaryService cloudinaryService;
 	@Autowired
 	NotificationService notificationService;
+	@Autowired
+	RestaurantService restaurantService;
 
 	FeedServiceImpl(AsyncConfig asyncConfig) {
 	}
@@ -54,13 +56,17 @@ public class FeedServiceImpl implements FeedService {
 
 		feedMapper.saveFeed(feed); // feed 객체를 활용해 db에 튜플을 추가하고 feed 객체에 idx를 등록
 
-		int feed_idx = feed.getFeed_idx(); // 등록된 idx 꺼내오기
+		int feed_idx = feed.getFeed_idx();
+		int res_idx = feed.getRes_idx();
 
+		// 클라우디너리에 이미지 등록하고 url 받아오기
 		System.out.println("업로드된 MultipartFile 수: " + files.size());
-		List<String> imgUrls = cloudinaryService.uploadFiles(files); // 클라우디너리에 이미지 등록하고 url 받아오기
-
+		List<String> imgUrls = cloudinaryService.uploadFiles(files); 
 		System.out.println("클라우디너리에서 반환된 이미지 URL 수: " + imgUrls.size());
 		feedMapper.saveFeedImg(feed_idx, imgUrls);
+		
+		// 레스토랑 최근 업데이트 시점 변경
+		restaurantService.updateRecord(res_idx);
 	}
 
 	@Override
