@@ -8,9 +8,10 @@
 	<insert id="saveFeed" parameterType="t_feed"
 		useGeneratedKeys="true" keyProperty="feed_idx">
 		INSERT INTO t_feed (mb_id,
-		res_idx, feed_content, feed_likes, created_at)
-		VALUES (#{mb_id},
-		#{res_idx}, #{feed_content}, 0, NOW())
+		res_idx, feed_content, feed_likes, ratings, created_at)
+		VALUES
+		(#{mb_id},
+		#{res_idx}, #{feed_content}, 0, #{ratings}, NOW())
 	</insert>
 
 	<insert id="saveFeedImg">
@@ -31,31 +32,22 @@
 
 	<select id="selectFeedByIdx">
 		SELECT f.feed_idx, f.mb_id, f.res_idx,
-		f.feed_content, f.feed_likes, f.created_at, m.mb_nick
+		f.feed_content, f.feed_likes, f.ratings, f.created_at, m.mb_nick
 		FROM t_feed f
 		left JOIN t_member m on f.mb_id=m.mb_id
 		where feed_idx=#{feed_idx};
 	</select>
 
-
 	<resultMap id="CommentDTOMap"
 		type="com.smhrd.web.dto.CommentDTO">
-
-		<!-- 작성자 프로필 이미지 -->
+		<id property="cmt_idx" column="cmt_idx" />
+		<result property="feed_idx" column="feed_idx" />
+		<result property="mb_id" column="mb_id" />
+		<result property="mb_nick" column="mb_nick" />
+		<result property="cmt_content" column="cmt_content" />
+		<result property="created_at" column="created_at" />
 		<result property="mb_img" column="mb_img" />
-
-		<!-- 댓글 정보는 t_comment 객체 안으로 -->
-		<association property="comment"
-			javaType="com.smhrd.web.entity.t_comment">
-			<id property="cmt_idx" column="cmt_idx" />
-			<result property="feed_idx" column="feed_idx" />
-			<result property="mb_id" column="mb_id" />
-			<result property="mb_nick" column="mb_nick" />
-			<result property="cmt_content" column="cmt_content" />
-			<result property="created_at" column="created_at" />
-		</association>
 	</resultMap>
-
 
 	<select id="getCmtByfeedIdx" resultMap="CommentDTOMap">
 		select c.*, m.mb_img
@@ -148,15 +140,20 @@
 		m.mb_img,
 		COUNT(c.cmt_idx) AS comment_count
 		FROM t_feed f
-		LEFT JOIN t_feed_img i ON f.feed_idx = i.feed_idx
-		LEFT JOIN t_member m ON f.mb_id = m.mb_id
+		LEFT JOIN
+		t_feed_img i ON f.feed_idx = i.feed_idx
+		LEFT JOIN t_member m ON f.mb_id
+		= m.mb_id
 		LEFT JOIN t_restaurant r ON r.res_idx = f.res_idx
-		LEFT JOIN t_comment c ON f.feed_idx = c.feed_idx -- 댓글 테이블 조인
-		WHERE f.feed_idx = #{feed_idx}
+		LEFT JOIN
+		t_comment c ON f.feed_idx = c.feed_idx -- 댓글 테이블 조인
+		WHERE f.feed_idx =
+		#{feed_idx}
 		GROUP BY
 		f.feed_idx, f.mb_id, f.res_idx, f.feed_content,
 		f.feed_likes, f.created_at, m.mb_nick,
-		r.res_name, r.res_category, m.mb_img;
+		r.res_name, r.res_category,
+		m.mb_img;
 	</select>
 
 </mapper>

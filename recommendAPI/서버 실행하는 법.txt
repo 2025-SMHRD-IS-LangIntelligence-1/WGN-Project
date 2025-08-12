@@ -1,0 +1,30 @@
+=== 최초 1회 진행 ===
+
+0. 시스템 환경 변수 편집 검색 -> 환경 변수 클릭 -> 시스템 변수에 JAVA_HOME 변수 할당되어 있는지 확인 -> 할당 안 되어 있으면 Programfiles\Java\ 들어가서 jdk 경로 복사 후 JAVA_HOME 변수 등록 
+
+1. 아나콘다 프롬프트 열고 cd Desktop/WGNProject/RecommendAPI 로 접근
+
+2.
+- 파이썬 버전 확인 : python --version
+- 가상 환경 생성 : conda active -n 환경명 python=파이썬 버전
+- 가상 환경 실행 : conda activate 환경명
+- 가상 환경에 필요한 라이브러리 설치 : pip install fastapi uvicorn nest_asyncio pymysql sentence_transformers wordcloud sentence_transformers konlpy jpype1
+
+3. 서버 실행
+
+python -m uvicorn main:app
+
+=== 이후 접속 방법 ===
+
+1. 아나콘다 프롬프트 열고 cd Desktop/WGNProject/RecommendAPI 로 접근
+
+2. 가상 환경 실행 : conda activate 환경명
+
+3. 서버 실행
+python -m uvicorn main:app
+
+=== 기타 ===
+
+ctrl + c : 서버 종료
+--reload 옵션 : 서버 코드 수정시 자동 반영
+conda deactivate 환경명 : 가상 환경 종료

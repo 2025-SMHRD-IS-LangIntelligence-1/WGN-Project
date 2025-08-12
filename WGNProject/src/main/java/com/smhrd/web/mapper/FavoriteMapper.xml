@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.smhrd.web.mapper.FavoriteMapper">
+
+  <update id="updateFavoriteOrderCase">
+    UPDATE t_favorite
+    SET sort_order =
+      CASE res_idx
+      <foreach collection="items" item="it">
+        WHEN #{it.res_idx} THEN #{it.pos}
+      </foreach>
+      END
+    WHERE mb_id = #{mb_id}
+      AND res_idx IN
+      <foreach collection="items" item="it" open="(" separator="," close=")">
+        #{it.res_idx}
+      </foreach>
+  </update>
+  
+   <update id="resetFavoriteOrder">
+    UPDATE t_favorite
+    SET sort_order = NULL
+    WHERE mb_id = #{mb_id}
+  </update>
+	
+
+</mapper>
+

@@ -28,7 +28,7 @@ public class t_review {
  private String img_link;
 
  // 별점 
- private float ratings;
+ private Double ratings;
 
  // 좋아요 수 
  private Integer likes;

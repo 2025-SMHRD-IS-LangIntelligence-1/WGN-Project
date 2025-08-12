@@ -16,6 +16,8 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
 	rel="stylesheet">
 <link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/restaurant.css" />
@@ -41,11 +43,29 @@
 
 		<!-- 기본 정보 -->
 		<div class="restaurant-info">
-			<h2>${res.res_name }
-				<i class="bi bi-star-fill text-warning"></i>
+			<h2 class="d-flex align-items-center">
+				${res.res_name}
+
+				<!-- 아이콘 + 말풍선 묶음 -->
+				<span id="restaurantIconGroup"
+					class="ms-2 d-inline-flex align-items-center gap-1 position-relative"
+					style="cursor: pointer;" data-res-idx="${res.res_idx}"
+					data-mb-id="${sessionScope.member.mb_id}">
+					<div id="goingIconGroup" class="icon-outline-group">
+						<i class="bi bi-person-walking icon-outline"></i> <i
+							class="fas fa-store icon-outline"></i>
+					</div>
+
+					<div id="iconTooltip" class="icon-tooltip-inline"
+						style="display: none;">
+						이모티콘 클릭 시 찜 등록!
+						<button class="close-tooltip">&times;</button>
+					</div>
+				</span>
 			</h2>
-			<div>${res.res_addr }</div>
-			<div class="rating">4.0 (32 리뷰)</div>
+
+			<div>${res.res_addr}</div>
+			<div class="rating text-warning fw-bold">4.0 (32 리뷰)</div>
 		</div>
 
 		<!-- 탭 -->
@@ -55,7 +75,6 @@
 					href="#menu-section" class="tab-link">메뉴</a> <a
 					href="#rating-section" class="tab-link">평점</a> <a
 					href="#review-section" class="tab-link">리뷰</a>
-
 			</div>
 		</div>
 
@@ -131,7 +150,6 @@
 			</div>
 
 			<!-- 주소 -->
-			<!-- 주소 -->
 			<div
 				class="review-card d-flex justify-content-between align-items-center border-0">
 				<span><i class="bi bi-geo-alt"></i> 주소</span> <span>${res.res_addr}</span>
@@ -202,9 +220,9 @@
 									method="post" enctype="multipart/form-data">
 
 									<!-- 별점 -->
-									<div class="mb-2">
-										<div class="d-flex align-items-center mb-1" style="gap: 8px;">
-											<label style="font-weight: bold; margin-bottom: 0;">별점</label>
+									<div class="mb-2"style="margin:5px">
+										<div class="favorite-wrapper">
+											<span class="favorite-title"> 별점 </span>
 											<div id="ratingForm" style="font-size: 24px;">
 												<input type="radio" id="star5" name="ratings" value="5"><label
 													for="star5">★</label> <input type="radio" id="star4"
@@ -218,6 +236,25 @@
 										</div>
 										<span id="ratingError" class="text-danger"
 											style="font-size: 13px; display: none;">별점을 선택해주세요.</span>
+										<div class="favorite-wrapper" style="margin: 10px 0px">
+											<span class="favorite-title"> 내 랭킹 등록하기 </span>
+											<div class="favorite-input">
+
+												<div id="rankToggleWrapper">
+													<label class="switch-toggle"> <input
+														type="checkbox" id="rank_toggle" name="rank_toggle">
+														<span class="slider"> <span class="label-on">ON</span>
+															<span class="label-off">OFF</span>
+													</span>
+													</label>
+												</div>
+
+												<span id="duplicateFavoriteMsg" class="text-danger"
+													style="display: none; font-size: 13px; margin-left: 10px;">이미
+													등록한 음식점입니다.</span>
+											</div>
+										</div>
+										
 									</div>
 
 									<!-- 리뷰 내용 -->
@@ -230,8 +267,9 @@
 									</div>
 
 									<!-- 이미지 -->
-									<label>이미지 첨부</label> <input type="file" name="review_img"
-										class="form-control mb-2" accept="image/*">
+									<label style="font-size: 15px; color: #333; margin-right: 10px;white-space: nowrap;
+										font-weight: bold;" class="mb-2">이미지 첨부</label>
+										<input type="file" name="review_file" class="form-control mb-2" accept="image/*">
 
 									<!-- 버튼 -->
 									<div class="text-end">
@@ -388,15 +426,20 @@
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 
 	<!-- 스크립트 -->
-	<script
+
+	<script>
+		var reslat = "${res.lat}";
+		var reslon = "${res.lon}";
+		let res_idx = "${res.res_idx}";
+		console.log(res_idx);
+		let mb_id = "${sessionScope.member.mb_id}";
+	</script>
+		<script
 		src="${pageContext.request.contextPath}/resources/js/restaurant.js">
 		
 	</script>
-	<script>
-		var reslat = "${res.lat}"
-		var reslon = "${res.lon}"
-	</script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
+
 </body>
 </html>

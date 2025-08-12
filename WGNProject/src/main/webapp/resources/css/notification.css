@@ -42,10 +42,9 @@
     background-color: #f0f0f0;
 }
 
-/* 읽은 알림은 연하게 */
 .notification-item.read {
-    background-color: #f5f5f5;
-    color: #999;
+    background-color: #d6d6d6;
+    color: #ccc;
 }
 
 /* 알림 메시지 */
@@ -57,8 +56,16 @@
 
 /* 보낸 사람 아이디 강조 */
 .noti-message b {
-    color: #007bff;
+    color: #f4b400;
     margin-right: 6px;
+}
+
+
+/* 댓글 내용 */
+.comment-content {
+    font-style: italic;
+    color: #ccc;
+    margin-left: 4px;
 }
 
 /* 댓글 내용 강조 */

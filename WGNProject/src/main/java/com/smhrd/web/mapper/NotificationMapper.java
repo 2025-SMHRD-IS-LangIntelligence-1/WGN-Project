@@ -29,7 +29,7 @@ public interface NotificationMapper {
 
     @Update("""
         UPDATE t_notification
-        SET is_read = TRUE
+        SET `read` = TRUE
         WHERE noti_id = #{noti_id}
     """)
     void markAsRead(@Param("noti_id") int notiId);

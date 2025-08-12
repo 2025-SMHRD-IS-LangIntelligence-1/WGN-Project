@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -142,89 +143,174 @@
 						<!-- 랭킹 탭 -->
 						<div class="tab-pane fade show active p-2" id="rank-content"
 							role="tabpanel">
+							<c:if test="${profile.mb_id eq sessionScope.member.mb_id}">
+								<div class="d-flex justify-content-end mb-2">
+									<button id="sortToggleBtn"
+										class="btn btn-outline-secondary btn-sm">내 랭킹 수정하기</button>
+								</div>
+							</c:if>
+
 							<div id="rank-list" class="list-group">
 
-								<!-- 1위 -->
-								<div class="list-group-item d-flex align-items-center">
-									<img
-										src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340"
-										class="rounded me-2"
-										style="width: 60px; height: 60px; object-fit: cover;">
-									<div class="flex-fill">
-										<h6 class="mb-0">해물짬뽕 전문점</h6>
-										<small class="text-muted">광주광역시 북구</small>
-										<div class="mt-1">
-											<span class="badge bg-warning text-dark">4.8</span>
-										</div>
-									</div>
-									<div style="font-size: 24px; margin-left: 8px;">🥇</div>
-								</div>
+								<c:if test="${not empty myfavoriteres}">
+									<c:forEach var="favoriteres" items="${myfavoriteres}"
+										varStatus="status">
+										<c:choose>
+											<c:when test="${status.index lt 3}">
+												<a
+													href="${pageContext.request.contextPath}/restaurant?res_idx=${favoriteres.res_idx}"
+													style="text-decoration: none; color: inherit;">
+													<div class="list-group-item d-flex align-items-center"
+														data-res-idx="${favoriteres.res_idx}">
+														<img src="${favoriteres.res_thumbnail}"
+															class="rounded me-2"
+															style="width: 60px; height: 60px; object-fit: cover;">
+														<div class="flex-fill">
+															<h6 class="mb-0">${favoriteres.res_name}</h6>
+															<small class="text-muted">${favoriteres.res_addr}</small>
+															<div class="mt-1">
+																<span class="badge bg-warning text-dark">${favoriteres.fav_rating}</span>
+															</div>
+														</div>
+														<div style="font-size: 24px; margin-left: 8px;">
+															<c:choose>
+																<c:when test="${status.index == 0}">
+																	<div style="font-size: 24px; margin-left: 8px;">🥇</div>
+																</c:when>
+																<c:when test="${status.index == 1}">
+																	<div style="font-size: 24px; margin-left: 8px;">🥈</div>
+																</c:when>
+																<c:when test="${status.index == 2}">
+																	<div style="font-size: 24px; margin-left: 8px;">🥉</div>
+																</c:when>
+															</c:choose>
+														</div>
+													</div>
+												</a>
+											</c:when>
 
-								<!-- 2위 -->
-								<div class="list-group-item d-flex align-items-center">
-									<img
-										src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340"
-										class="rounded me-2"
-										style="width: 60px; height: 60px; object-fit: cover;">
-									<div class="flex-fill">
-										<h6 class="mb-0">편육</h6>
-										<small class="text-muted">광주광역시 북구</small>
-										<div class="mt-1">
-											<span class="badge bg-warning text-dark">4.5</span>
-										</div>
-									</div>
-									<div style="font-size: 24px; margin-left: 8px;">🥈</div>
-								</div>
+											<c:otherwise>
+												<!-- 4위부터: 초기 숨김 + 오른쪽에 순위 배지 표시 -->
+												<a
+													href="${pageContext.request.contextPath}/restaurant?res_idx=${favoriteres.res_idx}"
+													style="text-decoration: none; color: inherit; display: none;"
+													data-more="favorite">
+													<div class="list-group-item d-flex align-items-center"
+														data-res-idx="${favoriteres.res_idx}">
+														<img src="${favoriteres.res_thumbnail}"
+															class="rounded me-2"
+															style="width: 60px; height: 60px; object-fit: cover;">
+														<div class="flex-fill">
+															<h6 class="mb-0">${favoriteres.res_name}</h6>
+															<small class="text-muted">${favoriteres.res_addr}</small>
+															<div class="mt-1">
+																<span class="badge bg-warning text-dark">${favoriteres.fav_rating}</span>
+															</div>
+														</div>
+														<!-- 순위 배지 -->
+														<div class="ms-2">
+															<span class="badge rounded-pill bg-secondary">${status.index + 1}위</span>
+														</div>
+													</div>
+												</a>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
 
-								<!-- 3위 -->
-								<div class="list-group-item d-flex align-items-center">
-									<img
-										src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340"
-										class="rounded me-2"
-										style="width: 60px; height: 60px; object-fit: cover;">
-									<div class="flex-fill">
-										<h6 class="mb-0">조개찜 전문점</h6>
-										<small class="text-muted">광주광역시 북구</small>
-										<div class="mt-1">
-											<span class="badge bg-warning text-dark">4.3</span>
+									<!-- 더보기 / 접기 버튼 -->
+									<c:if test="${fn:length(myfavoriteres) > 3}">
+										<div class="text-center mt-2">
+											<button id="favoritesToggleBtn"
+												style="background: none; border: none; color: #ffc107;"
+												onclick="toggleFavorites()">더보기</button>
 										</div>
-									</div>
-									<div style="font-size: 24px; margin-left: 8px;">🥉</div>
-								</div>
+									</c:if>
+								</c:if>
 
 							</div>
 						</div>
 
 						<!-- 찜 탭 -->
+
+
 						<div class="tab-pane fade p-2" id="wish-content" role="tabpanel">
 							<div id="wish-list" class="list-group">
+								<c:if test="${not empty mygoingres}">
+									<c:forEach var="goingres" items="${mygoingres}"
+										varStatus="status">
+										<c:choose>
+											<c:when test="${status.index lt 3}">
+												<div class="list-group-item d-flex align-items-center">
+													<!-- 왼쪽: 링크(이름/이미지/주소) -->
+													<a
+														href="${pageContext.request.contextPath}/restaurant?res_idx=${goingres.res_idx}"
+														class="d-flex align-items-center text-decoration-none text-reset flex-fill">
+														<img src="${goingres.res_thumbnail}" class="rounded me-2"
+														style="width: 60px; height: 60px; object-fit: cover;">
+														<div class="flex-fill">
+															<h6 class="mb-0">${goingres.res_name}</h6>
+															<small class="text-muted">${goingres.res_addr}</small>
+														</div>
+													</a>
 
-								<!-- 찜 1 -->
-								<div class="list-group-item d-flex align-items-center">
-									<img
-										src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340"
-										class="rounded me-2"
-										style="width: 60px; height: 60px; object-fit: cover;">
-									<div class="flex-fill">
-										<h6 class="mb-0">내가 찜한 가게 1</h6>
-										<small class="text-muted">광주 남구</small>
-									</div>
-								</div>
+													<!-- 오른쪽: 배지(찜 해지) -->
+													<c:if test="${profile.mb_id eq sessionScope.member.mb_id}">
+														<button type="button"
+															class="ms-2 badge rounded-pill bg-warning text-dark border-0"
+															style="cursor: pointer;" data-bs-toggle="modal"
+															data-bs-target="#unGoingModal"
+															data-res-idx="${goingres.res_idx}"
+															data-res-name="${goingres.res_name}">
+															<i class="bi bi-person-walking icon-outline"></i>
+														</button>
+													</c:if>
+												</div>
+											</c:when>
 
-								<!-- 찜 2 -->
-								<div class="list-group-item d-flex align-items-center">
-									<img
-										src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MzFfMjA5%2FMDAxNzE3MTI3NTU4MzUx.jm7irFvxcJeTMEcpd18H2NsssEMboL3zLNcmfsIH4TEg.0NBM5gkIlrPUi1MAy2elTegzmnfITofOBl57mYM45d4g.PNG%2F%25C1%25A6%25B8%25F1%25C0%25BB%25A3%25AD%25C0%25D4%25B7%25C2%25C7%25D8%25C1%25D6%25BC%25BC%25BF%25E4%25A3%25DF%25A3%25AD001%25A3%25AD8.png&type=a340"
-										class="rounded me-2"
-										style="width: 60px; height: 60px; object-fit: cover;">
-									<div class="flex-fill">
-										<h6 class="mb-0">내가 찜한 가게 2</h6>
-										<small class="text-muted">광주 서구</small>
-									</div>
-								</div>
+											<c:otherwise>
+												<!-- 4위부터: 초기 숨김 + 오른쪽에 순위 배지 표시 -->
+												<div
+													class="list-group-item d-flex align-items-center d-none"
+													data-more="going">
+													<!-- 왼쪽 링크 -->
+													<a
+														href="${pageContext.request.contextPath}/restaurant?res_idx=${goingres.res_idx}"
+														class="d-flex align-items-center text-decoration-none text-reset flex-fill">
+														<img src="${goingres.res_thumbnail}" class="rounded me-2"
+														style="width: 60px; height: 60px; object-fit: cover;">
+														<div class="flex-fill">
+															<h6 class="mb-0">${goingres.res_name}</h6>
+															<small class="text-muted">${goingres.res_addr}</small>
+														</div>
+													</a>
+													<!-- 오른쪽 배지 -->
+													<c:if test="${profile.mb_id eq sessionScope.member.mb_id}">
+														<button type="button"
+															class="ms-2 badge rounded-pill bg-warning text-dark border-0"
+															style="cursor: pointer;" data-bs-toggle="modal"
+															data-bs-target="#unGoingModal"
+															data-res-idx="${goingres.res_idx}"
+															data-res-name="${goingres.res_name}">
+															<i class="bi bi-person-walking icon-outline"></i>
+														</button>
+													</c:if>
+												</div>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
 
+									<!-- 더보기 / 접기 버튼 -->
+									<c:if test="${fn:length(mygoingres) > 3}">
+										<div class="text-center mt-2">
+											<button id="goingToggleBtn"
+												style="background: none; border: none; color: #ffc107;"
+												onclick="togglegoing()">더보기</button>
+										</div>
+									</c:if>
+								</c:if>
 							</div>
 						</div>
+
 					</div>
 				</div>
 
@@ -232,16 +318,134 @@
 		</div>
 	</div>
 
+	<!-- 랭킹 정렬 모달 -->
+	<div class="modal fade" id="sortRankModal" tabindex="-1"
+		aria-labelledby="sortRankModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<!-- 스크롤 가능한 모달 -->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="sortRankModalLabel">내 랭킹 순서 정렬</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="닫기"></button>
+				</div>
+
+				<div class="modal-body">
+					<p class="text-muted mb-2">항목을 드래그해서 원하는 순서로 바꾼 뒤 저장하세요.</p>
+
+					<!-- 리스트 전용 스크롤 래퍼 -->
+					<div id="sortableScrollWrap" class="rank-scroll-wrap">
+						<ul id="sortableRankList" class="list-group">
+							<c:forEach var="favoriteres" items="${myfavoriteres}"
+								varStatus="s">
+								<li
+									class="list-group-item compact-item d-flex align-items-center gap-2"
+									data-res-idx="${favoriteres.res_idx}">
+									<!-- 드래그 핸들 --> <span class="bi bi-grip-vertical"
+									aria-hidden="true"></span> <!-- 순위 배지 --> <span
+									class="badge text-bg-secondary order-badge">${s.index + 1}위</span>
+									<!-- 썸네일 --> <img src="${favoriteres.res_thumbnail}"
+									class="thumb" alt="thumb"> <!-- 가게명/주소 -->
+									<div class="flex-fill">
+										<div class="fw-semibold title">${favoriteres.res_name}</div>
+										<small class="text-muted addr">${favoriteres.res_addr}</small>
+									</div> <!-- 우측: 별점 + 삭제 버튼(세로 배치) -->
+									<div class="side-col d-flex flex-column align-items-end">
+										<span class="badge bg-warning text-dark mb-1">${favoriteres.fav_rating}</span>
+										<button type="button"
+											class="btn btn-outline-danger btn-xs btn-remove"
+											data-res-idx="${favoriteres.res_idx}">삭제</button>
+									</div>
+								</li>
+							</c:forEach>
+						</ul>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="saveRankOrderBtn">저장</button>
+					<button type="button" class="btn btn-outline-secondary"
+						data-bs-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="unGoingModal" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">찜 해제</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="닫기"></button>
+				</div>
+				<div class="modal-body">
+					<p>
+						<b id="modalResName"></b>${goingres.res_name} 항목을 해제할까요?
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="confirmUnGoingBtn"
+						class="btn btn-warning">해제</button>
+					<button type="button" class="btn btn-outline-secondary"
+						data-bs-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
 
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
+
+	<script>
+	var rankData = [
+		<c:forEach var="favoriteres" items="${myfavoriteres}" varStatus="status">
+			{
+				res_idx: ${favoriteres.res_idx},
+				name: "${favoriteres.res_name}",
+				lat: ${favoriteres.lat},
+				lon: ${favoriteres.lon}
+			}<c:if test="${!status.last}">,</c:if>
+		</c:forEach>
+	];
+	
+	var goingData = [
+		<c:forEach var="goingres" items="${mygoingres}" varStatus="status">
+		{
+			res_idx: ${goingres.res_idx},
+			name: "${goingres.res_name}",
+			lat: ${goingres.lat},
+			lon: ${goingres.lon}
+		}<c:if test="${!status.last}">,</c:if>
+	</c:forEach>
+	];
+	
+
+	</script>
+
+	<script>
+		var Mb_id = "${sessionScope.member.mb_id}";
+	</script>
+
+	<c:set var="loginId"
+		value="${sessionScope.member != null ? sessionScope.member.mb_id : ''}" />
+
+
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4307aaa155e95c89c9a2cbb564db3cd3"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/myPage.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/common.js" defer></script>
+
 </body>
 </html>

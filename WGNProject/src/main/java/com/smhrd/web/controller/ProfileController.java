@@ -4,6 +4,7 @@ package com.smhrd.web.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,12 +17,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.smhrd.web.dto.ProfileDTO;
+import com.smhrd.web.dto.FavoriteresDTO;
 import com.smhrd.web.config.AsyncConfig;
 import com.smhrd.web.dto.FeedWithImgDTO;
+import com.smhrd.web.dto.GoingresDTO;
+import com.smhrd.web.entity.t_favorite;
+import com.smhrd.web.entity.t_going;
 import com.smhrd.web.entity.t_member;
+import com.smhrd.web.mapper.RestaurantMapper;
 import com.smhrd.web.entity.t_notification;
 import com.smhrd.web.service.CloudinaryService;
+import com.smhrd.web.service.FavoriteService;
 import com.smhrd.web.service.FeedService;
+import com.smhrd.web.service.GoingService;
 import com.smhrd.web.service.MemberService;
 import com.smhrd.web.service.NotificationService;
 
@@ -31,20 +39,27 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class ProfileController {
 
-    private final AsyncConfig asyncConfig;
-
     private final CloudinaryService cloudinaryService;
     
 	@Autowired
 	FeedService feedService;
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	FavoriteService favoriteService;
+	
+	@Autowired
+	GoingService goingService;
+	
+	@Autowired
+	RestaurantMapper restaurantmapper;
+	
 	@Autowired
 	NotificationService notificationService;
 
     ProfileController(CloudinaryService cloudinaryService, AsyncConfig asyncConfig) {
         this.cloudinaryService = cloudinaryService;
-        this.asyncConfig = asyncConfig;
     }
 	
     @GetMapping("/myPage")
@@ -60,13 +75,14 @@ public class ProfileController {
 		// 세션에서 로그인 정보 가져오기
     	t_member logined = (t_member) session.getAttribute("member");
     	String mb_id = logined.getMb_id();
-
+    	
         // 내 아이디로 프로필 페이지 보여주기
         return "redirect:/profile/" + mb_id;
     }
     
     @GetMapping("/{mb_id}")
     public String showMyPage(@PathVariable String mb_id, HttpSession session, Model model) {
+    	System.out.println(mb_id);
     	
     	// 로그인 체크
     	boolean loginCheck = memberService.loginCheck(session);
@@ -83,6 +99,7 @@ public class ProfileController {
         boolean isMyPage = logined.getMb_id().equals(mb_id);
         model.addAttribute("isMypage", isMyPage);
         
+        System.out.println(myId + mb_id);
         // 해당 사용자가 마이페이지 주인을 팔로우하고 있는지 여부를 체크하는 메서드
  		boolean isFollowing = memberService.isFollowing(myId, mb_id);
  		
@@ -104,6 +121,30 @@ public class ProfileController {
         }
         
 	    model.addAttribute("feedDTOList", feedDTOList);
+	    
+	    
+	    // 사용자가 랭킹 음식점id 가져오기
+	    List<t_favorite> myfavorite = favoriteService.getmyFavorite(mb_id);
+	    List<Integer> residx = myfavorite.stream()
+	    	    .map(t_favorite::getRes_idx)
+	    	    .collect(Collectors.toList());
+	    
+	    // 회원이 랭킹 등록한 음식점 데이터 가져오기
+	    List<FavoriteresDTO> myfavoriteres = restaurantmapper.myfavoriteres(residx, mb_id);
+	    model.addAttribute("myfavoriteres", myfavoriteres);
+	    
+	    // 사용자 찜 음식점 id 가져오기
+	    List<t_going> mygoing = goingService.getmygoing(mb_id);
+	    
+	    List<Integer> goingresidx = mygoing.stream()
+	    	    .map(t_going::getRes_idx)
+	    	    .collect(Collectors.toList());
+	    
+	    System.out.println("✔ goingresidx = " + goingresidx); // 전달할 res_idx 리스트 확인
+	    List<GoingresDTO> mygoingres = restaurantmapper.mygoingres(goingresidx, mb_id);
+	    model.addAttribute("mygoingres", mygoingres);
+	    
+	    System.out.println("feed_idx in controller = " + mygoingres.size());
 	    
         return "profile/myPage";
     }

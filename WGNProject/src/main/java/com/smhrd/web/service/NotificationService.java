@@ -14,4 +14,6 @@ public interface NotificationService {
 
 	List<t_notification> showRecentNoti(String receiver);
 
+	void markAsRead(int notiId);
+
 }

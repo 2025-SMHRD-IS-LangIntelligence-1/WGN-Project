@@ -1,12 +1,15 @@
 $(document).ready(() => {
-
+	
+	// 팔로우 버튼
 	$(".my-follow-btn").on("click", function(e) {
-		e.preventDefault(); // 페이지 이동하지 않게 막음
+		e.preventDefault();
 
-		console.log("팔로우 버튼 눌림")
+		const $btn = $(this);
+		if ($btn.prop("disabled")) return;
+		$btn.prop("disabled", true);
 
-		const followingId = $(this).data('following-id')
-		const isFollowed = $(this).data('followed'); // true or false
+		const followingId = $btn.data('following-id');
+		const isFollowed = $btn.data('followed');
 		const action = isFollowed ? 'unfollow' : 'follow';
 
 		$.ajax({
@@ -14,17 +17,11 @@ $(document).ready(() => {
 			method: 'post',
 			data: { following_id: followingId },
 			success: (res) => {
-				if (res === "followSuccess") { // 팔로우에 성공할 경우
-					$(this).text('팔로잉'); // 팔로잉 버튼으로 바뀜
-					$(this).data('followed', true); // follow 여부는 true로 바뀜
-					$(this).addClass('following'); // 팔로잉 클래스 추가
-					console.log("팔로우 성공");
+				if (res === "followSuccess") {
+					$btn.text('팔로잉').data('followed', true).addClass('following');
 				}
-				else if (res === "unfollowSuccess") { // 언팔로우에 성공할 경우
-					$(this).text('팔로우'); // 팔로우 버튼으로 바뀜
-					$(this).data('followed', false); // follow 여부는 false로 바뀜
-					$(this).removeClass('following'); // 팔로잉 클래스 삭제
-					console.log("언팔로우 성공");
+				else if (res === "unfollowSuccess") {
+					$btn.text('팔로우').data('followed', false).removeClass('following');
 				}
 				else if (res === "notLoggedIn") {
 					alert("로그인이 필요합니다.");
@@ -32,49 +29,62 @@ $(document).ready(() => {
 			},
 			error: () => {
 				alert('팔로우 요청 중 오류 발생');
+			},
+			complete: () => {
+				$btn.prop("disabled", false);
 			}
 		});
 	});
 
-	$(function() {
-	  $(".clickable-heart").on("click", function() {
-		
+	// 좋아요 버튼
+	$(".clickable-heart").on("click", function() {
+
 		const $btn = $(this);
-		if ($btn.prop("disabled")) return;  // 이미 비활성화 상태면 무시		 
+		if ($btn.prop("disabled")) return;
 		$btn.prop("disabled", true);
-		
-	    const postDiv = $(this).closest(".post-info");
-	    const feed_idx = postDiv.data("feed-idx");
-	    const icon = $(this).find("i");
-	    const likeCountSpan = postDiv.find(".like-count");
-	    
-	    // 현재 좋아요 눌림 상태 확인
-	    const liked = icon.hasClass("clicked");
-	    
-	    const url = liked ? "/feed/deleteFeedLike" : "/feed/addFeedLike";		
-		 
-	    $.ajax({
-	      url: contextPath + url,
-	      method: "POST",
-	      contentType: "application/json",
-	      data: JSON.stringify(feed_idx),
-	      success: function(res) {
-	        likeCountSpan.text(res);   // 서버에서 최신 좋아요 수 리턴한다고 가정
-	        if (liked) {
-	          icon.removeClass("clicked");
-	          icon.removeClass("bi-heart-fill").addClass("bi-heart");
-	        } else {
-	          icon.addClass("clicked");
-	          icon.removeClass("bi-heart").addClass("bi-heart-fill");
-	        }
-	      },
-	      error: function() {
-	        alert("좋아요 처리 중 오류가 발생했습니다.");
-	      }
-	    });
-		
-		$btn.prop("disabled", false);  // 버튼 다시 활성화
-		
-	  });
+
+		const postDiv = $btn.closest(".post-info");
+		const feed_idx = postDiv.data("feed-idx");
+		const icon = $btn.find("i");
+		const likeCountSpan = postDiv.find(".like-count");
+
+		const liked = icon.hasClass("clicked");
+		const url = liked ? "/feed/deleteFeedLike" : "/feed/addFeedLike";
+
+		// UI 즉시 반영
+		if (liked) {
+			icon.removeClass("clicked bi-heart-fill").addClass("bi-heart");
+			likeCountSpan.text(parseInt(likeCountSpan.text()) - 1);
+		} else {
+			icon.addClass("clicked bi-heart-fill").removeClass("bi-heart");
+			likeCountSpan.text(parseInt(likeCountSpan.text()) + 1);
+		}
+
+		// 서버 반영
+		$.ajax({
+			url: contextPath + url,
+			method: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(feed_idx),
+			success: function(res) {
+				// 서버에서 최신 좋아요 수 반환 시 동기화
+				likeCountSpan.text(res);
+			},
+			error: function() {
+				alert("좋아요 처리 중 오류가 발생했습니다.");
+				// 실패 시 UI 되돌리기
+				if (liked) {
+					icon.addClass("clicked bi-heart-fill").removeClass("bi-heart");
+					likeCountSpan.text(parseInt(likeCountSpan.text()) + 1);
+				} else {
+					icon.removeClass("clicked bi-heart-fill").addClass("bi-heart");
+					likeCountSpan.text(parseInt(likeCountSpan.text()) - 1);
+				}
+			},
+			complete: function() {
+				$btn.prop("disabled", false);
+			}
+		});
+
 	});
 });

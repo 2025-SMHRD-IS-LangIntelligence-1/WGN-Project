@@ -2,7 +2,14 @@ package com.smhrd.web.entity;
 
 import java.sql.Timestamp;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 //방문 한곳 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class t_going {
 
  // 방문 식별자 

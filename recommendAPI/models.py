@@ -3,7 +3,16 @@ from typing import List
 
 # ------------------ 데이터 모델 정의 ------------------
 
-class Log(BaseModel): # BaseModel을 활용하면 잘못된 데이터가 들어왔을 때 자동으로 422 에러를 띄워줌 (데이터 검증)
+# BaseModel을 활용하면 잘못된 데이터가 들어왔을 때 자동으로 422 에러를 띄워줌 (데이터 검증)
+
+class WordcloudAndRatings(BaseModel):
+    nk_positive_wc: str
+    nk_negative_wc: str
+    wgn_positive_wc: str
+    wgn_negative_wc: str
+    wgn_ratings: str
+
+class Log(BaseModel):
     # 사용자 로그를 저장하는 클래스
     log_idx: int
     mb_id: str
@@ -32,16 +41,3 @@ class FeedForSearch(BaseModel):
     feed_likes: int
     res_tag : str
     feed_content: str
-
-class Review(BaseModel):
-    # 리뷰를 저장하는 클래스
-    review_idx: int
-    res_idx: int
-    review_content: str
-    likes: int
-
-class Wordcloud(BaseModel):
-    NkPositiveWC: str
-    NkNegativeWC: str
-    WgnPositiveWC: str
-    WgnNegativeWC: str
