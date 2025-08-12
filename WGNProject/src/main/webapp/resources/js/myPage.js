@@ -1,8 +1,6 @@
 /* ============================== 공통 설정 ============================== */
 (() => {
-  // contextPath 안전 참조 (없으면 빈 문자열)
-  const CP = (typeof contextPath !== 'undefined') ? contextPath : '';
-  // 로그인 사용자 ID (JSP에서 window.Mb_id로 주입됨)
+  const CP   = (typeof contextPath !== 'undefined') ? contextPath : '';
   const MBID = (typeof Mb_id !== 'undefined') ? Mb_id : '';
 
   /* ============================== 전역(지도) ============================== */
@@ -10,10 +8,9 @@
   let markers = [];
   let openInfowindow = null;
 
-  // 광주 중심/범위
   const center = new kakao.maps.LatLng(35.159545, 126.852601);
-  const sw = new kakao.maps.LatLng(34.9, 126.6);
-  const ne = new kakao.maps.LatLng(35.4, 127.2);
+  const sw     = new kakao.maps.LatLng(34.9, 126.6);
+  const ne     = new kakao.maps.LatLng(35.4, 127.2);
   const bounds = new kakao.maps.LatLngBounds(sw, ne);
 
   function clearMarkers() {
@@ -60,7 +57,6 @@
   }
 
   /* ============================== 전역(더보기 토글) ============================== */
-  // 랭킹 더보기/접기
   window.toggleFavorites = (() => {
     let expanded = false;
     return function () {
@@ -72,7 +68,6 @@
     };
   })();
 
-  // 찜 더보기/접기
   window.togglegoing = (() => {
     let expanded = false;
     return function () {
@@ -84,100 +79,90 @@
     };
   })();
 
+  /* ============================== 정렬 버튼 하이라이트(안전) ============================== */
+  // 안전 조회 헬퍼
+  const $id = (id) => document.getElementById(id);
+
+  function updateButtonColor() {
+    const likeChk   = $id('likeCheck');
+    const recentChk = $id('recentCheck');
+    const likeBtn   = $id('sortLikeBtn');
+    const recentBtn = $id('sortRecentBtn');
+
+    // 이 페이지에 정렬 컨트롤이 아예 없으면 종료
+    if (!likeChk && !recentChk && !likeBtn && !recentBtn) return;
+
+    const likeOn   = !!(likeChk && likeChk.checked);
+    const recentOn = !!(recentChk && recentChk.checked);
+
+    if (likeBtn)   likeBtn.classList.toggle('active', likeOn);
+    if (recentBtn) recentBtn.classList.toggle('active', recentOn);
+  }
+
   /* ============================== DOM 로드 후 바인딩 ============================== */
   document.addEventListener('DOMContentLoaded', () => {
     /* ---- 프로필 수정 모달 ---- */
-	const profileModal = document.getElementById('profileModal');
-	const profileOpenBtn = document.getElementById('profile-update-btn'); // 본인 페이지에서만 존재
-	const profileCloseBtn = profileModal ? profileModal.querySelector('.close') : null;
+    const profileModal   = document.getElementById('profileModal');
+    const profileOpenBtn = document.getElementById('profile-update-btn');
+    const profileCloseBtn= profileModal ? profileModal.querySelector('.close') : null;
 
-	function openProfileModal() {
-	    if (profileModal) profileModal.style.display = 'block';
-	}
-	function closeProfileModal() {
-	    if (profileModal) profileModal.style.display = 'none';
-	}
+    function openProfileModal() { if (profileModal) profileModal.style.display = 'block'; }
+    function closeProfileModal() { if (profileModal) profileModal.style.display = 'none'; }
 
-	if (profileOpenBtn) profileOpenBtn.addEventListener('click', openProfileModal);
-	if (profileCloseBtn) profileCloseBtn.addEventListener('click', closeProfileModal);
-	window.addEventListener('click', (e) => {
-	    if (profileModal && e.target === profileModal) closeProfileModal();
-	});
+    if (profileOpenBtn) profileOpenBtn.addEventListener('click', openProfileModal);
+    if (profileCloseBtn) profileCloseBtn.addEventListener('click', closeProfileModal);
+    window.addEventListener('click', (e) => {
+      if (profileModal && e.target === profileModal) closeProfileModal();
+    });
 
-	/* ---- 팔로워 / 팔로잉 보기 모달 ---- */
-	const followModal = document.getElementById('followModal');
-	const followCloseBtn = followModal ? followModal.querySelector('.close') : null;
+    /* ---- 팔로워 / 팔로잉 보기 모달 (followModal 스코프 한정) ---- */
+    const followModal    = document.getElementById('followModal');
+    const followCloseBtn = followModal ? followModal.querySelector('.close') : null;
 
-	function openFollowModal(defaultTabId) {
-	    if (!followModal) return;
+    function openFollowModal(defaultTabId) {
+      if (!followModal) return;
+      followModal.style.display = 'block';
 
-	    // 모달 열기
-	    followModal.style.display = 'block';
+      // 모달 내부 요소만 토글
+      followModal.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === defaultTabId);
+      });
+      followModal.querySelectorAll('.tab-content').forEach(content => {
+        content.style.display = (content.id === defaultTabId) ? 'block' : 'none';
+      });
+    }
 
-	    // 탭 버튼 활성화
-	    document.querySelectorAll('.tab-btn').forEach(btn => {
-	        btn.classList.toggle('active', btn.dataset.tab === defaultTabId);
-	    });
+    document.getElementById('follower-btn')?.addEventListener('click', () => openFollowModal('followers'));
+    document.getElementById('following-btn')?.addEventListener('click', () => openFollowModal('followings'));
 
-	    // 컨텐츠 표시
-	    document.querySelectorAll('.tab-content').forEach(content => {
-	        content.style.display = (content.id === defaultTabId) ? 'block' : 'none';
-	    });
-	}
+    if (followCloseBtn) followCloseBtn.addEventListener('click', () => followModal.style.display = 'none');
+    window.addEventListener('click', (e) => {
+      if (followModal && e.target === followModal) followModal.style.display = 'none';
+    });
 
-	// 팔로워 버튼
-	document.getElementById('follower-btn')?.addEventListener('click', () => {
-	    openFollowModal('followers');
-	});
+    // 탭 버튼 이벤트도 모달 내부로 한정
+    followModal?.querySelectorAll('.tab-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const tab = button.dataset.tab;
+        followModal.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        followModal.querySelectorAll('.tab-content').forEach(content => {
+          content.style.display = (content.id === tab) ? 'block' : 'none';
+        });
+      });
+    });
 
-	// 팔로잉 버튼
-	document.getElementById('following-btn')?.addEventListener('click', () => {
-	    openFollowModal('followings');
-	});
+    /* 멤버 프로필 이동 */
+    $('.member-header').click(function () {
+      const mbId = $(this).data('mb-id');
+      if (mbId) window.location.href = `/wgn/profile/${mbId}`;
+    });
 
-	// 닫기 버튼
-	if (followCloseBtn) {
-	    followCloseBtn.addEventListener('click', () => followModal.style.display = 'none');
-	}
-
-	// 배경 클릭 시 닫기
-	window.addEventListener('click', (e) => {
-	    if (followModal && e.target === followModal) {
-	        followModal.style.display = 'none';
-	    }
-	});
-
-	/* ---- 팔로워 / 팔로잉 탭 전환 ---- */
-	document.querySelectorAll('.tab-btn').forEach(button => {
-	    button.addEventListener('click', () => {
-	        const tab = button.dataset.tab;
-
-	        // 버튼 active 토글
-	        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-	        button.classList.add('active');
-
-	        // 컨텐츠 토글
-	        document.querySelectorAll('.tab-content').forEach(content => {
-	            content.style.display = content.id === tab ? 'block' : 'none';
-	        });
-	    });
-	});
-
-	/* 멤버 프로필 이동 */
-	$('.member-header').click(function () {
-	    const mbId = $(this).data('mb-id');
-	    if (mbId) {
-	        window.location.href = `/wgn/profile/${mbId}`;
-	    }
-	});
-
-	
     /* ---- 게시글/지도 탭 전환 ---- */
-    // 게시글 탭
     const $tabPosts = $('#tab-posts');
-    const $tabMap = $('#tab-map');
-    const $posts = $('#posts-section');
-    const $mapSec = $('#map-section');
+    const $tabMap   = $('#tab-map');
+    const $posts    = $('#posts-section');
+    const $mapSec   = $('#map-section');
 
     $tabPosts.on('click', function (e) {
       e.preventDefault();
@@ -185,7 +170,6 @@
       $posts.show(); $mapSec.hide();
     });
 
-    // 지도 탭
     $(document).on('click', '#tab-map', function (e) {
       e.preventDefault();
       $tabMap.addClass('active'); $tabPosts.removeClass('active');
@@ -197,11 +181,9 @@
           const options = { center: center, level: 9 };
           map = new kakao.maps.Map(container, options);
 
-          // 드래그 제한
           kakao.maps.event.addListener(map, 'dragend', function () {
             if (!bounds.contain(map.getCenter())) map.setCenter(center);
           });
-          // 줌 제한
           kakao.maps.event.addListener(map, 'zoom_changed', function () {
             const lv = map.getLevel();
             if (lv > 9) map.setLevel(9);
@@ -212,12 +194,11 @@
         map.relayout();
         map.setLevel(9);
         map.setCenter(center);
-        // rankData / goingData는 JSP에서 window 전역 변수로 주입됨
         if (typeof rankData !== 'undefined') renderMarkers(rankData);
       }, 300);
     });
 
-    // 지도 하단 탭(랭킹/찜) 눌렀을 때 마커 교체
+    // 지도 하단 탭(랭킹/찜) 마커 교체
     const rankBtn = document.querySelector('button[data-bs-target="#rank-content"]');
     const wishBtn = document.querySelector('button[data-bs-target="#wish-content"]');
     if (rankBtn) rankBtn.addEventListener('click', () => {
@@ -240,9 +221,9 @@
     });
 
     /* ---- 찜 해제 모달 + 삭제 요청 ---- */
-    const unGoingModal = document.getElementById('unGoingModal');
-    const modalResName = document.getElementById('modalResName');
-    const confirmBtn = document.getElementById('confirmUnGoingBtn');
+    const unGoingModal  = document.getElementById('unGoingModal');
+    const modalResName  = document.getElementById('modalResName');
+    const confirmBtn    = document.getElementById('confirmUnGoingBtn');
 
     if (unGoingModal && modalResName && confirmBtn) {
       let targetResIdx = null;
@@ -370,5 +351,12 @@
         .catch(err => alert('서버 오류: ' + err));
       });
     });
+
+    /* ---- 정렬 버튼 하이라이트 초기화/바인딩 ---- */
+    const likeChk   = $id('likeCheck');
+    const recentChk = $id('recentCheck');
+    if (likeChk)   likeChk.addEventListener('change', updateButtonColor);
+    if (recentChk) recentChk.addEventListener('change', updateButtonColor);
+    updateButtonColor();
   });
 })();

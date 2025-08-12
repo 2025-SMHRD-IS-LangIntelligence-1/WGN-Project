@@ -81,10 +81,10 @@
 /* ================================
    📌 게시물 본문
 ================================ */
-.post-text {
-   padding: 10px 12px;
-   font-size: 14px;
-   line-height: 1.4;
+.post-text{
+  padding: 0px 12px 5px; 
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 /* 수정 삭제 버튼 */
@@ -121,10 +121,11 @@
    flex-wrap: nowrap;
    white-space: nowrap; /* 줄 바꿈 방지 */
    user-select: none;
-   padding: 10px 12px;
+   padding: 8px 6px;
    font-size: 14px;
    line-height: 1.4;
 }
+
 
 /* 하트 클릭 영역 */
 .post-info {
@@ -139,8 +140,8 @@
    display: flex;
    align-items: center;
    justify-content: center;
-   width: 32px;
-   height: 32px;
+   width: 20px;
+   height: 20px;
    font-size: 20px;
    cursor: pointer;
    color: #e0245e;

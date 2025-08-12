@@ -137,7 +137,7 @@ $(function () {
         const $list = $('.search-list').empty();
 
         if (!Array.isArray(resInfoList) || resInfoList.length === 0) {
-          $list.html('<p>검색 결과가 없습니다.</p>').show();
+          $list.html('<p style="margin: 0 25px; font-size: 15px; color: #333333;">검색 결과가 없습니다.</p>').show();
           return;
         }
 
