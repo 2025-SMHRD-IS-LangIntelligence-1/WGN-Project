@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,16 +48,33 @@ public class RestaurantController {
 
 		// 이미지
 		List<t_res_img> res_img_list = resmapper.res_img(res_idx);
+		if (res_img_list == null) res_img_list = Collections.emptyList();
 
-		// 메인 이미지와 서브 이미지 분리
-		t_res_img res_main_img = res_img_list.get(0);
-		List<t_res_img> res_sub_img_list = res_img_list.subList(1, res_img_list.size());
+		t_res_img res_main_img;
+		List<t_res_img> res_sub_img_list;
+		int remaining = 0;
+		
+		String defaultImgUrl = "https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2F736x%2F79%2F30%2F00%2F7930007e8cbda86f9828e8c3e03eca6f.jpg&type=sc960_832";
+		
+		if (!res_img_list.isEmpty()) {
+		    // 실제 이미지가 있을 때
+		    res_main_img = res_img_list.get(0);
+		    res_sub_img_list = (res_img_list.size() > 1)
+		            ? res_img_list.subList(1, res_img_list.size())
+		            : Collections.emptyList();
+		    remaining = res_img_list.size() > 3 ? res_img_list.size() - 3 : 0;
+		} else {
+		    // 이미지가 없을 때: 기본 이미지 세팅
+		    res_main_img = new t_res_img();
+		    res_main_img.setRes_img_url(defaultImgUrl); // 기본 이미지 경로
 
+		    res_sub_img_list = Collections.emptyList();
+		    remaining = 0;
+		}
+
+		// 모델에 담기
 		model.addAttribute("res_main_img", res_main_img);
 		model.addAttribute("res_sub_img_list", res_sub_img_list);
-
-		// 이미지 개수
-		int remaining = res_img_list.size() > 3 ? res_img_list.size() - 3 : 0;
 		model.addAttribute("remaining", remaining);
 
 		// 리뷰
