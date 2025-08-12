@@ -1,147 +1,133 @@
 @charset "UTF-8";
 
-/* 광고 영역 */
-.ad-banner {
-  height: 60px;
-  background: #e9ecef;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-  font-size: 14px;
-  position: static
+/* =========================
+   📢 광고 영역
+========================= */
+.ad-banner{
+  height:60px;
+  background:#e9ecef;
+  display:flex; align-items:center; justify-content:center;
+  color:#666; font-size:14px;
+  position:static;
 }
 
-/* 피드 전체 */
+/* =========================
+   🧱 피드 카드
+========================= */
+#feed-list{ padding:8px 0; }
 
-/* ⬛ 캐러셀 이미지 스타일 */
-.carousel-item img {
-  width: 100%;                                   /* 가로 전체 채움 */
-  height: 60vh;                                  /* 화면 높이의 60% */
-  object-fit: cover;                             /* 비율 유지하며 잘림 없이 채우기 */
+.post{
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
+  margin:18px 12px;              /* ⬅ 각 피드 간 여백 */
 }
 
+/* 공통 패딩 */
 .post-header,
 .post-actions,
 .location-card,
-.post-caption {
-  padding-left: 12px;
-  padding-right: 12px;
+.post-caption{
+  padding-left:12px;
+  padding-right:12px;
 }
 
-.post-actions .bi-heart:hover {
-  color: red;
-  transform: scale(1.2);  /* 살짝 커지는 효과 */
-  cursor: pointer;        /* 클릭 가능 모양 */
+/* =========================
+   🎠 캐러셀 이미지
+========================= */
+.carousel-item img{
+  width:100%;
+  height:60vh;                   /* 화면 높이 기준 */
+  object-fit:cover;
+}
+.post .carousel{
+  display:block;
+  border-top:1px solid #f3f3f3;  /* 섹션 구분선 */
+  border-bottom:1px solid #f3f3f3;
 }
 
-.post-actions .bi-chat:hover {
-  cursor: pointer; /*마우스 커서 반응 효과*/
+/* =========================
+   👤 헤더(프로필/팔로우)
+========================= */
+.post-header{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 12px;
+  border-bottom:1px solid #f3f3f3; /* 구분선 */
+}
+.post-user{ display:flex; align-items:center; text-decoration:none; color:inherit; }
+.post-user img{ cursor:pointer; width:36px; height:36px; border-radius:50%; margin-right:10px; object-fit:cover; }
+.post-user-info{ font-size:13px; }
+.post-user-info b{ font-size:14px; }
+
+/* 팔로우 버튼 */
+.follow-btn,
+.my-follow-btn{
+  background:#FFD84D;
+  border:none;
+  padding:5px 12px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:bold;
+}
+.my-follow-btn.following{
+  color:gray !important;
+  background-color:#f0f0f0 !important;
+  border-color:gray !important;
 }
 
-/* 프로필 */
-.post-header { 
-  display: flex; justify-content: space-between; align-items: center; padding: 10px; 
-}
-.post-user { display: flex; align-items: center; }
-.post-user img { cursor: pointer; width: 36px; height: 36px; border-radius: 50%; margin-right: 10px; }
-.post-user-info { font-size: 13px; }
-.post-user-info b { font-size: 14px; }
+/* 헤더 버튼 묶음 */
+.btn-wrapper{ display:flex; gap:4px; }
 
-/* 팔로우 버튼 스타일 */
-.follow-btn {
-	background: #FFD84D; /* 노란색 배경 */
-	border: none; /* 테두리 없앰 */
-	padding: 5px 12px; /* 상하 5px, 좌우 12px 여백 */
-	border-radius: 8px; /* 둥근 모서리 반경 8px */
-	font-size: 14px; /* 글자 크기 14px */
-	font-weight: bold; /* 글자 두껍게 */
+/* =========================
+   ❤️ 액션 줄
+========================= */
+.post-actions{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 12px;
+  font-size:1.2rem;
+  border-top:1px solid #f3f3f3;  /* 구분선 */
+  border-bottom:1px solid #f3f3f3;
 }
+.post-actions .stats{ font-size:14px; margin-left:8px; color:#666; }
+.post-actions .bi-heart:hover{ color:red; transform:scale(1.2); cursor:pointer; }
+.post-actions .bi-chat:hover{ cursor:pointer; }
 
-.my-follow-btn {
-	background: #FFD84D; /* 노란색 배경 */
-	border: none; /* 테두리 없앰 */
-	padding: 5px 12px; /* 상하 5px, 좌우 12px 여백 */
-	border-radius: 8px; /* 둥근 모서리 반경 8px */
-	font-size: 14px; /* 글자 크기 14px */
-	font-weight: bold; /* 글자 두껍게 */
+/* =========================
+   📍 장소 카드
+========================= */
+.location-card{
+  display:flex; align-items:center; justify-content:space-between;
+  background:#fdf7e6;
+  border-top:1px solid #f2e3c0;
+  border-bottom:1px solid #f2e3c0;
+  padding:8px 12px;
+  cursor:pointer;
 }
+.location-info{ font-size:13px; }
+.location-info b{ display:block; }
 
-.my-follow-btn.following {
-	color: gray !important;
-	background-color: #f0f0f0 !important; /* 배경색도 바꿔보기 */
-	border-color: gray !important; /* 테두리 색 바꾸기 */
+/* =========================
+   ✏️ 본문(캡션)
+========================= */
+.post-caption{
+  padding:12px;
+  font-size:14px; line-height:1.5;
+  min-height:70px;
 }
+.more-btn{ color:#666; font-size:13px; cursor:pointer; display:inline-block; margin-left:6px; }
 
-
-.btn-wrapper {
-  display: flex;
-  gap: 4px; /* 버튼 간격 조절 */
+/* 기본: 전체 표시 */
+.caption-text{
+  white-space:normal; overflow:visible; display:block;
 }
-
-
-
-/* Carousel 이미지 */
-.carousel-item img {
-  width: 100%;
-  height: 60vh; /* 화면 비율에 맞게 */
-  object-fit: cover;
-}
-.post .carousel { flex: 1; }
-
-
-/* 액션 영역 */
-.post-actions {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  font-size: 1.2rem;
-}
-.post-actions .stats{
-  font-size: 14px;
-  margin-left: 8px;
-}
-
-/* 장소 카드 */
-.location-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fdf7e6;
-  border-top: 1px solid #f2e3c0;
-  padding: 8px 12px;
-  cursor: pointer;
-}
-.location-info {
-  font-size: 13px;
-}
-.location-info b {
-  display: block;
-}
-
-/* 본문 텍스트 */
-.post-caption {
-  padding: 10px 12px;
-  font-size: 14px;
-  line-height: 1.4;
-  min-height: 70px;
-}
-.more-btn {
-  color:#666; font-size:13px; cursor:pointer; display:inline-block;
-}
-
-.caption-text {
-  /* 기본은 전체 텍스트 다 보여주기 */
-  white-space: normal;
-  overflow: visible;
-  display: block;
-}
-
-.caption-text.collapsed {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;       /* 3줄만 보여주기 */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
+/* 접힘 상태: 3줄 */
+.caption-text.collapsed{
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:normal;
 }

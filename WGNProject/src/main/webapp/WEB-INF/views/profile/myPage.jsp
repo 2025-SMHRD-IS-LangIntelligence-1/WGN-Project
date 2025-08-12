@@ -64,7 +64,7 @@
 				</c:forEach>
 			</div>
 		</div>
-		
+
 		<!-- 팔로잉 모달창 -->
 		<div id="followingModal" class="modal">
 			<div class="modal-content">
@@ -109,38 +109,43 @@
 					</div>
 				</div>
 				<hr class="profile-divider">
-				<!-- 닉네임/소개 -->
+				<!-- 닉네임/소개 + 버튼 (하나로 합침) -->
 				<div class="profile-info">
-					<h5>${profile.nickname}</h5>
-					<p>${profile.intro}</p>
-				</div>
-				<div class="profile-info">
+					<div class="name-and-action">
+						<h5 class="mb-0">${profile.nickname}</h5>
 
-					<c:choose>
-						<c:when test="${profile.mb_id ne sessionScope.member.mb_id}">
-							<form action="${pageContext.request.contextPath}/member/follow"
-								method="post">
-								<input type="hidden" name="following_id" value="${member.mb_id}" />
-								<c:choose>
-									<c:when test="${isFollowing}">
-										<button class="my-follow-btn following"
-											data-following-id="${mb_id}" data-followed="true">팔로잉</button>
-									</c:when>
-									<c:otherwise>
-										<button class="my-follow-btn" data-following-id="${mb_id}"
-											data-followed="false">팔로우</button>
-									</c:otherwise>
-								</c:choose>
-							</form>
-						</c:when>
-						<c:when test="${profile.mb_id eq sessionScope.member.mb_id}">
-							<div class="btn-wrapper">
-								<button class="follow-btn" id="profile-update-btn" type="submit">프로필
-									수정</button>
-							</div>
-						</c:when>
-					</c:choose>
+						<div class="action">
+							<c:choose>
+								<%-- 내 프로필이면: 프로필 수정 버튼 --%>
+								<c:when test="${profile.mb_id eq sessionScope.member.mb_id}">
+									<button class="follow-btn" id="profile-update-btn"
+										type="button">프로필 수정</button>
+								</c:when>
 
+								<%-- 남의 프로필이면: 팔로우/팔로잉 버튼 --%>
+								<c:otherwise>
+									<form action="${pageContext.request.contextPath}/member/follow"
+										method="post" class="follow-form">
+										<input type="hidden" name="following_id"
+											value="${profile.mb_id}" />
+										<c:choose>
+											<c:when test="${isFollowing}">
+												<button type="submit" class="my-follow-btn following"
+													data-following-id="${profile.mb_id}" data-followed="true">팔로잉</button>
+											</c:when>
+											<c:otherwise>
+												<button type="submit" class="my-follow-btn"
+													data-following-id="${profile.mb_id}" data-followed="false">팔로우</button>
+											</c:otherwise>
+										</c:choose>
+									</form>
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</div>
+
+					<p class="mb-0">${empty profile.intro ? '자기소개를 입력할 수 있습니다.' : profile.intro}
+					</p>
 				</div>
 
 			</div>
