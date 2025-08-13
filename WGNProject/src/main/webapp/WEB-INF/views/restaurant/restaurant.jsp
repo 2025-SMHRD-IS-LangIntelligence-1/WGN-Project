@@ -82,57 +82,40 @@
 
 		<c:set var="timeCount" value="${fn:length(res_time)}" />
 		<div class="card-section" id="info-section">
-			<h5 class="section-title">정보</h5>
+			<div class="card-section" id="real-info-section">
+				<h5 class="section-title">정보</h5>
 
-			<!-- 오늘 요일 표시 -->
-			<div id="todaySchedule">
+				<!-- 오늘 요일 표시 -->
+				<div id="todaySchedule">
 
 
-				<c:if test="${not empty singleTime}">
-					<div
-						class="review-card d-flex justify-content-between border-0 align-items-center">
-						<span><i class="bi bi-clock"></i> 영업시간</span> <span
-							class="d-flex align-items-center">${singleTime.weekday}</span>
-					</div>
-					<c:if test="${not empty singleTime.last_time}">
-						<div class="review-card border-0 text-end">
-							<span class="sub-info">${singleTime.last_time}</span>
+					<c:if test="${not empty singleTime}">
+						<div
+							class="review-card d-flex justify-content-between border-0 align-items-center">
+							<span><i class="bi bi-clock"></i> 영업시간</span> <span
+								class="d-flex align-items-center">${singleTime.weekday}</span>
 						</div>
+						<c:if test="${not empty singleTime.last_time}">
+							<div class="review-card border-0 text-end">
+								<span class="sub-info">${singleTime.last_time}</span>
+							</div>
+						</c:if>
+						<c:if test="${not empty singleTime.break_time}">
+							<div class="review-card border-0 text-end">
+								<span class="sub-info">${singleTime.break_time}</span>
+							</div>
+						</c:if>
 					</c:if>
-					<c:if test="${not empty singleTime.break_time}">
-						<div class="review-card border-0 text-end">
-							<span class="sub-info">${singleTime.break_time}</span>
-						</div>
-					</c:if>
-				</c:if>
 
-				<!-- 2. 오늘 요일 포함된 항목 -->
-				<c:forEach var="time" items="${todayTimes}">
-					<div
-						class="review-card d-flex justify-content-between border-0 align-items-center">
-						<span><i class="bi bi-clock"></i> 영업시간</span> <span
-							class="d-flex align-items-center"> ${time.weekday} <i
-							class="bi bi-chevron-down ms-2" id="toggleArrow"
-							style="cursor: pointer;"></i>
-						</span>
-					</div>
-					<c:if test="${not empty time.last_time}">
-						<div class="review-card border-0 text-end">
-							<span class="sub-info">${time.last_time}</span>
-						</div>
-					</c:if>
-					<c:if test="${not empty time.break_time}">
-						<div class="review-card border-0 text-end">
-							<span class="sub-info">${time.break_time}</span>
-						</div>
-					</c:if>
-				</c:forEach>
-
-				<!-- 3. 나머지 전체 요일 (접기용) -->
-				<div id="fullSchedule" style="display: none;">
-					<c:forEach var="time" items="${otherTimes}">
-						<div class="review-card d-flex justify-content-between">
-							<span>영업시간</span> <span>${time.weekday}</span>
+					<!-- 2. 오늘 요일 포함된 항목 -->
+					<c:forEach var="time" items="${todayTimes}">
+						<div
+							class="review-card d-flex justify-content-between border-0 align-items-center">
+							<span><i class="bi bi-clock"></i> 영업시간</span> <span
+								class="d-flex align-items-center"> ${time.weekday} <i
+								class="bi bi-chevron-down ms-2" id="toggleArrow"
+								style="cursor: pointer;"></i>
+							</span>
 						</div>
 						<c:if test="${not empty time.last_time}">
 							<div class="review-card border-0 text-end">
@@ -145,27 +128,46 @@
 							</div>
 						</c:if>
 					</c:forEach>
+
+					<!-- 3. 나머지 전체 요일 (접기용) -->
+					<div id="fullSchedule" style="display: none;">
+						<c:forEach var="time" items="${otherTimes}">
+							<div class="review-card d-flex justify-content-between">
+								<span>영업시간</span> <span>${time.weekday}</span>
+							</div>
+							<c:if test="${not empty time.last_time}">
+								<div class="review-card border-0 text-end">
+									<span class="sub-info">${time.last_time}</span>
+								</div>
+							</c:if>
+							<c:if test="${not empty time.break_time}">
+								<div class="review-card border-0 text-end">
+									<span class="sub-info">${time.break_time}</span>
+								</div>
+							</c:if>
+						</c:forEach>
+					</div>
 				</div>
-			</div>
-			<div class="review-card d-flex justify-content-between">
-				<span><i class="bi bi-telephone"></i> 전화번호</span><span>${res.res_tel}</span>
-			</div>
+				<div class="review-card d-flex justify-content-between">
+					<span><i class="bi bi-telephone"></i> 전화번호</span><span>${res.res_tel}</span>
+				</div>
 
-			<!-- 주소 -->
-			<div
-				class="review-card d-flex justify-content-between align-items-center border-0">
-				<span><i class="bi bi-geo-alt"></i> 주소</span> <span>${res.res_addr}</span>
-			</div>
+				<!-- 주소 -->
+				<div
+					class="review-card d-flex justify-content-between align-items-center border-0">
+					<span><i class="bi bi-geo-alt"></i> 주소</span> <span>${res.res_addr}</span>
+				</div>
 
-			<!-- 지도 보기 버튼 -->
-			<div class="text-end mt-2">
-				<button class="btn btn-sm toggle-map-btn" onclick="toggleMap()"
-					id="mapToggleBtn">지도 보기</button>
-			</div>
+				<!-- 지도 보기 버튼 -->
+				<div class="text-end mt-2">
+					<button class="btn btn-sm toggle-map-btn" onclick="toggleMap()"
+						id="mapToggleBtn">지도 보기</button>
+				</div>
 
-			<!-- 지도 영역 -->
-			<div id="map-section" style="display: none;">
-				<div id="map" style="width: 100%; height: 400px; margin-top: 10px;"></div>
+				<!-- 지도 영역 -->
+				<div id="map-section" style="display: none;">
+					<div id="map" style="width: 100%; height: 400px; margin-top: 10px;"></div>
+				</div>
 			</div>
 			<!-- 메뉴 섹션 -->
 
@@ -421,7 +423,7 @@
 											<div class="mt-2">
 												<img src="${review.img_link}"
 													style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; cursor: pointer;"
-													onclick="openImageModal('${review.img_link}')" />
+													onclick="openReviewModal('${review.img_link}'); event.stopPropagation();" />
 											</div>
 										</c:if>
 									</div>
@@ -523,17 +525,20 @@
 
 
 	<!-- 모달 전체 화면 이미지 뷰어 -->
-	<div id="reviewImageModal" class="modal"
-		style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); justify-content: center; align-items: center;">
+	<div id="imageModal" class="modal modal-overlay gallery">
+		<button type="button" id="galleryPrev" class="nav-btn prev">‹</button>
+		<img id="modalImageTag" class="modal-img" />
+		<button type="button" id="galleryNext" class="nav-btn next">›</button>
+		<button type="button" id="galleryClose" class="modal-close">×</button>
+	</div>
 
-		<!-- 닫기 버튼 -->
-		<button onclick="closeImageModal()"
-			style="position: absolute; top: 20px; right: 30px; background: none; border: none; font-size: 32px; color: white; cursor: pointer;">
-			&times;</button>
-
-		<!-- 이미지 -->
-		<img id="modalImage"
-			style="max-width: 90%; max-height: 90%; border-radius: 10px;" />
+	<!-- 리뷰 전용 모달 -->
+	<div id="reviewImageModal" class="modal modal-overlay review">
+		<button type="button" id="reviewPrev" class="nav-btn prev">‹</button>
+		<img id="reviewModalImg" class="modal-img" />
+		<button type="button" id="reviewNext" class="nav-btn next">›</button>
+		<!-- 닫기 버튼은 기존 JS 호환 위해 id 유지 -->
+		<button type="button" id="reviewModalClose" class="modal-close">×</button>
 	</div>
 
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
