@@ -91,6 +91,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	          </div>
 	        </div>
 			
+			
+			
 			<!-- 장소 카드 -->
 			<div class="location-card" onclick="window.location='restaurant?res_idx=${feed.res_idx}'">
 			  <div class="location-info">
@@ -126,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // 캐러셀 버튼(1장/처음/마지막) 처리 + 링크 충돌 방지
 function initCarouselButtons(scopeEl = document) {
   scopeEl.querySelectorAll(".carousel").forEach(carousel => {
-    // 🔒 기본 스와이프/랩핑/키보드 비활성화
+    // 기본 스와이프/랩핑/키보드 비활성화
     bootstrap.Carousel.getOrCreateInstance(carousel, {
       interval: false,
       touch: false,
@@ -196,9 +198,9 @@ function enableSwipeForCarousels(scopeEl = document) {
 			if (Math.abs(deltaX) > threshold) {
 				const inst = bootstrap.Carousel.getOrCreateInstance(carousel);
 				   if (deltaX > 0 && activeIndex > 0) {
-				     inst.prev();   // ✅ BS5 메서드
+				     inst.prev();   // BS5 메서드
 				   } else if (deltaX < 0 && activeIndex < totalItems - 1) {
-				     inst.next();   // ✅ BS5 메서드
+				     inst.next();   // BS5 메서드
 				   }
 			}
 			deltaX = 0;

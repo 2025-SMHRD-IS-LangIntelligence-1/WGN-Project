@@ -52,7 +52,7 @@ $(document).ready(() => {
     if ($btn.prop("disabled")) return;
     $btn.prop("disabled", true);
 
-    // ⚠️ data-feed-idx가 달린 바깥 컨테이너를 확실히 찾기
+    // data-feed-idx가 달린 바깥 컨테이너를 확실히 찾기
     const $container    = $btn.closest("[data-feed-idx]");
     const feed_idx      = $container.data("feed-idx");
     const icon          = $btn.find("i");

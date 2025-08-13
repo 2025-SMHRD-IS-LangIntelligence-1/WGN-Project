@@ -182,7 +182,6 @@
 								<!-- 댓글 내용 -->
 								<p>${comment.cmt_content}</p>
 							</div>
-							<i class="bi bi-heart"></i>
 						</div>
 					</c:forEach>
 				</div>
