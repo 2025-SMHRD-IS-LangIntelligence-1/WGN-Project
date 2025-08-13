@@ -36,7 +36,7 @@
 
 				<!-- 음식점 탭 (기본 선택된 탭) -->
 				<a href="#" class="tab active" id="tab-res"> <i
-					class="bi bi-search"></i> <span>음식점</span>
+					class="bi bi-shop"></i> <span>음식점</span>
 				</a>
 
 				<!-- 게시글 탭 -->
@@ -68,7 +68,7 @@
 			<!----------------------- 사용자 member 탭 ------------------------------>
 			<div id="member-section" style="display: none;">
 				
-				<div class="member-header"></div>
+				
 				<!--<form>
 					<button class="my-follow-btn">팔로우</button>
 				</form> -->
