@@ -38,9 +38,9 @@ public class RestaurantController {
 	private ReviewService reviewService;
 	@Autowired
 	private MemberService memberService;
-	
+
 	@GetMapping
-    public String resDetail(@RequestParam("res_idx") int res_idx, HttpSession session, Model model ) {
+	public String resDetail(@RequestParam("res_idx") int res_idx, HttpSession session, Model model) {
 
 		// 음식점 정보
 		t_restaurant res = resmapper.resdetail(res_idx);
@@ -49,34 +49,40 @@ public class RestaurantController {
 
 		// 이미지
 		List<t_res_img> res_img_list = resmapper.res_img(res_idx);
-		if (res_img_list == null) res_img_list = Collections.emptyList();
+		if (res_img_list == null)
+			res_img_list = Collections.emptyList();
 
 		t_res_img res_main_img;
 		List<t_res_img> res_sub_img_list;
 		int remaining = 0;
-		
-		String defaultImgUrl = "https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2F736x%2F79%2F30%2F00%2F7930007e8cbda86f9828e8c3e03eca6f.jpg&type=sc960_832";
-		
-		if (!res_img_list.isEmpty()) {
-		    // 실제 이미지가 있을 때
-		    res_main_img = res_img_list.get(0);
-		    res_sub_img_list = (res_img_list.size() > 1)
-		            ? res_img_list.subList(1, res_img_list.size())
-		            : Collections.emptyList();
-		    remaining = res_img_list.size() > 3 ? res_img_list.size() - 3 : 0;
-		} else {
-		    // 이미지가 없을 때: 기본 이미지 세팅
-		    res_main_img = new t_res_img();
-		    res_main_img.setRes_img_url(defaultImgUrl); // 기본 이미지 경로
 
-		    res_sub_img_list = Collections.emptyList();
-		    remaining = 0;
+		String defaultImgUrl = "https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2F736x%2F79%2F30%2F00%2F7930007e8cbda86f9828e8c3e03eca6f.jpg&type=sc960_832";
+
+		if (!res_img_list.isEmpty()) {
+			// 실제 이미지가 있을 때
+			res_main_img = res_img_list.get(0);
+			res_sub_img_list = (res_img_list.size() > 1) ? res_img_list.subList(1, res_img_list.size())
+					: Collections.emptyList();
+			remaining = res_img_list.size() > 3 ? res_img_list.size() - 3 : 0;
+		} else {
+			// 이미지가 없을 때: 기본 이미지 세팅
+			res_main_img = new t_res_img();
+			res_main_img.setRes_img_url(defaultImgUrl); // 기본 이미지 경로
+
+			res_sub_img_list = Collections.emptyList();
+			remaining = 0;
 		}
+
+		// 리뷰 수
+
+		List<ReviewDTO> reviews = resmapper.getresreview(res_idx);
+		int review_count = reviews.size();
 
 		// 모델에 담기
 		model.addAttribute("res_main_img", res_main_img);
 		model.addAttribute("res_sub_img_list", res_sub_img_list);
 		model.addAttribute("remaining", remaining);
+		model.addAttribute("review_count", review_count);
 
 		// 리뷰
 		List<ReviewDTO> res_review = reviewService.getResReview(res_idx);
@@ -121,14 +127,13 @@ public class RestaurantController {
 		model.addAttribute("data", data);
 
 		// 세션에서 로그인 유저 꺼냄
-		t_member logined = (t_member) session.getAttribute("member");		
+		t_member logined = (t_member) session.getAttribute("member");
 
-		
 		if (logined != null) {
 			String mb_id = logined.getMb_id();
 			memberService.saveLog(mb_id, res_idx, "클릭");
 		}
-	
+
 		return "restaurant/restaurant";
 	}
 

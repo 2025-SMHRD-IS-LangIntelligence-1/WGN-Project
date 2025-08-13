@@ -67,7 +67,7 @@
 			</h2>
 
 			<div>${res.res_addr}</div>
-			<div class="rating text-warning fw-bold">4.0 (32 리뷰)</div>
+			<div class="rating text-warning fw-bold">${res.wgn_ratings} (${review_count} 리뷰)</div>
 		</div>
 
 		<!-- 탭 -->

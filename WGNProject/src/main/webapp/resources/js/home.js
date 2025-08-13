@@ -28,10 +28,10 @@ document.addEventListener("DOMContentLoaded", function() {
 				const isFollowing = followingMemList.includes(feed.mb_id);
 				const isLiked = likedFeedList.includes(feed.feed_idx);
 				const heartHTML = isLiked
-				  ? `<span class="clickable-heart stats" data-is-liking="true">
+					? `<span class="clickable-heart stats" data-is-liking="true">
 				       <i class="bi bi-heart-fill clicked stats"></i>
 				     </span>`
-				  : `<span class="clickable-heart stats" data-is-liking="false">
+					: `<span class="clickable-heart stats" data-is-liking="false">
 				       <i class="bi bi-heart stats"></i>
 				     </span>`;
 
@@ -92,16 +92,17 @@ document.addEventListener("DOMContentLoaded", function() {
 							<div class="post-info">
 							    ${heartHTML}
 							    <span class="like-comment-group stats ms-2">
-							        <span class="like-count">#</span>
+							        <span class="like-count">${feed.feed_likes}</span>
 							        <span>좋아요 · </span>
-							        <span class="comment-count">0</span>
-							        <span>댓글</span>
+							        <span class="comment-count">${feed.comment_count}</span>
+							        <span><a href="/wgn/feed?feed_idx=${feed.feed_idx}" style="color: black; text-decoration: none;">댓글</a></span>
 							    </span>
 							</div>
-
+							
 							<div class="rating-box">
-								<i class="bi bi-star"></i> ${feed.ratings != null ? feed.ratings : '없음'}
-							</div>
+												<i class="bi bi-star"></i> ${feed.ratings != null ? feed.ratings : '없음'}
+											</div>
+
 
 						</div>
 			
@@ -139,38 +140,38 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // 캐러셀 버튼(1장/처음/마지막) 처리 + 링크 충돌 방지
 function initCarouselButtons(scopeEl = document) {
-  scopeEl.querySelectorAll(".carousel").forEach(carousel => {
-    // 🔒 기본 스와이프/랩핑/키보드 비활성화
-    bootstrap.Carousel.getOrCreateInstance(carousel, {
-      interval: false,
-      touch: false,
-      wrap: false,
-      keyboard: false
-    });
+	scopeEl.querySelectorAll(".carousel").forEach(carousel => {
+		// 🔒 기본 스와이프/랩핑/키보드 비활성화
+		bootstrap.Carousel.getOrCreateInstance(carousel, {
+			interval: false,
+			touch: false,
+			wrap: false,
+			keyboard: false
+		});
 
-    const prevBtn = carousel.querySelector(".carousel-control-prev");
-    const nextBtn = carousel.querySelector(".carousel-control-next");
-    const items = carousel.querySelectorAll(".carousel-item");
-    if (!prevBtn || !nextBtn) return;
+		const prevBtn = carousel.querySelector(".carousel-control-prev");
+		const nextBtn = carousel.querySelector(".carousel-control-next");
+		const items = carousel.querySelectorAll(".carousel-item");
+		if (!prevBtn || !nextBtn) return;
 
-    if (!items || items.length <= 1) {
-      prevBtn.style.display = "none";
-      nextBtn.style.display = "none";
-      return;
-    }
+		if (!items || items.length <= 1) {
+			prevBtn.style.display = "none";
+			nextBtn.style.display = "none";
+			return;
+		}
 
-    function updateButtons() {
-      const activeIndex = Array.from(items).findIndex(item => item.classList.contains("active"));
-      prevBtn.style.display = activeIndex <= 0 ? "none" : "block";
-      nextBtn.style.display = activeIndex >= items.length - 1 ? "none" : "block";
+		function updateButtons() {
+			const activeIndex = Array.from(items).findIndex(item => item.classList.contains("active"));
+			prevBtn.style.display = activeIndex <= 0 ? "none" : "block";
+			nextBtn.style.display = activeIndex >= items.length - 1 ? "none" : "block";
 
-      carousel.dataset.activeIndex = activeIndex;
-      carousel.dataset.totalItems = items.length;
-    }
+			carousel.dataset.activeIndex = activeIndex;
+			carousel.dataset.totalItems = items.length;
+		}
 
-    carousel.addEventListener("slid.bs.carousel", updateButtons);
-    updateButtons();
-  });
+		carousel.addEventListener("slid.bs.carousel", updateButtons);
+		updateButtons();
+	});
 }
 
 // 스와이프(터치/마우스 드래그)로 슬라이드
@@ -209,11 +210,11 @@ function enableSwipeForCarousels(scopeEl = document) {
 
 			if (Math.abs(deltaX) > threshold) {
 				const inst = bootstrap.Carousel.getOrCreateInstance(carousel);
-				   if (deltaX > 0 && activeIndex > 0) {
-				     inst.prev();   // ✅ BS5 메서드
-				   } else if (deltaX < 0 && activeIndex < totalItems - 1) {
-				     inst.next();   // ✅ BS5 메서드
-				   }
+				if (deltaX > 0 && activeIndex > 0) {
+					inst.prev();   // BS5 메서드
+				} else if (deltaX < 0 && activeIndex < totalItems - 1) {
+					inst.next();   // BS5 메서드
+				}
 			}
 			deltaX = 0;
 		};
@@ -274,51 +275,78 @@ $(document).on("click", ".my-follow-btn", function(e) {
 		}
 	});
 });
-
+// =========================
+// 좋아요 버튼 클릭 이벤트
+// =========================
 $(document).on("click", ".clickable-heart", function() {
 	const $btn = $(this);
 	if ($btn.prop("disabled")) return;
 	$btn.prop("disabled", true);
 
-	const postDiv = $btn.closest(".post-actions");
-	const feed_idx = postDiv.data("feed-idx");
+	// data-feed-idx가 있는 가장 가까운 컨테이너 찾기
+	const $container = $btn.closest("[data-feed-idx]");
+	const feed_idx = $container.data("feed-idx");
 	const icon = $btn.find("i");
-	const likeCountSpan = postDiv.find(".like-count");
+	const likeCountSpan = $container.find(".like-count");
+
+	// feed_idx 못 찾으면 종료
+	if (typeof feed_idx === "undefined") {
+		console.warn("feed_idx를 찾을 수 없습니다.");
+		$btn.prop("disabled", false);
+		return;
+	}
 
 	const liked = icon.hasClass("clicked");
 	const url = liked ? "/feed/deleteFeedLike" : "/feed/addFeedLike";
 
+	// UI 먼저 업데이트
+	const currentCount = parseInt(likeCountSpan.text(), 10) || 0;
 	if (liked) {
 		icon.removeClass("clicked bi-heart-fill").addClass("bi-heart");
-		likeCountSpan.text(parseInt(likeCountSpan.text()) - 1);
+		likeCountSpan.text(currentCount - 1);
 	} else {
 		icon.addClass("clicked bi-heart-fill").removeClass("bi-heart");
-		likeCountSpan.text(parseInt(likeCountSpan.text()) + 1);
+		likeCountSpan.text(currentCount + 1);
 	}
 
+	// 서버 요청
 	$.ajax({
 		url: contextPath + url,
 		method: "POST",
-		contentType: "application/json",
+		contentType: "application/json; charset=UTF-8",
 		data: JSON.stringify(feed_idx),
 		success: function(res) {
-			likeCountSpan.text(res);
+			// 서버에서 최신 좋아요 수를 내려주면 반영
+			if (res !== undefined && res !== null && res !== "") {
+				likeCountSpan.text(res);
+			}
 		},
-		error: function() {
+		error: function(xhr) {
+			console.error("좋아요 요청 실패:", xhr.status, xhr.responseText);
+
+			// 로그인 안 된 경우에만 로그인 페이지로 이동
+			if (xhr.status === 401 || xhr.status === 403) {
+				window.location.href = contextPath + "/member/login";
+			} else {
+				alert("좋아요 처리 중 오류가 발생했습니다.");
+			}
+
+			// UI 롤백
+			const rollbackCount = parseInt(likeCountSpan.text(), 10) || 0;
 			if (liked) {
 				icon.addClass("clicked bi-heart-fill").removeClass("bi-heart");
-				likeCountSpan.text(parseInt(likeCountSpan.text()) + 1);
+				likeCountSpan.text(rollbackCount + 1);
 			} else {
 				icon.removeClass("clicked bi-heart-fill").addClass("bi-heart");
-				likeCountSpan.text(parseInt(likeCountSpan.text()) - 1);
+				likeCountSpan.text(rollbackCount - 1);
 			}
-			window.location.href = contextPath + "/member/login";
 		},
 		complete: function() {
 			$btn.prop("disabled", false);
 		}
 	});
 });
+
 
 function toggleMore(btn) {
 	const caption = btn.previousElementSibling; // .caption-text

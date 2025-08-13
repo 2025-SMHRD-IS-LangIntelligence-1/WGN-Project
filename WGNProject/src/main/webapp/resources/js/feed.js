@@ -52,7 +52,7 @@ $(document).ready(() => {
     if ($btn.prop("disabled")) return;
     $btn.prop("disabled", true);
 
-    // ⚠️ data-feed-idx가 달린 바깥 컨테이너를 확실히 찾기
+    // data-feed-idx가 달린 바깥 컨테이너를 확실히 찾기
     const $container    = $btn.closest("[data-feed-idx]");
     const feed_idx      = $container.data("feed-idx");
     const icon          = $btn.find("i");
@@ -82,7 +82,7 @@ $(document).ready(() => {
       url: CP + url,
       method: "POST",
 	  contentType: "application/json; charset=UTF-8",
-      data: JSON.stringify(window.feedIdx),
+      data: JSON.stringify(feed_idx),
       success: function (res) {
         // 서버가 최신 좋아요 수를 돌려주면 동기화
         if (res !== undefined && res !== null && res !== '') {

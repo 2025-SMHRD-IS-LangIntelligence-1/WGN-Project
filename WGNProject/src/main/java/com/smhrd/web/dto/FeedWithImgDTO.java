@@ -20,5 +20,6 @@ public class FeedWithImgDTO {
     private String mb_nick;
     private Double ratings;
     private List<String> imageUrls;
+    private int comment_count;
 
 }

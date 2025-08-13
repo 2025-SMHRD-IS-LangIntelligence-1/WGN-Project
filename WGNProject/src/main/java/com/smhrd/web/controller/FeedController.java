@@ -395,7 +395,7 @@ public class FeedController {
 
 			// 이 멤버가 좋아하는 모든 피드 idx를 가져오는 메서드
 			List<Integer> likedFeedList = memberService.getAllLikedFeed(mb_id);
-
+			
 			response.setFollowingMemList(followingMemList);
 			response.setLikedFeedList(likedFeedList);
 

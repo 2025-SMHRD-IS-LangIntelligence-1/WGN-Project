@@ -34,7 +34,7 @@
                   <!-- 업로드 버튼 영역 -->
                   <div class="upload-box-container">
                      <label for="file-upload" class="upload-box"> <i
-                        class="bi bi-camera"></i> <span>사진/영상</span>
+                        class="bi bi-camera"></i> <span>사진</span>
                      </label> <input type="file" name="files" id="file-upload"
                         class="file-upload" accept="image/*" hidden multiple>
                   </div>

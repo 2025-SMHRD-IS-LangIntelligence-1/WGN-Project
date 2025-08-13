@@ -83,16 +83,78 @@
 /* =========================
    ❤️ 액션 줄
 ========================= */
-.post-actions{
-  display:flex; align-items:center; justify-content:space-between;
-  padding:10px 12px;
-  font-size:1.2rem;
-  border-top:1px solid #f3f3f3;  /* 구분선 */
-  border-bottom:1px solid #f3f3f3;
+.post-info {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   flex-wrap: nowrap;
+   white-space: nowrap; /* 줄 바꿈 방지 */
+   user-select: none;
+   padding: 8px 6px;
+   font-size: 14px;
+   line-height: 1.4;
 }
-.post-actions .stats{ font-size:14px; margin-left:8px; color:#666; }
-.post-actions .bi-heart:hover{ color:red; transform:scale(1.2); cursor:pointer; }
-.post-actions .bi-chat:hover{ cursor:pointer; }
+
+
+/* 하트 클릭 영역 */
+.post-info {
+   display: flex;
+   align-items: center;
+   gap: 0; /* 하트와 묶음 사이 간격 없애기 */
+   white-space: nowrap;
+   font-size: 14px;
+}
+
+.post-info .clickable-heart {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 20px;
+   height: 20px;
+   font-size: 20px;
+   cursor: pointer;
+   color: #e0245e;
+   transition: color 0.3s ease;
+   margin-right: 0; /* 오른쪽 여백 제거해서 딱 붙도록 */
+}
+
+.post-info .clickable-heart:hover {
+   color: #a81d48;
+}
+
+.post-info .clickable-heart i {
+   font-size: 20px;
+   line-height: 1;
+}
+
+/* 좋아요 숫자 */
+.post-info .like-count {
+   font-size: 14px;
+   color: #333;
+   text-align: left;
+}
+
+/* 좋아요 · 댓글 묶음 내부 요소들 */
+.like-comment-group {
+   display: inline-flex; /* 내부 요소 가로로 붙게 */
+   align-items: center;
+   gap: 6px; /* 좋아요 숫자와 텍스트 사이 간격 */
+   margin-left: 0; /* 하트와 딱 붙게 */
+   font-size: 14px;
+}
+
+.rating-box {
+   background-color: #fff8e5;
+   color: black;
+   font-weight: 600;
+   font-size: 14px;
+   padding: 4px 10px;
+   border-radius: 15px;
+   box-shadow: 0 2px 6px rgba(49, 120, 198, 0.25);
+   user-select: none;
+   white-space: nowrap;
+   display: inline-block;
+}
 
 /* =========================
    📍 장소 카드
