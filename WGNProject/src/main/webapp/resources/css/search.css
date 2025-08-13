@@ -2,41 +2,45 @@
 
 /* 검색 박스 전체 레이아웃 */
 .search-box {
-    max-width: 380px;      /* 최대 너비 제한 */
-    margin: 10px auto;     /* 위아래 20px, 좌우 auto로 가운데 정렬 */
-    box-sizing: border-box; /* 패딩 포함해서 크기 계산 */
-    display: flex;
+    margin: 10px 15px;        /* 상하 10px, 좌우 15px 여백 */
+    display: flex;            /* 가로 배치(입력+버튼 한 줄) */
 }
 
-/* 검색어 입력창 */
+.search-box .form-control {
+  border-top-right-radius: 0;    /* 우상단 직각 */
+  border-bottom-right-radius: 0; /* 우하단 직각 */
+}
+
 .form-control {
-    flex: 1; /* 남는 공간 다 차지 */
-    padding: 10px 15px;
-    border: 2px solid #ccc;
-    border-radius: 30px 0 0 30px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.3s ease;
+    flex: 1;                  /* 남는 공간 전부 차지 */
+    padding: 10px 15px;       /* 내부 여백 */
+    border: 3px solid #ccc;   /* 회색 테두리 */
+    border-radius: 30px 0 0 30px; /* 왼쪽만 둥근 모서리 */
+    font-size: 15px;          /* 글자 크기 */
+    outline: black;            /* 기본 포커스 제거 */
+    transition: border-color 0.3s ease; /* 테두리색 전환 애니메이션 */
 }
 
-.form-control:focus {
-    border-color: #f4b400;
-}
-
-/* 검색 버튼 */
 .search-btn {
-    padding: 10px 20px;
-    border: 2px solid #f4b400;
-    background-color: #f4b400;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 0 30px 30px 0;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    padding: 10px 20px;       /* 내부 여백 */
+    border: 2px solid #f4b400;/* 노란 테두리 */
+    background-color: #f4b400;/* 노란 배경 */
+    color: white;             /* 흰 글자 */
+    font-size: 14px;          /* 글자 크기 */
+    cursor: pointer;          /* 손가락 커서 */
+    border-radius: 0 10px 10px 0; /* 오른쪽만 둥근 모서리 */
 }
 
-.search-btn:hover {
-    transform: scale(1.05);
+/* 클릭(터치) 순간 눌림 효과 */
+.search-btn:active {
+  filter: brightness(0.92); /* 클릭 중에만 살짝 탁해짐 */
+}
+
+/* Bootstrap 기본 규칙보다 특이성 높여서 덮어쓰기 */
+.search-box input.form-control:focus,
+.search-box input.form-control:focus-visible {
+	box-shadow: none;        /* 파란 글로우 제거 */
+	border-color: #f4b400;   /* 노란 테두리 유지(원하면 변경) */
 }
 
 /* 탭 컨테이너 */
@@ -46,7 +50,6 @@
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   background: #fff;
-  margin-bottom: 10px;
 }
 
 /* 각 탭 */
@@ -80,10 +83,6 @@
 /*------------------------------------------------------------------*/
 
 /* 음식점 */
-.res-section-box {
-  padding: 15px;                       /* ✅ 내부 여백 (사방) */
-  border-bottom: 1px solid #e0e0e0;    /* ✅ 아래 회색 선 */
-}
 
 .res-card {
   background-color: #fff;       /* 흰색 배경 */
@@ -212,8 +211,8 @@
 /* 프로필 이미지 설정 */
 .feed-member img {
 	cursor: pointer;
-	width: 40px;
-	height: 40px;
+	width: 44px;
+	height: 44px;
 	object-fit: cover; 			/* 이미지 비율 유지하면서 강제 크기 맞춤 */
 	border-radius: 50%;
 	margin-right: 10px;
@@ -238,7 +237,7 @@
 }
 
 .my-follow-btn.following {
-    color: gray !important;
-    background-color: #f0f0f0 !important; /* 배경색도 바꿔보기 */
-    border-color: gray !important;         /* 테두리 색 바꾸기 */
+    color: gray ;
+    background-color: #f0f0f0; /* 배경색도 바꿔보기 */
+    border-color: gray;         /* 테두리 색 바꾸기 */
 }

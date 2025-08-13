@@ -41,5 +41,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restaurantMapper.updateRecord(res_idx);
 		
 	}
+	@Override
+	public void deleteimg(List<String> urls) {
+		restaurantMapper.deleteimg(urls);
+	}
 	
 }

@@ -15,15 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
     let current = '';
     sections.forEach((section) => {
       const sectionTop = section.offsetTop;
-      if (window.pageYOffset >= sectionTop - scrollOffset) {
-        current = section.getAttribute('id');
-      }
+      if (window.pageYOffset >= sectionTop - scrollOffset) current = section.getAttribute('id');
     });
     tabLinks.forEach((link) => {
       link.classList.remove('active');
-      if (link.getAttribute('href') === `#${current}`) {
-        link.classList.add('active');
-      }
+      if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
     });
   }
 
@@ -32,11 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       const targetId = this.getAttribute('href');
       const targetSection = document.querySelector(targetId);
-      if (targetSection) {
-        const elementTop = targetSection.getBoundingClientRect().top;
-        const offsetTop = window.pageYOffset + elementTop - scrollOffset;
-        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-      }
+      if (!targetSection) return;
+      const elementTop = targetSection.getBoundingClientRect().top;
+      const offsetTop = window.pageYOffset + elementTop - scrollOffset;
+      window.scrollTo({ top: offsetTop, behavior: 'smooth' });
     });
   });
 
@@ -49,27 +44,56 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /* =========================
-   갤러리(가게 대표) 모달 — #imageModal 전용
-   - 대상: .main-image, .sub-image (단, #review-section 내부 요소는 제외)
+   갤러리(대표 이미지) 모달 — #imageModal 전용
 ========================= */
 (function GalleryModal() {
   const galleryWrapper = document.getElementById('imageModal');      // 오버레이
-  const galleryImg     = document.getElementById('modalImageTag');   // 큰 이미지 <img>
-  const prevBtn        = document.querySelector('.nav-btn.prev');
-  const nextBtn        = document.querySelector('.nav-btn.next');
+  const galleryImg     = document.getElementById('modalImageTag');   // 큰 이미지
+  const prevBtn        = document.getElementById('galleryPrev');
+  const nextBtn        = document.getElementById('galleryNext');
+  const closeBtn       = document.getElementById('galleryClose');
   const reviewSection  = document.getElementById('review-section');
 
   const images = [];        // URL 배열
-  let clickableNodes = [];  // 클릭 가능한 DOM (갤러리용만)
+  let clickableNodes = [];  // 클릭 가능한 DOM
   let currentIndex = 0;
 
   function extractUrl(el) {
     if (!el) return '';
+    if (el.dataset && el.dataset.url) return el.dataset.url; // ← 우선 사용
     if (el.tagName && el.tagName.toLowerCase() === 'img' && el.src) return el.src;
-    const bg = getComputedStyle(el).backgroundImage; // url("...")
+    const bg = getComputedStyle(el).backgroundImage;
     if (!bg || bg === 'none') return '';
     const m = bg.match(/url\((['"]?)(.*?)\1\)/i);
     return m ? m[2] : '';
+  }
+
+  function updateNavState() {
+    if (!prevBtn || !nextBtn) return;
+    if (images.length <= 1) {
+      prevBtn.style.display = 'none';
+      nextBtn.style.display = 'none';
+    } else {
+      prevBtn.style.display = '';
+      nextBtn.style.display = '';
+      prevBtn.disabled = currentIndex <= 0;
+      nextBtn.disabled = currentIndex >= images.length - 1;
+    }
+  }
+
+  function updateGalleryImage() {
+    if (!galleryImg) return;
+    let url = images[currentIndex];
+    if (!url && clickableNodes[currentIndex]) {
+      url = extractUrl(clickableNodes[currentIndex]) || '';
+      if (url) images[currentIndex] = url;
+    }
+    if (!url) {
+      console.warn('[gallery] 이미지 URL 비어있음 idx=', currentIndex);
+      return;
+    }
+    galleryImg.src = url;
+    updateNavState();
   }
 
   function openGallery(index) {
@@ -86,24 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.style.overflow = '';
   }
 
-  function updateGalleryImage() {
-    if (!galleryImg) return;
-    let url = images[currentIndex];
-    // 혹시 비어있으면 해당 노드에서 즉시 추출해서 캐시
-    if (!url && clickableNodes[currentIndex]) {
-      url = extractUrl(clickableNodes[currentIndex]) || '';
-      if (url) images[currentIndex] = url;
-    }
-    if (!url) {
-      console.warn('[gallery] 이미지 URL이 비었습니다. idx=', currentIndex);
-      return;
-    }
-    galleryImg.src = url;
-
-    if (prevBtn) prevBtn.disabled = currentIndex <= 0;
-    if (nextBtn) nextBtn.disabled = currentIndex >= images.length - 1;
-  }
-
   function prevImage() {
     if (currentIndex > 0) {
       currentIndex--;
@@ -118,20 +124,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // 초기 바인딩
   document.addEventListener('DOMContentLoaded', () => {
-    // 후보 수집
+    // 후보 수집 (.main-image, .sub-image) — 리뷰 섹션 내부는 제외
     const candidates = Array.from(document.querySelectorAll('.main-image, .sub-image'));
-    // 리뷰 섹션 안에 있는 건 제외 → 리뷰 이미지는 별도 모달 사용
     clickableNodes = candidates.filter((el) => !(reviewSection && reviewSection.contains(el)));
 
-    // URL 수집
+    // URL 채우기
     clickableNodes.forEach((el) => {
       const url = extractUrl(el);
       if (url) images.push(url);
     });
 
-    // 클릭 바인딩 (갤러리 전용)
+    // 클릭 바인딩
     clickableNodes.forEach((el, idx) => {
       el.addEventListener('click', (e) => {
         e.preventDefault();
@@ -140,27 +144,27 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-    // 닫기(오버레이 클릭)
+    // 오버레이 클릭 닫기 (이미지/버튼 클릭은 제외)
     if (galleryWrapper) {
-      galleryWrapper.addEventListener(
-        'click',
-        (e) => {
-          if (e.target === galleryWrapper) closeGallery();
-        },
-        { passive: true }
-      );
+      galleryWrapper.addEventListener('click', (e) => {
+        if (e.target === galleryWrapper) closeGallery();
+      }, { passive: true });
     }
+
+    // X 버튼 닫기
+    closeBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeGallery();
+    });
+
+    // 좌우 버튼
+    prevBtn?.addEventListener('click', (e) => { e.preventDefault(); prevImage(); });
+    nextBtn?.addEventListener('click', (e) => { e.preventDefault(); nextImage(); });
 
     // ESC 닫기
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && galleryWrapper && galleryWrapper.style.display === 'flex') {
-        closeGallery();
-      }
+      if (e.key === 'Escape' && galleryWrapper && galleryWrapper.style.display === 'flex') closeGallery();
     });
-
-    // 이전/다음 버튼
-    prevBtn?.addEventListener('click', prevImage);
-    nextBtn?.addEventListener('click', nextImage);
 
     // 터치 스와이프
     if (galleryImg) {
@@ -168,7 +172,6 @@ document.addEventListener('DOMContentLoaded', function () {
       galleryImg.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
       }, { passive: true });
-
       galleryImg.addEventListener('touchend', (e) => {
         const endX = e.changedTouches[0].clientX;
         const diff = endX - startX;
@@ -177,18 +180,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // 외부에서 쓸 수 있도록 (혹시 인라인에서 호출 중이면)
+  // 인라인 호출 호환
   window.openModal  = openGallery;
   window.closeModal = closeGallery;
 })();
 
 /* =========================
    리뷰 이미지 모달 — #reviewImageModal 전용
-   - 이미지 요소에서 src(or data-full)로 여세요
+   (JSP 인라인: onclick="openImageModal('URL')")
 ========================= */
 (function ReviewImageModal() {
   const rim      = document.getElementById('reviewImageModal'); // 오버레이
-  const rimImg   = document.getElementById('modalImage');       // 큰 이미지 <img>
+  const rimImg   = document.getElementById('reviewModalImg');   // 이미지
+  const closeBtn = document.getElementById('reviewModalClose'); // X 버튼
 
   function openReviewImage(url) {
     if (!rim || !rimImg) return;
@@ -203,21 +207,27 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.style.overflow = '';
   }
 
-  // 배경 클릭 닫기
+  // 오버레이 클릭 닫기
   rim?.addEventListener('click', (e) => {
     if (e.target === rim) closeReviewImage();
   });
 
-  // ESC 닫기
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && rim && rim.style.display === 'flex') {
-      closeReviewImage();
-    }
+  // X 버튼 닫기
+  closeBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    closeReviewImage();
   });
 
-  // 전역 노출 (기존 인라인 onclick 호환)
-  window.openImageModal  = openReviewImage;
-  window.closeImageModal = closeReviewImage;
+  // ESC 닫기
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && rim && rim.style.display === 'flex') closeReviewImage();
+  });
+
+  // 전역 노출 (JSP 인라인과 호환)
+  window.openImageModal   = openReviewImage;
+  window.closeImageModal  = closeReviewImage;
+  window.openReviewModal  = openReviewImage;   // HTML에서 openReviewModal(...) 써도 동작
+  window.closeReviewModal = closeReviewImage;
 })();
 
 /* =========================
@@ -242,9 +252,7 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleNaverBtn.addEventListener('click', function () {
       const hiddenEls = document.querySelectorAll('.naver-review');
       naverExpanded = !naverExpanded;
-      hiddenEls.forEach((el, idx) => {
-        if (idx >= 3) el.classList.toggle('d-none', !naverExpanded);
-      });
+      hiddenEls.forEach((el, idx) => { if (idx >= 3) el.classList.toggle('d-none', !naverExpanded); });
       this.textContent = naverExpanded ? '네이버 리뷰 접기' : '네이버 리뷰 더보기';
     });
   }
@@ -254,9 +262,7 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleKakaoBtn.addEventListener('click', function () {
       const hiddenEls = document.querySelectorAll('.kakao-review');
       kakaoExpanded = !kakaoExpanded;
-      hiddenEls.forEach((el, idx) => {
-        if (idx >= 3) el.classList.toggle('d-none', !kakaoExpanded);
-      });
+      hiddenEls.forEach((el, idx) => { if (idx >= 3) el.classList.toggle('d-none', !kakaoExpanded); });
       this.textContent = kakaoExpanded ? '카카오 리뷰 접기' : '카카오 리뷰 더보기';
     });
   }
@@ -266,14 +272,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const toggleBtn = document.getElementById('toggleReviewBtn');
   const form = document.getElementById('reviewFormContainer');
   if (!toggleBtn || !form) return;
-
   toggleBtn.addEventListener('click', function () {
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
     if (form.style.display === 'block') form.scrollIntoView({ behavior: 'smooth' });
   });
 });
 
-// 리뷰 작성 유효성
+// 작성 유효성
 const ratingError   = document.getElementById('ratingError');
 const contentError  = document.getElementById('contentError');
 const ratingInputs  = document.querySelectorAll('input[name="ratings"]');
@@ -300,7 +305,7 @@ if (reviewForm) {
 }
 
 /* =========================
-   카카오/네이버 근무시간 더보기 (기본 유지)
+   영업시간 토글
 ========================= */
 const arrow   = document.getElementById('toggleArrow');
 const fullBox = document.getElementById('fullSchedule');
@@ -315,7 +320,7 @@ if (arrow && fullBox) {
 }
 
 /* =========================
-   중복 랭킹 체크 (기본 유지)
+   중복 랭킹 체크
 ========================= */
 let isDuplicateRes = false;
 $(document).ready(function () {
@@ -353,7 +358,7 @@ function checkFavoriteDuplicate(res_idx) {
 }
 
 /* =========================
-   지도 토글 (기본 유지)
+   지도 토글
 ========================= */
 var map;
 function toggleMap() {
@@ -375,7 +380,7 @@ function toggleMap() {
 window.toggleMap = toggleMap;
 
 /* =========================
-   찜 (기본 유지)
+   찜 토글
 ========================= */
 document.addEventListener('DOMContentLoaded', function () {
   const tooltip    = document.getElementById('iconTooltip');
@@ -410,10 +415,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
   iconGroup.addEventListener('click', function () {
-    if (!mb_id) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
+    if (!mb_id) { alert('로그인이 필요합니다.'); return; }
     fetch(`${contextPath}/going/check`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -429,10 +431,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .then((r) => r.json())
       .then((result) => {
         if (result.success) iconEls.forEach((i) => i.classList.toggle('active'));
-        else {
-          console.warn('요청 실패:', result);
-          alert('요청 실패');
-        }
+        else { console.warn('요청 실패:', result); alert('요청 실패'); }
       })
       .catch((err) => {
         console.error('오류 발생:', err);

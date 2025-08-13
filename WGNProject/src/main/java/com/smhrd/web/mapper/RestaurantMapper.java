@@ -3,6 +3,7 @@ package com.smhrd.web.mapper;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -84,5 +85,11 @@ public interface RestaurantMapper {
 		       OR wgn_negative_wc IS NULL OR wgn_negative_wc = ''
 		""")
 	List<Integer> selectEmpty();
+
+	void updateFeedImg(int res_idx, List<String> imgUrls);
+	
+	void deleteimg(List<String> urls);
+
+	void insertrivewimg(int res_idx, String img);
 	
 }
