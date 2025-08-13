@@ -27,6 +27,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 				const isFollowing = followingMemList.includes(feed.mb_id);
 				const isLiked = likedFeedList.includes(feed.feed_idx);
+				const heartHTML = isLiked
+				  ? `<span class="clickable-heart stats" data-is-liking="true">
+				       <i class="bi bi-heart-fill clicked stats"></i>
+				     </span>`
+				  : `<span class="clickable-heart stats" data-is-liking="false">
+				       <i class="bi bi-heart stats"></i>
+				     </span>`;
 
 				const followButtonHTML = isFollowing
 					? `<button class="my-follow-btn following" data-following-id="${feed.mb_id}" data-followed="true">팔로잉</button>`
@@ -72,19 +79,26 @@ document.addEventListener("DOMContentLoaded", function() {
 	          </a>
 	        ` : ``}
 
-	        <!-- 액션 -->
-	        <div class="post-actions" data-feed-idx="${feed.feed_idx}">
-	          <div class="actions-left">
-	            <span class="clickable-heart"><i class="bi ${heartIconClass}"></i></span>
-	            <i class="bi bi-chat ms-3"></i>
-	          </div>
-	          <div class="actions-stats">
-	            <span class="like-count stats ms-2">${feed.feed_likes}</span>
-	            <span class="stats ms-2">좋아요  · </span>
-	            <span class="stats ms-2">${feed.comment_count || 0}</span>
-	            <span class="stats ms-2">댓글</span>
-	          </div>
-	        </div>
+			<!-- 좋아요 / 댓글 수 / 평점 -->
+						<div
+							class="post-info d-flex align-items-center justify-content-between post-meta-line"
+							data-feed-idx="${feed.feed_idx}">
+
+							<div class="post-info">
+							    ${heartHTML}
+							    <span class="like-comment-group stats ms-2">
+							        <span class="like-count">#</span>
+							        <span>좋아요 · </span>
+							        <span class="comment-count">0</span>
+							        <span>댓글</span>
+							    </span>
+							</div>
+
+							<div class="rating-box">
+								<i class="bi bi-star"></i> ${feed.ratings != null ? feed.ratings : '없음'}
+							</div>
+
+						</div>
 			
 			<!-- 장소 카드 -->
 			<div class="location-card" onclick="window.location='restaurant?res_idx=${feed.res_idx}'">
