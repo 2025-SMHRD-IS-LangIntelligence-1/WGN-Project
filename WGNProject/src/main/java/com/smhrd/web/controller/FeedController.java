@@ -93,6 +93,7 @@ public class FeedController {
 
 		model.addAttribute("isFollowing", isFollowing);
 		model.addAttribute("feedOwnerProfile", feedOwnerProfile);
+		
 
 		// 음식점 정보 가져오기
 		int resIdx = feed.getRes_idx();
@@ -103,7 +104,7 @@ public class FeedController {
 
 		// 해당 사용자가 피드를 좋아하는지 여부를 체크하는 메서드
 		boolean isLiking = memberService.isLiking(mbId, feedIdx);
-
+		
 		model.addAttribute("feed", feed);
 		model.addAttribute("resInfo", resInfo);
 		model.addAttribute("comments", comments);
@@ -334,16 +335,26 @@ public class FeedController {
 	@ResponseBody
 	public int addFeedLike(@RequestBody int feed_idx, HttpSession session) {
 
+		
 		// 세션에서 로그인 유저 꺼냄
 		t_member logined = (t_member) session.getAttribute("member");
 		String mb_id = logined.getMb_id();
+		
+		System.out.println("세션에서 로그인 유저 꺼냄" + mb_id);
 
 		// 해당 피드 정보 불러오기
 		FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feed_idx);
 		int res_idx = feed.getRes_idx();
+		
+		System.out.println("피드 정보 불러옴" + res_idx);
 
 		int feedLikeNum = feedService.addFeedLike(feed_idx, mb_id);
+		
+		System.out.println("좋아요 저장 성공" + feedLikeNum);
+		
 		memberService.saveLog(mb_id, res_idx, "좋아요");
+	
+		
 		return feedLikeNum;
 	}
 

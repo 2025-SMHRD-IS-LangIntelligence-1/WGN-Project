@@ -61,7 +61,12 @@ document.addEventListener("DOMContentLoaded", function() {
 	        <!-- 미디어(캐러셀) -->
 	        ${hasImages ? `
 	          <a href="/wgn/feed?feed_idx=${feed.feed_idx}">
-	            <div id="${carouselId}" class="carousel slide post-media" data-bs-touch="true" data-bs-interval="false">
+			  <div id="${carouselId}"
+			       class="carousel slide post-media"
+			       data-bs-touch="false"
+			       data-bs-wrap="false"
+			       data-bs-keyboard="false"
+			       data-bs-interval="false">
 	              <div class="carousel-inner">
 	                ${imgs.map((img, idx) => `
 	                  <div class="carousel-item ${idx === 0 ? 'active' : ''}">
@@ -134,33 +139,38 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // 캐러셀 버튼(1장/처음/마지막) 처리 + 링크 충돌 방지
 function initCarouselButtons(scopeEl = document) {
-	scopeEl.querySelectorAll(".carousel").forEach(carousel => {
-		const prevBtn = carousel.querySelector(".carousel-control-prev");
-		const nextBtn = carousel.querySelector(".carousel-control-next");
-		const items = carousel.querySelectorAll(".carousel-item");
+  scopeEl.querySelectorAll(".carousel").forEach(carousel => {
+    // 🔒 기본 스와이프/랩핑/키보드 비활성화
+    bootstrap.Carousel.getOrCreateInstance(carousel, {
+      interval: false,
+      touch: false,
+      wrap: false,
+      keyboard: false
+    });
 
-		if (!prevBtn || !nextBtn) return;
+    const prevBtn = carousel.querySelector(".carousel-control-prev");
+    const nextBtn = carousel.querySelector(".carousel-control-next");
+    const items = carousel.querySelectorAll(".carousel-item");
+    if (!prevBtn || !nextBtn) return;
 
-		// 1장 이하 -> 버튼 숨김
-		if (!items || items.length <= 1) {
-			prevBtn.style.display = "none";
-			nextBtn.style.display = "none";
-			return;
-		}
+    if (!items || items.length <= 1) {
+      prevBtn.style.display = "none";
+      nextBtn.style.display = "none";
+      return;
+    }
 
-		function updateButtons() {
-			const activeIndex = Array.from(items).findIndex(item => item.classList.contains("active"));
-			prevBtn.style.display = activeIndex <= 0 ? "none" : "block";
-			nextBtn.style.display = activeIndex >= items.length - 1 ? "none" : "block";
+    function updateButtons() {
+      const activeIndex = Array.from(items).findIndex(item => item.classList.contains("active"));
+      prevBtn.style.display = activeIndex <= 0 ? "none" : "block";
+      nextBtn.style.display = activeIndex >= items.length - 1 ? "none" : "block";
 
-			// 현재 인덱스를 dataset에 저장해서 스와이프 함수가 참조 가능하게
-			carousel.dataset.activeIndex = activeIndex;
-			carousel.dataset.totalItems = items.length;
-		}
+      carousel.dataset.activeIndex = activeIndex;
+      carousel.dataset.totalItems = items.length;
+    }
 
-		carousel.addEventListener("slid.bs.carousel", updateButtons);
-		updateButtons();
-	});
+    carousel.addEventListener("slid.bs.carousel", updateButtons);
+    updateButtons();
+  });
 }
 
 // 스와이프(터치/마우스 드래그)로 슬라이드
@@ -198,13 +208,12 @@ function enableSwipeForCarousels(scopeEl = document) {
 			const totalItems = parseInt(carousel.dataset.totalItems || 1);
 
 			if (Math.abs(deltaX) > threshold) {
-				if (deltaX > 0 && activeIndex > 0) {
-					// 왼쪽 스와이프(이전) 가능할 때만
-					bootstrap.Carousel.getOrCreateInstance(carousel).slide('prev');
-				} else if (deltaX < 0 && activeIndex < totalItems - 1) {
-					// 오른쪽 스와이프(다음) 가능할 때만
-					bootstrap.Carousel.getOrCreateInstance(carousel).slide('next');
-				}
+				const inst = bootstrap.Carousel.getOrCreateInstance(carousel);
+				   if (deltaX > 0 && activeIndex > 0) {
+				     inst.prev();   // ✅ BS5 메서드
+				   } else if (deltaX < 0 && activeIndex < totalItems - 1) {
+				     inst.next();   // ✅ BS5 메서드
+				   }
 			}
 			deltaX = 0;
 		};
