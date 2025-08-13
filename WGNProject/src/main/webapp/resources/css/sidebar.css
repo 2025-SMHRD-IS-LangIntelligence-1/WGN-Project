@@ -238,8 +238,26 @@ body.logged-out .user-menu a[href$="/member/logout"]{ display:none; }
 
 .rv-bottom{ display:flex; gap:10px; align-items:flex-start; margin-top:10px; padding-top:10px; border-top:1px solid #f3f4f6; }
 .rv-author-avatar{ width:34px; height:34px; border-radius:50%; object-fit:cover; background:#eee; flex:0 0 auto; }
-.rv-right{ min-width:0; display:flex; flex-direction:column; gap:4px; }
+.rv-right{ flex:1; min-width:0; }
 .rv-author{ font-weight:600; font-size:14px; color:#222; }
+
+.rv-main{
+  display:flex; gap:12px; align-items:flex-start;
+}
+.rv-text{
+  flex:1; line-height:1.5; word-break:break-word; white-space:pre-wrap;
+}
+
+.rv-thumb{
+  flex:0 0 auto; width:96px; height:96px; border-radius:8px; overflow:hidden;
+}
+.rv-thumb img{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+
+.rv-meta{
+  display:flex; align-items:center; gap:8px; margin-top:6px;
+}
 
 .rv-content-row{ display:flex; align-items:center; gap:8px; }
 .rv-time{ font-size:12px; color:#9aa1a9; }
