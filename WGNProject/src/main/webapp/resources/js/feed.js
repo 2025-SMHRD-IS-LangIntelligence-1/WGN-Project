@@ -82,7 +82,7 @@ $(document).ready(() => {
       url: CP + url,
       method: "POST",
 	  contentType: "application/json; charset=UTF-8",
-      data: JSON.stringify(window.feedIdx),
+      data: JSON.stringify(feed_idx),
       success: function (res) {
         // 서버가 최신 좋아요 수를 돌려주면 동기화
         if (res !== undefined && res !== null && res !== '') {

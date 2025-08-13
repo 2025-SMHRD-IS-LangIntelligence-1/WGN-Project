@@ -109,7 +109,6 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public void deleteFeed(int feed_idx) {
 		feedMapper.deleteFeed(feed_idx);
-
 	}
 	
 	

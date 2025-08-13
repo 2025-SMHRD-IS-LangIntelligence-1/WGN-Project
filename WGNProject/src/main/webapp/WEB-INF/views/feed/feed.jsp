@@ -117,7 +117,7 @@
 					<!-- 좋아요, 댓글 묶음 -->
 					<span class="like-comment-group stats ms-2"> <span
 						class="like-count">${feed.feed_likes}</span> <span>좋아요 · </span> <span
-						class="comment-count">0</span> <span>댓글</span>
+						class="comment-count">${feed.comment_count}</span> <span>댓글</span>
 					</span>
 				</div>
 
@@ -175,11 +175,13 @@
 				<div class="comments">
 					<c:forEach var="comment" items="${comments}">
 						<div class="comment">
-							<img src="${comment.mb_img}" class="comment-avatar">
+							<a href="/wgn/profile/${comment.mb_id}"> <img
+								src="${comment.mb_img}" class="comment-avatar" alt="작성자 프로필 이미지">
+							</a>
 							<div class="comment-body">
-								<!-- 작성자 닉네임 -->
-								<strong>${comment.mb_nick}</strong>
-								<!-- 댓글 내용 -->
+								<a href="/wgn/profile/${comment.mb_id}"
+									style="text-decoration: none; color: inherit;"> <strong>${comment.mb_nick}</strong>
+								</a>
 								<p>${comment.cmt_content}</p>
 							</div>
 						</div>
