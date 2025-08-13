@@ -36,6 +36,7 @@ import com.smhrd.web.service.MemberService;
 import com.smhrd.web.service.RestaurantService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -335,14 +336,18 @@ public class FeedController {
 
 	@PostMapping("/addFeedLike")
 	@ResponseBody
-	public int addFeedLike(@RequestBody int feed_idx, HttpSession session) {
+	public int addFeedLike(@RequestBody int feed_idx, HttpSession session, HttpServletResponse response) {
 
 		
 		// 세션에서 로그인 유저 꺼냄
 		t_member logined = (t_member) session.getAttribute("member");
-		String mb_id = logined.getMb_id();
 		
-		System.out.println("세션에서 로그인 유저 꺼냄" + mb_id);
+		if (logined == null) {
+	        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+	        return 0;
+	    }
+		
+		String mb_id = logined.getMb_id();
 
 		// 해당 피드 정보 불러오기
 		FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feed_idx);
