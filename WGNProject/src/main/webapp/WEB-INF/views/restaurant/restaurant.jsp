@@ -423,7 +423,7 @@
 											<div class="mt-2">
 												<img src="${review.img_link}"
 													style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; cursor: pointer;"
-													onclick="openImageModal('${review.img_link}')" />
+													onclick="openReviewModal('${review.img_link}'); event.stopPropagation();" />
 											</div>
 										</c:if>
 									</div>
@@ -525,17 +525,20 @@
 
 
 	<!-- 모달 전체 화면 이미지 뷰어 -->
-	<div id="imageModal" class="modal"
-		style="display: none; position: fixed; z-index: 9998; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, .8); justify-content: center; align-items: center;">
-		<!-- 이전/다음/닫기 버튼 -->
-		<button type="button" id="galleryPrev" class="nav-btn prev"
-			style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); border: none; background: transparent; font-size: 42px; color: #fff; cursor: pointer;">‹</button>
-		<img id="modalImageTag"
-			style="max-width: 90%; max-height: 90%; border-radius: 10px;" />
-		<button type="button" id="galleryNext" class="nav-btn next"
-			style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); border: none; background: transparent; font-size: 42px; color: #fff; cursor: pointer;">›</button>
-		<button type="button" id="galleryClose"
-			style="position: absolute; top: 20px; right: 30px; border: none; background: none; font-size: 32px; color: #fff; cursor: pointer;">×</button>
+	<div id="imageModal" class="modal modal-overlay gallery">
+		<button type="button" id="galleryPrev" class="nav-btn prev">‹</button>
+		<img id="modalImageTag" class="modal-img" />
+		<button type="button" id="galleryNext" class="nav-btn next">›</button>
+		<button type="button" id="galleryClose" class="modal-close">×</button>
+	</div>
+
+	<!-- 리뷰 전용 모달 -->
+	<div id="reviewImageModal" class="modal modal-overlay review">
+		<button type="button" id="reviewPrev" class="nav-btn prev">‹</button>
+		<img id="reviewModalImg" class="modal-img" />
+		<button type="button" id="reviewNext" class="nav-btn next">›</button>
+		<!-- 닫기 버튼은 기존 JS 호환 위해 id 유지 -->
+		<button type="button" id="reviewModalClose" class="modal-close">×</button>
 	</div>
 
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>

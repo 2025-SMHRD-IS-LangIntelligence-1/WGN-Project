@@ -356,3 +356,59 @@ input:checked + .slider { background-color: #FFD600; }
 input:checked + .slider::before { transform: translateX(38px); }
 input:checked + .slider .label-off { opacity: 0; }
 input:checked + .slider .label-on  { opacity: 1; }
+
+/* ===========================
+   📌 게시중 모달
+=========================== */
+/* 전체 화면 오버레이 */
+.updating-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25); /* 더 투명하게 */
+  z-index: 11000;
+
+  display: none;            /* 기본 숨김 */
+  align-items: center;      /* 중앙 정렬 */
+  justify-content: center;  /* 중앙 정렬 */
+}
+
+/* 열릴 때만 보이기 */
+.updating-backdrop.is-open{
+  display: flex;
+}
+
+/* 가운데 작은 카드 */
+.updating-card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 180px;
+  padding: 16px 18px;
+  border-radius: 12px;
+
+  background: #ffffff;                        /* 카드 흰색 */
+  color: #111;                                /* 기본 글자색 검정 */
+  box-shadow: 0 12px 32px rgba(0,0,0,.25);
+  border: 1px solid rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+/* 로더(검정 계열) */
+.loader{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid rgba(0,0,0,0.18); /* 링 */
+  border-top-color: #111;             /* 회전 부분 진하게 */
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.updating-text{
+  margin: 0;
+  font-size: 14px;
+  color: #111; /* 검정 텍스트 */
+}

@@ -64,6 +64,34 @@ function submitButtonState() {
   $('.submit-btn').prop('disabled', !isAllValid);
 }
 
+/* ========== 게시 중 오버레이 제어 (#postingModal) ========== */
+function openPostingOverlay(message = '게시 중입니다...') {
+  const el = document.getElementById('postingModal');
+  if (!el) return;
+
+  // 텍스트 변경
+  const p = el.querySelector('p');
+  if (p) p.textContent = message;
+
+  // 확실히 가운데 보이도록 보정
+  el.style.display = 'flex';
+  el.style.position = 'fixed';
+  el.style.inset = '0';
+  el.style.alignItems = 'center';
+  el.style.justifyContent = 'center';
+  el.style.background = el.style.background || 'rgba(0,0,0,.85)';
+  el.style.zIndex = '11000';
+
+  document.body.style.overflow = 'hidden';
+}
+
+function closePostingOverlay() {
+  const el = document.getElementById('postingModal');
+  if (!el) return;
+  el.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
 // ===== 바인딩 =====
 $(function () {
   // 파일 선택(누적) & 미리보기
@@ -271,8 +299,9 @@ $(function () {
     });
   }
 
-  // 최종 제출 (저장 시점에만 #가게명 본문 맨 아래 자동 추가)
-  $('form').on('submit', function (e) {
+  // ===== 최종 제출 =====
+  // 중복 바인딩 방지
+  $(document).off('submit.addFeed').on('submit.addFeed', 'form', function (e) {
     const fileCount = allSelectedFiles.length; // 누적 기준
     let content = $('#feed_content').val().trim();
     const resIdx = $('#selectedResIdx').val().trim();
@@ -280,22 +309,11 @@ $(function () {
 
     let isValid = true;
 
-    if (fileCount === 0 || !fileValid) {
-      $('#fileError').show();
-      isValid = false;
-    }
-    if (content === '') {
-      $('#contentError').show();
-      isValid = false;
-    }
-    if (resIdx === '') {
-      $('#resError').show();
-      isValid = false;
-    }
-    if (!ratingChecked) {
-      $('#ratingError').show();
-      isValid = false;
-    }
+    if (fileCount === 0 || !fileValid) { $('#fileError').show(); isValid = false; }
+    if (content === '') { $('#contentError').show(); isValid = false; }
+    if (resIdx === '') { $('#resError').show(); isValid = false; }
+    if (!ratingChecked) { $('#ratingError').show(); isValid = false; }
+
     if (!isValid) {
       e.preventDefault();
       return;
@@ -316,7 +334,16 @@ $(function () {
     // input.files 최종 동기화
     syncInputFiles();
 
-    // 게시 중 모달 표시
-    $('#postingModal').fadeIn();
+    // ===== 오버레이 확실히 띄우고 페인트 후 제출 =====
+    e.preventDefault();                      // 기본 제출 잠시 차단
+    openPostingOverlay('게시 중입니다...');   // JSP의 #postingModal 사용
+
+    // 1 frame 정도 시간을 줘서 오버레이가 먼저 렌더되도록
+    requestAnimationFrame(() => {
+      setTimeout(() => this.submit(), 80);
+    });
   });
 });
+
+// 외부에서 닫을 일 있으면 사용
+window.closePostingOverlay = closePostingOverlay;
