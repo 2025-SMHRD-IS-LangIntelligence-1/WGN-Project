@@ -360,3 +360,25 @@
     updateButtonColor();
   });
 })();
+
+ /* ---- 프로필 이미지 전체보기!!! ---- */
+ document.addEventListener("DOMContentLoaded", () => {
+   const profileImg = document.querySelector(".profile-top img");
+   const modal     = document.getElementById("profileImgModal");
+   const modalImg  = document.getElementById("modalProfileImg");
+   const closeBtn  = modal.querySelector(".close-modal");
+
+   function openModal(src) {
+     modal.style.display = "flex";        // ✅ block이 아니라 flex
+     modalImg.src = src;
+     document.body.style.overflow = "hidden"; // 배경 스크롤 잠금(선택)
+   }
+   function closeModal() {
+     modal.style.display = "none";
+     document.body.style.overflow = "";
+   }
+
+   profileImg?.addEventListener("click", () => openModal(profileImg.src));
+   closeBtn?.addEventListener("click", closeModal);
+   modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+ });

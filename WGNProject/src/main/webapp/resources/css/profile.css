@@ -36,6 +36,7 @@
   height: 90px;
   border-radius: 50%;
   flex-shrink: 0;
+  object-fit: cover; /* 이미지 비율 유지 + 넘치는 부분 잘림 */
 }
 .profile-stats {
   display: flex;
@@ -333,3 +334,45 @@
 
 /* 팔로우 상태 버튼(예시) */
 .my-follow-btn.following { background: #eee; color: #333; }
+
+/* =========================================================
+   프로필 사진 모달
+========================================================= */
+/* 전체 화면 모달 배경 */
+.profile-img-modal {
+  /* 기본은 숨김, 열 때 JS에서 display:flex로 바꿉니다 */
+  display: none;
+  position: fixed;
+  inset: 0;                     /* top/left/right/bottom: 0 */
+  z-index: 9999;
+  background-color: rgba(0,0,0,0.8);
+
+  /* 중앙 정렬 */
+  align-items: center;
+  justify-content: center;
+
+  /* 여백/스크롤로 인한 밀림 방지 */
+  padding: 0;
+  overflow: hidden;
+}
+
+/* 닫기 버튼은 화면 우상단 고정 */
+.profile-img-modal .close-modal {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 모달 이미지 */
+.modal-content-img {
+  display: block;
+  max-width: 92vw;
+  max-height: 86vh;
+  border-radius: 12px;
+  object-fit: contain;  /* 비율 유지 */
+}

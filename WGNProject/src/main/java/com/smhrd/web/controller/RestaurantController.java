@@ -87,11 +87,10 @@ public class RestaurantController {
 		// 리뷰
 		List<ReviewDTO> res_review = reviewService.getResReview(res_idx);
 		model.addAttribute("res_review", res_review);
-
 		// 편의시설
 		List<t_convenience> res_con = resmapper.res_convenience(res_idx);
 		model.addAttribute("res_con", res_con);
-
+		
 		// 1. 영업시간 전체 조회
 		List<t_running_time> res_time = resmapper.res_running_time(res_idx);
 
@@ -117,7 +116,8 @@ public class RestaurantController {
 			model.addAttribute("todayTimes", todayTimes);
 			model.addAttribute("otherTimes", otherTimes);
 		}
-
+		
+		
 		// 메뉴
 		List<t_menu> res_menu = resmapper.res_menu(res_idx);
 		model.addAttribute("res_menu", res_menu);

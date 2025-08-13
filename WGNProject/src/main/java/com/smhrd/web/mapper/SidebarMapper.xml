@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.smhrd.web.mapper.SidebarMapper">
+
+	<!-- 내가 단 댓글 목록(최신순) -->
+	<select id="getMyComments" parameterType="string"
+		resultType="com.smhrd.web.dto.MycommentDTO">
+		SELECT
+		c.cmt_idx AS commentIdx,
+		c.feed_idx AS feedIdx,
+		c.mb_id AS mbId,
+		m.mb_nick AS mbNick,
+		m.mb_img AS mbImg,
+		c.cmt_content AS
+		content,
+		c.created_at AS createdAt,
+		(
+		SELECT i.feed_img_url
+		FROM
+		t_feed_img i
+		WHERE i.feed_idx = c.feed_idx
+		ORDER BY i.feed_img_idx ASC
+		LIMIT 1
+		) AS feedThumbnail,
+		fm.mb_nick AS feedMbNick,
+		fm.mb_img AS
+		feedMbImg,
+		f.feed_content AS feedContent
+		FROM t_comment c
+		JOIN t_member m
+		ON m.mb_id = c.mb_id
+		JOIN t_feed f ON f.feed_idx = c.feed_idx
+		JOIN
+		t_member fm ON fm.mb_id = f.mb_id
+		WHERE c.mb_id = #{mbId}
+		ORDER BY
+		c.created_at DESC
+	</select>
+
+
+	<select id="getMyReviews" parameterType="string"
+		resultType="com.smhrd.web.dto.MyreviewDTO">
+		SELECT
+		r.res_idx AS resIdx,
+		r.review_idx AS reviewIdx,
+		r.mb_id AS reviewMbId,
+
+		s.res_name AS res_name,
+
+
+		(
+		SELECT ri.res_img_url
+		FROM t_res_img ri
+		WHERE ri.res_idx = r.res_idx
+		ORDER BY ri.res_img_idx ASC
+		LIMIT 1
+		) AS mbImg,
+
+		r.img_link AS review_img,  
+
+		m.mb_nick AS reviewMbNick,
+		m.mb_img AS reviewMbImg,
+
+		r.review_content AS reviewContent,
+		r.ratings AS ratings,       
+		r.created_at AS createdAt
+		FROM t_review r
+		JOIN t_member m ON m.mb_id = r.mb_id
+		JOIN t_restaurant s ON s.res_idx = r.res_idx
+		WHERE r.mb_id = #{mbId}
+		ORDER BY r.created_at DESC
+	</select>
+
+	<delete id="deleteComments">
+		DELETE FROM t_comment
+		WHERE mb_id = #{mbId}
+		AND cmt_idx IN
+		<foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+
+	<delete id="deleteReviews">
+		DELETE FROM t_review
+		WHERE mb_id = #{mbId}
+		AND review_idx IN
+		<foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

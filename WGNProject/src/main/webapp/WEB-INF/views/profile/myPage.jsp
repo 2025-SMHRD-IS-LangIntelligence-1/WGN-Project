@@ -548,7 +548,11 @@
 		</div>
 	</div>
 
-
+	<!-- 프로필 이미지 풀스크린 모달 -->
+	<div id="profileImgModal" class="profile-img-modal">
+		<span class="close-modal">&times;</span> <img
+			class="modal-content-img" id="modalProfileImg">
+	</div>
 
 
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>

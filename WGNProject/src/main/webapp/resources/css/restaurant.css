@@ -1,4 +1,12 @@
 /* ==============================
+  하단 탭 잘리는거 방지
+============================== */
+
+#info-section.card-section {
+	padding-bottom: 80px;
+}
+
+/* ==============================
    이미지 영역: 대표 + 썸네일 + 확대
 ============================== */
 .image-grid {
@@ -190,6 +198,48 @@
 .icon-outline.text-warning { color: #ffc107; -webkit-text-stroke: 0; }
 .icon-outline.active { color: #ffc107; }
 
+/* 편의시설 그리드 */
+.amenity-grid{
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0,1fr)); /* 모바일 5열 */
+  gap: 16px 10px;
+  margin: 8px 0 2px;
+  padding: 0 4px;
+  list-style: none;
+}
+.amenity-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: #111827;
+  text-align: center;
+}
+.amenity-item i{
+  font-size: 26px;
+  line-height: 1;
+  color: #4b5563; /* 아이콘 컬러 */
+}
+.amenity-item .label{
+  font-size: 12px;
+  color: #374151;
+  line-height: 1.2;
+}
+.amenity-badge{
+  margin-top: 2px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: #eef2ff;
+  color: #4f46e5;
+  border: 1px solid #e0e7ff;
+}
+@media (min-width: 768px){
+  .amenity-grid{ grid-template-columns: repeat(8, minmax(0,1fr)); } /* 태블릿/PC */
+}
+
+
+
 /* ==============================
    탭 메뉴 스타일
 ============================== */
@@ -362,3 +412,5 @@ input:checked + .slider .label-on  { opacity: 1; }
 
 /* 유틸 */
 .d-none{ display:none !important; }
+
+

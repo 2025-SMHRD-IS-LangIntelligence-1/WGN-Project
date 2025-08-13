@@ -98,16 +98,19 @@
 			</h2>
 
 			<div>${res.res_addr}</div>
-			<div class="rating text-warning fw-bold">${res.wgn_ratings} (${review_count} 리뷰)</div>
+			<div class="rating text-warning fw-bold">${res.wgn_ratings}
+				(${review_count} 리뷰)</div>
 		</div>
 
 		<!-- 탭 -->
 		<div class="restaurant-tabs-wrapper">
 			<div class="restaurant-tabs" id="restaurantTabs">
 				<a href="#info-section" class="tab-link active">정보</a> <a
+					href="#amenity-section" class="tab-link">편의시설</a> <a
 					href="#menu-section" class="tab-link">메뉴</a> <a
 					href="#rating-section" class="tab-link">평점</a> <a
 					href="#review-section" class="tab-link">리뷰</a>
+
 			</div>
 		</div>
 
@@ -199,7 +202,129 @@
 				<div id="map-section" style="display: none;">
 					<div id="map" style="width: 100%; height: 400px; margin-top: 10px;"></div>
 				</div>
+
 			</div>
+			<!-- 편의시설 & 서비스 -->
+			<div class="card-section" id="amenity-section">
+				<h5 class="section-title">
+					편의시설 및 서비스 <span id="amenity-count" class="text-muted"
+						style="font-weight: 600;"></span>
+				</h5>
+
+				<ul class="amenity-grid">
+					<c:set var="seen" value="|" />
+					<!-- 중복 제거용 토큰 저장 -->
+					<c:forEach var="c" items="${res_con}">
+						<c:set var="token" value="|${c.res_con}|" />
+						<c:if test="${not fn:contains(seen, token)}">
+							<!-- 아이콘 매핑 -->
+							<c:set var="icon" value="bi-question-circle" />
+							<c:choose>
+								<c:when test="${c.res_con eq '콜키지 가능'}">
+									<c:set var="icon" value="bi-bottle" />
+								</c:when>
+								<c:when test="${c.res_con eq '단체 이용 가능'}">
+									<c:set var="icon" value="bi-people" />
+								</c:when>
+								<c:when test="${c.res_con eq '포장'}">
+									<c:set var="icon" value="bi-bag-check" />
+								</c:when>
+								<c:when test="${c.res_con eq '예약'}">
+									<c:set var="icon" value="bi-calendar-check" />
+								</c:when>
+								<c:when test="${c.res_con eq '남/녀 화장실 구분'}">
+									<c:set var="icon" value="bi-gender-ambiguous" />
+								</c:when>
+								<c:when test="${c.res_con eq '대기공간'}">
+									<c:set var="icon" value="bi-hourglass-split" />
+								</c:when>
+								<c:when test="${c.res_con eq '무선 인터넷'}">
+									<c:set var="icon" value="bi-wifi" />
+								</c:when>
+								<c:when test="${c.res_con eq '유아의자'}">
+									<c:set var="icon" value="bi-baby" />
+								</c:when>
+								<c:when test="${c.res_con eq '생일 혜택'}">
+									<c:set var="icon" value="bi-cake2" />
+								</c:when>
+								<c:when test="${c.res_con eq '반려동물 동반'}">
+									<c:set var="icon" value="bi-paw" />
+								</c:when>
+								<c:when test="${c.res_con eq '출입구 휠체어 이용가능'}">
+									<c:set var="icon" value="bi-person-wheelchair" />
+								</c:when>
+								<c:when test="${c.res_con eq '좌석 휠체어 이용가능'}">
+									<c:set var="icon" value="bi-chair" />
+								</c:when>
+								<c:when test="${c.res_con eq '배달'}">
+									<c:set var="icon" value="bi-truck" />
+								</c:when>
+								<c:when test="${c.res_con eq '유아시설 (놀이방)'}">
+									<c:set var="icon" value="bi-emoji-smile" />
+								</c:when>
+								<c:when test="${c.res_con eq '무한 리필'}">
+									<c:set var="icon" value="bi-arrow-repeat" />
+								</c:when>
+								<c:when test="${c.res_con eq '장애인 주차구역'}">
+									<c:set var="icon" value="bi-parking" />
+								</c:when>
+								<c:when test="${c.res_con eq '테이크아웃 할인'}">
+									<c:set var="icon" value="bi-percent" />
+								</c:when>
+								<c:when test="${c.res_con eq '비건 메뉴'}">
+									<c:set var="icon" value="bi-leaf" />
+								</c:when>
+								<c:when test="${c.res_con eq '유기농 메뉴'}">
+									<c:set var="icon" value="bi-flower1" />
+								</c:when>
+								<c:when test="${c.res_con eq '노키즈존'}">
+									<c:set var="icon" value="bi-ban" />
+								</c:when>
+								<c:when test="${c.res_con eq '방문접수/출장'}">
+									<c:set var="icon" value="bi-geo-alt" />
+								</c:when>
+								<c:when test="${c.res_con eq '화장실 휠체어 이용가능'}">
+									<c:set var="icon" value="bi-person-wheelchair" />
+								</c:when>
+								<c:when test="${c.res_con eq '핸드드립'}">
+									<c:set var="icon" value="bi-cup-hot" />
+								</c:when>
+								<c:when test="${c.res_con eq '로스터리'}">
+									<c:set var="icon" value="bi-fire" />
+								</c:when>
+								<c:when test="${c.res_con eq '와인 페어링'}">
+									<c:set var="icon" value="bi-wine" />
+								</c:when>
+								<c:when test="${c.res_con eq '전문 소믈리에'}">
+									<c:set var="icon" value="bi-award" />
+								</c:when>
+								<c:when test="${c.res_con eq '글루텐프리 메뉴'}">
+									<c:set var="icon" value="bi-heart" />
+								</c:when>
+								<c:when test="${c.res_con eq '드라이브스루'}">
+									<c:set var="icon" value="bi-car-front" />
+								</c:when>
+								<c:when test="${c.res_con eq '24시간'}">
+									<c:set var="icon" value="bi-clock-history" />
+								</c:when>
+							</c:choose>
+
+							<!-- 아이템 출력 -->
+							<li class="amenity-item"><i class="bi ${icon}"></i> <span
+								class="label">${c.res_con}</span> <!-- 예시: 콜키지에 '무료' 뱃지 표시 (데이터에 요금 정보가 없으면 이 줄은 빼도 됨) -->
+								<c:if test="${c.res_con eq '콜키지 가능'}">
+									<span class="amenity-badge">무료</span>
+								</c:if></li>
+
+							<!-- 봤던 항목 기록 -->
+							<c:set var="seen" value="${seen}${token}" />
+						</c:if>
+					</c:forEach>
+				</ul>
+			</div>
+
+
+
 			<!-- 메뉴 섹션 -->
 
 			<div class="card-section" id="menu-section">
@@ -581,7 +706,7 @@
 		var reslon = "${res.lon}";
 		let res_idx = "${res.res_idx}";
 		console.log(res_idx);
-		let mb_id = "${sessionScope.member.mb_id}";
+		if (typeof window.mb_id === 'undefined')       window.mb_id       = "${sessionScope.member != null ? sessionScope.member.mb_id : ''}";
 	</script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/restaurant.js">
