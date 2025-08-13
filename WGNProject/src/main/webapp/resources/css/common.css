@@ -9,7 +9,7 @@ body, html {
 	justify-content: center;
 	align-items: flex-start;
 	min-height: 100vh;
-	padding-bottom: 80px;
+
 	/* 추가 또는 수정 */
 	width: 100%;
 	max-width: 520px;
@@ -20,6 +20,7 @@ body, html {
 /*컨텐츠*/
 .content {
 	padding-top: 60px;
+	padding-bottom: 80px;
 }
 
 /*모바일 앱 규격*/

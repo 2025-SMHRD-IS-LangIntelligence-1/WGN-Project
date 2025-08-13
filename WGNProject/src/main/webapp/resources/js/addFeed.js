@@ -347,3 +347,7 @@ $(function () {
 
 // 외부에서 닫을 일 있으면 사용
 window.closePostingOverlay = closePostingOverlay;
+
+document.querySelector('.close-btn').addEventListener('click', function() {
+    window.location.href = '/wgn';
+});
