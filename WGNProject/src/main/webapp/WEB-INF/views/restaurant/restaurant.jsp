@@ -28,17 +28,48 @@
 	<div class="mobile-container">
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 
-
 		<!-- 이미지 영역 -->
 		<div class="image-grid">
+			<!-- 메인 -->
 			<div class="main-image"
-				style="background-image: url('${res_main_img.res_img_url}');"
+				style="background-image:url('${res_main_img.res_img_url}');"
 				data-url="${res_main_img.res_img_url}"></div>
+
+			<!-- 서브 -->
 			<div class="sub-images">
-				<c:forEach var="img" items="${res_sub_img_list}" varStatus="status">
-					<div class="sub-image"
-						style="background-image: url('${img.res_img_url}');"
-						data-url="${img.res_img_url}"></div>
+				<%-- 전체 서브 이미지 수 --%>
+				<c:set var="subCount" value="${fn:length(res_sub_img_list)}" />
+
+				<c:forEach var="img" items="${res_sub_img_list}" varStatus="s">
+					<c:choose>
+
+						<%-- 앞의 2장만 화면에 노출 --%>
+						<c:when test="${s.index lt 2}">
+							<div class="sub-image"
+								style="background-image:url('${img.res_img_url}');"
+								data-url="${img.res_img_url}">
+								<%-- 두 번째 칸이고, 남은 이미지가 있으면 오버레이 +N/999+ 표시 --%>
+								<c:if test="${s.index == 1 and subCount > 2}">
+									<div class="more-overlay">
+										<i class="bi bi-image" aria-hidden="true"></i> <span
+											class="more-count"> <c:choose>
+												<c:when test="${(subCount - 2) gt 999}">999+</c:when>
+												<c:otherwise>+${subCount - 2}</c:otherwise>
+											</c:choose>
+										</span>
+									</div>
+								</c:if>
+							</div>
+						</c:when>
+
+						<%-- 나머지는 DOM에는 남겨서 갤러리에서 볼 수 있게 하되 화면에는 숨김 --%>
+						<c:otherwise>
+							<div class="sub-image d-none"
+								style="background-image:url('${img.res_img_url}');"
+								data-url="${img.res_img_url}"></div>
+						</c:otherwise>
+
+					</c:choose>
 				</c:forEach>
 			</div>
 		</div>

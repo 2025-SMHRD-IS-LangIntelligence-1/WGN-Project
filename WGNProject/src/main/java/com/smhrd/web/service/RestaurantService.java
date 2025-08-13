@@ -12,5 +12,7 @@ public interface RestaurantService {
 	public RestaurantDTO getByResIdx(int res_idx);
 	
 	public void updateRecord(int res_idx);
+
+	public void deleteimg(List<String> urls);
 	
 }

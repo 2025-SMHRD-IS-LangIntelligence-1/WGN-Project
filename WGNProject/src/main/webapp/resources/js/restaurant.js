@@ -60,8 +60,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function extractUrl(el) {
     if (!el) return '';
-    if (el.tagName?.toLowerCase() === 'img' && el.src) return el.src;
-    const bg = getComputedStyle(el).backgroundImage; // url("...")
+    if (el.dataset && el.dataset.url) return el.dataset.url; // ← 우선 사용
+    if (el.tagName && el.tagName.toLowerCase() === 'img' && el.src) return el.src;
+    const bg = getComputedStyle(el).backgroundImage;
     if (!bg || bg === 'none') return '';
     const m = bg.match(/url\((['"]?)(.*?)\1\)/i);
     return m ? m[2] : '';

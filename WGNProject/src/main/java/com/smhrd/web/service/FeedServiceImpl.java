@@ -17,6 +17,7 @@ import com.smhrd.web.entity.t_comment;
 import com.smhrd.web.entity.t_feed;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.mapper.FeedMapper;
+import com.smhrd.web.mapper.RestaurantMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +27,8 @@ public class FeedServiceImpl implements FeedService {
 
 	@Autowired
 	FeedMapper feedMapper;
+	@Autowired
+	RestaurantMapper restaurantMapper;
 	@Autowired
 	CloudinaryService cloudinaryService;
 	@Autowired
@@ -65,8 +68,10 @@ public class FeedServiceImpl implements FeedService {
 		System.out.println("클라우디너리에서 반환된 이미지 URL 수: " + imgUrls.size());
 		feedMapper.saveFeedImg(feed_idx, imgUrls);
 		
+		restaurantMapper.updateFeedImg(res_idx, imgUrls);
 		// 레스토랑 최근 업데이트 시점 변경
 		restaurantService.updateRecord(res_idx);
+		
 	}
 
 	@Override

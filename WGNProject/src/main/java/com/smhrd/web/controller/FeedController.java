@@ -204,7 +204,7 @@ public class FeedController {
 	        RedirectAttributes ra
 	) {
 		
-	    System.out.println("=== [UPDATE FEED] 요청 들어옴 ===");
+	   
 	    System.out.println("feed_idx       = " + feedIdx);
 	    System.out.println("feed_content   = " + (feedContent!=null ? feedContent.substring(0, Math.min(60, feedContent.length())) : "null"));
 	    System.out.println("ratings        = " + ratings);
@@ -302,7 +302,9 @@ public class FeedController {
 			String publicId = cloudinaryService.extractPublicId(url);
 			cloudinaryService.deleteFile(publicId);
 		}
-
+		
+		restaurantService.deleteimg(urls);
+		
 		// DB에서 피드 삭제
 		feedService.deleteFeed(feed_idx);
 

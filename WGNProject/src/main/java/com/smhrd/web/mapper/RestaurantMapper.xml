@@ -12,19 +12,23 @@
 		ri.res_img_url AS res_thumbnail,
 		res_ratings
 		FROM t_restaurant r
-		LEFT JOIN t_res_img ri ON
+		LEFT
+		JOIN t_res_img ri ON
 		r.res_idx =
 		ri.res_idx
 		AND ri.res_img_idx = (
-		SELECT MIN(res_img_idx)
+		SELECT
+		MIN(res_img_idx)
 		FROM t_res_img
 		WHERE res_idx = r.res_idx
 		)
-		LEFT JOIN t_review rv ON rv.res_idx =
+		LEFT JOIN
+		t_review rv ON rv.res_idx =
 		r.res_idx
 		where r.res_idx =
 		#{res_idx}
-		GROUP BY r.res_idx, r.res_name,
+		GROUP
+		BY r.res_idx, r.res_name,
 		r.res_addr, ri.res_img_url
 	</select>
 
@@ -124,6 +128,28 @@
 		ORDER BY g.created_at DESC
 	</select>
 
+	<insert id="updateFeedImg">
+		INSERT INTO t_res_img (res_idx, res_img_url)
+		VALUES
+		<foreach collection="imgUrls" item="url" separator=",">
+			(#{res_idx}, #{url})
+		</foreach>
+	</insert>
 
+	<delete id="deleteimg">
+		DELETE FROM t_res_img
+		WHERE res_img_url IN
+		<foreach collection="urls" item="u" open="(" separator=","
+			close=")">
+			#{u}
+		</foreach>
+	</delete>
+	
+	<insert id="insertrivewimg">
+		INSERT INTO t_res_img (res_idx, res_img_url)
+		
+		VALUES (#{res_idx}, #{img})
+
+	</insert>
 
 </mapper>
