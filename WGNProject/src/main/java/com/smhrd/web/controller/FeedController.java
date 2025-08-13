@@ -2,10 +2,8 @@ package com.smhrd.web.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import org.apache.hc.core5.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -338,16 +335,26 @@ public class FeedController {
 	@ResponseBody
 	public int addFeedLike(@RequestBody int feed_idx, HttpSession session) {
 
+		
 		// 세션에서 로그인 유저 꺼냄
 		t_member logined = (t_member) session.getAttribute("member");
 		String mb_id = logined.getMb_id();
+		
+		System.out.println("세션에서 로그인 유저 꺼냄" + mb_id);
 
 		// 해당 피드 정보 불러오기
 		FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feed_idx);
 		int res_idx = feed.getRes_idx();
+		
+		System.out.println("피드 정보 불러옴" + res_idx);
 
 		int feedLikeNum = feedService.addFeedLike(feed_idx, mb_id);
+		
+		System.out.println("좋아요 저장 성공" + feedLikeNum);
+		
 		memberService.saveLog(mb_id, res_idx, "좋아요");
+	
+		
 		return feedLikeNum;
 	}
 
