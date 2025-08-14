@@ -1,6 +1,7 @@
 package com.smhrd.web.service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,21 +71,31 @@ public class WordcloudService {
     @Scheduled(fixedRate = 60 * 60 * 1000)
     public void updateScheduler() {
     	
-    	 System.out.println("스케줄러 실행중! " + System.currentTimeMillis());
+    	LocalDateTime now = LocalDateTime.now();
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedNow = now.format(formatter);
+    	
+    	System.out.println("스케줄러 실행중! " + formattedNow);
     	
         // 최근 1시간 동안 리뷰/피드가 변경된 음식점 idx 가져오기
     	LocalDateTime time = LocalDateTime.now().minusHours(1);
     	List<Integer> updateList = restaurantMapper.findRecentlyUpdated(time);
 
+    	int successCount=0;
+    	
         for (int res_idx : updateList) {
             try {
                 // 워드클라우드 생성 요청 & DB 업데이트
                 this.updateWordCloud(res_idx);
+                successCount += 1;
             } catch (Exception e) {
                 // 에러 로그 기록 후 다음 음식점 계속 처리
                 System.err.println("워드클라우드 업데이트 실패 resId=" + res_idx + ", error=" + e.getMessage());
             }
         }
+        
+        System.out.println("스케줄러 실행 종료! 데이터가 변경된 음식점 수 : " + successCount);
+        
     }
     
     public void updateEmpty() {

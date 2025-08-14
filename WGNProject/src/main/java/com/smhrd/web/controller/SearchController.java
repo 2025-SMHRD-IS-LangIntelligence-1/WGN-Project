@@ -108,7 +108,7 @@ public class SearchController {
 	
 	@GetMapping("/res")
 	@ResponseBody
-	public List<RestaurantDTO> getRecommendedRes(@RequestParam String query) {
+	public List<RestaurantDTO> getRecommendedRes(@RequestParam String query, HttpSession session) {
 		
 	    System.out.println("getRecommendedRes 실행, query: " + query);
 	    List<Integer> resIdxList = recommendationService.sendQuery(query);
@@ -117,6 +117,14 @@ public class SearchController {
 	    for (int resIdx : resIdxList) {
 	    	RestaurantDTO res = restaurantService.getByResIdx(resIdx);
 	    	resList.add(res);
+	    }
+	    
+	    t_member member = (t_member) session.getAttribute("member");
+	    String mb_id = member.getMb_id();
+	    
+	    // 검색 로그 저장
+	    if (mb_id != null) {
+	    	memberService.saveLog(mb_id, resIdxList.get(0), "검색");
 	    }
 	    
 	    return resList;

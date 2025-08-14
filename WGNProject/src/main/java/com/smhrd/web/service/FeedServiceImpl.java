@@ -68,6 +68,7 @@ public class FeedServiceImpl implements FeedService {
 		feedMapper.saveFeedImg(feed_idx, imgUrls);
 		
 		restaurantMapper.updateFeedImg(res_idx, imgUrls);
+		
 		// 레스토랑 최근 업데이트 시점 변경
 		restaurantService.updateRecord(res_idx);
 		

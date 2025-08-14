@@ -79,6 +79,7 @@ public class ReviewController {
 	    	favoriteService.insertFavorite(favorite);
 	    }
 
+	    restaurantmapper.updateRecord(res_idx);
 		
 		return "redirect:/restaurant?res_idx="+review.getRes_idx();
 	}
