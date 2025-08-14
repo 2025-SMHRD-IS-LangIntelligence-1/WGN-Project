@@ -57,7 +57,12 @@ public interface MemberMapper {
 	@Select("SELECT * FROM t_member WHERE mb_id LIKE CONCAT('%', #{keyword}, '%') OR mb_nick LIKE CONCAT('%', #{keyword}, '%')")
 	List<t_member> searchByIdOrNick(@Param("keyword") String keyword);
 
-	@Select("select following_id from t_follow where follower_id = \"hyereams\";")
+	// mb_id가 팔로우하고 있는 모든 아이디를 구하는 메서드
+	@Select("select following_id from t_follow where follower_id = #{mb_id}")
 	List<String> getAllfollowMem(String mb_id);
+
+	// mb_id를 팔로우 하고 있는 모든 아이디를 구하는 메서드
+	@Select("select follower_id from t_follow where following_id = #{mb_id}")
+	List<String> getAllfollowingMem(String mb_id);
 
 }

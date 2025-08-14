@@ -20,8 +20,8 @@
 
 	<div class="mobile-container">
 		<div class="content">
-			<form action="<c:url value='/feed/upload'/>"
-      method="post" enctype="multipart/form-data">
+			<form action="<c:url value='/feed/upload'/>" method="post"
+				enctype="multipart/form-data">
 				<div class="add-box">
 					<!-- 상단 닫기 및 제출 버튼 -->
 					<div class="add-box-header">
@@ -29,27 +29,29 @@
 						<button class="submit-btn" type="submit" disabled>게시하기</button>
 					</div>
 
-					<!-- 파일 업로드 영역 -->
-					<div class="upload-wrapper">
 
-						<!-- 업로드 버튼 영역 -->
-						<div class="upload-box-container">
-							<label for="file-upload" class="upload-box"> <i
-								class="bi bi-camera"></i> <span>사진/영상</span>
-							</label> <input type="file" name="files" id="file-upload"
-								class="file-upload" accept="image/*" hidden multiple>
+               <!-- 파일 업로드 영역 -->
+               <div class="upload-wrapper">
+                  <!-- 업로드 버튼 영역 -->
+                  <div class="upload-box-container">
+                     <label for="file-upload" class="upload-box"> <i
+                        class="bi bi-camera"></i> <span>사진</span>
+                     </label> <input type="file" name="files" id="file-upload"
+                        class="file-upload" accept="image/*" hidden multiple>
+                  </div>
+                     <!-- 안내 문구 -->
+                     <p class="upload-limit-text">최대 5장까지 업로드할 수 있습니다.</p>
 
-							<!-- 안내 문구 추가 -->
-							<p class="upload-limit-text">최대 5장까지 업로드할 수 있습니다.</p>
-						</div>
-
-						<!-- 미리보기 썸네일은 옆에 유지 -->
+						<!-- 프리뷰 -->
 						<div id="preview-container" class="preview-container"></div>
+
+
+						<!-- 에러 메시지 -->
+						<span id="fileError" class="text-danger"
+							style="display: none; font-size: 13px;">사진을 선택해주세요.</span>
 					</div>
 
-					<!-- 에러 메시지 -->
-					<span id="fileError" class="text-danger"
-						style="display: none; font-size: 13px;">사진을 선택해주세요.</span>
+
 
 					<!-- 피드 내용 입력 -->
 					<textarea name="feed_content" id="feed_content" class="desc-text"
@@ -71,7 +73,7 @@
 							name="ratings" value="3" /> <label for="star3" title="3 stars">★</label>
 						<input type="radio" id="star2" name="ratings" value="2" /> <label
 							for="star2" title="2 stars">★</label> <input type="radio"
-							id="star1" name="rating" value="1" /> <label for="star1"
+							id="star1" name="ratings" value="1" /> <label for="star1"
 							title="1 star">★</label>
 					</div>
 				</div>
@@ -98,7 +100,7 @@
 							등록한 음식점입니다.</span>
 					</div>
 				</div>
-		</div>
+	
 		<!-- 음식점 검색 -->
 		<input type="text" class="search_input" placeholder="음식점을 입력하세요">
 		<input type="hidden" name="res_idx" id="selectedResIdx"> <span
@@ -109,12 +111,12 @@
 		</form>
 	</div>
 	</div>
-
+</div>
 	<!-- 게시 중 모달 -->
-	<div id="postingModal" class="modal-backdrop" style="display: none;">
-		<div class="modal-content">
+	<div id="postingModal" class="updating-backdrop" style="display: none;">
+		<div class="updating-card">
 			<span class="loader"></span>
-			<p>게시 중입니다...</p>
+			<p class="updating-text">게시 중입니다...</p>
 		</div>
 	</div>
 

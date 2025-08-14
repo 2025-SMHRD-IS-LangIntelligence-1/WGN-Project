@@ -1,38 +1,43 @@
-/* 모달이 백드롭보다 항상 위로 */
+@charset "UTF-8";
+
+/* =========================================================
+   공통: 모달 z-index (Bootstrap 백드롭 위로)
+   - Bootstrap 모달은 .modal / .modal-backdrop 사용
+   - 여기선 z-index만 살짝 조정(기본: 1055/1050)
+========================================================= */
 .modal { z-index: 1060 !important; }
 .modal-backdrop.show { z-index: 1055 !important; }
 
-/* 프로필 전체 */
+/* =========================================================
+   프로필 레이아웃
+========================================================= */
 .profile {
   padding: 20px 15px 10px;
+  display: grid;
+  grid-template-columns: 1fr auto; /* 왼쪽 가변 / 오른쪽 버튼 고정 */
+  grid-auto-rows: auto;
+  row-gap: 0;
+  background: #fff;
 }
 
-/* 프로필 상단 한 줄 */
+/* 상단 사진 + 통계 줄은 전체 폭 사용 */
+.profile-top, .profile-divider, .profile-tabs, #posts-section, #map-section {
+  grid-column: 1/-1;
+}
+
+/* 상단: 사진 + 통계 */
 .profile-top {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 20px;
 }
-
-/* 프로필 사진 */
 .profile-top img {
   width: 90px;
   height: 90px;
   border-radius: 50%;
   flex-shrink: 0;
+  object-fit: cover; /* 이미지 비율 유지 + 넘치는 부분 잘림 */
 }
-
-.ranking-tabs {
-    background: #fff;
-    border-top: 1px solid #ddd;
-}
-.list-group-item {
-    border: none;
-    border-bottom: 1px solid #eee;
-}
-
-/* 통계 컨테이너 */
 .profile-stats {
   display: flex;
   justify-content: space-around;
@@ -43,8 +48,9 @@
 .profile-divider {
   border: none;
   border-top: 1px solid #ddd; /* 얇은 회색 라인 */
-  margin: 15px 0;            /* 위 아래 여백 */
+  margin: 15px 0; /* 위 아래 여백 */
 }
+
 /* 탭 컨테이너 */
 .profile-tabs {
   display: flex;
@@ -67,381 +73,306 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: color .2s, border-bottom .2s;
 }
-
-/* 아이콘 */
 .profile-tabs .tab i {
   font-size: 18px;
   margin-bottom: 4px;
 }
-
-/* 활성화된 탭 */
 .profile-tabs .tab.active {
   color: #f4b400; /* 노란색 */
   border-bottom: 2px solid #f4b400;
 }
 
 /* 각 통계 */
-.profile-stat {
-  text-align: center;
-  flex: 1;
-}
-.profile-stat strong {
-  display: block;
-  font-size: 18px;
-  font-weight: bold;
-}
-.profile-stat span {
-  font-size: 13px;
-  color: #555;
-}
+.profile-stat { text-align: center; flex: 1; }
+.profile-stat strong { display: block; font-size: 18px; font-weight: 700; }
+.profile-stat span { font-size: 13px; color: #555; }
 
 /* 닉네임 / 소개 */
-.profile-info {
-  margin-top: 12px;/* 프로필 전체 */
-.profile {
-  padding: 20px 15px 10px;
-  background: #fff;
+.profile-info { margin-top: 12px; padding: 0 15px 0; background: #fff; }
+.profile-info h5 { font-weight: 700; margin: 0 0 6px; }
+.profile-info p { margin: 0; font-size: 14px; color: #333; }
+
+/* 버튼 영역 (오른쪽 컬럼) */
+.profile .profile-info:first-of-type { grid-column: 1/2; margin-top: 12px; }
+.profile .profile-info:first-of-type + .profile-info {
+  grid-column: 2/3;
+  align-self: start;
+  margin: 12px 0 0;
+  padding: 0;
+  background: transparent;
+}
+.profile .profile-info:first-of-type + .profile-info .btn-wrapper,
+.profile .profile-info:first-of-type + .profile-info form { margin: 0; }
+
+/* 이름/버튼 줄 맞춤 */
+.name-and-action { display: flex; align-items: center; gap: 8px; width: 100%; }
+.name-and-action .action { margin-left: auto; }
+
+/* Bootstrap 탭 색상 통일 */
+/* 랭킹/찜 탭 텍스트 색상 */
+.nav-link[data-bs-target="#rank-content"],
+.nav-link[data-bs-target="#wish-content"]{
+  color: #000 !important;        /* 기본: 검정 */
 }
 
-/* 프로필 상단 한 줄 */
-.profile-top {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 20px;
+.nav-link.active[data-bs-target="#rank-content"],
+.nav-link.active[data-bs-target="#wish-content"]{
+  color: #FFC107 !important;     /* 활성: 노란색 */
 }
 
-/* 프로필 사진 */
-.profile-top img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-/* 통계 컨테이너 */
-.profile-stats {
-  display: flex;
-  justify-content: space-around;
-  flex-grow: 1;
-}
-
-/* 상단 프로필과 소개글 구분선 */
-.profile-divider {
-  border: none;
-  border-top: 1px solid #ddd;
-  margin: 15px 0;
-}
-
-/* 탭 컨테이너 */
-.profile-tabs {
-  display: flex;
-  justify-content: space-around;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-  margin-bottom: 10px;
-}
-
-/* 각 탭 */
-.profile-tabs .tab {
-  flex: 1;
-  text-align: center;
-  padding: 10px 0;
-  text-decoration: none;
-  color: #555;
-  font-weight: bold;
-  font-size: 13px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: color 0.2s, border-bottom 0.2s;
-}
-
-/* 아이콘 */
-.profile-tabs .tab i {
-  font-size: 18px;
-  margin-bottom: 4px;
-}
-
-/* 활성화된 탭 */
-.profile-tabs .tab.active {
-  color: #f4b400; /* 노란색 */
-  border-bottom: 2px solid #f4b400;
-}
-
-/* 각 통계 */
-.profile-stat {
-  text-align: center;
-  flex: 1;
-}
-.profile-stat strong {
-  display: block;
-  font-size: 18px;
-  font-weight: bold;
-}
-.profile-stat span {
-  font-size: 13px;
-  color: #555;
-}
-
-/* 닉네임 / 소개 */
-.profile-info {
-  margin-top: 12px;
-}
-.profile-info h5 {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-.profile-info p {
-  margin: 0;
-  font-size: 14px;
-}
-
-#map-section {
-  padding: 10px;
-}
-
-
-  
-}
-.profile-info h5 {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-.profile-info p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.grid-feed {
-  padding: 0 10px; /* 좌우 여백 10px */
-}
-
+/* =========================================================
+   게시글 썸네일 그리드
+========================================================= */
+.grid-feed { padding: 0 10px; }
 .image-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3열 */
-  gap: 5px; /* 셀 사이 간격 */
-  padding: 5px; /* 전체 좌우 여백 */
-  background-color: #fff;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 5px; padding: 5px; background: #fff;
 }
-
-.image-grid .cell {
-  border: 1px solid #ddd; /* 옅은 회색 테두리 */
-  background-color: #fff;
-}
-
+.image-grid .cell { border: 1px solid #ddd; background: #fff; }
 .image-grid .cell img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  display: block;
+  width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;
 }
 
+/* =========================================================
+   지도 섹션
+========================================================= */
+#map-section { padding: 10px; }
+.ranking-tabs { background: #fff; border-top: 1px solid #ddd; }
+.list-group-item { border: 0; border-bottom: 1px solid #eee; }
 
-/* 모달 창 */
+/* =========================================================
+   팔로워/팔로잉 리스트 (공통 아이템)
+========================================================= */
+.member-header {
+  padding: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background .2s;
+  cursor: pointer;
+}
+.member-header:hover { background: #f5f5f5; }
 
-/* 모달 기본 스타일 */
-.modal {
-  display: none; /* 기본 숨김 */
+.feed-member { display: flex; align-items: center; gap: 12px; }
+.feed-member img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+.member-info { display: flex; flex-direction: column; flex: 1; }
+.member-info b { font-size: 16px; color: #333; }
+.member-info span { line-height: 1.3; }
+
+/* =========================================================
+   커스텀(비-Bootstrap) 모달 ONLY
+   - Bootstrap .modal/.modal-content은 건드리지 않음
+   - 대상: #profileModal, #followModal, #followerModal, #followingModal
+   - 세로/가로 정중앙 정렬
+========================================================= */
+#profileModal,
+#followModal,
+#followerModal,
+#followingModal {
+  display: none;                 /* JS에서 block으로 열기 */
   position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto; /* 필요시 스크롤 */
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  inset: 0;
+  z-index: 1040;                 /* Bootstrap 모달(1060)보다 낮게 */
+  background: rgba(0,0,0,.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
-/* 모달 콘텐츠 박스 */
-.modal-content {
-  background-color: #fff;
-  margin: 10% auto; /* 상단에서 띄우기 */
-  padding: 20px 30px;
-  border-radius: 12px;
-  width: 400px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  position: relative;
-}
-
-/* 닫기 버튼 */
-.close {
+/* 컨텐츠 박스: transform으로 화면 중앙 정렬 */
+#profileModal .modal-content,
+#followModal .modal-content,
+#followerModal .modal-content,
+#followingModal .modal-content {
   position: absolute;
-  right: 15px;
-  top: 15px;
-  font-size: 28px;
-  font-weight: bold;
-  color: #999;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-.close:hover {
-  color: #333;
-}
-
-/* 폼 내부 요소 기본 스타일 */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-/* 라벨 */
-form label {
-  font-weight: 600;
-  color: #444;
-}
-
-/* 텍스트, 파일 인풋 */
-form input[type="text"],
-form input[type="file"],
-form textarea {
-  padding: 10px 12px;
-  border: 1.5px solid #ccc;
-  border-radius: 8px;
-  font-size: 15px;
-  transition: border-color 0.3s ease;
-  resize: vertical;
-}
-
-form input[type="text"]:focus,
-form input[type="file"]:focus,
-form textarea:focus {
-  outline: none;
-  border-color: #4a90e2;
-  box-shadow: 0 0 6px rgba(74, 144, 226, 0.5);
-}
-
-/* 텍스트에어리어 높이 조절 */
-form textarea {
-  min-height: 80px;
-}
-
-/* 저장 버튼 */
-#submitBtn {
-  background-color: black;
-  color: white;
-  font-weight: 700;
-  padding: 12px 0;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.25s ease;
-}
-
-/* 랭킹, 찜 탭 터치 엑티브*/
-.nav-link.active {
-    color: #ffc107 !important; /* Bootstrap 노란색 */
-}
-
-/* 비활성화된 탭은 기본 색상 */
-.nav-link {
-    color: inherit; /* 기본 글씨색 유지 */
-}
-
-/*//////////////////////////////////
-	내 랭킹 수정하기!!!!!
-/////////////////////////////////////////*/
-/* 기본 상태: 노란색 테두리 + 글씨 */
-#sortToggleBtn {
-  background-color: #ffc107;
-  color: black;
-  border-color: #ffc107;
-  borer: 1px;
-}
-
-#saveRankOrderBtn{
-  background-color: #ffc107;
-  color: #fff;
-  border-color: #ffc107;
-}
-/* 모달 안에서 리스트만 스크롤 */
-.rank-scroll-wrap {
-  max-height: min(65vh, 560px); 
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;                     /* margin 정렬 제거 */
+  background: #fff !important;
+  width: 400px;
+  max-width: calc(100% - 32px);
+  max-height: 80vh;
   overflow-y: auto;
-  overscroll-behavior: contain; 
-  padding-right: 4px; 
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15);
 }
 
-/* 보기 좋은 구분선 */
-#sortableRankList .list-group-item + .list-group-item {
-  border-top: 0;
-  border-bottom: 1px solid #eee;
+/* 닫기 버튼 (커스텀 모달) */
+#profileModal .close,
+#followModal .close,
+#followerModal .close,
+#followingModal .close {
+  position: absolute; top: 10px; right: 15px;
+  font-size: 24px; font-weight: 700; color: #888;
+  cursor: pointer; user-select: none; transition: color .3s;
+}
+#profileModal .close:hover,
+#followModal .close:hover,
+#followerModal .close:hover,
+#followingModal .close:hover { color: #333; }
+
+/* followModal 내부 탭(필요시 조절) */
+#followModal .tab-buttons { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 2px solid #eee; }
+#followModal .tab-btn {
+  flex: 1; padding: 12px 0; background: none; border: none; border-bottom: 3px solid transparent;
+  font-weight: 600; font-size: 15px; color: #ffc107; cursor: pointer; transition: all .3s;
+  border-radius: 4px 4px 0 0; text-align: center; user-select: none; min-width: 0;
+}
+#followModal .tab-btn.active { color: #ffc107; border-bottom-color: #ffc107; font-weight: 700; background-color: #fff; }
+#followModal .tab-content {
+  border: 1px solid #eee; border-radius: 0 16px 16px 16px; padding: 16px 20px;
+  background: #fff; max-height: 50vh; overflow-y: auto; box-shadow: inset 0 0 8px rgba(0,0,0,.03);
 }
 
-/* 모달 리스트만 스크롤 */
+/* profileModal 폼 공통 */
+#profileModal form { display: flex; flex-direction: column; gap: 15px; }
+#profileModal label { font-weight: 600; color: #444; }
+#profileModal input[type="text"],
+#profileModal input[type="file"],
+#profileModal textarea {
+  padding: 10px 12px;
+  border: 1.5px solid #ccc; border-radius: 8px; font-size: 15px; transition: border-color .3s; resize: vertical;
+}
+#profileModal input[type="text"]:focus,
+#profileModal input[type="file"]:focus,
+#profileModal textarea:focus {
+  outline: none; border-color: #4a90e2; box-shadow: 0 0 6px rgba(74,144,226,.5);
+}
+#profileModal textarea { min-height: 80px; }
+#submitBtn {
+  background: #000; color: #fff; font-weight: 700; padding: 12px 0;
+  border: 0; border-radius: 10px; font-size: 16px; cursor: pointer; transition: background-color .25s;
+}
+
+/* =========================================================
+   내 랭킹 수정(정렬) 모달 (Bootstrap 모달)
+========================================================= */
+#sortToggleBtn { background: #ffc107; color: #000; border: 1px solid #ffc107; font-weight: bold; }
+#saveRankOrderBtn { background: #ffc107; color: #fff; border: 1px solid #ffc107; }
+
+/* 모달 내부 리스트 스크롤 */
 .rank-scroll-wrap {
   max-height: min(65vh, 560px);
-  overflow-y: auto;
+  overflow-y: auto;/* 전체 화면 오버레이 */
+.updating-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25); /* 더 투명하게 */
+  z-index: 11000;
+
+  display: none;            /* 기본 숨김 */
+  align-items: center;      /* 중앙 정렬 */
+  justify-content: center;  /* 중앙 정렬 */
+}
+
+/* 열릴 때만 보이기 */
+.updating-backdrop.is-open{
+  display: flex;
+}
+
+/* 가운데 작은 카드 */
+.updating-card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 180px;
+  padding: 16px 18px;
+  border-radius: 12px;
+
+  background: #ffffff;                        /* 카드 흰색 */
+  color: #111;                                /* 기본 글자색 검정 */
+  box-shadow: 0 12px 32px rgba(0,0,0,.25);
+  border: 1px solid rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+/* 로더(검정 계열) */
+.loader{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid rgba(0,0,0,0.18); /* 링 */
+  border-top-color: #111;             /* 회전 부분 진하게 */
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.updating-text{
+  margin: 0;
+  font-size: 14px;
+  color: #111; /* 검정 텍스트 */
+}
+  
   overscroll-behavior: contain;
   padding-right: 4px;
 }
 
-/* 간격 촘촘하게 */
+/* 아이템 라인/간격 */
+#sortableRankList .list-group-item + .list-group-item { border-top: 0; border-bottom: 1px solid #eee; }
 #sortableRankList .compact-item {
-  padding: 5px 8px;      
-  border: 0;
-  border-bottom: 1px solid #eee;
+  padding: 5px 8px; border: 0; border-bottom: 1px solid #eee;
 }
-
-#sortableRankList .compact-item .title {
-  line-height: 1.1;
-  margin-bottom: 2px;
-}
-
-#sortableRankList .compact-item .addr {
-  line-height: 1.1;
-}
-
-/* 썸네일 크기 축소 */
-#sortableRankList .thumb {
-  width: 50px;               /* 원하는 고정 가로 */
-  height: 50px;              /* 원하는 고정 세로 */
-  object-fit: cover;         /* 잘라서 비율 유지 */
-  border-radius: 8px;
-  flex-shrink: 0;            /* 줄어들지 않게 */
-  display: block;            /* inline gap 제거 */
-}
-
-/* 오른쪽 컬럼 간격, 작은 삭제 버튼 */
-#sortableRankList .side-col .btn-xs {
-  padding: 2px 6px;
-  font-size: 12px;
-  line-height: 1.1;
-}
-
-/* 순위/핸들 좌우 여백 조금만 */
-#sortableRankList .order-badge { min-width: 34px; text-align:center; }
-
-/* 아이템 간격을 더 조밀하게 보이게 */
 #sortableRankList .compact-item + .compact-item { margin-top: 0; }
-
-
-/* 음식점 이름 크기 */
-.title {
-  font-size: 0.9rem; /* 기존보다 살짝 작게 */
-  font-weight: 600;
+#sortableRankList .compact-item .title {
+  line-height: 1.1; margin-bottom: 2px; font-size: .9rem; font-weight: 600;
+}
+#sortableRankList .compact-item .addr { line-height: 1.1; font-size: .9rem; }
+#sortableRankList .thumb {
+  width: 50px; height: 50px; object-fit: cover; border-radius: 8px; flex-shrink: 0; display: block;
+}
+#sortableRankList .order-badge { min-width: 34px; text-align: center; }
+#sortableRankList .side-col .badge { font-size: .85rem; min-width: 2.2rem; text-align: center; }
+#sortableRankList .side-col .btn-xs { padding: 2px 6px; font-size: 12px; line-height: 1.1; }
+#sortableRankList .side-col .btn-remove {
+  font-size: .9rem; padding: 2px 6px; line-height: 1.1; min-width: 2.2rem;
 }
 
-/* 주소 크기 */
-.addr {
-  font-size: 0.9rem; /* 기존보다 줄임 */
-  line-height: 1.2;
+/* 팔로우 상태 버튼(예시) */
+.my-follow-btn.following { background: #eee; color: #333; }
+
+/* =========================================================
+   프로필 사진 모달
+========================================================= */
+/* 전체 화면 모달 배경 */
+.profile-img-modal {
+  /* 기본은 숨김, 열 때 JS에서 display:flex로 바꿉니다 */
+  display: none;
+  position: fixed;
+  inset: 0;                     /* top/left/right/bottom: 0 */
+  z-index: 9999;
+  background-color: rgba(0,0,0,0.8);
+
+  /* 중앙 정렬 */
+  align-items: center;
+  justify-content: center;
+
+  /* 여백/스크롤로 인한 밀림 방지 */
+  padding: 0;
+  overflow: hidden;
 }
 
-/* 우측 컬럼: 별점 + 삭제 버튼 */
-.side-col .badge {
-  font-size: 0.85rem;  /* 별점 글자 크기 */
-  min-width: 2.2rem;   /* 가로폭 확보 */
-  text-align: center;
+/* 닫기 버튼은 화면 우상단 고정 */
+.profile-img-modal .close-modal {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
 }
 
-.side-col .btn-remove {
-  font-size: 0.9rem;  /* 삭제 버튼 글자 크기 */
-  padding: 2px 6px;    /* 여백 조금 줌 */
-  line-height: 1.1;
-  min-width: 2.2rem;   /* 가로폭 확보 */
+/* 모달 이미지 */
+.modal-content-img {
+  display: block;
+  max-width: 92vw;
+  max-height: 86vh;
+  border-radius: 12px;
+  object-fit: contain;  /* 비율 유지 */
 }

@@ -25,8 +25,6 @@
 	<div class="mobile-container">
 
 		<div class="content">
-			<!-- 광고 -->
-			<div class="ad-banner">광주맛집</div>
 			
 			<div class="feed" id="feed-list">
 				<!-- JavaScript로 동적으로 채워짐 -->

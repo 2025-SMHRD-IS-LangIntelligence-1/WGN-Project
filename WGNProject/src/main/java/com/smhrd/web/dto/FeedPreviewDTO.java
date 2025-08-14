@@ -20,6 +20,7 @@ public class FeedPreviewDTO {
     private Timestamp created_at;
     private String mb_nick;
     private String res_name;
+    private String ratings;
     private String res_category;
     private int comment_count;
     private String mb_img;

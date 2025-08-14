@@ -15,6 +15,7 @@ import com.smhrd.web.dto.ProfileDTO;
 import com.smhrd.web.entity.t_favorite;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.entity.t_review;
+import com.smhrd.web.mapper.RestaurantMapper;
 import com.smhrd.web.mapper.ReviewMapper;
 import com.smhrd.web.service.CloudinaryService;
 import com.smhrd.web.service.FavoriteService;
@@ -35,6 +36,9 @@ public class ReviewController {
 	private FavoriteService favoriteService;
 	@Autowired
 	private CloudinaryService cloudinaryService;
+	@Autowired
+	private RestaurantMapper restaurantmapper;
+	
 	
 	@PostMapping("/insertReview")
 	public String insertReview(t_review review, MultipartFile review_file, HttpSession session,
@@ -45,16 +49,26 @@ public class ReviewController {
 		ProfileDTO profile = memberService.getProfileInfo(mb_id);
 		
 		// 파일 클라우디너리 저장 후 url 반환
-		List<MultipartFile> files = Arrays.asList(review_file);
-		List<String> urls = cloudinaryService.uploadFiles(files);
-		String url = urls.get(0);
 		
+		if (review_file != null && !review_file.isEmpty()) {
+		    List<MultipartFile> files = Arrays.asList(review_file);
+		    List<String> urls = cloudinaryService.uploadFiles(files);
+
+		    if (urls != null && !urls.isEmpty()) {
+		        String url = urls.get(0);
+		        review.setImg_link(url);
+		    }
+		}		
 		// t_review에 저장
 		
 		review.setMb_id(profile.getMb_id());
 		review.setMb_nick(profile.getNickname());
-		review.setImg_link(url);
 		reviewmapper.insertReview(review);
+		
+		String img = review.getImg_link();
+		int res_idx= review.getRes_idx();
+		
+		restaurantmapper.insertrivewimg(res_idx, img);
 		
 	    // 랭킹 등록
 	    if ("on".equals(rankToggle)) {

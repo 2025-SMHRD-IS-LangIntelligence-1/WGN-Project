@@ -4,8 +4,6 @@ package com.smhrd.web.controller;
 import com.smhrd.web.dto.OrderPayloadDTO;
 import com.smhrd.web.entity.t_member;
 import com.smhrd.web.service.FavoriteService;
-import com.smhrd.web.service.MemberService;
-
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -21,9 +19,6 @@ import org.springframework.web.bind.annotation.*;
 public class FavoriteController {
 
     private final FavoriteService favoriteService;
-    private final MemberService memberService;
-    
-    
     @PostMapping("/order")
     public ResponseEntity<?> saveOrder(@RequestBody OrderPayloadDTO payload,
                                        HttpSession session) {

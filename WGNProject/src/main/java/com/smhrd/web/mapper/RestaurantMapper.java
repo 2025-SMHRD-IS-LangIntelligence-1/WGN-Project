@@ -3,6 +3,7 @@ package com.smhrd.web.mapper;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -13,6 +14,7 @@ import com.smhrd.web.dto.FavoriteresDTO;
 import com.smhrd.web.dto.GoingresDTO;
 import com.smhrd.web.dto.RestaurantDTO;
 import com.smhrd.web.dto.ReviewDTO;
+import com.smhrd.web.dto.WordCloudAndRatingsDTO;
 import com.smhrd.web.entity.t_convenience;
 import com.smhrd.web.entity.t_menu;
 import com.smhrd.web.entity.t_res_img;
@@ -43,6 +45,11 @@ public interface RestaurantMapper {
 	@Select("Select * from t_menu where res_idx = #{rex_idx}")
 	List<t_menu> res_menu(int res_idx);
 
+	@Select("select nk_positive_wc, nk_negative_wc, wgn_positive_wc, wgn_negative_wc, res_ratings, wgn_ratings\r\n"
+			+ "from t_restaurant\r\n"
+			+ "where res_idx = #{res_idx}")
+	WordCloudAndRatingsDTO getWcAndRatingsDTO(int res_idx);
+	
 	List<ReviewDTO> getresreview(int res_idx);
 
 	List<FavoriteresDTO> myfavoriteres(List<Integer> residx, String mb_id);
@@ -52,17 +59,8 @@ public interface RestaurantMapper {
 	@Select("""
 		    SELECT res_idx FROM t_restaurant 
 			WHERE last_update >= #{time}
-			UNION
-			SELECT res_idx FROM (
-			    SELECT res_idx FROM t_restaurant
-			    WHERE (nk_positive_wc IS NULL OR nk_positive_wc = '' 
-			       OR nk_negative_wc IS NULL OR nk_negative_wc = '' 
-			       OR wgn_positive_wc IS NULL OR wgn_positive_wc = '' 
-			       OR wgn_negative_wc IS NULL OR wgn_negative_wc = '')
-			    LIMIT 30
-			) AS limited_missing_wc
 			""")
-		List<Integer> findRecentlyUpdatedOrMissingWC(LocalDateTime time);
+		List<Integer> findRecentlyUpdated(LocalDateTime time);
 
 	@Update("""
 			update t_restaurant
@@ -74,5 +72,24 @@ public interface RestaurantMapper {
 			where res_idx = #{res_idx}
 			""")
 	void updateWcAndRatings(int res_idx, String wc1, String wc2, String wc3, String wc4, float ratings);
+
+	@Update("update t_restaurant set last_update = now() where res_idx = #{res_idx}")
+	void updateRecord(int res_idx);
+
+	@Select("""
+		    SELECT res_idx FROM t_restaurant
+		    WHERE wgn_ratings IS NULL OR wgn_ratings = ''
+		       OR nk_positive_wc IS NULL OR nk_positive_wc = ''
+		       OR nk_negative_wc IS NULL OR nk_negative_wc = ''
+		       OR wgn_positive_wc IS NULL OR wgn_positive_wc = ''
+		       OR wgn_negative_wc IS NULL OR wgn_negative_wc = ''
+		""")
+	List<Integer> selectEmpty();
+
+	void updateFeedImg(int res_idx, List<String> imgUrls);
+	
+	void deleteimg(List<String> urls);
+
+	void insertrivewimg(int res_idx, String img);
 	
 }

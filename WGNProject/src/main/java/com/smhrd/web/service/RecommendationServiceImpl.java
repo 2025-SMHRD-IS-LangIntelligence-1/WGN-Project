@@ -137,72 +137,69 @@ public class RecommendationServiceImpl implements RecommendationService {
 	@Override
 	public List<Integer> sendFeedForSearch(String mb_id, String query) {
 
-	    System.out.println("sendFeedForSearch 메서드 실행");
+		System.out.println("sendFeedForSearch 메서드 실행");
 
-	    // HTTP 헤더 설정
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
+		// HTTP 헤더 설정
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
 
-	    // 데이터 바인딩
-	    List<FeedForSearchDTO> feeds = this.getFeedForSearch(mb_id);
+		// 데이터 바인딩
+		List<FeedForSearchDTO> feeds = this.getFeedForSearch(mb_id);
 
-	    System.out.println("가져온 피드 수 : " + feeds.size());
+		System.out.println("가져온 피드 수 : " + feeds.size());
 
-	    List<Map<String, Object>> feedList = new ArrayList<>();
+		List<Map<String, Object>> feedList = new ArrayList<>();
 
-	    for (FeedForSearchDTO feed : feeds) {
-	        Map<String, Object> feedData = new HashMap<>();
-	        feedData.put("feed_idx", feed.getFeed_idx());
-	        feedData.put("feed_likes", feed.getFeed_likes());
-	        feedData.put("res_tag", feed.getRes_tag());
-	        feedData.put("feed_content", feed.getFeed_content());
-	        feedList.add(feedData);
-	    }
+		for (FeedForSearchDTO feed : feeds) {
+			Map<String, Object> feedData = new HashMap<>();
+			feedData.put("feed_idx", feed.getFeed_idx());
+			feedData.put("feed_likes", feed.getFeed_likes());
+			feedData.put("res_tag", feed.getRes_tag());
+			feedData.put("feed_content", feed.getFeed_content());
+			feedList.add(feedData);
+		}
 
-	    // 요청 생성
-	    HttpEntity<List<Map<String, Object>>> requestEntity = new HttpEntity<>(feedList, headers);
+		// 요청 생성
+		HttpEntity<List<Map<String, Object>>> requestEntity = new HttpEntity<>(feedList, headers);
 
-	    System.out.println("요청 생성 완료");
+		System.out.println("요청 생성 완료");
 
-	    // FastAPI URL에 query 파라미터 붙이기
-	    String pythonUrl = "http://localhost:8000/receive_feed_for_search?query=" + UriUtils.encodeQueryParam(query, "UTF-8");
+		// FastAPI URL에 query 파라미터 붙이기
+		String pythonUrl = "http://localhost:8000/receive_feed_for_search?query="
+				+ UriUtils.encodeQueryParam(query, "UTF-8");
 
-	    // 요청 보내고 결과 받기
-	    ParameterizedTypeReference<List<Integer>> responseType = new ParameterizedTypeReference<>() {
-	    };
-	    ResponseEntity<List<Integer>> response = restTemplate.exchange(pythonUrl, HttpMethod.POST, requestEntity, responseType);
+		// 요청 보내고 결과 받기
+		ParameterizedTypeReference<List<Integer>> responseType = new ParameterizedTypeReference<>() {
+		};
+		ResponseEntity<List<Integer>> response = restTemplate.exchange(pythonUrl, HttpMethod.POST, requestEntity,
+				responseType);
 
-	    List<Integer> FeedIdxList = response.getBody();
+		List<Integer> FeedIdxList = response.getBody();
 
-	    System.out.println("요청 보내고 결과 받기 완료");
-	    System.out.println("응답 본문: " + FeedIdxList);
+		System.out.println("요청 보내고 결과 받기 완료");
+		System.out.println("응답 본문: " + FeedIdxList);
 
-	    return FeedIdxList;
+		return FeedIdxList;
 	}
-
 
 	@Override
 	public List<Integer> sendQuery(String query) {
-	    System.out.println("sendQuery 메서드 실행");
+		System.out.println("sendQuery 메서드 실행");
 
-	    // query 파라미터를 URL에 쿼리 스트링으로 포함시키기
-	    String pythonUrl = "http://localhost:8000/receive_res?query=" + URLEncoder.encode(query, StandardCharsets.UTF_8);
+		// query 파라미터를 URL에 쿼리 스트링으로 포함시키기
+		String pythonUrl = "http://localhost:8000/receive_res?query="
+				+ URLEncoder.encode(query, StandardCharsets.UTF_8);
 
-	    // GET 요청 시 바디는 필요 없으므로 null 전달
-	    ResponseEntity<List<Integer>> response = restTemplate.exchange(
-	        pythonUrl,
-	        HttpMethod.GET,
-	        null,
-	        new ParameterizedTypeReference<List<Integer>>() {}
-	    );
+		// GET 요청 시 바디는 필요 없으므로 null 전달
+		ResponseEntity<List<Integer>> response = restTemplate.exchange(pythonUrl, HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<Integer>>() {
+				});
 
-	    List<Integer> recommendedResIdxList = response.getBody();
+		List<Integer> recommendedResIdxList = response.getBody();
 
-	    System.out.println("추천 음식점 인덱스 리스트: " + recommendedResIdxList);
+		System.out.println("추천 음식점 인덱스 리스트: " + recommendedResIdxList);
 
-	    return recommendedResIdxList;
+		return recommendedResIdxList;
 	}
-
-
 
 }

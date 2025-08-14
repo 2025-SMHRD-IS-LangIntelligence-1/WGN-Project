@@ -31,11 +31,31 @@
 	</select>
 
 	<select id="selectFeedByIdx">
-		SELECT f.feed_idx, f.mb_id, f.res_idx,
-		f.feed_content, f.feed_likes, f.ratings, f.created_at, m.mb_nick
-		FROM t_feed f
-		left JOIN t_member m on f.mb_id=m.mb_id
-		where feed_idx=#{feed_idx};
+		SELECT
+		f.feed_idx,
+		f.mb_id,
+		f.res_idx,
+		f.feed_content,
+		f.feed_likes,
+		f.created_at,
+		m.mb_nick,
+		f.ratings,
+		COUNT(c.cmt_idx) AS
+		comment_count
+		FROM
+		t_feed f
+		LEFT JOIN
+		t_member m ON f.mb_id = m.mb_id
+		LEFT
+		JOIN
+		t_comment c ON f.feed_idx = c.feed_idx
+		WHERE
+		f.feed_idx =
+		#{feed_idx}
+		GROUP BY
+		f.feed_idx, f.mb_id, f.res_idx, f.feed_content,
+		f.feed_likes, f.created_at,
+		m.mb_nick, f.ratings;
 	</select>
 
 	<resultMap id="CommentDTOMap"
@@ -121,6 +141,7 @@
 		<result property="mb_nick" column="mb_nick" />
 		<result property="res_name" column="res_name" />
 		<result property="res_category" column="res_category" />
+		<result property="ratings" column="ratings" />
 		<result property="comment_count" column="comment_count" />
 		<result property="mb_img" column="mb_img" />
 	</resultMap>
@@ -138,23 +159,69 @@
 		r.res_name,
 		r.res_category,
 		m.mb_img,
+		f.ratings,
 		COUNT(c.cmt_idx) AS comment_count
 		FROM t_feed f
-		LEFT JOIN
+		LEFT
+		JOIN
 		t_feed_img i ON f.feed_idx = i.feed_idx
-		LEFT JOIN t_member m ON f.mb_id
+		LEFT JOIN t_member m ON
+		f.mb_id
 		= m.mb_id
 		LEFT JOIN t_restaurant r ON r.res_idx = f.res_idx
-		LEFT JOIN
+		LEFT
+		JOIN
 		t_comment c ON f.feed_idx = c.feed_idx -- 댓글 테이블 조인
-		WHERE f.feed_idx =
+		WHERE
+		f.feed_idx =
 		#{feed_idx}
 		GROUP BY
-		f.feed_idx, f.mb_id, f.res_idx, f.feed_content,
+		f.feed_idx, f.mb_id, f.res_idx,
+		f.feed_content,
 		f.feed_likes, f.created_at, m.mb_nick,
-		r.res_name, r.res_category,
+		r.res_name,
+		r.res_category,
 		m.mb_img;
 	</select>
+
+
+	<update id="updateFeedMeta">
+		UPDATE t_feed
+		SET feed_content = #{content},
+		ratings =
+		#{ratings},
+		created_at = NOW()
+		WHERE feed_idx = #{feedIdx}
+	</update>
+
+	<select id="selectImageUrlsByFeedId" resultType="string">
+		SELECT
+		feed_img_url
+		FROM t_feed_img
+		WHERE feed_idx = #{feedIdx}
+		ORDER BY
+		feed_img_idx
+	</select>
+
+	<delete id="deleteImagesByFeedId">
+		DELETE FROM t_feed_img
+		WHERE feed_idx = #{feedIdx}
+	</delete>
+
+	<delete id="deleteImagesByUrls">
+		DELETE FROM t_feed_img
+		WHERE feed_idx = #{feedIdx}
+		AND feed_img_url IN
+		<foreach collection="deleteUrls" item="u" open="("
+			separator="," close=")">
+			#{u}
+		</foreach>
+	</delete>
+
+	<insert id="insertFeedImage">
+		INSERT INTO t_feed_img (feed_idx, feed_img_url)
+		VALUES (#{feedIdx}, #{url})
+	</insert>
 
 </mapper>
 

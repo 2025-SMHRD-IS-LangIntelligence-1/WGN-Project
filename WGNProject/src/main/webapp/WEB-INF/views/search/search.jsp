@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>Insert title here</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -24,55 +25,48 @@
 		<div class="content">
 
 			<!-- 검색 입력 -->
-
-			<form action="${pageContext.request.contextPath}" id="search-form" method="get">
-			    <div class="search-box">
-			        <input name="query" type="text" class="form-control" placeholder="검색어 입력">
-			        <input type="submit" value="검색" class="search-btn">
-			    </div>
+			<form action="${pageContext.request.contextPath}" id="search-form"
+				method="get">
+				<div class="search-box">
+					<input name="query" type="text" class="form-control"
+						placeholder="검색어 입력"> <input type="submit" value="검색"
+						class="search-btn">
+				</div>
 			</form>
-			
-			<div class="search-tabs">
+			<!-- // 룰렛!!! -->
+			<div id="pre-search" class="presearch">
+				<h5 class="presearch-title">
+					뭐 먹을지 고민이라면? <span class="emoji">🎰</span>
+				</h5>
 
-				<!-- 음식점 탭 (기본 선택된 탭) -->
-				<a href="#" class="tab active" id="tab-res"> <i
-					class="bi bi-search"></i> <span>음식점</span>
-				</a>
+				<div class="slot-card">
+					<div class="reel-window">
+						<ul id="reelList"></ul>
+					</div>
+				</div>
 
-				<!-- 게시글 탭 -->
-				<a href="#" class="tab" id="tab-feed">
-				<i class="bi bi-grid-3x3-gap"></i> <span>피드</span>
-				</a>
+				<button id="spinBtn" type="button" class="spin-btn btn btn-warning">
+					<i class="bi bi-lightning-charge"></i> 레버 당기기
+				</button>
 
-				<!-- 사용자 탭 (새로 추가됨) -->
-				<a href="#" class="tab" id="tab-member"> <i class="bi bi-person"></i>
-					<span>사용자</span>
-				</a>
+				<div id="pickedMenu" class="picked-hint">
+					<i class="bi bi-compass"></i> <span>슬롯 결과가 검색창에 자동 입력돼요.</span>
+				</div>
 			</div>
-			
-			<!------- 음식점res 탭 : 리스트 형식 + 가로 정렬 + 세로 중앙 정렬 ----------->
-				
-			<div id="res-section" class="res-section-box">
-				
-			</div>
-			
-			<!-- button class="bookmark-btn">
-		      <i class="bi bi-pin-fill"></i>
-		    </button>
 
-			<!----------------------- 게시글 feed 탭 ------------------------------>
-			<div id="feed-section" style="display: none;">
-			
+
+			<div class="search-tabs" style="display: none;">
+				<a href="#" class="tab active" id="tab-res"><i
+					class="bi bi-shop"></i> <span>음식점</span></a> <a href="#" class="tab"
+					id="tab-feed"><i class="bi bi-grid-3x3-gap"></i> <span>피드</span></a>
+				<a href="#" class="tab" id="tab-member"><i class="bi bi-person"></i>
+					<span>사용자</span></a>
 			</div>
-			
-			<!----------------------- 사용자 member 탭 ------------------------------>
-			<div id="member-section" style="display: none;">
-				
-				<div class="member-header"></div>
-				<!--<form>
-					<button class="my-follow-btn">팔로우</button>
-				</form> -->
-			</div>
+
+			<!-- 섹션들 -->
+			<div id="res-section" class="res-section-box" style="display: none;"></div>
+			<div id="feed-section" style="display: none;"></div>
+			<div id="member-section" style="display: none;"></div>
 
 			<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 		</div>
@@ -81,8 +75,7 @@
 		const contextPath = "${pageContext.request.contextPath}";
 	</script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/search.js"></script>
-	
+	<script src="${pageContext.request.contextPath}/resources/js/search.js"></script>
+
 </body>
 </html>

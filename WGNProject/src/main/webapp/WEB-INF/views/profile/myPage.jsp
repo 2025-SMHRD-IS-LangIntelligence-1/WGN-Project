@@ -26,8 +26,8 @@
 	<div class="mobile-container">
 		<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 
-		<!-- 모달창 -->
-		<div id="profileModal" class="modal">
+		<!-- 프로필 모달창 -->
+		<div id="profileModal" class="my-modal">
 			<div class="modal-content">
 				<span class="close">&times;</span>
 				<form action="${pageContext.request.contextPath}/profile/update"
@@ -42,6 +42,52 @@
 			</div>
 		</div>
 
+		<!-- 팔로잉 / 팔로워 모달창 -->
+		<div id="followModal" class="my-modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+
+				<!-- 탭 버튼 -->
+				<div class="tab-buttons">
+					<button type="button" class="tab-btn active" data-tab="followers">팔로워</button>
+					<button type="button" class="tab-btn" data-tab="followings">팔로잉</button>
+				</div>
+
+				<!-- 팔로워 리스트 -->
+				<div id="followers" class="tab-content active">
+					<c:forEach items="${followerList}" var="follower">
+						<div class="member-header" data-mb-id="${follower.mb_id}">
+							<div class="feed-member">
+								<img src="${follower.mb_img}" alt="프로필">
+								<div class="member-info">
+									<span><b>${follower.nickname}</b></span> <span>@${follower.mb_id}</span>
+									<span>${follower.intro}</span>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+
+				<!-- 팔로잉 리스트 -->
+				<div id="followings" class="tab-content" style="display: none;">
+					<c:forEach items="${followingList}" var="following">
+						<div class="member-header" data-mb-id="${following.mb_id}">
+							<div class="feed-member">
+								<img src="${following.mb_img}" alt="프로필">
+								<div class="member-info">
+									<span><b>${following.nickname}</b></span> <span>@${following.mb_id}</span>
+									<span>${following.intro}</span>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+
+
+
+
 		<div class="content">
 
 			<!-- 프로필 영역 -->
@@ -54,47 +100,52 @@
 						<div class="profile-stat">
 							<strong>${profile.feed_num}</strong> <span>게시물</span>
 						</div>
-						<div class="profile-stat">
+						<div class="profile-stat" id="follower-btn">
 							<strong>${profile.follower}</strong> <span>팔로워</span>
 						</div>
-						<div class="profile-stat">
+						<div class="profile-stat" id="following-btn">
 							<strong>${profile.following}</strong> <span>팔로잉</span>
 						</div>
 					</div>
 				</div>
 				<hr class="profile-divider">
-				<!-- 닉네임/소개 -->
+				<!-- 닉네임/소개 + 버튼 (하나로 합침) -->
 				<div class="profile-info">
-					<h5>${profile.nickname}</h5>
-					<p>${profile.intro}</p>
-				</div>
-				<div class="profile-info">
+					<div class="name-and-action">
+						<h5 class="mb-0">${profile.nickname}</h5>
 
-					<c:choose>
-						<c:when test="${profile.mb_id ne sessionScope.member.mb_id}">
-							<form action="${pageContext.request.contextPath}/member/follow"
-								method="post">
-								<input type="hidden" name="following_id" value="${member.mb_id}" />
-								<c:choose>
-									<c:when test="${isFollowing}">
-										<button class="my-follow-btn following"
-											data-following-id="${mb_id}" data-followed="true">팔로잉</button>
-									</c:when>
-									<c:otherwise>
-										<button class="my-follow-btn" data-following-id="${mb_id}"
-											data-followed="false">팔로우</button>
-									</c:otherwise>
-								</c:choose>
-							</form>
-						</c:when>
-						<c:when test="${profile.mb_id eq sessionScope.member.mb_id}">
-							<div class="btn-wrapper">
-								<button class="follow-btn" id="profile-update-btn" type="submit">프로필
-									수정</button>
-							</div>
-						</c:when>
-					</c:choose>
+						<div class="action">
+							<c:choose>
+								<%-- 내 프로필이면: 프로필 수정 버튼 --%>
+								<c:when test="${profile.mb_id eq sessionScope.member.mb_id}">
+									<button class="follow-btn" id="profile-update-btn"
+										type="button">프로필 수정</button>
+								</c:when>
 
+								<%-- 남의 프로필이면: 팔로우/팔로잉 버튼 --%>
+								<c:otherwise>
+									<form action="${pageContext.request.contextPath}/member/follow"
+										method="post" class="follow-form">
+										<input type="hidden" name="following_id"
+											value="${profile.mb_id}" />
+										<c:choose>
+											<c:when test="${isFollowing}">
+												<button type="submit" class="my-follow-btn following"
+													data-following-id="${profile.mb_id}" data-followed="true">팔로잉</button>
+											</c:when>
+											<c:otherwise>
+												<button type="submit" class="my-follow-btn"
+													data-following-id="${profile.mb_id}" data-followed="false">팔로우</button>
+											</c:otherwise>
+										</c:choose>
+									</form>
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</div>
+
+					<p class="mb-0">${empty profile.intro ? '자기소개를 입력할 수 있습니다.' : profile.intro}
+					</p>
 				</div>
 
 			</div>
@@ -162,9 +213,20 @@
 													style="text-decoration: none; color: inherit;">
 													<div class="list-group-item d-flex align-items-center"
 														data-res-idx="${favoriteres.res_idx}">
-														<img src="${favoriteres.res_thumbnail}"
-															class="rounded me-2"
-															style="width: 60px; height: 60px; object-fit: cover;">
+														<c:choose>
+															<c:when test="${empty favoriteres.res_thumbnail}">
+																<img
+																	src="https://cdn-icons-png.flaticon.com/128/17797/17797745.png"
+																	class="rounded me-2"
+																	style="width: 60px; height: 60px; object-fit: cover;">
+															</c:when>
+															<c:otherwise>
+																<img src="${favoriteres.res_thumbnail}"
+																	class="rounded me-2"
+																	style="width: 60px; height: 60px; object-fit: cover;"
+																	this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/128/17797/17797745.png';">
+															</c:otherwise>
+														</c:choose>
 														<div class="flex-fill">
 															<h6 class="mb-0">${favoriteres.res_name}</h6>
 															<small class="text-muted">${favoriteres.res_addr}</small>
@@ -197,9 +259,20 @@
 													data-more="favorite">
 													<div class="list-group-item d-flex align-items-center"
 														data-res-idx="${favoriteres.res_idx}">
-														<img src="${favoriteres.res_thumbnail}"
-															class="rounded me-2"
-															style="width: 60px; height: 60px; object-fit: cover;">
+														<c:choose>
+															<c:when test="${empty favoriteres.res_thumbnail}">
+																<img
+																	src="https://cdn-icons-png.flaticon.com/128/17797/17797745.png"
+																	class="rounded me-2"
+																	style="width: 60px; height: 60px; object-fit: cover;">
+															</c:when>
+															<c:otherwise>
+																<img src="${favoriteres.res_thumbnail}"
+																	class="rounded me-2"
+																	style="width: 60px; height: 60px; object-fit: cover;"
+																	this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/128/17797/17797745.png';">
+															</c:otherwise>
+														</c:choose>
 														<div class="flex-fill">
 															<h6 class="mb-0">${favoriteres.res_name}</h6>
 															<small class="text-muted">${favoriteres.res_addr}</small>
@@ -245,8 +318,20 @@
 													<a
 														href="${pageContext.request.contextPath}/restaurant?res_idx=${goingres.res_idx}"
 														class="d-flex align-items-center text-decoration-none text-reset flex-fill">
-														<img src="${goingres.res_thumbnail}" class="rounded me-2"
-														style="width: 60px; height: 60px; object-fit: cover;">
+														<c:choose>
+															<c:when test="${empty goingres.res_thumbnail}">
+																<img
+																	src="https://cdn-icons-png.flaticon.com/128/17797/17797745.png"
+																	class="rounded me-2"
+																	style="width: 60px; height: 60px; object-fit: cover;">
+															</c:when>
+															<c:otherwise>
+																<img src="${goingres.res_thumbnail}"
+																	class="rounded me-2"
+																	style="width: 60px; height: 60px; object-fit: cover;"
+																	this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/128/17797/17797745.png';">
+															</c:otherwise>
+														</c:choose>
 														<div class="flex-fill">
 															<h6 class="mb-0">${goingres.res_name}</h6>
 															<small class="text-muted">${goingres.res_addr}</small>
@@ -276,8 +361,20 @@
 													<a
 														href="${pageContext.request.contextPath}/restaurant?res_idx=${goingres.res_idx}"
 														class="d-flex align-items-center text-decoration-none text-reset flex-fill">
-														<img src="${goingres.res_thumbnail}" class="rounded me-2"
-														style="width: 60px; height: 60px; object-fit: cover;">
+														<c:choose>
+															<c:when test="${empty goingres.res_thumbnail}">
+																<img
+																	src="https://cdn-icons-png.flaticon.com/128/17797/17797745.png"
+																	class="rounded me-2"
+																	style="width: 60px; height: 60px; object-fit: cover;">
+															</c:when>
+															<c:otherwise>
+																<img src="${goingres.res_thumbnail}"
+																	class="rounded me-2"
+																	style="width: 60px; height: 60px; object-fit: cover;"
+																	this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/128/17797/17797745.png';">
+															</c:otherwise>
+														</c:choose>
 														<div class="flex-fill">
 															<h6 class="mb-0">${goingres.res_name}</h6>
 															<small class="text-muted">${goingres.res_addr}</small>
@@ -344,8 +441,18 @@
 									<!-- 드래그 핸들 --> <span class="bi bi-grip-vertical"
 									aria-hidden="true"></span> <!-- 순위 배지 --> <span
 									class="badge text-bg-secondary order-badge">${s.index + 1}위</span>
-									<!-- 썸네일 --> <img src="${favoriteres.res_thumbnail}"
-									class="thumb" alt="thumb"> <!-- 가게명/주소 -->
+									<!-- 썸네일 --> <c:choose>
+										<c:when test="${empty favoriteres.res_thumbnail}">
+											<img
+												src="https://cdn-icons-png.flaticon.com/128/17797/17797745.png"
+												class="thumb" alt="thumb">
+										</c:when>
+										<c:otherwise>
+											<img src="${favoriteres.res_thumbnail}" class="thumb"
+												alt="thumb"
+												onerror="this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/128/17797/17797745.png';">
+										</c:otherwise>
+									</c:choose> <!-- 가게명/주소 -->
 									<div class="flex-fill">
 										<div class="fw-semibold title">${favoriteres.res_name}</div>
 										<small class="text-muted addr">${favoriteres.res_addr}</small>
@@ -395,7 +502,57 @@
 		</div>
 	</div>
 
+	<!-- 팔로워 모달창 -->
+	<div id="followerModal" class="my-modal">
+		<div class="modal-content">
+			<h2
+				style="margin-top: 0; margin-bottom: 20px; font-size: 1rem; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+				팔로워</h2>
+			<span class="close">&times;</span>
+			<c:forEach items="${followerList}" var="follower">
+				<div class="member-header" data-mb-id="${follower.mb_id}"
+					style="cursor: pointer;">
+					<div class="feed-member">
+						<img src="${follower.mb_img}" alt="프로필">
+						<div class="member-info">
+							<span><b>${follower.nickname}</b></span> <span
+								style="font-size: 12px; color: #888;">@${follower.mb_id}</span>
+							<span style="font-size: 12px; color: #888;">${follower.intro}</span>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
 
+	<!-- 팔로잉 모달창 -->
+	<div id="followingModal" class="my-modal">
+		<div class="modal-content">
+			<h2
+				style="margin-top: 0; margin-bottom: 20px; font-size: 1rem; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+				팔로잉</h2>
+			<span class="close">&times;</span>
+			<c:forEach items="${followingList}" var="following">
+				<div class="member-header" data-mb-id="${following.mb_id}"
+					style="cursor: pointer;">
+					<div class="feed-member">
+						<img src="${following.mb_img}" alt="프로필">
+						<div class="member-info">
+							<span><b>${following.nickname}</b></span> <span
+								style="font-size: 12px; color: #888;">@${following.mb_id}</span>
+							<span style="font-size: 12px; color: #888;">${following.intro}</span>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+
+	<!-- 프로필 이미지 풀스크린 모달 -->
+	<div id="profileImgModal" class="profile-img-modal">
+		<span class="close-modal">&times;</span> <img
+			class="modal-content-img" id="modalProfileImg">
+	</div>
 
 
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
@@ -445,7 +602,8 @@
 	<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/myPage.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/feed.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/common.js" defer></script>
+	<script src="${pageContext.request.contextPath}/resources/js/common.js"
+		defer></script>
 
 </body>
 </html>

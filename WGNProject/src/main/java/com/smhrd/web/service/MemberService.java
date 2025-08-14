@@ -1,6 +1,7 @@
 package com.smhrd.web.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.scheduling.annotation.Async;
 
@@ -47,5 +48,9 @@ public interface MemberService {
 	List<Integer> getAllLikedFeed(String mb_id);
 
 	List<String> getAllfollowMem(String mb_id);
+
+	List<String> getAllfollowingMem(String mb_id);
+
+	Map<String, Object> getFollowInfo(String myId);
 
 }

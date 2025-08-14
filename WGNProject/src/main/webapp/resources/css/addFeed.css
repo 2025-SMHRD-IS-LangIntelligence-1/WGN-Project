@@ -1,410 +1,414 @@
 @charset "UTF-8";
 
 /* ===========================
-   📄 addFeed Page 스타일
+   📄 addFeed Page 스타일 (정리본)
 =========================== */
 
 /* 게시글 취소 버튼 */
 .close-btn {
-	background: none;
-	border: none;
-	font-size: 25px;
-	font-weight: bold;
-	cursor: pointer;
-	color: #616161;
-	padding: 4px 8px;
-	line-height: 1;
+  background: none;
+  border: none;
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #616161;
+  padding: 4px 8px;
+  line-height: 1;
 }
-
-.close-btn:hover {
-	color: #171513;
-}
+.close-btn:hover { color: #171513; }
 
 /* 게시글 업로드 버튼 */
 .submit-btn {
-	height: 30px;
-	background-color: #171513;
-	color: #e2e2e2;
-	border: none;
-	border-radius: 8px;
-	padding: 0 16px;
-	font-size: 15px;
-	font-weight: bold;
-	cursor: pointer;
-	white-space: nowrap;
+  height: 30px;
+  background-color: #171513;
+  color: #e2e2e2;
+  border: none;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
 }
-
 .submit-btn:disabled {
-	background-color: #cccccc;
-	color: #666666;
-	cursor: not-allowed;
-	opacity: 0.6;
-	transition: background-color 0.3s ease;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;
+  transition: background-color 0.3s ease;
 }
 
-/* 이미지 업로드 전체 컨테이너 */
+/* ===========================
+   📷 업로드 / 프리뷰
+   - 프리뷰는 안내문구 아래, 한 줄 + 가로 스크롤
+=========================== */
+
+/* 업로드 전체 래퍼: 세로 흐름 */
 .upload-wrapper {
-	display: flex;
-	align-items: flex-start;
-	gap: 12px;
-	margin: 24px 25px 10px;
+  display: block;
+  margin: 24px 25px 10px;
 }
 
 /* 업로드 버튼 컨테이너 */
 .upload-box-container {
-	flex-shrink: 0;
+  flex-shrink: 0;
+  width: 100%;                 /* 프리뷰 줄이 가로폭을 쓰도록 */
 }
 
-/* 업로드 박스 디자인 */
+/* 업로드 박스 */
 .upload-box {
-	width: 80px;
-	height: 80px;
-	border: 1.5px solid #171513;
-	border-radius: 8px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	cursor: pointer;
-	background-color: #fafafa;
-	transition: background-color 0.2s;
+  width: 80px;
+  height: 80px;
+  border: 1.5px solid #171513;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fafafa;
+  transition: background-color 0.2s;
 }
+.upload-box:hover { background-color: #f0f0f0; }
+.upload-box i { font-size: 20px; margin-bottom: 4px; }
 
-.upload-box:hover {
-	background-color: #f0f0f0;
-}
+/* 실제 파일 input 숨김 */
+.file-upload { display: none; }
 
-.upload-box i {
-	font-size: 20px;
-	margin-bottom: 4px;
-}
-
-.file-upload {
-	display: none;
-}
-
-/* 업로드 안내 문구 */
+/* 업로드 안내 문구 — ⬅ 왼쪽 정렬 */
 .upload-limit-text {
-	font-size: 12px;
-	color: #666;
-	text-align: center;
-	margin-top: 6px;
+  font-size: 12px;
+  color: #666;
+  text-align: left;            /* 가운데 → 왼쪽 */
+  margin-top: 6px;
 }
 
-/* 미리보기 영역 */
-.preview-container {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 6px;
-	width: 100%;
-	padding-top: 4px;
+/* 프리뷰: 한 줄 + 가로 스크롤 + 왼쪽 정렬 */
+.preview-container{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start; /* 확실히 왼쪽 정렬 */
+  gap: 8px;                    /* 썸네일 간격 조금 넓힘 */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 6px;
 }
 
-
-.preview-image {
-	width: 60px;
-	height: 60px;
-	object-fit: cover;
-	border-radius: 6px;
-	border: 1px solid #ccc;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+/* 프리뷰 아이템 */
+.preview-item{
+  position: relative;
+  flex: 0 0 auto;
 }
 
-/* 게시글 작성 textarea */
-.desc-text {
-	resize: none;
-	width: calc(100% - 50px);
-	height: 25vh;
-	background-color: #fff;
-	color: #171513;
-	border: 1.5px solid #ddd;
-	border-radius: 10px;
-	padding: 12px;
-	font-size: 16px;
-	box-sizing: border-box;
-	margin: 0px 25px 0px;
+/* ✅ 프리뷰 썸네일 크게 */
+.preview-item .preview-image{
+  width: 90px;                 /* 60 → 90 */
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
 }
 
-.desc-text:focus {
-	outline: none;
-	border-color: #333;
-	background-color: #fff;
-}
-
-/* 회색 구분선 */
-.section-divider {
-	height: 3px;
-	background-color: #ddd;
-	margin: 16px 25px 8px;
-}
-
-/* 검색 입력창 */
-.search_input {
-	width: calc(100% - 50px);
-	margin: 0px 25px;
-	height: 40px;
-	border: 1.5px solid #171513;
-	border-radius: 8px;
-	padding: 0 12px;
-	font-size: 15px;
-	background-color: #fff;
-	box-sizing: border-box;
-}
-
-/* 음식점 검색 결과 */
-.search-res {
-	display: flex;
-	align-items: flex-start;
-	gap: 12px;
-	padding: 12px 25px;
-	border-bottom: 1px solid #eee;
-	background-color: #fff;
-}
-
-.search-res.selected {
-	border: 2px solid #ffcc00;
-	background-color: #fffbe6;
-	border-radius: 8px;
-}
-
-/* 썸네일 이미지 */
-.res_thumbnail {
-	width: 80px;
-	height: 80px;
-	border-radius: 6px;
-	object-fit: cover;
-}
-
-/* 음식점 텍스트 정보 */
-.res_info {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-}
-
-.res_name {
-	font-size: 16px;
-	font-weight: bold;
-	margin: 0;
-	color: #171513;
-}
-
-.res_addr {
-	font-size: 13px;
-	color: #555;
-	margin: 0;
-}
-
-/* 평점 박스 */
-.rating_info {
-	display: inline-flex;
-	align-items: center;
-	gap: 4px;
-	background-color: #ffd700;
-	border-radius: 12px;
-	padding: 2px 6px;
-	font-size: 13px;
-	font-weight: bold;
-	color: #000;
-	width: fit-content;
-}
-
-/* 별 아이콘 */
-.ratings_icon {
-	width: 16px;
-	height: 16px;
-}
-
-/* 별점 숫자 */
-.ratings_text {
-	font-size: 13px;
+/* X 삭제 버튼도 비율 맞게 살짝 키움 */
+.preview-remove{
+  position:absolute; top:-8px; right:-8px;
+  width:24px; height:24px; line-height:24px;
+  border:none; border-radius:50%;
+  background:#ff4d4f; color:#fff; font-weight:700;
+  cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.2);
 }
 
 /* ===========================
-   ⭐ 별점 입력 커스텀
+   📝 본문 입력
+=========================== */
+
+.desc-text {
+  resize: none;
+  width: calc(100% - 50px);
+  height: 25vh;
+  background-color: #fff;
+  color: #171513;
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 16px;
+  box-sizing: border-box;
+  margin: 0 25px 0;
+}
+.desc-text:focus {
+  outline: none;
+  border-color: #333;
+  background-color: #fff;
+}
+
+/* ===========================
+   ━━━ 구분선
+=========================== */
+.section-divider,
+.section_divider {
+  height: 3px;
+  background-color: #ddd;
+  margin: 16px 25px 8px;
+}
+
+/* ===========================
+   🔎 음식점 검색
+=========================== */
+
+.search_input {
+  width: calc(100% - 50px);
+  margin: 0 25px;
+  height: 40px;
+  border: 1.5px solid #171513;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 15px;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+/* 검색 결과 카드 */
+.search-res {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 25px;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+}
+
+
+
+/* 썸네일 */
+.res_thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* 텍스트 정보 */
+.res_info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.res_name {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  color: #171513;
+}
+.res_addr {
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+}
+
+/* 평점 뱃지 */
+.rating_info {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #ffd700;
+  border-radius: 12px;
+  padding: 2px 6px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #000;
+  width: fit-content;
+}
+.ratings_icon { width: 16px; height: 16px; }
+.ratings_text { font-size: 13px; }
+
+/* ===========================
+   ⭐ 별점 입력
 =========================== */
 
 .rating-wrapper {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin: 10px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 25px;
 }
-
-/* 별점 텍스트 */
 .rating-title {
-	font-size: 15px;
-	color: #333;
-	margin-right: 10px;
-	white-space: nowrap;
+  font-size: 15px;
+  color: #333;
+  margin-right: 10px;
+  white-space: nowrap;
 }
 
-/* 별점 컨테이너 */
+/* 별 모양 라디오 */
 .star-input {
-	display: flex;
-	flex-direction: row-reverse; /* 오른쪽부터 별 */
-	unicode-bidi: bidi-override;
+  display: flex;
+  flex-direction: row-reverse;
+  unicode-bidi: bidi-override;
 }
-
-/* 라디오 숨김 */
-.star-input input[type="radio"] {
-	display: none;
-}
-
-/* 기본 별 색상 */
+.star-input input[type="radio"] { display: none; }
 .star-input label {
-	color: #ccc;
-	cursor: pointer;
-	font-size: 20px;
-	transition: color 0.2s;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 20px;
+  transition: color 0.2s;
 }
-
-/* 선택된 별 및 hover 시 채워짐 */
 .star-input input[type="radio"]:checked ~ label,
 .star-input label:hover,
-.star-input label:hover ~ label {
-	color: #FFD700;
-}
+.star-input label:hover ~ label { color: #FFD700; }
 
-/* 모달 백그라운드 */
+/* ===========================
+   ⏳ 모달 (게시 중입니다…)
+=========================== */
+
 .modal-backdrop {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.4);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 9999;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
-
-/* 모달 콘텐츠 */
 .modal-content {
-	background: white;
-	padding: 30px 40px;
-	border-radius: 10px;
-	text-align: center;
-	box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-	font-size: 16px;
+  background: white;
+  padding: 30px 40px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  font-size: 16px;
 }
-
-/* 로딩 애니메이션 */
 .loader {
-	border: 4px solid #f3f3f3;
-	border-top: 4px solid #555;
-	border-radius: 50%;
-	width: 30px;
-	height: 30px;
-	animation: spin 1s linear infinite;
-	display: block;
-	margin: 0 auto 10px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #555;
+  border-radius: 50%;
+  width: 30px; height: 30px;
+  animation: spin 1s linear infinite;
+  display: block;
+  margin: 0 auto 10px;
 }
-
 @keyframes spin {
-	0% { transform: rotate(0deg); }
-	100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* 랭킹 등록 */
+/* ===========================
+   📌 랭킹 등록 스위치
+=========================== */
+
 .favorite-wrapper {
-
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin: 20px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 25px;
 }
-
-/* 랭킹 텍스트 */
 .favorite-title {
-	font-size: 15px;
-	color: #333;
-	margin-right: 10px;
-	white-space: nowrap;
+  font-size: 15px;
+  color: #333;
+  margin-right: 10px;
+  white-space: nowrap;
 }
 
-/* 스위치 전체 래퍼 */
 .switch-toggle {
   position: relative;
   display: inline-block;
   width: 70px;
   height: 32px;
 }
-
-/* 실제 체크박스는 숨김 */
+/* 체크박스 숨김 */
 .switch-toggle input {
   opacity: 0;
-  width: 0;
-  height: 0;
+  width: 0; height: 0;
 }
-
-/* 슬라이더 박스 */
+/* 슬라이더 */
 .slider {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  inset: 0;
   background-color: #ccc;
   border-radius: 32px;
   transition: background-color 0.4s;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 13px;
-  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 13px; color: white;
 }
-
-/* 스위치 동그라미 */
+/* 동그라미 */
 .slider::before {
   content: "";
   position: absolute;
-  height: 26px;
-  width: 26px;
-  left: 3px;
-  bottom: 3px;
+  height: 26px; width: 26px;
+  left: 3px; bottom: 3px;
   background-color: white;
   transition: transform 0.4s;
   border-radius: 50%;
   z-index: 1;
 }
+/* 라벨 */
+.label-on, .label-off {
+  position: absolute; z-index: 2; transition: opacity 0.2s;
+}
+.label-off { right: 10px; opacity: 1; }
+.label-on  { left: 10px;  opacity: 0; }
 
-/* 텍스트 라벨들 */
-.label-on,
-.label-off {
-  position: absolute;
-  z-index: 2;
-  transition: opacity 0.2s;
+/* 체크 시 */
+input:checked + .slider { background-color: #FFD600; }
+input:checked + .slider::before { transform: translateX(38px); }
+input:checked + .slider .label-off { opacity: 0; }
+input:checked + .slider .label-on  { opacity: 1; }
+
+/* ===========================
+   📌 게시중 모달
+=========================== */
+/* 전체 화면 오버레이 */
+.updating-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25); /* 더 투명하게 */
+  z-index: 11000;
+
+  display: none;            /* 기본 숨김 */
+  align-items: center;      /* 중앙 정렬 */
+  justify-content: center;  /* 중앙 정렬 */
 }
 
-/* OFF 위치: 오른쪽 */
-.label-off {
-  right: 10px;
-  opacity: 1;
+/* 열릴 때만 보이기 */
+.updating-backdrop.is-open{
+  display: flex;
 }
 
-/* ON 위치: 왼쪽 */
-.label-on {
-  left: 10px;
-  opacity: 0;
+/* 가운데 작은 카드 */
+.updating-card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 180px;
+  padding: 16px 18px;
+  border-radius: 12px;
+
+  background: #ffffff;                        /* 카드 흰색 */
+  color: #111;                                /* 기본 글자색 검정 */
+  box-shadow: 0 12px 32px rgba(0,0,0,.25);
+  border: 1px solid rgba(0,0,0,0.06);
+  text-align: center;
 }
 
-/* 체크되었을 때 스타일 변경 */
-input:checked + .slider {
-  background-color: #FFD600;
+/* 로더(검정 계열) */
+.loader{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid rgba(0,0,0,0.18); /* 링 */
+  border-top-color: #111;             /* 회전 부분 진하게 */
+  animation: spin .8s linear infinite;
 }
 
-/* 체크되었을 때 동그라미 이동 */
-input:checked + .slider::before {
-  transform: translateX(38px);
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* 체크되었을 때 텍스트 전환 */
-input:checked + .slider .label-off {
-  opacity: 0;
-}
-input:checked + .slider .label-on {
-  opacity: 1;
+.updating-text{
+  margin: 0;
+  font-size: 14px;
+  color: #111; /* 검정 텍스트 */
 }

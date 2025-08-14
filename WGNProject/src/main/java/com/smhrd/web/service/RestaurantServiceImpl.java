@@ -35,5 +35,15 @@ public class RestaurantServiceImpl implements RestaurantService {
 		
 		return resInfo;
 	}
+
+	@Override
+	public void updateRecord(int res_idx) {
+		restaurantMapper.updateRecord(res_idx);
+		
+	}
+	@Override
+	public void deleteimg(List<String> urls) {
+		restaurantMapper.deleteimg(urls);
+	}
 	
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.smhrd.web.dto.CommentDTO;
@@ -92,6 +93,7 @@ public class FeedController {
 
 		model.addAttribute("isFollowing", isFollowing);
 		model.addAttribute("feedOwnerProfile", feedOwnerProfile);
+		
 
 		// 음식점 정보 가져오기
 		int resIdx = feed.getRes_idx();
@@ -102,7 +104,7 @@ public class FeedController {
 
 		// 해당 사용자가 피드를 좋아하는지 여부를 체크하는 메서드
 		boolean isLiking = memberService.isLiking(mbId, feedIdx);
-
+		
 		model.addAttribute("feed", feed);
 		model.addAttribute("resInfo", resInfo);
 		model.addAttribute("comments", comments);
@@ -189,6 +191,101 @@ public class FeedController {
 		boolean exists = favoriteService.checkFavoriteExists(mb_id, res_idx);
 		return ResponseEntity.ok(exists);
 	}
+	
+	@PostMapping("/update")
+	public String updateFeed(
+	        @RequestParam("feed_idx") Long feedIdx,
+	        @RequestParam("feed_content") String feedContent,
+	        @RequestParam(value = "ratings", required = false) Integer ratings,
+	        @RequestParam("imageMode") String imageMode,
+	        @RequestParam(value = "delete_img_urls", required = false) List<String> deleteImgUrls,
+	        @RequestParam(value = "images", required = false) List<MultipartFile> images,
+	        HttpSession session,
+	        RedirectAttributes ra
+	) {
+		
+	   
+	    System.out.println("feed_idx       = " + feedIdx);
+	    System.out.println("feed_content   = " + (feedContent!=null ? feedContent.substring(0, Math.min(60, feedContent.length())) : "null"));
+	    System.out.println("ratings        = " + ratings);
+	    System.out.println("imageMode      = " + imageMode);
+		
+	    System.out.println("deleteImgUrls  = " + (deleteImgUrls==null ? "null" : deleteImgUrls.size()+"개 -> " + deleteImgUrls));
+	    if (images == null) {
+	        System.out.println("images         = null");
+	    } else {
+	        System.out.println("images.size    = " + images.size());
+	        for (int i=0;i<images.size();i++){
+	            MultipartFile f = images.get(i);
+	            System.out.println("  - images[" + i + "]: name=" + f.getName()
+	                    + ", original=" + f.getOriginalFilename()
+	                    + ", size=" + (f.isEmpty()?0:f.getSize())
+	                    + ", isEmpty=" + f.isEmpty());
+	        }
+	    }
+	    
+	    // 로그인 사용자 ID 가져오기 (예: 세션에서)
+	    t_member logined = (t_member) session.getAttribute("member");
+    	String mbId = logined.getMb_id();
+	    System.out.println("session.mb_id  = " + mbId);
+
+	    if (mbId == null) {
+	        System.out.println(">> 로그인 안됨 → redirect:/feed?feed_idx=" + feedIdx);
+	        ra.addFlashAttribute("error", "로그인이 필요합니다.");
+	        return "redirect:/feed?feed_idx=" + feedIdx; // 이 경로가 실제로 매핑돼 있는지도 꼭 확인!
+	    }
+
+	    try {
+	        System.out.println(">> 1) 메타 업데이트 시작");
+	        feedService.updateMeta(feedIdx, feedContent, ratings);
+	        System.out.println(">> 1) 메타 업데이트 끝");
+
+	        boolean replaceAll = "REPLACE_ALL".equalsIgnoreCase(imageMode);
+	        boolean hasNewFiles = images != null && images.stream().anyMatch(f -> f != null && !f.isEmpty());
+	        System.out.println("replaceAll     = " + replaceAll);
+	        System.out.println("hasNewFiles    = " + hasNewFiles);
+
+	        if (replaceAll) {
+	            System.out.println(">> 2) 모드=REPLACE_ALL → 기존 이미지 전체 삭제");
+	            feedService.deleteAllImages(feedIdx);
+
+	            if (hasNewFiles) {
+	                System.out.println(">> 3) 새 이미지 저장 시작 (REPLACE_ALL)");
+	                feedService.saveImages(feedIdx, images);
+	                System.out.println(">> 3) 새 이미지 저장 끝 (REPLACE_ALL)");
+	            } else {
+	                System.out.println(">> 3) 새 이미지 없음 (REPLACE_ALL)");
+	            }
+	        } else { // APPEND
+	            System.out.println(">> 2) 모드=APPEND");
+
+	            if (deleteImgUrls != null && !deleteImgUrls.isEmpty()) {
+	                System.out.println(">> 2-1) 선택 삭제 실행: " + deleteImgUrls.size() + "개");
+	                feedService.deleteSelectedImages(feedIdx, deleteImgUrls);
+	            } else {
+	                System.out.println(">> 2-1) 선택 삭제 없음");
+	            }
+
+	            if (hasNewFiles) {
+	                System.out.println(">> 3) 새 이미지 추가 시작 (APPEND)");
+	                feedService.saveImages(feedIdx, images);
+	                System.out.println(">> 3) 새 이미지 추가 끝 (APPEND)");
+	            } else {
+	                System.out.println(">> 3) 새 이미지 없음 (APPEND)");
+	            }
+	        }
+
+	        ra.addFlashAttribute("success", "피드가 수정되었습니다.");
+	        System.out.println("=== [UPDATE FEED] 성공 → redirect:/feed?feed_idx=" + feedIdx + " ===");
+	    } catch (Exception e) {
+	        System.out.println("=== [UPDATE FEED] 실패 ===");
+	        e.printStackTrace();
+	        ra.addFlashAttribute("error", "피드 수정 중 오류가 발생했습니다: " + e.getMessage());
+	    }
+
+	    return "redirect:/feed?feed_idx=" + feedIdx;
+	}
+	
 
 	@PostMapping("/delete")
 	public String deleteFeed(HttpSession session, @RequestParam("feed_idx") int feed_idx) {
@@ -205,7 +302,9 @@ public class FeedController {
 			String publicId = cloudinaryService.extractPublicId(url);
 			cloudinaryService.deleteFile(publicId);
 		}
-
+		
+		restaurantService.deleteimg(urls);
+		
 		// DB에서 피드 삭제
 		feedService.deleteFeed(feed_idx);
 
@@ -238,16 +337,26 @@ public class FeedController {
 	@ResponseBody
 	public int addFeedLike(@RequestBody int feed_idx, HttpSession session) {
 
+		
 		// 세션에서 로그인 유저 꺼냄
 		t_member logined = (t_member) session.getAttribute("member");
 		String mb_id = logined.getMb_id();
+		
+		System.out.println("세션에서 로그인 유저 꺼냄" + mb_id);
 
 		// 해당 피드 정보 불러오기
 		FeedWithImgDTO feed = feedService.getFeedByFeedIdx(feed_idx);
 		int res_idx = feed.getRes_idx();
+		
+		System.out.println("피드 정보 불러옴" + res_idx);
 
 		int feedLikeNum = feedService.addFeedLike(feed_idx, mb_id);
+		
+		System.out.println("좋아요 저장 성공" + feedLikeNum);
+		
 		memberService.saveLog(mb_id, res_idx, "좋아요");
+	
+		
 		return feedLikeNum;
 	}
 
@@ -288,7 +397,7 @@ public class FeedController {
 
 			// 이 멤버가 좋아하는 모든 피드 idx를 가져오는 메서드
 			List<Integer> likedFeedList = memberService.getAllLikedFeed(mb_id);
-
+			
 			response.setFollowingMemList(followingMemList);
 			response.setLikedFeedList(likedFeedList);
 

@@ -1,6 +1,9 @@
 package com.smhrd.web.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,8 +92,14 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void followMem(String follower_id, String following_id) {
-		memberMapper.followMem(follower_id, following_id);
-		notificationService.makeFollowNoti(follower_id, following_id);
+		
+		if (!follower_id.equals(following_id)) {
+			memberMapper.followMem(follower_id, following_id);
+			notificationService.makeFollowNoti(follower_id, following_id);
+		} else {
+		    // 아무 작업도 하지 않음
+		}
+		
 	}
 
 	@Override
@@ -182,5 +191,44 @@ public class MemberServiceImpl implements MemberService {
 		List<String> allFollowMem = memberMapper.getAllfollowMem(mb_id);
 		return allFollowMem;
 	}
+
+	@Override
+	public List<String> getAllfollowingMem(String mb_id) {
+		List<String> allFollowingMem = memberMapper.getAllfollowingMem(mb_id);
+		return allFollowingMem;
+	}
+
+	@Override
+	public Map<String, Object> getFollowInfo(String mb_id) {
+	    // 팔로워 아이디 리스트 (나를 팔로우하는 사람들)
+	    List<String> followerIdList = this.getAllfollowingMem(mb_id);
+	    
+	    // 내가 팔로우 하는 사람들 아이디 리스트
+	    List<String> followingIdList = this.getAllfollowMem(mb_id);
+
+	    System.out.println("팔로워 리스트" + followerIdList);
+	    System.out.println("팔로워 리스트" + followingIdList);
+	    
+	    // DTO 리스트로 변환
+	    List<ProfileDTO> followerList = new ArrayList<>();
+	    List<ProfileDTO> followingList = new ArrayList<>();
+
+	    for (String follower : followerIdList) {
+	        ProfileDTO followerInfo = this.getProfileInfo(follower);
+	        followerList.add(followerInfo);
+	    }
+
+	    for (String following : followingIdList) {
+	        ProfileDTO followingInfo = this.getProfileInfo(following);
+	        followingList.add(followingInfo);
+	    }
+
+	    Map<String, Object> listMap = new HashMap<>();
+	    listMap.put("followerList", followerList);
+	    listMap.put("followingList", followingList);
+
+	    return listMap;
+	}
+
 
 }
