@@ -27,7 +27,7 @@
 	<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 
 	<div class="mobile-container">
-		<div class="content">
+		<div class="content_login">
 			<div class="login">
 				<h1>로그인</h1>
 			</div>
@@ -55,8 +55,7 @@
 					<c:if test="${not empty loginErrorMsg or param.error == '1'}">
 						<div class="text-danger mt-2">아이디와 비밀번호를 확인해주세요.</div>
 					</c:if>
-
-
+		
 				</div>
 
 				<!-- 로그인 버튼 -->

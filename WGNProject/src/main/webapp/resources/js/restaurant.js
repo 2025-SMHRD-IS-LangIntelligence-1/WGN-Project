@@ -248,13 +248,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const clampTo3 = (selector) => {
     const items = document.querySelectorAll(selector);
     items.forEach((el, idx) => {
-      el.classList.toggle('d-none', idx >= 3); // ✅ idx >= 3 (버그였던 > 3 수정)
+      el.classList.toggle('d-none', idx >= 3); // ✅ idx >= 3
     });
   };
 
   clampTo3('.naver-review');
   clampTo3('.kakao-review');
-  clampTo3('.user-review'); // ✅ 사용자 리뷰도 동일 규칙 적용
+  clampTo3('.user-review');
 
   // 토글 버튼 헬퍼
   const makeToggle = (btnId, itemSelector, moreText, lessText) => {
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // 버튼 id와 아이템 클래스 매핑
   makeToggle('toggle-naver', '.naver-review', '네이버 리뷰 더보기', '네이버 리뷰 접기');
   makeToggle('toggle-kakao', '.kakao-review', '카카오 리뷰 더보기', '카카오 리뷰 접기');
-  makeToggle('toggle-user',  '.user-review',  '사용자 리뷰 더보기',  '사용자 리뷰 접기'); // ✅ 추가
+  makeToggle('toggle-user',  '.user-review',  '사용자 리뷰 더보기',  '사용자 리뷰 접기');
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -316,13 +316,16 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-
-// 작성 유효성
+/* =========================
+   작성 유효성 + 중복 제출 방지 + 대기 오버레이
+========================= */
 const ratingError   = document.getElementById('ratingError');
 const contentError  = document.getElementById('contentError');
 const ratingInputs  = document.querySelectorAll('input[name="ratings"]');
 const reviewContent = document.getElementById('reviewContent');
+const reviewForm    = document.getElementById('reviewForm');
 
+// 입력 중 에러 숨기기
 if (ratingInputs && ratingError) {
   ratingInputs.forEach((input) => input.addEventListener('change', () => (ratingError.style.display = 'none')));
 }
@@ -331,16 +334,86 @@ if (reviewContent && contentError) {
     if (reviewContent.value.trim() !== '') contentError.style.display = 'none';
   });
 }
-const reviewForm = document.getElementById('reviewForm');
+
+// ⬇️ 대기 오버레이 생성/표시/숨김 유틸 (부트스트랩 없어도 동작)
+function ensureWaitOverlay() {
+  let ov = document.getElementById('submitWaitOverlay');
+  if (ov) return ov;
+  ov = document.createElement('div');
+  ov.id = 'submitWaitOverlay';
+  ov.setAttribute('role', 'dialog');
+  ov.setAttribute('aria-live', 'assertive');
+  ov.style.cssText = `
+    position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; z-index:20000;
+    align-items:center; justify-content:center; backdrop-filter:saturate(120%) blur(1px);
+  `;
+  const box = document.createElement('div');
+  box.style.cssText = `
+    background:#fff; padding:24px 28px; border-radius:12px; min-width:240px; text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+  `;
+  box.innerHTML = `
+    <div class="spinner-border" role="status" aria-hidden="true"
+         style="width:2.5rem;height:2.5rem;margin-bottom:10px;"></div>
+    <h6 style="margin:0 0 4px 0;">리뷰 등록 중입니다…</h6>
+    <div style="color:#6c757d;font-size:14px;">잠시만 기다려 주세요.</div>
+  `;
+  ov.appendChild(box);
+  document.body.appendChild(ov);
+  return ov;
+}
+function showWaitOverlay() {
+  const ov = ensureWaitOverlay();
+  ov.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function hideWaitOverlay() {
+  const ov = document.getElementById('submitWaitOverlay');
+  if (ov) ov.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+let isSubmitting = false;
 if (reviewForm) {
   reviewForm.addEventListener('submit', function (e) {
+    // 이미 제출 중이면 즉시 차단
+    if (isSubmitting) {
+      e.preventDefault();
+      return;
+    }
+
+    // 유효성 검사
     const ratingChecked = document.querySelector('input[name="ratings"]:checked');
     const content = (reviewContent ? reviewContent.value : '').trim();
     let isValid = true;
+
     if (!ratingChecked && ratingError) { ratingError.style.display = 'block'; isValid = false; }
     if (content === ''   && contentError) { contentError.style.display = 'block'; isValid = false; }
-    if (!isValid) e.preventDefault();
+
+    if (!isValid) {
+      e.preventDefault();
+      return;
+    }
+
+    // 제출 진행: 중복 방지 + 버튼 비활성화 + 오버레이 표시
+    isSubmitting = true;
+
+    // 폼 안의 submit 버튼 전부 비활성화 (혹시 여러 개 있을 때 대비)
+    const submitButtons = reviewForm.querySelectorAll('button[type="submit"], input[type="submit"]');
+    submitButtons.forEach((btn) => {
+      btn.disabled = true;
+      if (btn.tagName === 'BUTTON') btn.dataset._origText = btn.textContent;
+      if (btn.tagName === 'BUTTON') btn.textContent = '등록 중…';
+    });
+
+    showWaitOverlay();
+    // 서버로 정상 제출되며 페이지 이동/리다이렉트가 일어남.
+    // 만약 동일 페이지로 돌아오면 새로고침된 상태라 오버레이/플래그는 초기화됨.
   });
+
+  // 혹시 SPA스러운 비정상 상황에서 에러로 인해 제출이 막히면 오버레이/잠금 해제용 안전장치 (예: 프론트 검증 추가 실패 등)
+  window.addEventListener('unhandledrejection', () => { isSubmitting = false; hideWaitOverlay(); });
+  window.addEventListener('error', () => { isSubmitting = false; hideWaitOverlay(); });
 }
 
 /* =========================

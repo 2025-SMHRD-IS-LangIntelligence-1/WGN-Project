@@ -20,12 +20,12 @@
 </head>
 
 <body>
-	<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
+<%@ include file="/WEB-INF/views/common/topBar.jsp"%>	
 
 	<div class="mobile-container">
 
 		<div class="content">
-			
+				
 			<div class="feed" id="feed-list">
 				<!-- JavaScript로 동적으로 채워짐 -->
 			</div>          

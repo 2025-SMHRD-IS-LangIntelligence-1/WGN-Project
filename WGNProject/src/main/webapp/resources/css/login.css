@@ -7,7 +7,7 @@ body {
     align-items: flex-start;
     min-height: 100vh;
     padding-top: 10px;       	/* top-bar 만큼 아래로 밀어내기*/
-    overflow: hidden;			/* 스크롤 차단 */
+			/* 스크롤 차단 */
 }
 /* 로그인 로고 */
 .login h1 {
@@ -31,10 +31,11 @@ body {
 }
 
 /* 전체 좌우 여백*/
-.content {
-    padding: 0 60px; 				/* 좌우 여백 */
+.content_login {
+    padding: 60px 60px 120px; 				/* 좌우 여백 */
     text-align: center;
     position: relative; 			/* 자식 요소의 절대 위치 기준이 됨 */
+    height: auto;       /* 높이 자동 */
 }
 
 /* 로그인 박스 */
@@ -75,7 +76,7 @@ body {
 /* 아이디/비밀번호 찾기 버튼 */
 .my-form-links {
 	margin-top: 7px;               /* 위 요소(form-group)와의 간격 */
-	margin-bottom: 130px;		   /* */
+	margin-bottom: 100px;		   /* */
 	text-align: center;            /* 링크 가운데 정렬*/
 }
 .my-form-links a {
@@ -95,8 +96,8 @@ body {
 	transition: background-color 0.3s ease, color 0.3s ease; /* 호버 시 부드러운 색상 전환 효과 */
 	
 	
-	position: absolute;     	  	  /* .login을 기준으로 위치 고정 */
-  	bottom: -20px;           	 	  /* .login 아래로 80px 만큼 떨어지게 설정 (원하는 거리로 조정 가능) */
+	position: static;     	  	  /* .login을 기준으로 위치 고정 */
+	 	  /* .login 아래로 80px 만큼 떨어지게 설정 (원하는 거리로 조정 가능) */
   	left: 60px;                       /* 왼쪽 여백 */
  	right: 60px;                      /* 오른쪽 여백 */
 }

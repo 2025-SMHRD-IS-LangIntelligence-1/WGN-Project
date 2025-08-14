@@ -544,7 +544,7 @@
 
 									<!-- 버튼 -->
 									<div class="text-end">
-										<button type="submit" id="toggleReviewBtn">리뷰 등록</button>
+										<button type="submit" id="reviewSubmitBtn">리뷰 등록</button>
 									</div>
 								</form>
 							</div>
@@ -697,6 +697,19 @@
 		<button type="button" id="reviewModalClose" class="modal-close">×</button>
 	</div>
 
+	<!-- 리뷰 등록 모달 -->
+	<div class="modal fade" id="submitWaitModal" tabindex="-1"
+		data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content p-4 text-center">
+				<div class="spinner-border mb-3" role="status" aria-hidden="true"></div>
+				<h5 class="mb-1">리뷰 등록 중입니다…</h5>
+				<p class="text-muted mb-0">잠시만 기다려 주세요.</p>
+			</div>
+		</div>
+	</div>
+
+
 	<%@ include file="/WEB-INF/views/common/bottomBar.jsp"%>
 
 	<!-- 스크립트 -->
@@ -706,7 +719,8 @@
 		var reslon = "${res.lon}";
 		let res_idx = "${res.res_idx}";
 		console.log(res_idx);
-		if (typeof window.mb_id === 'undefined')       window.mb_id       = "${sessionScope.member != null ? sessionScope.member.mb_id : ''}";
+		if (typeof window.mb_id === 'undefined')
+			window.mb_id = "${sessionScope.member != null ? sessionScope.member.mb_id : ''}";
 	</script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/restaurant.js">

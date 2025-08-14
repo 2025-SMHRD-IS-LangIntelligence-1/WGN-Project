@@ -25,7 +25,7 @@
 
 	<%@ include file="/WEB-INF/views/common/topBar.jsp"%>
 	<div class="mobile-container">
-		<div class="content">
+		<div class="content_join">
 
 			<div class="join-wrapper">
 				<!-- 뒤로가기 버튼 -->

@@ -7,7 +7,7 @@ body {
 	align-items: flex-start;
 	min-height: 100vh;
 	padding-top: 10px; /* top-bar 만큼 아래로 밀어내기*/
-	overflow: hidden; /* 스크롤 차단 */
+
 }
 
 /* 회원가입 로고 */
@@ -51,10 +51,17 @@ body {
 }
 
 /* 전체 좌우 여백*/
-.content {
-	padding: 0 60px; /* 좌우 여백 */
-	text-align: center;
-	position: relative; /* 자식 요소의 절대 위치 기준이 됨 */
+.content_join {
+    padding: 60px 60px 100px;   /* 좌우 여백 */
+    text-align: center;
+    position: relative;
+    height: auto;
+    min-height: auto;
+
+    /* 스크롤 가능 설정 */
+    max-height: 100vh;        /* 화면 높이까지만 */
+    overflow-y: auto;         /* 내용 넘치면 세로 스크롤 */
+    box-sizing: border-box;   /* 패딩 포함해서 높이 계산 */
 }
 
 /* 로그인 박스 */

@@ -45,7 +45,7 @@ public class MemberController {
 	        newSession.setAttribute("member", mem); // 또는 가입 결과를 다시 조회해서 최신 정보 저장
 	    }
 		
-		return "redirect:/";
+		return "redirect:/member/login";
 		
 	}
 	

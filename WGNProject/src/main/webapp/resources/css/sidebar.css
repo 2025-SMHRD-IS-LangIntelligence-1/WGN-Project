@@ -3,8 +3,11 @@
 /* ===== 바디 스크롤 잠금 (모달 전용) ===== */
 body.modal-lock { overflow: hidden; }
 
+
 /* ===== 오른쪽 사이드바 ===== */
 .side-bar{
+  margin-left: auto;
+  margin-right: auto;
   right:-200px; width:200px; height:calc(100vh - 80px);
   background:#f5f5f5; color:#171513; position:fixed; top:0; padding-top:60px;
   z-index:900; transition:right .3s ease;
@@ -12,6 +15,7 @@ body.modal-lock { overflow: hidden; }
 .side-bar.active{ right:0; }
 .side-bar a{ color:#171513; text-decoration:none; }
 .side-bar a:hover{ color:#171513; }
+
 
 /* 로그인 안내 박스 */
 .side-bar .login-prompt{ padding:12px 14px; text-align:center; }

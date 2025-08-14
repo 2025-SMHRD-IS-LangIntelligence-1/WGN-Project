@@ -228,10 +228,10 @@
 															</c:otherwise>
 														</c:choose>
 														<div class="flex-fill">
-															<h6 class="mb-0">${favoriteres.res_name}</h6>
+															<h6 class="mb-0" style="padding-left: 12px;">${favoriteres.res_name}</h6>
 															<small class="text-muted">${favoriteres.res_addr}</small>
-															<div class="mt-1">
-																<span class="badge bg-warning text-dark">${favoriteres.fav_rating}</span>
+															<div class="mt-1" style="padding-left: 12px;">
+																<span class="badge bg-warning text-dark" >${favoriteres.fav_rating}</span>
 															</div>
 														</div>
 														<div style="font-size: 24px; margin-left: 8px;">
@@ -274,9 +274,9 @@
 															</c:otherwise>
 														</c:choose>
 														<div class="flex-fill">
-															<h6 class="mb-0">${favoriteres.res_name}</h6>
+															<h6 class="mb-0" style="padding-left: 12px;">${favoriteres.res_name}</h6>
 															<small class="text-muted">${favoriteres.res_addr}</small>
-															<div class="mt-1">
+															<div class="mt-1" style="padding-left: 12px;">
 																<span class="badge bg-warning text-dark">${favoriteres.fav_rating}</span>
 															</div>
 														</div>
@@ -333,7 +333,7 @@
 															</c:otherwise>
 														</c:choose>
 														<div class="flex-fill">
-															<h6 class="mb-0">${goingres.res_name}</h6>
+															<h6 class="mb-0" style="padding-left: 12px;">${goingres.res_name}</h6>
 															<small class="text-muted">${goingres.res_addr}</small>
 														</div>
 													</a>
@@ -376,7 +376,7 @@
 															</c:otherwise>
 														</c:choose>
 														<div class="flex-fill">
-															<h6 class="mb-0">${goingres.res_name}</h6>
+															<h6 class="mb-0" style="padding-left: 12px;">${goingres.res_name}</h6>
 															<small class="text-muted">${goingres.res_addr}</small>
 														</div>
 													</a>
