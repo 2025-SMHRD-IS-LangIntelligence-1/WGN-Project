@@ -6,7 +6,7 @@
 
 2.
 - 파이썬 버전 확인 : python --version
-- 가상 환경 생성 : conda create --name 환경명 python=파이썬 버전
+- 가상 환경 생성 : conda create -n 환경명 python=파이썬 버전
 - 가상 환경 실행 : conda activate 환경명
 - 가상 환경에 필요한 라이브러리 설치 : pip install pandas fastapi uvicorn nest_asyncio pymysql sentence_transformers wordcloud sentence_transformers konlpy jpype1 kiwipiepy gensim
 

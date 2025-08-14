@@ -13,8 +13,9 @@
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 	<div class="top-bar">
-		<a class="logo" href="<c:url value='/'/>">WGN</a>
-		<i class="bi bi-list"></i>
+		<a class="logo" href="<c:url value='/'/>"> <img
+			src="<c:url value='/resources/images/wgn-logo.png'/>" alt="WGN 로고">
+		</a> <i class="bi bi-list"></i>
 	</div>
 
 	<script>

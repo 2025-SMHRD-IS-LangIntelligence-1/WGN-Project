@@ -5,7 +5,7 @@ console.log(mb_id);
    탭 이동 + active
 ========================= */
 document.addEventListener('DOMContentLoaded', function () {
-  const sections = document.querySelectorAll('#info-section, #menu-section, #rating-section, #review-section');
+  const sections = document.querySelectorAll('#info-section, #amenity-section, #menu-section, #rating-section, #review-section');
   const tabLinks = document.querySelectorAll('.tab-link');
   const tab = document.getElementById('restaurantTabs');
   const tabOffsetTop = tab ? tab.offsetTop : 0;
@@ -438,4 +438,11 @@ document.addEventListener('DOMContentLoaded', function () {
         alert('요청 처리 중 오류 발생');
       });
   });
+});
+
+// 고유 항목 개수 표시
+document.addEventListener('DOMContentLoaded', function(){
+  var count = document.querySelectorAll('#amenity-section .amenity-item').length;
+  var badge = document.getElementById('amenity-count');
+  if(badge) badge.textContent = count ? count : '';
 });

@@ -100,7 +100,7 @@
 							등록한 음식점입니다.</span>
 					</div>
 				</div>
-		</div>
+	
 		<!-- 음식점 검색 -->
 		<input type="text" class="search_input" placeholder="음식점을 입력하세요">
 		<input type="hidden" name="res_idx" id="selectedResIdx"> <span
@@ -111,7 +111,7 @@
 		</form>
 	</div>
 	</div>
-
+</div>
 	<!-- 게시 중 모달 -->
 	<div id="postingModal" class="updating-backdrop" style="display: none;">
 		<div class="updating-card">
