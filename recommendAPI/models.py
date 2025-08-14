@@ -1,15 +1,15 @@
 from pydantic import BaseModel # pydantic : 데이터 검증과 설정 관리를 위한 Python 라이브러리
-from typing import List
+from typing import List, Optional
 
 # ------------------ 데이터 모델 정의 ------------------
 
 # BaseModel을 활용하면 잘못된 데이터가 들어왔을 때 자동으로 422 에러를 띄워줌 (데이터 검증)
 
 class WordcloudAndRatings(BaseModel):
-    nk_positive_wc: str
-    nk_negative_wc: str
-    wgn_positive_wc: str
-    wgn_negative_wc: str
+    nk_positive_wc: Optional[str]  # None 허용
+    nk_negative_wc: Optional[str]
+    wgn_positive_wc: Optional[str]
+    wgn_negative_wc: Optional[str]
     wgn_ratings: float
 
 class Log(BaseModel):

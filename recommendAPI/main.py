@@ -4,12 +4,11 @@ from fastapi.responses import JSONResponse # JSONResponse : FastAPI에서 응답
 import uvicorn
 import nest_asyncio
 from urllib.parse import unquote
-
-from feed_recommendation import recommend_feed
+from feed_recommendation import get_recommendations_for_user
 from feed_searching import show_recommendation_result
 from making_wordclouds import run_pipeline
 from res_searching import prepare_data, recommend_with_reviewscore_auto
-from models import LogsAndFeeds, FeedForSearch, WordcloudAndRatings # 클래스들이 모여있는 파일
+from models import FeedForSearch, WordcloudAndRatings # 클래스들이 모여있는 파일
 
 # ------------------ FastAPI 앱 객체 ------------------
 
@@ -93,30 +92,21 @@ async def receive_review(res_idx: int) -> WordcloudAndRatings:
 
     return result
 
+@app.post("/receive_feed_recommendation")
+async def receive_feed_recommendation(mb_id: str = Body(..., embed=True)):
 
-@app.post("/receive_logs_and_feeds")
-async def receive_logs_and_feeds(data: LogsAndFeeds): # data : 클라이언트(Spring 서버)로부터 LogsAndFeeds 클래스 형태로 파싱해서 받은 데이터
-   
-    # 데이터가 잘 들어왔는지 확인하는 프린트문
-    print("=== /receive_logs_and_feeds 호출됨 ===")
-    print(f"받은 로그 개수: {len(data.logs)}") 
-    for i, log in enumerate(data.logs[:3]):  # 샘플 3개 출력
-        print(f"  로그 {i+1}: mb_id={log.mb_id}, res_idx={log.res_idx}, action={log.action_type}")
-    print(f"받은 피드 개수: {len(data.feeds)}")
-    for i, feed in enumerate(data.feeds[:3]):  # 샘플 3개 출력
-        print(f"  피드 {i+1}: feed_idx={feed.feed_idx}, res_idx={feed.res_idx}, likes={feed.feed_likes}")
+    print("=== /receive_feed_recommendation 호출됨 ===")
+    print("받은 아이디 :", mb_id)
 
-    # 추천 알고리즘 함수 실행하고 그 결과를 recommended_feed_ids에 저장
-    recommended_feed_idx = recommend_feed(
-        [log.dict() for log in data.logs], # pydantic 객체를 딕셔너리로 변환
-        [feed.dict() for feed in data.feeds] # pydantic 객체를 딕셔너리로 변환
-    )
-    
-    print(f"추천된 피드 idx 개수: {len(recommended_feed_idx)}")
-    print(f"추천된 피드 idx : {recommended_feed_idx[:10]}")  # 최대 10개만 출력
-    print("=== /receive_logs_and_feeds 처리 완료 ===\n")
+    # 추천 계산 → (사후) DB 반영까지 모듈에서 처리
+    recommended_feed_idx = get_recommendations_for_user(user_id=mb_id, max_count=20)
 
-    return JSONResponse(content=recommended_feed_idx, media_type="application/json; charset=utf-8")
+    print("=== /receive_feed_recommendation 종료 ===")
+
+    # 응답 (리턴 타입/미디어 타입은 유지)
+    return JSONResponse(content=recommended_feed_idx,
+                        media_type="application/json; charset=utf-8")
+
 
 @app.post("/receive_feed_for_search")
 async def receive_feed_for_search(

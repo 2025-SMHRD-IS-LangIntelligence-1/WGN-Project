@@ -42,12 +42,19 @@ def clean_tags(tag_data):
     # 3. 그 외 타입(None, 숫자 등)일 경우 빈 문자열 반환
     return ""
 
-# 텍스트 내에서 명사만 추출하는 함수
-def extract_nouns(text):
-    if not isinstance(text, str):
-        return []
-    text = re.sub(r"[^\uAC00-\uD7A3a-zA-Z0-9\s]", "", text)
-    return okt.nouns(text)
+# 텍스트 내에서 한글(명사), 영어 추출하는 함수
+def extract_nouns(text: str):
+    # 1) 특수문자 제거 (한글/영문/숫자만 남김)
+    text = re.sub(r"[^\uAC00-\uD7A3a-zA-Z0-9\s]", "", str(text))
+
+    # 2) 한글 명사 추출
+    nouns = okt.nouns(text)
+
+    # 3) 영문 단어 추출 (단어 경계 기준, 최소 2글자 이상만)
+    eng_words = re.findall(r'\b[a-zA-Z]{2,}\b', text)
+
+    # 4) 한글 + 영어 합치기
+    return nouns + eng_words
 
 # 사용자가 입력한 query에서 특정 지역명(구)을 찾아 리스트로 반환하는 함수
 def extract_regions_from_query(query, region_list):
@@ -185,6 +192,8 @@ def prepare_data():
     # review_number 숫자형 변환 또는 NaN 컬럼 생성
     if 'review_num' in df.columns:
         df['review_num'] = pd.to_numeric(df['review_num'], errors='coerce')
+    else:
+        df['review_num'] = np.nan
     
     # 브랜드 키워드 생성 (롯데리아 매장에 한해 추가)
     df['brand_keywords'] = df['res_name'].apply(
@@ -193,6 +202,7 @@ def prepare_data():
 
     # res_menu 컬럼 전처리
     df['res_menu'] = df['res_menu'].fillna('')  # NaN → 빈 문자열
+
     # 필요하면 공백 제거
     df['res_menu'] = df['res_menu'].str.strip()
     
@@ -202,6 +212,7 @@ def prepare_data():
     #brand_keywords 컬럼 제거
     df.drop(columns=['brand_keywords'], inplace=True)
     
+    # 안내 문구를 공백으로 치환
     df['res_category'] = df['res_category'].replace("카테고리를 등록하세요", "")
     df['res_tag'] = df['res_tag'].replace("태그없음", "")
     df['res_con'] = df['res_con'].replace("편의시설 정보를 추가해주세요", "")
@@ -270,7 +281,9 @@ def prepare_data():
     # ============== 메뉴 키워드 정규화 사전 / 카테고리 맵핑 / 음식점 정보 리스트 설정 ==============
     
     # 메뉴 키워드 정규화 사전 
+    
     keyword_map = {
+        "bhc" : "BHC", "bbq" : "BBQ",
         "떡복기": "떡볶이", "떡복이": "떡볶이", "떡볶기": "떡볶이", "떡보끼": "떡볶이",
         "김밮": "김밥", "김밥말이": "김밥", "김빱": "김밥",
         "돈카츠": "돈까스", "돈가스": "돈까스", "돈까쓰": "돈까스",
@@ -282,7 +295,7 @@ def prepare_data():
         "커리": "카레",
         "똠양꿍": "똠얌꿍"
     }
-    
+
     # 카테고리 맵핑
     category_map = {
         "한식": ["김치찌개","된장찌개","순두부찌개","부대찌개","청국장","갈비탕","설렁탕","삼계탕","한우불고기","제육볶음",
@@ -381,24 +394,40 @@ def prepare_data():
     "고트치즈","까망베르치즈","체다치즈","블루치즈","스위스치즈","에멘탈치즈","브리오슈","브리오슈번",
     "치아바타","포카치아","올리브브레드","허브포카치아","샤퀴테리","안티파스토","프로슈토","살라미","판체타"
     ],
-    "고기집": ["삼겹살","항정살","가브리살","목살","오겹살","돼지갈비","소갈비","한우등심","한우안심","한우특수부위",
-    "한우살치살","한우차돌박이","한우토시살","한우안창살","한우갈비살","한우꽃등심","한우부채살","한우우둔살",
-    "한우양지","한우설도","한우사태","소등심","소안심","소갈비살","소꽃등심","소차돌박이","소토시살","소안창살",
-    "소부채살","소우둔살","소사태","돼지삼겹살","돼지목살","돼지항정살","돼지갈매기살","돼지등심","돼지안심",
-    "돼지갈비살","돼지특수부위","돼지껍데기","돼지막창","돼지곱창","돼지대창","돼지염통","돼지소시지","돼지베이컨",
-    "돼지훈제","양념갈비","돼지양념갈비","소양념갈비","LA갈비","돼지주물럭","돼지불고기","소불고기","돼지바비큐",
-    "소바비큐","바비큐폭립","숯불삼겹살","숯불목살","숯불갈비","숯불양념갈비","숯불돼지갈비","숯불소갈비","숯불스테이크",
-    "숯불주물럭","숯불불고기","숯불왕갈비","숯불LA갈비","숯불오겹살","숯불등심","숯불안심","숯불특수부위","숯불곱창",
-    "숯불막창","숯불대창","한돈삼겹살","한돈목살","한돈오겹살","한돈갈비","한돈등심","한돈안심","한돈바비큐","한돈갈매기살",
-    "소고기모둠","돼지고기모둠","한우모둠","모둠고기","모둠한판","모둠스페셜","참숯삼겹살","참숯목살","참숯오겹살",
-    "참숯갈비","참숯돼지갈비","참숯소갈비","참숯스테이크","참숯주물럭","참숯불고기","참숯왕갈비","참숯LA갈비",
-    "참숯안심","참숯특수부위","참숯곱창","참숯막창","참숯대창","생삼겹살","생목살","생오겹살","생갈비","생돼지갈비",
-    "생소갈비","생스테이크","생주물럭","생불고기","생왕갈비","생LA갈비","생안심","생특수부위","훈제삼겹살","훈제목살",
-    "훈제오겹살","훈제갈비","훈제돼지갈비","훈제소갈비","훈제스테이크","훈제주물럭","훈제불고기","훈제왕갈비",
-    "훈제LA갈비","훈제안심","훈제특수부위","양고기","양갈비","양등심","양안심","양허리살","양갈비살","양등갈비",
-    "양양념갈비","양양념구이","양꼬치","양꼬치구이","양꼬치양념","양꼬치소금","양꼬치마늘","양꼬치특제","양꼬치스페셜",
-    "양꼬치직화","양꼬치바비큐","양꼬치참숯","양꼬치불향","양꼬치훈제","양꼬치특수부위","닭갈비","숯불닭갈비","간장닭갈비",
-    "매운닭갈비","치즈닭갈비","닭꼬치","닭꼬치구이","닭꼬치소금","닭꼬치양념","닭꼬치참숯","닭꼬치바비큐","닭꼬치훈제"
+        "마라탕" : ["마라","마라라면","마라샹궈","마라탕","마라롱샤","마라향궈","마라샹궈덮밥","마라새우","양고기마라샹궈","훠궈마라",
+    "마라우육면","차돌마라탕","양고기마라탕","해물마라탕","새우마라탕","해물마라샹궈","새우마라샹궈","해산물마라샹궈","중화마라샐러드",
+    "사천마라샐러드","차돌마라샐러드","마라떡볶이","마라만두", "마라삼겹살", "마라샤브", "마라순대"
+    ],
+    "소고기":["한우", "우육", "쇠고기", "한우등심", "한우안심", "한우특수부위", "한우살치살", "한우차돌박이",
+    "한우토시살", "한우안창살", "한우갈비살", "한우꽃등심", "한우부채살", "한우우둔살", "한우양지", "한우설도", "한우사태",
+    "소등심", "소안심", "소갈비살", "소꽃등심", "소차돌박이", "소토시살", "소안창살", "소부채살", "소우둔살", "소사태",
+    "소갈비", "소양념갈비", "소바비큐", "숯불소갈비","숯불스테이크", "숯불소갈비", "숯불등심", "숯불안심",
+    "참숯소갈비", "참숯스테이크", "참숯안심", "생소갈비", "생스테이크", "생안심", "훈제소갈비", "훈제스테이크", "훈제안심",
+    "LA갈비", "숯불LA갈비", "참숯LA갈비", "생LA갈비", "훈제LA갈비"
+    ],
+    "돼지고기": [
+    "돼지", "돈육", "삼겹살", "항정살", "가브리살", "목살", "오겹살", "돼지갈비", "돼지갈매기살",
+    "앞다리살", "뒷다리살", "돼지안심", "돼지등심", "돼지갈비살", "돼지특수부위", "돼지껍데기", "돼지막창",
+    "돼지곱창", "돼지대창", "돼지염통", "돼지소시지", "돼지베이컨", "돼지훈제", "돼지양념갈비", "돼지주물럭",
+    "돼지불고기", "돼지바비큐", "돼지삼겹살", "돼지목살", "돼지항정살", "돼지갈매기살", "돼지등심", "돼지안심",
+    "한돈삼겹살", "한돈목살", "한돈오겹살", "한돈갈비", "한돈등심", "한돈안심", "한돈바비큐", "한돈갈매기살",
+    "숯불삼겹살", "숯불목살", "숯불갈비", "숯불양념갈비", "숯불돼지갈비", "숯불주물럭", "숯불불고기", "숯불왕갈비", "숯불오겹살",
+    "참숯삼겹살", "참숯목살", "참숯오겹살", "참숯갈비", "참숯돼지갈비", "참숯주물럭", "참숯불고기", "참숯왕갈비",
+    "생삼겹살", "생목살", "생오겹살", "생갈비", "생돼지갈비", "생주물럭", "생불고기", "생왕갈비",
+    "훈제삼겹살", "훈제목살", "훈제오겹살", "훈제갈비", "훈제돼지갈비", "훈제주물럭", "훈제불고기", "훈제왕갈비"
+    ],
+    "양고기": [
+        "양갈비", "양등심", "양안심", "양허리살", "양갈비살", "양등갈비",
+        "양양념갈비", "양양념구이", "양꼬치", "양꼬치구이", "양꼬치양념", "양꼬치소금",
+        "양꼬치마늘", "양꼬치특제", "양꼬치스페셜", "양꼬치직화", "양꼬치바비큐",
+        "양꼬치참숯", "양꼬치불향", "양꼬치훈제", "양꼬치특수부위"
+    ],
+    "닭고기": [
+        "닭", "치킨", "닭갈비", "숯불닭갈비", "간장닭갈비", "매운닭갈비", "치즈닭갈비",
+        "닭꼬치", "닭꼬치구이", "닭꼬치소금", "닭꼬치양념", "닭꼬치참숯", "닭꼬치바비큐", "닭꼬치훈제",
+        "후라이드치킨", "양념치킨", "간장치킨", "마늘치킨", "허니콤보", "스모크치킨",
+        "치킨텐더", "핫윙", "윙", "봉", "닭도리탕", "닭볶음탕", "찜닭",
+        "로스트치킨", "치킨버거", "삼계탕", "닭개장", "닭강정", "치즈볼", "치킨샐러드"
     ],
     "카페": ["아메리카노","카페라떼","카푸치노","바닐라라떼","카라멜마끼아또","카페모카","돌체라떼","연유라떼","콜드브루",
     "콜드브루라떼","콜드브루바닐라","콜드브루크림","플랫화이트","라떼","헤이즐넛라떼","토피넛라떼","연유카페라떼",
@@ -503,7 +532,7 @@ def prepare_data():
     "그린커리","옐로커리","레드커리","마사만커리","파낭커리","타이카레","인도커리","치킨티카마살라","버터치킨","팔락파니르",
     "달마카니","차나마살라","알루고비","알루마타","사모사","파코라","바지","치킨코르마","람코르마","로간조쉬",
     "비르야니","치킨비르야니","머튼비르야니","에그비르야니","프라운비르야니","플레인난","갈릭난","버터난","치즈난","라차파라타",
-    "알루파라타","무라타","바터로티","풀카","탄도리치킨","타도리랍스터","탄두리프론","탄두리피쉬","파니르티카","치킨티카",
+    "알루파라타","무라타","바터로티","풀카","타ンド리치킨","타도리랍스터","탄두리프론","탄두리피쉬","파니르티카","치킨티카",
     "버터갈릭치킨","버터갈릭프론","커리누들","커리우동","커리라이스","태국식커리우동","카레락사","호키엔미","미고렝","나시고렝",
     "미시암","판당커리","락사","해산물락사","카레락사","아삼락사","카오소이","카레카오소이","치킨카오소이","크랩카오소이",
     "비프카오소이","카레국수","캄보디아누들","버마누들","라오스누들","타이누들샐러드","타이누들볶음","타이누들롤","포보","포타이",
@@ -549,6 +578,9 @@ def prepare_data():
     ]
     }
 
+    # '마라'도 '마라탕'과 동일 카테고리로 취급
+    category_map["마라"] = category_map["마라탕"]
+
     # 음식점 정보 리스트 설정
     info_keywords = [
         # 모임/행사/단체
@@ -586,7 +618,9 @@ def recommend_with_reviewscore_auto(
     menu_embeddings,
     alpha=0.45, beta=0.1, gamma=0.25, delta=0.2,     # 각 유사도 점수 가중치
     keyword_bonus=1.2, text_data_bonus=1.0, min_menu_sim=0.01,
-    category_map=None, info_keywords=None, keyword_map=None
+    category_map=None, info_keywords=None, keyword_map=None,
+    beef_bonus=0.6,           # 소고기 카테고리 일치 가중치
+    mala_bonus=0.6            # ✅ 마라탕 카테고리 일치 가중치 (신규)
 ):
     
     # --- [1] 쿼리 분석 ---
@@ -598,6 +632,13 @@ def recommend_with_reviewscore_auto(
 
     # 유사도 계산에 쓸 텍스트 (명사 + 정보키워드 합치기)
     query_for_sim = " ".join(query_nouns + info_in_query)
+
+    # 소고기, 마라탕 모드 플래그
+    beef_mode = ('소고기' in query_nouns) or ('소고기' in query)
+    mala_mode = ('마라탕' in query_nouns) or ('마라' in query_nouns) or ('마라탕' in query) or ('마라' in query)
+
+    # (A) 소고기 제외어 세트 (오탐 방지)
+    beef_exclude_terms = ['소고기']  # 필요하면 추가 가능
 
     # --- [2] 지역 필터(광주 전체, 여러 구 가능) ---
 
@@ -630,6 +671,61 @@ def recommend_with_reviewscore_auto(
     else:
         df_work = df_work.reset_index()
 
+
+    
+    # --- [2.3] 소고기 제외어 1차 컷(완전 제외) ---
+    if beef_mode and len(df_work) > 0:
+        excl_pat = "|".join(map(re.escape, beef_exclude_terms))
+        df_work = df_work[
+            ~df_work['res_menu'].str.contains(excl_pat, na=False) &
+            ~df_work['res_tag'].str.contains(excl_pat, na=False) &
+            ~df_work['res_name'].str.contains(excl_pat, na=False)
+        ]
+
+    # --- [2.5] 소고기 전용 1차 포함 필터 + 유사도 강화용 쿼리 부스트 ---
+    applied_beef_filter = False
+    beef_terms = set()
+    if beef_mode and category_map and ('소고기' in category_map) and len(df_work) > 0:
+        beef_terms = set(category_map['소고기'])
+
+        def has_beef_terms(row):
+            text = f"{row.get('res_menu','')} {row.get('res_tag','')} {row.get('res_name','')}"
+            # 제외어는 이미 컷했지만 혹시 몰라서 제거 후 검사
+            for ex in beef_exclude_terms:
+                text = text.replace(ex, "")
+            return any(term in text for term in beef_terms)
+
+        df_beef = df_work[df_work.apply(has_beef_terms, axis=1)].copy()
+        if not df_beef.empty:
+            df_work = df_beef
+            applied_beef_filter = True
+
+        # 유사도 강화: 쿼리에 소고기 카테고리 키워드 일부 주입
+        beef_boost_terms = " ".join(list(beef_terms)[:80])  # 필요 시 80→100 등 조정
+        query_for_sim = (query_for_sim + " " + beef_boost_terms).strip()
+
+     # --- ✅ [2.6] 마라탕 전용 1차 포함 필터 + 유사도 강화용 쿼리 부스트 (신규) ---
+    applied_mala_filter = False
+    mala_terms = set()
+
+    if mala_mode and category_map and (('마라탕' in category_map) or ('마라' in category_map)) and len(df_work) > 0:
+        mala_key = '마라탕' if '마라탕' in category_map else '마라'
+        mala_terms = set(category_map[mala_key])
+
+        def has_mala_terms(row):
+            text = f"{row.get('menu_text','')} {row.get('tag_text','')} {row.get('store_name','')}"
+            return any(term in text for term in mala_terms)
+
+        df_mala = df_work[df_work.apply(has_mala_terms, axis=1)].copy()
+        if not df_mala.empty:
+            df_work = df_mala
+            applied_mala_filter = True
+
+        # 유사도 강화: 마라 관련 키워드를 쿼리에 주입
+        mala_boost_terms = " ".join(list(mala_terms)[:80])
+        query_for_sim = (query_for_sim + " " + mala_boost_terms).strip()
+
+
     # 필터된 DataFrame에서 원본 인덱스 번호 추출 → 벡터 슬라이싱에 사용
     idxs = df_work['index'].values
 
@@ -639,11 +735,8 @@ def recommend_with_reviewscore_auto(
     
     # 메뉴 TF-IDF 기반
     menu_sim = cosine_similarity(menu_vectorizer.transform([query_for_sim]), menu_matrix[idxs]).flatten()
-    # 태그 TF-IDF 기반
     tag_sim = cosine_similarity(tag_vectorizer.transform([query_for_sim]), tag_matrix[idxs]).flatten()
-    # 명사+정보 TF-IDF 기반
-    text_data_sim = cosine_similarity(text_data_vectorizer.transform([query_for_sim]),text_data_matrix[idxs]).flatten()
-    # BERT 임베딩 기반
+    text_data_sim = cosine_similarity(text_data_vectorizer.transform([query_for_sim]), text_data_matrix[idxs]).flatten()
     bert_sim = cosine_similarity(
         bert_model.encode([query_for_sim], convert_to_numpy=True),
         menu_embeddings[idxs]
@@ -654,6 +747,8 @@ def recommend_with_reviewscore_auto(
     print("점수 계산 중...")
     
     menu_weights, text_data_weights, final_scores = [], [], []
+    beef_weights, mala_weights = [], []
+
     for i in range(len(df_work)):
         # 각 후보 가게의 텍스트
         menu_text = str(df_work.iloc[i]['res_menu'])
@@ -677,7 +772,20 @@ def recommend_with_reviewscore_auto(
         if menu_sim[i] < min_menu_sim:
             bert_sim[i] *= 0.05
 
-        # 최종 점수 계산 (가중합)
+         # (4-A) 소고기 전용 가중치
+        beef_weight = 0
+        if beef_mode and beef_terms:
+            combined_text = f"{menu_text} {tag_text} {df_work.iloc[i].get('store_name','')}"
+            for ex in beef_exclude_terms:
+                combined_text = combined_text.replace(ex, "")
+            beef_weight = sum(combined_text.count(term) for term in beef_terms)
+
+        # (4-B) 마라탕 전용 가중치
+        mala_weight = 0
+        if mala_mode and mala_terms:
+            combined_text_m = f"{menu_text} {tag_text} {df_work.iloc[i].get('store_name','')}"
+            mala_weight = sum(combined_text_m.count(term) for term in mala_terms)
+
         final_score = (
             (menu_sim[i] * alpha) +
             (tag_sim[i] * beta) +
@@ -685,14 +793,19 @@ def recommend_with_reviewscore_auto(
             (text_data_sim[i] * delta) +
             menu_weight * keyword_bonus +
             text_data_weight * text_data_bonus +
-            rating_weight
+            rating_weight +
+            beef_weight * beef_bonus +
+            mala_weight * mala_bonus
         )
 
         menu_weights.append(menu_weight)
         text_data_weights.append(text_data_weight)
+        beef_weights.append(beef_weight)
+        mala_weights.append(mala_weight)
         final_scores.append(final_score)
 
     # 점수 컬럼 저장
+    df_work = df_work.copy()
     df_work['menu_sim'] = menu_sim
     df_work['tag_sim'] = tag_sim
     df_work['text_data_sim'] = text_data_sim
@@ -700,32 +813,40 @@ def recommend_with_reviewscore_auto(
     df_work['menu_weight'] = menu_weights
     df_work['text_data_weight'] = text_data_weights
     df_work['final_score'] = final_scores
+    if beef_mode:
+        df_work['beef_weight'] = beef_weights
+    if mala_mode:
+        df_work['mala_weight'] = mala_weights 
+
 
     # --- [5] 카테고리/키워드 필터링 ---
 
     print("카테고리/키워드 필터링 중...")
     
     keyword = query_nouns[0] if len(query_nouns) == 1 else None
-    exclude_terms = ["전복", "전골", "전주"]  # 특정 단어 포함 시 제외
-    if keyword and category_map and keyword in category_map and len(keyword) == 1:
-        # category_map에 매핑된 키워드만 허용
-        cat_words = set(category_map[keyword])
-        def has_cat(row):
-            text = f"{row['menu_text']} {row.get('tag_text', '')} {row.get('store_name', '')}"
-            if keyword == "전" and any(ex in text for ex in exclude_terms):
-                return False
-            return any(k in text for k in cat_words)
-        df_filtered = df_work[df_work.apply(has_cat, axis=1)]
+    exclude_terms_for_jeon = ["전복", "전골", "전주"]  # 특정 단어 포함 시 제외 # '전' 관련 트러블슈팅!
+    
+    if beef_mode and applied_beef_filter:
+        # 소고기 모드: 이미 beef_terms 강한 필터 + 제외어 컷 진행됨 → 추가 필터 없이 점수 정렬
+        df_filtered = df_work
     else:
-        # 강한 키워드 필터 → query_nouns 모두가 텍스트에 포함되어야 함
-        def strong_keyword_filter(row):
-            text = f"{row['res_menu']} {row.get('res_tag', '')} {row.get('res_name', '')}"
-            if keyword == "전" and any(ex in text for ex in exclude_terms):
-                return False
-            if len(query_nouns) == 0:
-                return True
-            return all(kw in text for kw in query_nouns)
-        df_filtered = df_work[df_work.apply(strong_keyword_filter, axis=1)]
+        if keyword and category_map and keyword in category_map and len(keyword) == 1:
+            cat_words = set(category_map[keyword])
+            def has_cat(row):
+                text = f"{row['res_menu']} {row.get('res_tag', '')} {row.get('res_name', '')}"
+                if keyword == "전" and any(ex in text for ex in exclude_terms_for_jeon):
+                    return False
+                return any(k in text for k in cat_words)
+            df_filtered = df_work[df_work.apply(has_cat, axis=1)]
+        else:
+            def strong_keyword_filter(row):
+                text = f"{row['res_menu']} {row.get('res_tag', '')} {row.get('res_name', '')}"
+                if keyword == "전" and any(ex in text for ex in exclude_terms_for_jeon):
+                    return False
+                if len(query_nouns) == 0:
+                    return True
+                return all(kw in text for kw in query_nouns)
+            df_filtered = df_work[df_work.apply(strong_keyword_filter, axis=1)]
 
     # --- [6] 정렬 ---
 
@@ -736,6 +857,7 @@ def recommend_with_reviewscore_auto(
         if (df_filtered['res_ratings'].notna().sum() > 0) and (df_filtered['review_num'].notna().sum() > 0):
             r_min, r_max = df_filtered['res_ratings'].min(), df_filtered['res_ratings'].max()
             v_min, v_max = df_filtered['review_num'].min(), df_filtered['review_num'].max()
+            df_filtered = df_filtered.copy()
             df_filtered['norm_rating'] = (df_filtered['res_ratings'] - r_min) / (r_max - r_min) if r_max > r_min else 0.0
             df_filtered['norm_review'] = (df_filtered['review_num'] - v_min) / (v_max - v_min) if v_max > v_min else 0.0
             df_filtered['rank_score'] = (df_filtered['norm_rating'] + df_filtered['norm_review']) / 2
