@@ -29,27 +29,26 @@ public interface RestaurantMapper {
 	List<RestaurantDTO> searchByMultipleKeywords(@Param("keywords") String[] keywords);
 
 	RestaurantDTO getByResIdx(int res_idx);
-	
+
 	@Select("Select * from t_restaurant where res_idx = #{res_idx}")
 	t_restaurant resdetail(int res_idx);
-	
+
 	@Select("Select * from t_res_img where res_idx = #{rex_idx}")
 	List<t_res_img> res_img(int res_idx);
-	
+
 	@Select("Select * from t_convenience where res_idx = #{rex_idx}")
 	List<t_convenience> res_convenience(int res_idx);
-	
+
 	@Select("Select * from t_running_time where res_idx = #{rex_idx}")
 	List<t_running_time> res_running_time(int res_idx);
-	
+
 	@Select("Select * from t_menu where res_idx = #{rex_idx}")
 	List<t_menu> res_menu(int res_idx);
 
 	@Select("select nk_positive_wc, nk_negative_wc, wgn_positive_wc, wgn_negative_wc, res_ratings, wgn_ratings\r\n"
-			+ "from t_restaurant\r\n"
-			+ "where res_idx = #{res_idx}")
+			+ "from t_restaurant\r\n" + "where res_idx = #{res_idx}")
 	WordCloudAndRatingsDTO getWcAndRatingsDTO(int res_idx);
-	
+
 	List<ReviewDTO> getresreview(int res_idx);
 
 	List<FavoriteresDTO> myfavoriteres(List<Integer> residx, String mb_id);
@@ -57,10 +56,10 @@ public interface RestaurantMapper {
 	List<GoingresDTO> mygoingres(List<Integer> goingresidx, String mb_id);
 
 	@Select("""
-		    SELECT res_idx FROM t_restaurant 
+			   SELECT res_idx FROM t_restaurant
 			WHERE last_update >= #{time}
 			""")
-		List<Integer> findRecentlyUpdated(LocalDateTime time);
+	List<Integer> findRecentlyUpdated(LocalDateTime time);
 
 	@Update("""
 			update t_restaurant
@@ -77,19 +76,21 @@ public interface RestaurantMapper {
 	void updateRecord(int res_idx);
 
 	@Select("""
-		    SELECT res_idx FROM t_restaurant
-		    WHERE wgn_ratings IS NULL OR wgn_ratings = ''
-		       OR nk_positive_wc IS NULL OR nk_positive_wc = ''
-		       OR nk_negative_wc IS NULL OR nk_negative_wc = ''
-		       OR wgn_positive_wc IS NULL OR wgn_positive_wc = ''
-		       OR wgn_negative_wc IS NULL OR wgn_negative_wc = ''
-		""")
+			    SELECT res_idx
+			    FROM t_restaurant
+			    WHERE (wgn_ratings IS NULL OR wgn_ratings = '')
+			      AND (nk_positive_wc IS NULL OR nk_positive_wc = '')
+			      AND (nk_negative_wc IS NULL OR nk_negative_wc = '')
+			      AND (wgn_positive_wc IS NULL OR wgn_positive_wc = '')
+			      AND (wgn_negative_wc IS NULL OR wgn_negative_wc = '')
+			""")
+
 	List<Integer> selectEmpty();
 
 	void updateFeedImg(int res_idx, List<String> imgUrls);
-	
+
 	void deleteimg(List<String> urls);
 
 	void insertrivewimg(int res_idx, String img);
-	
+
 }

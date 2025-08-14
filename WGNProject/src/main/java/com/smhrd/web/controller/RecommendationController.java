@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/recommendation")
-public class RecommandationController {
+public class RecommendationController {
 
     @Autowired
     RecommendationService recommendationService;
@@ -33,11 +33,10 @@ public class RecommandationController {
         
         if (member == null) {
             System.out.println("세션에 로그인 정보가 없습니다.");
-            // 로그인 안 된 경우 빈 리스트 반환
             return feedService.getDefaultFeeds();
         } else {
             mb_id = member.getMb_id();
-            List<Integer> FeedIdxList = recommendationService.sendLogsAndFeeds(mb_id);
+            List<Integer> FeedIdxList = recommendationService.sendForFeedRecommendation(mb_id);
             System.out.println("FeedIdxList : " + FeedIdxList);
             return FeedIdxList;
         }
