@@ -47,6 +47,9 @@ body, html {
 
 /*상단바*/
 .top-bar {
+	max-width: 520px;
+	margin-left: auto;
+	margin-right: auto;
 	height: 60px;
 	background: #fff;
 	position: fixed;
@@ -87,6 +90,9 @@ body, html {
 /*========== 하단바 ==========*/
 /* 하단 네비게이션 바 전체 컨테이너 */
 .navbar-bottom {
+	max-width: 520px;
+	margin-left: auto;
+	margin-right: auto;
 	position: fixed;            /* 화면 하단에 고정 */
 	bottom: 0;                  /* 아래쪽에 붙이기 */
 	left: 0;                    /* 좌측 끝부터 */

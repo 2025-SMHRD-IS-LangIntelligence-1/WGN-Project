@@ -244,39 +244,78 @@ document.querySelectorAll('.review-tab').forEach((button) => {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  const toggleNaverBtn = document.getElementById('toggle-naver');
-  const toggleKakaoBtn = document.getElementById('toggle-kakao');
-
-  if (toggleNaverBtn) {
-    let naverExpanded = false;
-    toggleNaverBtn.addEventListener('click', function () {
-      const hiddenEls = document.querySelectorAll('.naver-review');
-      naverExpanded = !naverExpanded;
-      hiddenEls.forEach((el, idx) => { if (idx >= 3) el.classList.toggle('d-none', !naverExpanded); });
-      this.textContent = naverExpanded ? '네이버 리뷰 접기' : '네이버 리뷰 더보기';
+  // 처음에 3개만 보이도록(0,1,2만 보이게). 나머지는 d-none
+  const clampTo3 = (selector) => {
+    const items = document.querySelectorAll(selector);
+    items.forEach((el, idx) => {
+      el.classList.toggle('d-none', idx >= 3); // ✅ idx >= 3 (버그였던 > 3 수정)
     });
-  }
+  };
 
-  if (toggleKakaoBtn) {
-    let kakaoExpanded = false;
-    toggleKakaoBtn.addEventListener('click', function () {
-      const hiddenEls = document.querySelectorAll('.kakao-review');
-      kakaoExpanded = !kakaoExpanded;
-      hiddenEls.forEach((el, idx) => { if (idx >= 3) el.classList.toggle('d-none', !kakaoExpanded); });
-      this.textContent = kakaoExpanded ? '카카오 리뷰 접기' : '카카오 리뷰 더보기';
+  clampTo3('.naver-review');
+  clampTo3('.kakao-review');
+  clampTo3('.user-review'); // ✅ 사용자 리뷰도 동일 규칙 적용
+
+  // 토글 버튼 헬퍼
+  const makeToggle = (btnId, itemSelector, moreText, lessText) => {
+    const btn = document.getElementById(btnId);
+    if (!btn) return; // 버튼이 없으면 스킵
+    let expanded = false;
+
+    btn.addEventListener('click', function () {
+      const items = document.querySelectorAll(itemSelector);
+      expanded = !expanded;
+
+      // 펼치기: 전부 보이게 / 접기: 3개 이후 d-none
+      items.forEach((el, idx) => {
+        el.classList.toggle('d-none', !expanded && idx >= 3);
+      });
+
+      this.textContent = expanded ? lessText : moreText;
     });
-  }
+  };
+
+  // 버튼 id와 아이템 클래스 매핑
+  makeToggle('toggle-naver', '.naver-review', '네이버 리뷰 더보기', '네이버 리뷰 접기');
+  makeToggle('toggle-kakao', '.kakao-review', '카카오 리뷰 더보기', '카카오 리뷰 접기');
+  makeToggle('toggle-user',  '.user-review',  '사용자 리뷰 더보기',  '사용자 리뷰 접기'); // ✅ 추가
 });
 
 document.addEventListener('DOMContentLoaded', function () {
   const toggleBtn = document.getElementById('toggleReviewBtn');
   const form = document.getElementById('reviewFormContainer');
   if (!toggleBtn || !form) return;
+
+  // 초기 상태: 노란색 버튼
+  toggleBtn.classList.add('btn', 'btn-warning');
+
   toggleBtn.addEventListener('click', function () {
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    if (form.style.display === 'block') form.scrollIntoView({ behavior: 'smooth' });
+    const isHidden = form.style.display === 'none' || form.style.display === '';
+    form.style.display = isHidden ? 'block' : 'none';
+
+    if (isHidden) {
+      // X 상태 (배경 제거)
+      this.textContent = 'X';
+      this.classList.remove('btn-warning');
+      this.classList.remove('btn');
+      this.style.backgroundColor = 'transparent';
+      this.style.border = 'none';
+      this.style.color = 'black';
+    } else {
+      // 리뷰 작성 상태 (노란색 버튼)
+      this.textContent = '리뷰 작성';
+      this.classList.add('btn', 'btn-warning');
+      this.style.backgroundColor = '';
+      this.style.border = '';
+      this.style.color = '';
+    }
+
+    if (isHidden) {
+      form.scrollIntoView({ behavior: 'smooth' });
+    }
   });
 });
+
 
 // 작성 유효성
 const ratingError   = document.getElementById('ratingError');

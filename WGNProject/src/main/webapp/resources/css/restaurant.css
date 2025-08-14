@@ -351,11 +351,16 @@
 #ratingForm label:hover ~ label { color: gold; }
 
 #toggleReviewBtn {
-  color: #ffc107; border: 1.5px solid #ffc107; background: #fff;
-  padding: 5px 12px; font-weight: bold; border-radius: 6px;
-  transition: background-color .3s ease, color .3s ease; font-size: 14px;
+  background-color: #FFC107; /* 노란색 */
+  color: #333; /* 텍스트 흰색 */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
 }
-#toggleReviewBtn:hover { background-color: #fff8e1; color: #e0a800; border-color: #e0a800; }
+
 
 /* 사용자 리뷰 - 내 랭킹 등록 */
 .favorite-wrapper { display: flex; align-items: center; justify-content: space-between; }
