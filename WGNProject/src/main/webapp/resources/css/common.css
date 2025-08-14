@@ -65,13 +65,24 @@ body, html {
 }
 
 /* 왼쪽 로고 */
+
 .top-bar .logo {
-	text-decoration: none;   /* 밑줄 제거 */
-	color: #171513;          /* 글자색 */
-	font-weight: bold;
-	font-size: 25px;
-	margin-left: 15px;
+  display: flex;           /* 세로 중앙 정렬 위해 플렉스 */
+  align-items: center;     /* 수직 가운데 정렬 */
+  height: 56px;            /* 상단바 높이에 맞춤 */
+  padding: 0 8px;          /* 좌우 여백 약간 */
+  margin-left: 15px;       /* 왼쪽 추가 여백 */
+  text-decoration: none;   /* 밑줄 제거 */
+  color: #171513;          /* 글자색 */
+  font-weight: bold;       /* 글자 두께 */
+  font-size: 25px;         /* 글자 크기 */
 }
+
+.top-bar .logo img {             /* 로고 이미지 크기 */
+  height: 28px;                  /* 상단바 내부에 알맞은 높이 */
+  display: block;                /* 하단 공백 제거 */
+}
+
 
 /* 오른쪽 아이콘 */
 .top-bar i {
