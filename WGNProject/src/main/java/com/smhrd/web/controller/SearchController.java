@@ -120,11 +120,13 @@ public class SearchController {
 	    }
 	    
 	    t_member member = (t_member) session.getAttribute("member");
+
 	    String mb_id = (member != null) ? member.getMb_id() : null;
 	    
 	    // 검색 로그 저장
 	    if (mb_id != null && !resIdxList.isEmpty()) {
 	    	memberService.saveLog(mb_id, resIdxList.get(0), "검색");
+
 	    }
 	    
 	    return resList;
