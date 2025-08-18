@@ -5,17 +5,17 @@ body, html {
 	margin: 0;
 	background: #fff;
 	font-family: Arial;
+
+	/* 중앙 정렬: 넓은 화면에서도 앱처럼 보이게 */
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
 	min-height: 100vh;
 
-	/* 추가 또는 수정 */
+	/* 뷰포트 폭이 커져도 520px 박스만 보이게 */
 	width: 100%;
-	max-width: 520px;
-	margin-left: auto;
-	margin-right: auto;
 }
+
 
 /*컨텐츠*/
 .content {
@@ -35,6 +35,7 @@ body, html {
 	flex-direction: column;
 	overflow: hidden;
 }
+
 /* 상단 버튼 정렬용 */
 .add-box-header {
 	padding: 0 25px;
@@ -64,26 +65,23 @@ body, html {
 	z-index: 1000;
 }
 
-
 /* 왼쪽 로고 */
-
 .top-bar .logo {
-  display: flex;           /* 세로 중앙 정렬 위해 플렉스 */
-  align-items: center;     /* 수직 가운데 정렬 */
-  height: 56px;            /* 상단바 높이에 맞춤 */
-  padding: 0 8px;          /* 좌우 여백 약간 */
-  margin-left: 15px;       /* 왼쪽 추가 여백 */
-  text-decoration: none;   /* 밑줄 제거 */
-  color: #171513;          /* 글자색 */
-  font-weight: bold;       /* 글자 두께 */
-  font-size: 25px;         /* 글자 크기 */
+	display: flex;
+	align-items: center;
+	height: 56px;
+	padding: 0 8px;
+	margin-left: 15px;
+	text-decoration: none;
+	color: #171513;
+	font-weight: bold;
+	font-size: 25px;
 }
 
-.top-bar .logo img {             /* 로고 이미지 크기 */
-  height: 28px;                  /* 상단바 내부에 알맞은 높이 */
-  display: block;                /* 하단 공백 제거 */
+.top-bar .logo img {
+	height: 28px;
+	display: block;
 }
-
 
 /* 오른쪽 아이콘 */
 .top-bar i {
@@ -94,43 +92,66 @@ body, html {
 	font-size: 30px;
 }
 
-/* 클릭(활성화)된 상태 */
 .top-bar i.active {
 	color: #FFD84D;
 }
 
 /*========== 하단바 ==========*/
-/* 하단 네비게이션 바 전체 컨테이너 */
 .navbar-bottom {
 	max-width: 520px;
 	margin-left: auto;
 	margin-right: auto;
-	position: fixed;            /* 화면 하단에 고정 */
-	bottom: 0;                  /* 아래쪽에 붙이기 */
-	left: 0;                    /* 좌측 끝부터 */
-	right: 0;                   /* 우측 끝까지 (가로 전체) */
-	background: #fff;           /* 배경색 흰색 */
-	border-top: 1px solid #ddd; /* 위쪽 경계선 */
-	height: 80px;               /* 바 높이 */
-	display: flex;              /* 아이콘들을 가로로 배치 */
-	justify-content: space-around; /* 아이콘 간 균등 간격 */
-	align-items: center;        /* 수직 가운데 정렬 */
-	z-index: 1000;              /* 다른 요소들 위로 */
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: #fff;
+	border-top: 1px solid #ddd;
+	height: 80px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	z-index: 1000;
 }
 
-/* 하단바의 링크 기본 스타일 */
 .navbar-bottom a {
-	color: #000;                /* 기본 글자/아이콘 색 */
-	text-decoration: none;      /* 밑줄 제거 */
+	color: #000;
+	text-decoration: none;
 }
 
-/* 아이콘 크기 및 전환 효과 */
 .navbar-bottom i {
-	font-size: 1.5rem;          /* 아이콘 크기 */
-	transition: transform 0.2s; /* 크기 변환 애니메이션 */
+	font-size: 1.5rem;
+	transition: transform 0.2s;
 }
 
 .navbar-bottom a:hover i {
 	transform: scale(1.2);
 	color: #FFD84D;
 }
+
+
+/* =========================
+   App frame clamp (모든 fixed 요소를 520px 프레임 안으로)
+   common.css 맨 아래에 추가
+========================= */
+:root { --app-width: 520px; }
+
+/* 프레임(520px)에 맞출 요소 — 사이드바는 제외 */
+.top-bar,
+.navbar-bottom,
+.big-modal,
+.side-overlay {
+  left:  calc(50% - var(--app-width) / 2);
+  right: calc(50% - var(--app-width) / 2);
+}
+
+@media (max-width: 520px){
+  .top-bar,
+  .navbar-bottom,
+  .big-modal,
+  .side-overlay {
+    left: 0;
+    right: 0;
+  }
+}
+

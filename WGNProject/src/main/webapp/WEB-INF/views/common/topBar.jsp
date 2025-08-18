@@ -11,6 +11,7 @@
 	href="${pageContext.request.contextPath}/resources/css/common.css" />
 </head>
 <body>
+ <div id="app">
 	<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -19,7 +20,7 @@
 			src="<c:url value='/resources/images/wgn-logo.png'/>" alt="WGN 로고">
 		</a> <i class="bi bi-list"></i>
 	</div>
-
+</div>
 	<script>
 		const contextPath = '${pageContext.request.contextPath}';
 	</script>
