@@ -166,16 +166,17 @@ public class FeedServiceImpl implements FeedService {
 	@Transactional
 	public int addFeedLike(int feed_idx, String mb_id) {
 		try {
-			// 1. 좋아요 기록 추가 (중복 시 예외 발생)
+			// 1. 좋아요 기록 추가
 			feedMapper.addFeedLike(feed_idx, mb_id);
 
-			// 2. 좋아요 알림 생성 (성공 시에만)
+			// 2. 좋아요 알림 생성
 			String sender = mb_id;
 			String receiver = feedMapper.selectFeedByIdx(feed_idx).getMb_id();
 			notificationService.makeLikeNoti(sender, receiver, feed_idx);
 
 		} catch (DuplicateKeyException e) {
-			// 이미 좋아요 되어 있음 → 알림 생성, 좋아요 수 증가는 안 함
+			// 이미 좋아요 되어 있는 경우 (중복 예외 발생)
+			// 새로운 좋아요 기록이나 알림을 생성하지 않음
 		}
 
 		// 최종 좋아요 수 피드에 반영

@@ -67,7 +67,7 @@ public class WordcloudService {
 		
 	}
 
-    // 1시간마다 실행 (밀리초 단위)
+    // 1시간마다 실행
     @Scheduled(fixedRate = 60 * 60 * 1000)
     public void updateScheduler() {
     	
