@@ -20,6 +20,7 @@
 </head>
 
 <body>
+
 <%@ include file="/WEB-INF/views/common/topBar.jsp"%>	
 
 	<div class="mobile-container">

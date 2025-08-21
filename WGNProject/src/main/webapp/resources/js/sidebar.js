@@ -621,3 +621,30 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 });
+
+// === 사이드바 밖 클릭/ESC로 닫기 (최소 침습) ===
+const sideBar = document.querySelector('.side-bar');
+
+function closeSidebarOnly() {
+  // 사이드바만 닫기: 기존 로직에 영향 없도록 클래스만 제거
+  sideBar?.classList.remove('active');
+}
+
+// 빈 화면(사이드바 영역 밖) 클릭 시 닫기
+document.addEventListener('click', (e) => {
+  if (!sideBar) return;
+  if (!sideBar.classList.contains('active')) return;
+
+  // 사이드바 내부 클릭은 무시
+  if (sideBar.contains(e.target)) return;
+
+  // 모달(backdrop) 클릭 등 외부 클릭이면 닫기
+  closeSidebarOnly();
+}, true); // 캡처 단계에서 잡아 깔끔히 처리
+
+// ESC로 닫기 (빅모달과 충돌 없이 동작)
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  if (!sideBar?.classList.contains('active')) return;
+  closeSidebarOnly();
+});
