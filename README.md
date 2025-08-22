@@ -34,8 +34,6 @@
 ## 유스케이스
 <img width="960" height="940" alt="image" src="https://github.com/user-attachments/assets/1e2dfbb3-cb4d-4245-9601-a7d1d9707500" />
 
-## 서비스 흐름도
-
 ## ER-Diagram
 <img width="960" height="1300" alt="image" src="https://github.com/user-attachments/assets/35174d69-0cc8-458e-8637-8dfbded28461" />
 
